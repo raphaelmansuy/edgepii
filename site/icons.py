@@ -32,11 +32,28 @@ VARIANTS: dict[str, list[tuple[int, bool]]] = {
 }
 
 
+def _imagemagick() -> str | None:
+    """Return the ImageMagick binary for this host.
+
+    ImageMagick 7 installs `magick`. ImageMagick 6, which Ubuntu still ships as
+    the `imagemagick` package, installs `convert` and has no `magick`. A build
+    that assumes one name fails on the other.
+    """
+
+    for name in ("magick", "convert"):
+        if _which(name):
+            return name
+    return None
+
+
 def main() -> int:
-    for tool in ("rsvg-convert", "magick"):
-        if not _which(tool):
-            print(f"error: {tool} is required to build the icons", file=sys.stderr)
-            return 2
+    if not _which("rsvg-convert"):
+        print("error: rsvg-convert is required to build the icons", file=sys.stderr)
+        return 2
+    imagemagick = _imagemagick()
+    if imagemagick is None:
+        print("error: ImageMagick is required to build the icons", file=sys.stderr)
+        return 2
     OUT.mkdir(parents=True, exist_ok=True)
     written: list[Path] = []
 
@@ -57,7 +74,7 @@ def main() -> int:
         _raster(STATIC / "icon.svg", temp, size)
         ico_sources.append(temp)
     ico = OUT / "favicon.ico"
-    _run(["magick", *[str(path) for path in ico_sources], str(ico)])
+    _run([imagemagick, *[str(path) for path in ico_sources], str(ico)])
     for path in ico_sources:
         path.unlink()
     written.append(ico)

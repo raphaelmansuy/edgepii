@@ -52,6 +52,14 @@ A classic BERT control stays available as preset `en-bert` ([ab-ai/pii_model](ht
 
 Rules for email, phone, IBAN, and payment cards run beside the model. They do not replace it for names. Chinese schema extraction is an optional ModelScope adapter, not a default. See the [catalog](05-model-catalog.md).
 
+## Assessment, November 2026
+
+The library is at 0.2.0. It locates spans, masks them, and restores them, and the
+span contract holds. The [assessment](14-assessment-2026-11.md) records what is
+measured, three defects that a reader can reproduce, and where the field moved
+ahead of the library: the tool-call plane, surrogate replacement, and
+quasi-identifier combinations.
+
 ## What v1 will not do
 
 V1 will not send the source string to a cloud PII API. V1 will not ask a chat model to rewrite the text. V1 will not treat a document label as success. V1 will not copy a leaderboard F1 into a ship gate. The numeric floors stay open until the golden set exists. Call that open state UNCONFIRMED.

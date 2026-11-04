@@ -27,6 +27,7 @@ DOC_ROUTES: dict[str, str] = {
     "11-examples.md": "guide-examples",
     "12-public-corpora.md": "doc-corpora",
     "13-first-public-score.md": "doc-score",
+    "14-assessment-2026-11.md": "doc-assessment",
     "glossary.md": "doc-glossary",
     # Pages that live outside docs/ but get a route of their own.
     "START.md": "start",

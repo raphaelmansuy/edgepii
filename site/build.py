@@ -55,6 +55,7 @@ REFERENCE_DOCS = [
     ("doc-evaluation", "09-evaluation.md", "Evaluation"),
     ("doc-corpora", "12-public-corpora.md", "Public corpora"),
     ("doc-score", "13-first-public-score.md", "First public score"),
+    ("doc-assessment", "14-assessment-2026-11.md", "Assessment, November 2026"),
     ("doc-architecture", "07-architecture.md", "Architecture"),
     ("doc-ai-engineering", "03-ai-engineering.md", "AI engineering"),
     ("doc-landscape", "04-research-landscape.md", "Research landscape"),

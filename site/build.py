@@ -100,16 +100,36 @@ def main() -> int:
     (OUT / "site.webmanifest").write_text(
         json.dumps(
             {
-                "name": "edgepii",
+                "name": "edgepii \u2014 typed character spans",
                 "short_name": "edgepii",
                 "description": "Locate PII as typed character spans on the exact source string.",
                 "start_url": "./",
+                "scope": "./",
                 "display": "standalone",
                 "background_color": "#05070d",
                 "theme_color": "#05070d",
-                "icons": [{"src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml"}],
+                "lang": "en",
+                "categories": ["developer", "productivity", "utilities"],
+                "icons": [
+                    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+                    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+                    {
+                        "src": "icons/icon-maskable-192.png",
+                        "sizes": "192x192",
+                        "type": "image/png",
+                        "purpose": "maskable",
+                    },
+                    {
+                        "src": "icons/icon-maskable-512.png",
+                        "sizes": "512x512",
+                        "type": "image/png",
+                        "purpose": "maskable",
+                    },
+                    {"src": "favicon.svg", "sizes": "any", "type": "image/svg+xml"},
+                ],
             },
             indent=2,
+            ensure_ascii=False,
         )
         + "\n",
         encoding="utf-8",
@@ -129,10 +149,26 @@ def write_assets() -> None:
     css += "\n" + mdrender.code_css() + "\n"
     (OUT / "assets" / "site.css").write_text(css, encoding="utf-8")
     (OUT / "assets" / "site.js").write_text(read(STATIC / "site.js"), encoding="utf-8")
-    (OUT / "assets" / "icon.svg").write_text(read(STATIC / "icon.svg"), encoding="utf-8")
-    (OUT / "assets" / "social.svg").write_text(read(STATIC / "social.svg"), encoding="utf-8")
-    # The demo needs the same recorded data over HTTP, so ship it as an asset too.
-    shutil.copy2(DATA, OUT / "assets" / "examples.json")
+    (OUT / "assets" / "examples.json").write_bytes(DATA.read_bytes())
+
+    # The icon set. `site/icons.py` writes these; the build only copies them, so a
+    # page never points at a file that does not exist.
+    icons = STATIC / "icons"
+    if not icons.is_dir() or not any(icons.iterdir()):
+        raise SystemExit("error: no icons. Run `python site/icons.py` first.")
+    (OUT / "icons").mkdir(parents=True, exist_ok=True)
+    for image in sorted(icons.iterdir()):
+        if image.is_file():
+            shutil.copy2(image, OUT / "icons" / image.name)
+    # A legacy browser asks for `/favicon.ico` with no path help, so it sits at the root.
+    shutil.copy2(icons / "favicon.ico", OUT / "favicon.ico")
+    shutil.copy2(STATIC / "favicon.svg", OUT / "favicon.svg")
+
+    # The social card. Raster, because most link previews will not draw an SVG.
+    social = STATIC / "social.png"
+    if not social.is_file():
+        raise SystemExit("error: no social card. Run `python site/social.py` first.")
+    shutil.copy2(social, OUT / "assets" / "social.png")
 
 
 def read(path: Path) -> str:
@@ -313,8 +349,9 @@ def page(
         if jsonld
         else ""
     )
-    og_image = f"{SITE_URL}assets/social.svg"
+    og_image = f"{SITE_URL}assets/social.png"
     body_class = "page-home" if hero else "page-doc"
+    breadcrumb_tag = breadcrumb_jsonld(route, title, canonical)
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -323,19 +360,30 @@ def page(
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(description)}" />
 <link rel="canonical" href="{canonical}" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<meta name="author" content="Raphael Mansuy" />
+<meta name="keywords" content="PII detection, personally identifiable information, Python, character spans, data masking, redaction, NER, privacy, edgepii" />
 <meta name="color-scheme" content="dark light" />
 <meta name="theme-color" content="#05070d" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="edgepii" />
+<meta property="og:locale" content="en_US" />
 <meta property="og:title" content="{esc(title)}" />
 <meta property="og:description" content="{esc(description)}" />
 <meta property="og:url" content="{canonical}" />
 <meta property="og:image" content="{og_image}" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="edgepii: typed character spans on the exact source string, with a span row that proves source[start:end] equals text." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{esc(title)}" />
 <meta name="twitter:description" content="{esc(description)}" />
 <meta name="twitter:image" content="{og_image}" />
-<link rel="icon" href="{prefix}assets/icon.svg" type="image/svg+xml" />
+<meta name="twitter:image:alt" content="edgepii: typed character spans on the exact source string." />
+<link rel="icon" href="{prefix}favicon.ico" sizes="32x32" />
+<link rel="icon" href="{prefix}favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="{prefix}icons/apple-touch-icon.png" sizes="180x180" />
 <link rel="manifest" href="{prefix}site.webmanifest" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -343,14 +391,15 @@ def page(
 <link rel="stylesheet" href="{prefix}assets/site.css" />
 <link rel="alternate" type="application/json" href="{prefix}assets/examples.json" title="Recorded span output" />
 {structured}
+{breadcrumb_tag}
 <script src="{prefix}assets/site.js" defer></script>
 </head>
 <body class="{body_class}">
 <a class="skip" href="#main">Skip to content</a>
 <div class="aurora" aria-hidden="true"></div>
 <header class="site-head">
-  <a class="brand" href="{prefix}">
-    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+  <a class="brand" href="{prefix}" aria-label="edgepii home">
+    <span class="mark" aria-hidden="true">{MARK_INLINE}</span>
     <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
   </a>
   <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
@@ -938,6 +987,39 @@ def home_jsonld(data: dict) -> dict:
             },
         ],
     }
+
+
+# The header mark, inlined so it paints with the first byte and costs no request.
+# Same geometry as `static/icon.svg`, on a viewBox of 64.
+MARK_INLINE = (
+    '<svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true" focusable="false">'
+    '<defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1">'
+    '<stop offset="0" stop-color="#7aa6ff"/><stop offset=".55" stop-color="#4f86ff"/>'
+    '<stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>'
+    '<rect width="64" height="64" rx="15" fill="url(#mg)"/>'
+    '<path d="M24 15 H15 V49 H24" fill="none" stroke="#04070f" stroke-width="9" '
+    'stroke-linecap="round" stroke-linejoin="round"/>'
+    '<path d="M40 15 H49 V49 H40" fill="none" stroke="#04070f" stroke-width="9" '
+    'stroke-linecap="round" stroke-linejoin="round"/>'
+    "</svg>"
+)
+
+
+def breadcrumb_jsonld(route: str, title: str, canonical: str) -> str:
+    """Tell a crawler where this page sits. The home page carries its own graph."""
+
+    if route in ("", "404"):
+        return ""
+    label = title.split(" · ")[0]
+    payload = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL},
+            {"@type": "ListItem", "position": 2, "name": label, "item": canonical},
+        ],
+    }
+    return f'<script type="application/ld+json">{json.dumps(payload, ensure_ascii=False)}</script>'
 
 
 if __name__ == "__main__":

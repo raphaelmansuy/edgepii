@@ -53,6 +53,13 @@ jobs:
         # this step keeps the rule lane fresh against the current source.
         run: python site/gen_data.py
 
+      - name: Build the icon set
+        # rsvg-convert and imagemagick are preinstalled on the ubuntu runner.
+        run: python site/icons.py
+
+      - name: Render the social card
+        run: python site/social.py
+
       - name: Build the site
         run: python site/build.py
 

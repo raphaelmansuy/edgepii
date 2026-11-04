@@ -71,6 +71,8 @@ eval-model: ## Score en-closed on the public corpus. Needs the hf extra
 
 site: ## Build the GitHub Pages site and check it
 	$(PY) site/gen_data.py
+	$(PY) site/icons.py
+	$(PY) site/social.py
 	$(PY) site/build.py
 	$(PY) site/images.py
 	$(PY) site/check.py

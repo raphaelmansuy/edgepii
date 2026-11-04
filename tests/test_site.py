@@ -119,6 +119,7 @@ def test_the_tutorial_output_matches_the_library():
 def test_the_built_site_passes_its_own_check():
     """Run the link, markup, contrast, and span checks on a fresh build."""
 
+
     data = DATA
     if not data.is_file():
         pytest.skip("no recorded data yet")
@@ -164,3 +165,91 @@ def test_a_rebuild_keeps_the_converted_images():
     assert result.returncode == 0, result.stderr
     after = sorted(path.name for path in shots.iterdir())
     assert after == before, "the build removed converted images"
+
+
+def test_the_icon_set_is_complete():
+    """A manifest or a link that names a missing icon is a silent install error."""
+
+    icons = ROOT / "site" / "static" / "icons"
+    if not icons.is_dir():
+        pytest.skip("icons not built yet, run site/icons.py")
+    required = [
+        "favicon.ico",
+        "apple-touch-icon.png",
+        "icon-192.png",
+        "icon-512.png",
+        "icon-maskable-192.png",
+        "icon-maskable-512.png",
+    ]
+    for name in required:
+        path = icons / name
+        assert path.is_file(), name
+        assert path.stat().st_size > 500, name
+
+
+def test_every_icon_png_is_the_size_it_claims():
+    """A phone asks for 192 and 512 by name. A wrong pixel size is a crop bug."""
+
+    icons = ROOT / "site" / "static" / "icons"
+    if not icons.is_dir():
+        pytest.skip("icons not built yet")
+    expected = {
+        "icon-192.png": 192,
+        "icon-512.png": 512,
+        "icon-maskable-192.png": 192,
+        "icon-maskable-512.png": 512,
+        "apple-touch-icon.png": 180,
+    }
+    for name, size in expected.items():
+        result = subprocess.run(  # noqa: S603
+            ["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(icons / name)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            pytest.skip("sips is not available here")
+        assert f"pixelWidth: {size}" in result.stdout, name
+        assert f"pixelHeight: {size}" in result.stdout, name
+
+
+def test_the_social_card_is_the_size_platforms_expect():
+    """1200 by 630 is the ratio every major preview card renders without a crop."""
+
+    card = ROOT / "site" / "static" / "social.png"
+    if not card.is_file():
+        pytest.skip("no social card yet, run site/social.py")
+    result = subprocess.run(  # noqa: S603
+        ["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(card)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        pytest.skip("sips is not available here")
+    assert "pixelWidth: 1200" in result.stdout
+    assert "pixelHeight: 630" in result.stdout
+    assert card.stat().st_size < 1_000_000, "the card is over 1 MB, which some platforms reject"
+
+
+def test_the_built_pages_carry_a_complete_social_head():
+    """The head must satisfy a link preview, not only a browser."""
+
+    index = ROOT / "site" / "dist" / "index.html"
+    if not index.is_file():
+        pytest.skip("no build yet")
+    html = index.read_text(encoding="utf-8")
+    for marker in (
+        'property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png"',
+        'property="og:image:width" content="1200"',
+        'property="og:image:height" content="630"',
+        'name="twitter:card" content="summary_large_image"',
+        'rel="canonical" href="https://raphaelmansuy.github.io/edgepii/"',
+        'name="robots" content="index, follow',
+        'rel="icon" href="favicon.ico"',
+        'rel="apple-touch-icon"',
+        'rel="manifest"',
+    ):
+        assert marker in html, marker
+    # The mark is inline SVG, so it paints with the first byte and needs no request.
+    assert '<svg viewBox="0 0 64 64"' in html

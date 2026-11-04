@@ -117,14 +117,16 @@ a:hover { color: #7ee7f7; }
   place-items: center;
   width: 40px; height: 40px;
   border-radius: 12px;
-  background: linear-gradient(145deg, var(--accent), var(--accent-2));
-  color: #04070f;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  /* The inline SVG carries the gradient and the tile. The radius here only
+     softens the focus ring, so the two never disagree. */
+  border-radius: 11px;
+  overflow: hidden;
+  line-height: 0;
   box-shadow: 0 8px 24px rgba(91, 140, 255, 0.34);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
+.mark svg { display: block; width: 100%; height: 100%; }
+.brand:hover .mark { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(91, 140, 255, 0.46); }
 .mark span { opacity: 0.55; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand-text strong { font-size: 16px; letter-spacing: -0.015em; }

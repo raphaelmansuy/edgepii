@@ -1,51 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="edgepii: typed character spans on the exact source string">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img"
+     aria-label="edgepii: find PII as typed character spans on the exact source string">
+  <!--
+    The social card. Every platform that renders a link needs a PNG at 1200 by
+    630, because most of them will not draw an SVG. `site/social.py` rasterises
+    this file, so the layout lives here and the pixel work stays in one place.
+
+    Text is real text, not a path, so the message can be edited without a
+    drawing tool. That means the raster step needs the font installed; the
+    script reports a missing font instead of shipping a card with a fallback
+    face.
+  -->
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#05070d" />
-      <stop offset="1" stop-color="#0a1020" />
+    <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#070b14"/>
+      <stop offset="1" stop-color="#0b1224"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.15" cy="0.05" r="0.8">
-      <stop offset="0" stop-color="#5b8cff" stop-opacity="0.4" />
-      <stop offset="1" stop-color="#5b8cff" stop-opacity="0" />
+    <radialGradient id="glowA" cx="0.12" cy="0.02" r="0.62">
+      <stop offset="0" stop-color="#5b8cff" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#5b8cff" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glow2" cx="0.95" cy="0.15" r="0.7">
-      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.28" />
-      <stop offset="1" stop-color="#22d3ee" stop-opacity="0" />
+    <radialGradient id="glowB" cx="0.94" cy="0.1" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#5b8cff" />
-      <stop offset="1" stop-color="#22d3ee" />
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7aa6ff"/>
+      <stop offset="0.55" stop-color="#4f86ff"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="head" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#b9c8e4"/>
     </linearGradient>
   </defs>
-  <rect width="1200" height="630" fill="url(#bg)" />
-  <rect width="1200" height="630" fill="url(#glow)" />
-  <rect width="1200" height="630" fill="url(#glow2)" />
 
-  <rect x="80" y="86" width="72" height="72" rx="20" fill="url(#mark)" />
-  <text x="116" y="138" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="700"
-        text-anchor="middle" fill="#04070f">e&#183;p</text>
-  <text x="176" y="140" font-family="Inter, Helvetica, Arial, sans-serif" font-size="46" font-weight="700"
-        fill="#e8edf7" letter-spacing="-1">edgepii</text>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glowA)"/>
+  <rect width="1200" height="630" fill="url(#glowB)"/>
+  <rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="#1b2740" stroke-width="1"/>
 
-  <text x="80" y="252" font-family="Inter, Helvetica, Arial, sans-serif" font-size="54" font-weight="700"
-        fill="#ffffff" letter-spacing="-1.6">Know exactly which</text>
-  <text x="80" y="318" font-family="Inter, Helvetica, Arial, sans-serif" font-size="54" font-weight="700"
-        fill="#ffffff" letter-spacing="-1.6">characters are personal data.</text>
-
-  <text x="80" y="378" font-family="Inter, Helvetica, Arial, sans-serif" font-size="25"
-        fill="#93a1bb">Typed character spans on the exact source string.</text>
-  <text x="80" y="414" font-family="Inter, Helvetica, Arial, sans-serif" font-size="25"
-        fill="#93a1bb">Every row proves source[start:end] == text.</text>
-
-  <g font-family="Menlo, monospace" font-size="24">
-    <text x="80" y="500" fill="#e8edf7">Email </text>
-    <rect x="146" y="478" width="252" height="34" rx="6" fill="#35e0b6" fill-opacity="0.2" />
-    <text x="156" y="500" fill="#35e0b6">ada@example.com</text>
-    <text x="398" y="500" fill="#e8edf7"> card </text>
-    <rect x="474" y="478" width="286" height="34" rx="6" fill="#b98cff" fill-opacity="0.22" />
-    <text x="484" y="500" fill="#b98cff">4242424242424242</text>
+  <!-- The mark, at 84 units, matching the header ratio. The inner group
+       scales the 64-unit artwork by 1.31 so it fills the tile as it does in
+       the favicon, rather than floating small inside a large square. -->
+  <g transform="translate(76 66)">
+    <rect width="84" height="84" rx="19" fill="url(#tile)"/>
+    <g transform="translate(42 42) scale(1.3125) translate(-32 -32)">
+      <path d="M24 15 H15 V49 H24" fill="none" stroke="#04070f" stroke-width="9"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M40 15 H49 V49 H40" fill="none" stroke="#04070f" stroke-width="9"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
   </g>
-  <text x="80" y="558" font-family="Menlo, monospace" font-size="20" fill="#64718a">
-    EMAIL 0:15  &#183;  PAYMENT 21:37  &#183;  slice check ok
-  </text>
+  <text x="182" y="110" font-family="Inter" font-size="40" font-weight="700"
+        fill="#eef3ff" letter-spacing="-0.9">edgepii</text>
+  <text x="183" y="140" font-family="Inter" font-size="19" font-weight="500"
+        fill="#8fa1c0">typed character spans on the exact source string</text>
+
+  <text x="76" y="268" font-family="Inter" font-size="62" font-weight="700"
+        fill="url(#head)" letter-spacing="-1.9">Know exactly which characters</text>
+  <text x="76" y="338" font-family="Inter" font-size="62" font-weight="700"
+        fill="url(#head)" letter-spacing="-1.9">are personal data.</text>
+
+  <!-- A real result, drawn as a span row. Monospace for the offset proof.
+       The offsets below came from the library on the string shown, so the card
+       cannot claim a span the code does not produce. -->
+  <rect x="76" y="392" width="1048" height="150" rx="14" fill="#0a1120" stroke="#1e2c46" stroke-width="1.5"/>
+  <text x="104" y="432" font-family="JetBrains Mono" font-size="18" fill="#7f8fb0">source</text>
+  <text x="186" y="432" font-family="JetBrains Mono" font-size="18" fill="#dbe6ff">Ada +852 5555 0101 &#183; ada@example.com &#183; 4242 4242 4242 4242</text>
+
+  <rect x="184" y="448" width="184" height="28" rx="6" fill="#35e0b6" fill-opacity="0.17"/>
+  <text x="192" y="468" font-family="JetBrains Mono" font-size="15" fill="#6ff0cf">PHONE 4:18</text>
+  <rect x="380" y="448" width="184" height="28" rx="6" fill="#b98cff" fill-opacity="0.18"/>
+  <text x="388" y="468" font-family="JetBrains Mono" font-size="15" fill="#cbb0ff">EMAIL 21:36</text>
+  <rect x="576" y="448" width="196" height="28" rx="6" fill="#ffb454" fill-opacity="0.17"/>
+  <text x="584" y="468" font-family="JetBrains Mono" font-size="15" fill="#ffcf8a">PAYMENT 39:58</text>
+
+  <text x="184" y="512" font-family="JetBrains Mono" font-size="16" fill="#5fd9b6">source[4:18] == text &#8212; slice check passed, 3 spans</text>
+
+  <g font-family="Inter" font-size="17" font-weight="500" fill="#8fa1c0">
+    <text x="76" y="590">Apache-2.0</text>
+    <text x="206" y="590">Local weights, no cloud PII service</text>
+    <text x="536" y="590">11 public types</text>
+    <text x="686" y="590">git clone edgepii</text>
+  </g>
+  <text x="1124" y="590" text-anchor="end" font-family="Inter" font-size="17"
+        font-weight="600" fill="#5b8cff">raphaelmansuy.github.io/edgepii</text>
 </svg>

@@ -215,6 +215,8 @@ def main() -> int:
     check_data(problems)
     check_sitemap(pages, problems)
     check_required_pages(problems)
+    check_seo(pages, problems)
+    check_manifest(problems)
 
     for line in warnings:
         print(f"warn: {line}")
@@ -228,7 +230,19 @@ def main() -> int:
 
 
 def check_assets(problems: list[str]) -> None:
-    for needed in ("assets/site.css", "assets/site.js", "assets/icon.svg", "assets/social.svg"):
+    required = [
+        "assets/site.css",
+        "assets/site.js",
+        "assets/social.png",
+        "favicon.ico",
+        "favicon.svg",
+        "icons/apple-touch-icon.png",
+        "icons/icon-192.png",
+        "icons/icon-512.png",
+        "icons/icon-maskable-192.png",
+        "icons/icon-maskable-512.png",
+    ]
+    for needed in required:
         if not (DIST / needed).is_file():
             problems.append(f"missing asset {needed}")
     css = (DIST / "assets" / "site.css").read_text(encoding="utf-8")
@@ -325,6 +339,86 @@ def check_sitemap(pages: list[Path], problems: list[str]) -> None:
         problems.append("missing .nojekyll, so Pages would drop _ paths")
     if not (DIST / "404.html").is_file():
         problems.append("missing 404.html")
+
+
+def check_seo(pages: list[Path], problems: list[str]) -> None:
+    """Every page must be shareable and indexable, not only readable.
+
+    A link preview reads the OG tags. A crawler reads the canonical and the
+    robots directive. A phone home screen reads the manifest icons. Each is
+    cheap to get wrong and silent when wrong, so each is asserted here.
+    """
+
+    required_og = (
+        'property="og:type"',
+        'property="og:site_name"',
+        'property="og:title"',
+        'property="og:description"',
+        'property="og:url"',
+        'property="og:image"',
+        'property="og:image:width" content="1200"',
+        'property="og:image:height" content="630"',
+        'property="og:image:alt"',
+        'name="twitter:card" content="summary_large_image"',
+        'name="twitter:image"',
+    )
+    for path in pages:
+        rel = str(path.relative_to(DIST))
+        html = path.read_text(encoding="utf-8")
+        for marker in required_og:
+            if marker not in html:
+                problems.append(f"{rel}: missing {marker}")
+        if 'rel="canonical"' not in html:
+            problems.append(f"{rel}: missing canonical")
+        if 'name="robots"' not in html:
+            problems.append(f"{rel}: missing the robots directive")
+        if rel != "404.html":
+            if 'rel="manifest"' not in html:
+                problems.append(f"{rel}: missing the web manifest link")
+            if 'rel="apple-touch-icon"' not in html:
+                problems.append(f"{rel}: missing the apple touch icon")
+            if 'type="image/svg+xml"' not in html:
+                problems.append(f"{rel}: missing the SVG favicon")
+        # The OG image must exist on disk, or every share renders blank.
+        for match in re.findall(r'property="og:image" content="([^"]+)"', html):
+            if match.startswith("http"):
+                local = match.replace(SITE_ORIGIN, "")
+                if not (DIST / local.lstrip("/")).is_file():
+                    problems.append(f"{rel}: og:image {match} is not in the build")
+        # One h1 is checked elsewhere; here, the title must name the project.
+        if "edgepii" not in html.split("<title>")[1].split("</title>")[0].lower():
+            problems.append(f"{rel}: the title does not name edgepii")
+
+
+def check_manifest(problems: list[str]) -> None:
+    """A manifest that names a missing icon is an install error on a phone."""
+
+    path = DIST / "site.webmanifest"
+    if not path.is_file():
+        problems.append("missing site.webmanifest")
+        return
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        problems.append(f"site.webmanifest is not valid JSON: {exc}")
+        return
+    for field in ("name", "short_name", "start_url", "display", "theme_color", "background_color", "icons"):
+        if field not in data:
+            problems.append(f"site.webmanifest has no {field}")
+    if not any("maskable" in str(icon.get("purpose", "")) for icon in data.get("icons", [])):
+        problems.append("site.webmanifest has no maskable icon, so a phone crops it badly")
+    for icon in data.get("icons", []):
+        source = icon.get("src", "")
+        if source.endswith(".svg"):
+            continue
+        if not (DIST / source).is_file():
+            problems.append(f"site.webmanifest names a missing icon {source}")
+    for icon in data.get("icons", []):
+        if not icon.get("sizes") or not icon.get("type"):
+            problems.append(f"site.webmanifest icon {icon.get('src')} has no sizes or type")
+
+
+SITE_ORIGIN = "https://raphaelmansuy.github.io/edgepii/"
 
 
 def check_required_pages(problems: list[str]) -> None:

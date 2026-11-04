@@ -26,9 +26,9 @@ The [catalog](05-model-catalog.md) records card scores and paper scores as repor
 
 ## Principle 3. Code judges spans. A model does not
 
-Exact-span F1 is a deterministic compare. An LLM-as-judge adds a second model, a second prompt, and a score the team cannot replay bit for bit. The locate note forbids that judge for span F1.
+Exact-span F1 is a deterministic compare. An LLM-as-judge adds a second model, a second prompt, and a score the team cannot replay bit for bit. That judge is forbidden for span F1.
 
-A model can draft synthetic rows. A human freezes the golden set. The team never edits gold to chase a score. The builder note states the same rule ([span pipeline](https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe)).
+A model can draft synthetic rows. A human freezes the golden set. The team never edits gold to chase a score.
 
 ## Principle 4. Look at misses, then add a slice
 

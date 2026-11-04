@@ -6,7 +6,7 @@ Status: accepted. Date: 4 November 2026.
 
 ## Context
 
-The mask-and-restore pattern puts a slice into a vault so a later step can put it back. That pattern is right for a name or a phone. It is wrong for a password, an API key, or a recovery code. A restore would write the secret into a ticket, a log, or a second prompt. The parent note says not to stand-in and restore secrets ([Hide names and phones](https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775)).
+The mask-and-restore pattern puts a slice into a vault so a later step can put it back. That pattern is right for a name or a phone. It is wrong for a password, an API key, or a recovery code. A restore would write the secret into a ticket, a log, or a second prompt. A secret must not be restored, because a stand-in implies a way back.
 
 The locator still needs to find secrets. Otherwise they leave in the clear.
 

@@ -35,7 +35,7 @@ flowchart TD
 | Z | Schema extractor for Chinese, ModelScope | Yes only if offsets check out | Chinese text and a host that loads ModelScope |
 | Chat | A generative model that rewrites or emits JSON | Only if code checks offsets | Last. Not a v1 default |
 
-Lane R is necessary and not sufficient. Names, messy addresses, and context-heavy ids need Lane E or Lane G. The parent pipeline says the same thing ([span pipeline](https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe)).
+Lane R is necessary and not sufficient. Names, messy addresses, and context-heavy ids need Lane E or Lane G.
 
 ## Lane E. Encoders
 

@@ -475,7 +475,7 @@ Two properties are worth keeping:
 
 **The docs are not copied.** `build.py` reads `docs/*.md` directly. An edit to a doc appears on the site without a second edit, and `site/links.py` rewrites the relative `.md` links into routes.
 
-Both workflows live in `site/workflow/`, because a token without the `workflow` scope cannot push to `.github/workflows/`. `site/README.md` records the one-time install step. The site workflow runs the same four commands as a local build, so a local build and a deployed build are the same build.
+Both workflows live in `.github/workflows/` and run on every push. `site/README.md` records how they were installed, because an OAuth App token without the `workflow` scope cannot push that path. The site workflow runs the same four commands as a local build, so a local build and a deployed build are the same build.
 
 ## Evaluation
 
@@ -584,9 +584,3 @@ The audit also fixed two rule bugs. A local subscriber number such as `48291` no
 ## License
 
 The library is Apache-2.0. Each checkpoint keeps its own license. Check the model card before you ship a lane.
-
-Origin notes, Ideas Lab:
-
-- [Locate PII spans in text](https://app.notion.com/p/40c887c3416481c79345da8888298a75)
-- [Hide names and phones before the AI sees them](https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775)
-- [Span pipeline](https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe)

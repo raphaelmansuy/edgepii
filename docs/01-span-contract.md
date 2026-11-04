@@ -102,7 +102,7 @@ A type name outside the taxonomy is an invalid call. The library raises `Unknown
 - A legal opinion that a type is personal data in a given country.
 - Training a new checkpoint inside the library.
 - A network service. The call stays inside the caller program.
-- Fuzzy restore of a model answer. The parent note forbids it ([Hide names and phones](https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775)).
+- Fuzzy restore of a model answer. A fuzzy match can bind the wrong characters, so it is forbidden.
 - Storage of the source string or of a reverse map. The caller holds both.
 
 ## Relation to mask and restore

@@ -8,12 +8,6 @@ Status: implemented. This set records the problem, the research, the public API,
 
 This set records the problem, the research, the public API, and the build plan. Card scores in the research notes are not ship gates. See the [evaluation spec](09-evaluation.md).
 
-Origin notes, Ideas Lab:
-
-- [Locate PII spans in text](https://app.notion.com/p/40c887c3416481c79345da8888298a75)
-- [Hide names and phones before the AI sees them](https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775)
-- [Span pipeline](https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe) (detect, then classify)
-
 ## Read this set in order
 
 1. [Five whys](00-five-whys.md). The problem, one cause at a time.

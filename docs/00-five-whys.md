@@ -6,7 +6,7 @@ Read this file first. The later specs only add a contract, a model, or a module 
 
 Two chains are enough. Chain A asks why a library must exist. Chain B asks why the result must be a typed character span. Each answer is the input to the next why. The root is the last line of each chain.
 
-Source notes: [Locate PII spans](https://app.notion.com/p/40c887c3416481c79345da8888298a75) and [Hide names and phones](https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775).
+Source notes for this file are the problem statement this project started from: find PII spans in text, and hide names and phones before the AI sees them. Neither is a public document, so this file stands on its own.
 
 ## Chain A. Why locate PII at all?
 
@@ -32,7 +32,7 @@ A flag says "this document has PII" or "it does not". The flag does not say whic
 
 A rewrite returns new prose. The new prose can drop a name, keep a name, or change a neighbor. No test can point at the original characters and prove the removal. The caller cannot audit the rewrite against the source string.
 
-If the caller later needs the original name, the rewrite already destroyed the map. The parent note states the same kill. Chat NER without offsets is not a locator ([Locate PII spans](https://app.notion.com/p/40c887c3416481c79345da8888298a75)).
+If the caller later needs the original name, the rewrite already destroyed the map. The root says the same thing: chat NER without offsets is not a locator.
 
 ### Why 5. Root need
 
@@ -68,7 +68,7 @@ The locator must score and return offsets on the exact object the caller will ed
 
 The next action depends on the type. A government id can force a hard stop. A person name in a public quote can stay. An email can become `EMAIL_1` and return later from a private map. A password must not enter that map.
 
-One bit named PII forces one action on every hit. The builder note says the same thing. Do not collapse every hit into one PII bucket ([span pipeline](https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe)). Metrics also lie when types share one score. A perfect email score can hide a missed id.
+One bit named PII forces one action on every hit. Do not collapse every hit into one PII bucket, because the next action depends on the type. Metrics also lie when types share one score. A perfect email score can hide a missed id.
 
 ### Why 4. Why is the type a versioned name, not free text from the model?
 

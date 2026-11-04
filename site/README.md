@@ -110,25 +110,34 @@ CI has no model weights, so `gen_data.py` records the rules lane and keeps the m
 the committed data file. `tests/test_site.py` proves that behaviour with the `hf` extra blocked, so a
 deploy cannot silently drop ten examples.
 
-Both workflows live in `site/workflow/` in this repository, because a token without the `workflow`
-scope cannot push to `.github/workflows/`. Install them once, from a session that has that scope:
+Both workflows now live in `.github/workflows/` and run on every push. They were staged in
+`site/workflow/` first, because an OAuth App token without the `workflow` scope cannot push that
+path. The install used SSH over port 443, which is not subject to the OAuth App restriction:
 
 ```bash
+ssh -T -p 443 git@ssh.github.com      # confirms the key authenticates
 mkdir -p .github/workflows
-cp site/workflow/site.yml .github/workflows/site.yml
-cp site/workflow/ci.yml   .github/workflows/ci.yml
+cp site/workflow/*.yml .github/workflows/
 git add .github/workflows && git commit -m "ci: install the workflows"
+git remote set-url --push origin git@ssh.github.com:raphaelmansuy/edgepii.git
 git push origin main
 ```
 
 `ci.yml` runs the contract tests on Python 3.11, 3.12, and 3.13, builds the artifacts, runs
 `twine check`, then installs the built wheel into a clean environment and runs the public API from it.
-Until it is installed, the test matrix is a manual step.
+The browser tests skip in CI, because they need a Playwright build; `make e2e` runs them locally.
+
+`ci.yml` installs the `dev` extra, which now carries `fastapi`, `uvicorn`, and `httpx`, because
+`tests/test_demo_api.py` imports the demo app. Before that fix the job would have failed at
+collection, which is the failure a workflow exists to catch.
 
 **2. The `gh-pages` branch (fallback).** A token without the `workflow` scope cannot push
 `.github/workflows/site.yml`, and the contents API refuses to create a workflow file for the same
 reason. `site/publish.sh` builds the site and force-pushes it to `gh-pages`, which needs only the
 `repo` scope. Set Pages to **Deploy from a branch**, branch `gh-pages`, folder `/`.
+
+That branch still serves the site today. Switching Pages to **GitHub Actions** hands the deploy to
+`site.yml`, and the fallback then exists only for a repository that cannot use Actions.
 
 A detail that broke the first deploy: Pages serves the branch **root**, so the build output must sit
 at the root of that branch. Committing `site/dist/` keeps the files under a `site/` prefix and every

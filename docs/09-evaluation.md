@@ -30,7 +30,7 @@ Leakage is a product metric on the string a later step would send. For a gold sp
 
 `edgepii` can compute this because `redact` is pure. The eval harness runs `locate`, then `redact`, then the leakage check. High-severity classes for this check are `secret`, `gov_id`, and `payment`.
 
-The parent product note says that a high-severity leakage rate above zero on the freeze means that the team must not ship ([Hide names and phones](https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775)). This spec keeps that gate for the masked string on the sealed freeze. It does not claim a model has no misses. If the model misses and the rule lane also misses, the preset does not ship. The mitigation is a better detector or a refusal to send, not a softer score.
+A high-severity leakage rate above zero on the freeze means that the team must not ship. This spec keeps that gate for the masked string on the sealed freeze. It does not claim a model has no misses. If the model misses and the rule lane also misses, the preset does not ship. The mitigation is a better detector or a refusal to send, not a softer score.
 
 The downstream task owns its utility floors. This spec leaves those floors open.
 

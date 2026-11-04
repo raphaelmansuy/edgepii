@@ -4,6 +4,46 @@ All notable changes to this project are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2026-11-04
+
+Infrastructure only. The library code and the public API are unchanged from
+0.3.0, so this release exists to carry the CI and documentation work.
+
+### Added
+
+- `.github/workflows/ci.yml` and `.github/workflows/site.yml`. They run on every
+  push. The workflows were blocked for several releases by a token without the
+  `workflow` scope; SSH over port 443 is not subject to that restriction.
+- Pages deploys from GitHub Actions now, so a doc change reaches the site
+  without a manual `publish.sh`.
+
+### Fixed
+
+Four defects that only a first CI run could expose:
+
+- `site/icons.py` ran `['command', '-v', name]` with `shell=False`. `command` is
+  a shell builtin and does not exist as a binary, so the step failed on Linux.
+  It uses `shutil.which`.
+- `site.yml` said `rsvg-convert` and `magick` are preinstalled. They are not, and
+  Ubuntu's `imagemagick` package installs `convert`, not `magick`. The workflow
+  installs `librsvg2-bin` and `imagemagick`, and the icon build accepts either
+  ImageMagick name.
+- Two tests read PNG sizes with `sips`, which is macOS only. They skipped on
+  Linux, so they never checked anything. Both read the file header instead,
+  which also makes the assertion stricter.
+- `site/images.py` called `sips` in `probe()` before any fallback could run, so
+  the screenshot step failed on Linux. `probe()` reads the PNG or JPEG header,
+  and `resize()` falls back to ImageMagick.
+- The `dev` extra carried only `pytest`, while `tests/test_demo_api.py` imports
+  `fastapi`. CI would have failed at collection. The extra now carries `fastapi`,
+  `uvicorn`, and `httpx`.
+
+### Changed
+
+- Every `app.notion.com` link is gone. The docs are public and the notes they
+  pointed at are not, so a reader hit a workspace they cannot open. Each
+  reference now stands on its own.
+
 ## [0.3.0] - 2026-11-04
 
 Closes the quasi-identifier gap and records the measurement the assessment asked

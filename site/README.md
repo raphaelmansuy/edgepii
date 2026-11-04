@@ -134,10 +134,20 @@ collection, which is the failure a workflow exists to catch.
 **2. The `gh-pages` branch (fallback).** A token without the `workflow` scope cannot push
 `.github/workflows/site.yml`, and the contents API refuses to create a workflow file for the same
 reason. `site/publish.sh` builds the site and force-pushes it to `gh-pages`, which needs only the
-`repo` scope. Set Pages to **Deploy from a branch**, branch `gh-pages`, folder `/`.
+`repo` scope.
 
-That branch still serves the site today. Switching Pages to **GitHub Actions** hands the deploy to
-`site.yml`, and the fallback then exists only for a repository that cannot use Actions.
+Pages now deploys from **GitHub Actions**, so `site.yml` publishes the site on every push and
+`publish.sh` is no longer needed. Switching the source is one API call from a token with `repo`
+scope:
+
+```bash
+gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow
+```
+
+Before that switch the `site` workflow built the site in 43 s and then failed at deploy, because
+Pages still pointed at the `gh-pages` branch and the environment rejects a deploy from `main`. The
+error reads `Branch "main" is not allowed to deploy to github-pages`. Set the source first, or the
+build passes and the deploy is refused.
 
 A detail that broke the first deploy: Pages serves the branch **root**, so the build output must sit
 at the root of that branch. Committing `site/dist/` keeps the files under a `site/` prefix and every

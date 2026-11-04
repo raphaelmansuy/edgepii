@@ -12,6 +12,7 @@ Run: `python site/icons.py`
 
 from __future__ import annotations
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -100,9 +101,10 @@ def _run(args: list[str]) -> None:
 
 
 def _which(name: str) -> bool:
-    return subprocess.run(  # noqa: S603
-        ["command", "-v", name], shell=False, capture_output=True, check=False
-    ).returncode == 0
+    """True when `name` is on PATH. `command` is a shell builtin, so it cannot
+    be exec'd directly, and it does not exist as a binary on a Linux runner."""
+
+    return shutil.which(name) is not None
 
 
 if __name__ == "__main__":

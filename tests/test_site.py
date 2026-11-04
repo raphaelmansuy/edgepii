@@ -187,6 +187,23 @@ def test_the_icon_set_is_complete():
         assert path.stat().st_size > 500, name
 
 
+def _png_size(path: Path) -> tuple[int, int]:
+    """Read width and height from the PNG IHDR chunk.
+
+    The tests used `sips` for this, which is macOS only, so they skipped on a
+    Linux runner and never checked anything. A skipped test is not a passing
+    test, and the header is a 24-byte read.
+    """
+
+    with path.open("rb") as handle:
+        head = handle.read(24)
+    if len(head) < 24 or head[:8] != b"\x89PNG\r\n\x1a\n":
+        raise AssertionError(f"{path.name} is not a PNG")
+    width = int.from_bytes(head[16:20], "big")
+    height = int.from_bytes(head[20:24], "big")
+    return width, height
+
+
 def test_every_icon_png_is_the_size_it_claims():
     """A phone asks for 192 and 512 by name. A wrong pixel size is a crop bug."""
 
@@ -201,16 +218,8 @@ def test_every_icon_png_is_the_size_it_claims():
         "apple-touch-icon.png": 180,
     }
     for name, size in expected.items():
-        result = subprocess.run(  # noqa: S603
-            ["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(icons / name)],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        if result.returncode != 0:
-            pytest.skip("sips is not available here")
-        assert f"pixelWidth: {size}" in result.stdout, name
-        assert f"pixelHeight: {size}" in result.stdout, name
+        width, height = _png_size(icons / name)
+        assert (width, height) == (size, size), f"{name} is {width}x{height}, expected {size}"
 
 
 def test_the_social_card_is_the_size_platforms_expect():
@@ -219,16 +228,8 @@ def test_the_social_card_is_the_size_platforms_expect():
     card = ROOT / "site" / "static" / "social.png"
     if not card.is_file():
         pytest.skip("no social card yet, run site/social.py")
-    result = subprocess.run(  # noqa: S603
-        ["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(card)],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        pytest.skip("sips is not available here")
-    assert "pixelWidth: 1200" in result.stdout
-    assert "pixelHeight: 630" in result.stdout
+    width, height = _png_size(card)
+    assert (width, height) == (1200, 630), f"the card is {width}x{height}"
     assert card.stat().st_size < 1_000_000, "the card is over 1 MB, which some platforms reject"
 
 

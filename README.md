@@ -1,5 +1,9 @@
 # edgepii
 
+[![PyPI](https://img.shields.io/pypi/v/edgepii.svg)](https://pypi.org/project/edgepii/)
+[![Python](https://img.shields.io/pypi/pyversions/edgepii.svg)](https://pypi.org/project/edgepii/)
+[![License](https://img.shields.io/pypi/l/edgepii.svg)](https://github.com/raphaelmansuy/edgepii/blob/main/LICENSE)
+
 Locate personally identifiable information (PII) as typed character spans on the exact source string.
 
 `edgepii` returns `{type, start, end, text, score}` rows. It does not label a whole document and it does not rewrite text with a chat model. Every row proves one invariant:
@@ -10,7 +14,7 @@ source[span.start:span.end] == span.text
 
 That check is the contract. If a detector returns an offset that fails it, the library drops the span and counts it. The library never searches the string for a repair.
 
-- [Specification](docs/README.md) · [Span contract](docs/01-span-contract.md) · [API](docs/06-library-api.md) · [Examples](docs/11-examples.md) · [Evaluation](docs/09-evaluation.md) · [Public corpora](docs/12-public-corpora.md) · [First score](docs/13-first-public-score.md)
+- [Specification](https://github.com/raphaelmansuy/edgepii/blob/main/docs/README.md) · [Span contract](https://github.com/raphaelmansuy/edgepii/blob/main/docs/01-span-contract.md) · [API](https://github.com/raphaelmansuy/edgepii/blob/main/docs/06-library-api.md) · [Examples](https://github.com/raphaelmansuy/edgepii/blob/main/docs/11-examples.md) · [Evaluation](https://github.com/raphaelmansuy/edgepii/blob/main/docs/09-evaluation.md) · [Public corpora](https://github.com/raphaelmansuy/edgepii/blob/main/docs/12-public-corpora.md) · [First score](https://github.com/raphaelmansuy/edgepii/blob/main/docs/13-first-public-score.md)
 - Python 3.11 or newer. Local weights. No cloud PII service.
 
 ## Contents
@@ -49,16 +53,19 @@ Most PII tools answer one question: is this document sensitive? That answer is t
 
 ```bash
 python3.11 -m venv .venv
-.venv/bin/pip install -e .
+.venv/bin/pip install edgepii
 ```
+
+To work from a checkout instead, use `pip install -e .` in place of
+`pip install edgepii`.
 
 The rule lane needs only `phonenumbers` and `pyyaml`. Model lanes are extras:
 
 ```bash
-.venv/bin/pip install -e ".[hf]"       # transformers plus torch: en-closed, en-bert
-.venv/bin/pip install -e ".[gliner2]"  # gliner2==2.1.0: multi-open
-.venv/bin/pip install -e ".[gliner]"   # gliner: phi-open
-.venv/bin/pip install -e ".[ms]"       # modelscope: zh-schema
+.venv/bin/pip install "edgepii[hf]"       # transformers plus torch: en-closed, en-bert
+.venv/bin/pip install "edgepii[gliner2]"  # gliner2==2.1.0: multi-open
+.venv/bin/pip install "edgepii[gliner]"   # gliner: phi-open
+.venv/bin/pip install "edgepii[ms]"       # modelscope: zh-schema
 ```
 
 A missing extra raises `DetectorLoadError` with the extra, the repo id, and the revision. It never includes source text.
@@ -117,27 +124,27 @@ make demo-open     # start the server and open a tab
 
 | Home | Rules lane |
 | --- | --- |
-| ![Home](docs/e2e/screenshots/01-home.png) | ![Rules](docs/e2e/screenshots/02-rules-ticket.png) |
+| ![Home](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/01-home.png) | ![Rules](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/02-rules-ticket.png) |
 
 | Secret note | Numbered placeholders |
 | --- | --- |
-| ![Secret](docs/e2e/screenshots/03-secret-note.png) | ![Placeholders](docs/e2e/screenshots/06-placeholders.png) |
+| ![Secret](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/03-secret-note.png) | ![Placeholders](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/06-placeholders.png) |
 
 | Email only | Chinese line |
 | --- | --- |
-| ![Email only](docs/e2e/screenshots/04-email-only.png) | ![Chinese](docs/e2e/screenshots/05-chinese.png) |
+| ![Email only](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/04-email-only.png) | ![Chinese](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/05-chinese.png) |
 
 | Long text offsets | Copy as JSON |
 | --- | --- |
-| ![Long text](docs/e2e/screenshots/07-long-text.png) | ![Copy](docs/e2e/screenshots/11-copy-json.png) |
+| ![Long text](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/07-long-text.png) | ![Copy](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/11-copy-json.png) |
 
 | Model lane finds a name | Score floor, caller policy |
 | --- | --- |
-| ![Model](docs/e2e/screenshots/10-model-lane.png) | ![Floor](docs/e2e/screenshots/12-score-floor.png) |
+| ![Model](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/10-model-lane.png) | ![Floor](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/12-score-floor.png) |
 
 | Narrow viewport |
 | --- |
-| ![Narrow](docs/e2e/screenshots/09-narrow.png) |
+| ![Narrow](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/09-narrow.png) |
 
 The page calls four endpoints:
 
@@ -165,7 +172,7 @@ A preset is a fixed detector list. `locate` does not branch on the preset name.
 | `phi-open` | [nvidia/gliner-PII](https://huggingface.co/nvidia/gliner-PII) | `bd23e8e` | Health-adjacent text. Its health labels are outside taxonomy `2026.11` |
 | `zh-schema` | [iic/nlp_structbert_siamese-uie_chinese-base](https://modelscope.cn/models/iic/nlp_structbert_siamese-uie_chinese-base) | `master` | Chinese text through ModelScope schema prompts |
 
-`en-closed` is the default candidate for a closed English lane. `en-bert` is a control, not the only answer to "is BERT enough?". The full argument is in [when the encoder is enough](docs/04-research-landscape.md#when-the-encoder-is-enough).
+`en-closed` is the default candidate for a closed English lane. `en-bert` is a control, not the only answer to "is BERT enough?". The full argument is in [when the encoder is enough](https://github.com/raphaelmansuy/edgepii/blob/main/docs/04-research-landscape.md#when-the-encoder-is-enough).
 
 ## Types
 
@@ -185,7 +192,7 @@ Taxonomy `2026.11` lists eleven public types. The YAML file is the only type lis
 | `DATE_OF_BIRTH` | quasi | 0 | model | Off by default |
 | `ORG` | quasi | 0 | model | Off by default |
 
-Rank breaks an overlap. Higher rank wins. A tie then prefers a rule hit, then a longer span, then a higher score, then a smaller start, then the type name. See [the taxonomy](docs/10-taxonomy.md) for the label map and the Chinese schema names.
+Rank breaks an overlap. Higher rank wins. A tie then prefers a rule hit, then a longer span, then a higher score, then a smaller start, then the type name. See [the taxonomy](https://github.com/raphaelmansuy/edgepii/blob/main/docs/10-taxonomy.md) for the label map and the Chinese schema names.
 
 ## API
 
@@ -241,7 +248,7 @@ No error message contains PII.
 | `secret` | `<SECRET>` | Never |
 | every other class | `<TYPE_N>`, left to right | Yes |
 
-A vault key maps to the original slice. The caller stores the vault. The function keeps nothing. Secrets stay irreversible because a restore would write a password into a ticket, a log, or a second prompt. See [ADR 0004](docs/adr/0004-secrets-irreversible.md).
+A vault key maps to the original slice. The caller stores the vault. The function keeps nothing. Secrets stay irreversible because a restore would write a password into a ticket, a log, or a second prompt. See [ADR 0004](https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md).
 
 `redact` raises `OverlapError` if two spans overlap. The locator guarantees non-overlapping output, so the error is a guard, not a second merge pass.
 
@@ -279,7 +286,7 @@ make e2e                       # 13 browser tests, screenshots to docs/e2e/scree
 | `tests/test_demo_api.py` | Endpoint shapes, secret exclusion from the vault, clean errors, the over-long guard, the caller floor |
 | `tests/test_demo_e2e.py` | The page renders, spans appear, the filter works, the masked string is correct, copy works, the floor works, a model lane finds a name, the layout survives a narrow viewport |
 
-Screenshots live in [docs/e2e/screenshots](docs/e2e/screenshots). `make e2e` rebuilds them.
+Screenshots live in [docs/e2e/screenshots](https://github.com/raphaelmansuy/edgepii/blob/main/docs/e2e/screenshots). `make e2e` rebuilds them.
 
 Model lanes run on Modal, so a laptop needs no large download:
 
@@ -333,7 +340,7 @@ make eval-model CORPUS=nemotron-pii LIMIT=500     # needs .[hf]
 python -m edgepii.eval.cli --preset rules --corpus nemotron-pii --limit 2000 --print
 ```
 
-Each external gold label folds into taxonomy `2026.11`, or it drops with a written reason. A label that neither map names is counted as `unknown`, never guessed. [Public corpora](docs/12-public-corpora.md) lists every fold and every drop.
+Each external gold label folds into taxonomy `2026.11`, or it drops with a written reason. A label that neither map names is counted as `unknown`, never guessed. [Public corpora](https://github.com/raphaelmansuy/edgepii/blob/main/docs/12-public-corpora.md) lists every fold and every drop.
 
 Measured on this host, 4 November 2026. The `rules` lane finds no name, so `PERSON` and `ADDRESS` are zero for that lane by construction. Those two types need a model lane.
 
@@ -365,7 +372,7 @@ print(report.f1, report.miss, report.shift, report.extra)
 
 The scorer compares one document at a time and then sums. A pooled list would let a prediction in one document match gold in another. `tests/test_eval_corpora.py` locks that case.
 
-Numeric ship floors stay UNCONFIRMED until the sealed freeze exists. Model card scores are not gates. See [the evaluation spec](docs/09-evaluation.md) and [the public corpora](docs/12-public-corpora.md).
+Numeric ship floors stay UNCONFIRMED until the sealed freeze exists. Model card scores are not gates. See [the evaluation spec](https://github.com/raphaelmansuy/edgepii/blob/main/docs/09-evaluation.md) and [the public corpora](https://github.com/raphaelmansuy/edgepii/blob/main/docs/12-public-corpora.md).
 
 ## Design rules
 
@@ -380,7 +387,7 @@ Numeric ship floors stay UNCONFIRMED until the sealed freeze exists. Model card 
 9. The library ships no score floor. `min_score` is caller policy, measured by the caller.
 10. A threshold, a window, or a rank must name its source. A number with no source does not ship.
 
-The full argument, with diagrams, is in [first principles](docs/02-first-principles.md), [architecture](docs/07-architecture.md), and [AI engineering](docs/03-ai-engineering.md).
+The full argument, with diagrams, is in [first principles](https://github.com/raphaelmansuy/edgepii/blob/main/docs/02-first-principles.md), [architecture](https://github.com/raphaelmansuy/edgepii/blob/main/docs/07-architecture.md), and [AI engineering](https://github.com/raphaelmansuy/edgepii/blob/main/docs/03-ai-engineering.md).
 
 ## Every rule names its source
 
@@ -397,7 +404,7 @@ A rule earns its place only when a published standard or a named parser decides 
 | Secret | Cue word plus an assignment, or a mention whose value holds a digit or a symbol | `null` |
 | Score floor | The caller, on the caller's own data | no default |
 | Window | The checkpoint `max_position_embeddings`, at 75 percent, rounded down | derived |
-| Merge rank | The taxonomy class, as [the taxonomy](docs/10-taxonomy.md) records it | data |
+| Merge rank | The taxonomy class, as [the taxonomy](https://github.com/raphaelmansuy/edgepii/blob/main/docs/10-taxonomy.md) records it | data |
 
 The audit removed three rules because no source backed them. The first was a fixed 0.80 score for shape matches. The second was per-class score floors of 0.30, 0.40, and 0.60. The third was a "cut in the second half" window rule.
 
@@ -410,7 +417,7 @@ The audit also fixed two rule bugs. A local subscriber number such as `48291` no
 - The demo caps a source at 20,000 characters. The library splits long text into windows.
 - `en-bert` needs Hugging Face access to `ab-ai/pii_model`.
 - `phi-open` emits health types that taxonomy `2026.11` does not carry. The locator drops those labels. It does not rename them.
-- A model can still miss a span. The measurement in [evaluation](docs/09-evaluation.md) is how that miss becomes visible.
+- A model can still miss a span. The measurement in [evaluation](https://github.com/raphaelmansuy/edgepii/blob/main/docs/09-evaluation.md) is how that miss becomes visible.
 - Do not send text to a cloud PII API in v1. This library does not.
 
 ## License

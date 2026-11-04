@@ -1,0 +1,100 @@
+name: site
+
+# Build the GitHub Pages site and deploy it.
+#
+# The site is static: Python renders Markdown and the recorded span output into
+# HTML. No server runs at request time. `site/check.py` gates the deploy, so a
+# broken link or a span that fails `source[start:end] == text` stops the job.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "docs/**"
+      - "src/edgepii/**"
+      - "README.md"
+      - ".github/workflows/site.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time. A newer push supersedes a queued one, but never a
+# running deploy, because a half-published site is worse than a stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install the build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "pyyaml>=6" "phonenumbers>=8.13" "pygments>=2.17" "jinja2>=3.1"
+
+      - name: Install the library and the rule lane
+        run: pip install -e .
+
+      - name: Record real span output
+        # No model weights in CI, so the recording covers the rules lane. The
+        # committed data file already holds the model lane from a local run, and
+        # this step keeps the rule lane fresh against the current source.
+        run: python site/gen_data.py
+
+      - name: Build the site
+        run: python site/build.py
+
+      - name: Make the responsive screenshots
+        # sips is macOS only. On Linux this copies the PNGs, and the page keeps
+        # a readable figure via the srcset fallback.
+        run: python site/images.py
+
+      - name: Check links, markup, and the span contract
+        run: python site/check.py
+
+      - name: Check the tutorial output matches the library
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, "site")
+          import verify_claims
+          failures = verify_claims.failures()
+          if failures:
+              print("\n".join(failures), file=sys.stderr)
+              raise SystemExit(1)
+          print(f"ok: {len(verify_claims.CASES)} guide claims match the library")
+          PY
+
+      - name: Report the payload size
+        run: |
+          echo "### Site payload" >> "$GITHUB_STEP_SUMMARY"
+          du -sh site/dist >> "$GITHUB_STEP_SUMMARY"
+          echo "files: $(find site/dist -type f | wc -l)" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

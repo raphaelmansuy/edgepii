@@ -99,11 +99,23 @@ The tokens match `demo/static/styles.css`, so the site and the local app feel li
 
 ## Deploy
 
-`.github/workflows/site.yml` runs on a push to `main` that touches `site/`, `docs/`, or `src/`. It
-runs the same four commands, then the claim check, then publishes the artifact with
-`actions/deploy-pages`. Pages must be set to **GitHub Actions** as the source in the repository
-settings. That is a one-time setting.
+Two paths exist. Use the first when the repository token has the `workflow` scope.
+
+**1. GitHub Actions (preferred).** `.github/workflows/site.yml` runs on a push to `main` that touches
+`site/`, `docs/`, or `src/`. It runs the same build, then the claim check, then publishes the artifact
+with `actions/deploy-pages`. Set Pages to **GitHub Actions** as the source in the repository settings.
+That is a one-time setting.
 
 CI has no model weights, so `gen_data.py` records the rules lane and keeps the model-lane rows from
 the committed data file. `tests/test_site.py` proves that behaviour with the `hf` extra blocked, so a
 deploy cannot silently drop ten examples.
+
+**2. The `gh-pages` branch (fallback).** A token without the `workflow` scope cannot push
+`.github/workflows/site.yml`, and the contents API refuses to create a workflow file for the same
+reason. `site/publish.sh` builds the site and force-pushes it to `gh-pages`, which needs only the
+`repo` scope. Set Pages to **Deploy from a branch**, branch `gh-pages`, folder `/`.
+
+A detail that broke the first deploy: Pages serves the branch **root**, so the build output must sit
+at the root of that branch. Committing `site/dist/` keeps the files under a `site/` prefix and every
+URL returns 404 even though the build reports success. `publish.sh` copies the output to a staging
+tree first, so the branch root holds `index.html`.

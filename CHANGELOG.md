@@ -27,8 +27,11 @@ prompt and `restore` puts the values back in the answer.
 - BIO tag decoding (`spans_encoding: bio`) and `materialize_spy`, which fills the
   SPY templates with a fixed Faker seed so a run replays exactly.
 - `MANIFEST.in`, so the sdist carries the docs, the changelog, and the license.
-- A CI workflow with a 3.11/3.12/3.13 matrix, an artifact install check, and a
-  smoke run of `examples/run_local.py`.
+- A CI workflow at `site/workflow/ci.yml`: a 3.11/3.12/3.13 matrix, an artifact
+  `twine check`, a wheel install that runs the public API, and a smoke run of
+  `examples/run_local.py`. It is staged there rather than in
+  `.github/workflows/` because pushing that path needs a token with the
+  `workflow` scope. `site/README.md` records the one-time install.
 
 ### Changed
 

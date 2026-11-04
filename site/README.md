@@ -110,6 +110,21 @@ CI has no model weights, so `gen_data.py` records the rules lane and keeps the m
 the committed data file. `tests/test_site.py` proves that behaviour with the `hf` extra blocked, so a
 deploy cannot silently drop ten examples.
 
+Both workflows live in `site/workflow/` in this repository, because a token without the `workflow`
+scope cannot push to `.github/workflows/`. Install them once, from a session that has that scope:
+
+```bash
+mkdir -p .github/workflows
+cp site/workflow/site.yml .github/workflows/site.yml
+cp site/workflow/ci.yml   .github/workflows/ci.yml
+git add .github/workflows && git commit -m "ci: install the workflows"
+git push origin main
+```
+
+`ci.yml` runs the contract tests on Python 3.11, 3.12, and 3.13, builds the artifacts, runs
+`twine check`, then installs the built wheel into a clean environment and runs the public API from it.
+Until it is installed, the test matrix is a manual step.
+
 **2. The `gh-pages` branch (fallback).** A token without the `workflow` scope cannot push
 `.github/workflows/site.yml`, and the contents API refuses to create a workflow file for the same
 reason. `site/publish.sh` builds the site and force-pushes it to `gh-pages`, which needs only the

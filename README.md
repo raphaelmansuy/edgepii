@@ -385,7 +385,7 @@ Two properties are worth keeping:
 
 **The docs are not copied.** `build.py` reads `docs/*.md` directly. An edit to a doc appears on the site without a second edit, and `site/links.py` rewrites the relative `.md` links into routes.
 
-GitHub Pages serves the site from the `site` workflow. The workflow runs the same four commands, so a local build and a deployed build are the same build. The workflow file lives at `site/workflow/site.yml` and is installed into `.github/workflows/site.yml` by the repository owner, because a token without the `workflow` scope cannot push that path.
+Both workflows live in `site/workflow/`, because a token without the `workflow` scope cannot push to `.github/workflows/`. `site/README.md` records the one-time install step. The site workflow runs the same four commands as a local build, so a local build and a deployed build are the same build.
 
 ## Evaluation
 

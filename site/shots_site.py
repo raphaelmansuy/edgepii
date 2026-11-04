@@ -27,7 +27,16 @@ PAGES = [
     ("examples", "guide-examples/"),
     ("evaluation", "evaluation/"),
     ("start", "start/"),
+    ("about", "about/"),
     ("doc-api", "doc-api/"),
+]
+
+# Every route, checked for a sideways scroll at phone width. One page that
+# scrolls horizontally makes the whole site feel broken on a phone.
+AUDIT_ROUTES = [
+    "", "demo/", "start/", "concepts/", "guide-examples/", "guide-masking/",
+    "guide-evaluate/", "tour/", "evaluation/", "about/", "doc-index/", "doc-api/",
+    "doc-taxonomy/", "doc-corpora/", "doc-score/",
 ]
 
 
@@ -63,7 +72,24 @@ def main() -> int:
                     page.screenshot(path=str(target), full_page=(label == "desktop"))
                     print(f"  {target.name} {target.stat().st_size / 1024:.0f} KB")
                     page.close()
+            # A width audit at phone size, on every route.
+            audit = browser.new_page(viewport={"width": 390, "height": 844})
+            overflow = []
+            for route in AUDIT_ROUTES:
+                audit.goto(f"{BASE}/{route}", wait_until="networkidle")
+                excess = audit.evaluate(
+                    "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+                )
+                if excess > 1:
+                    overflow.append((route or "/", excess))
+            audit.close()
             browser.close()
+            if overflow:
+                print("error: these pages scroll sideways on a phone:", file=sys.stderr)
+                for route, excess in overflow:
+                    print(f"  {route} by {excess}px", file=sys.stderr)
+                return 1
+            print(f"audit: {len(AUDIT_ROUTES)} routes, no horizontal overflow at 390px")
     finally:
         server.terminate()
         server.wait(timeout=5)

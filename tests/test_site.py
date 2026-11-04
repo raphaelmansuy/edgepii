@@ -253,3 +253,62 @@ def test_the_built_pages_carry_a_complete_social_head():
         assert marker in html, marker
     # The mark is inline SVG, so it paints with the first byte and needs no request.
     assert '<svg viewBox="0 0 64 64"' in html
+
+
+def test_the_author_page_names_the_author_and_offers_a_call_to_action():
+    """An about page with no way to reach out is a dead end."""
+
+    page = ROOT / "site" / "dist" / "about" / "index.html"
+    if not page.is_file():
+        pytest.skip("no build yet")
+    html = page.read_text(encoding="utf-8")
+    assert html.count("<h1") == 1, "the author name must be the page h1"
+    assert 'id="author-name"' in html
+    assert "Raphael Mansuy" in html
+    # At least one link to each channel, and the LinkedIn call to action twice.
+    assert html.count("https://www.linkedin.com/in/raphaelmansuy/") >= 2
+    assert "https://github.com/raphaelmansuy" in html
+    assert "Connect on LinkedIn" in html
+    # The portrait must carry alt text, because it is the one human image here.
+    assert 'alt="Headshot of Raphael Mansuy, author of edgepii."' in html
+
+
+def test_the_home_page_links_to_the_author():
+    index = ROOT / "site" / "dist" / "index.html"
+    if not index.is_file():
+        pytest.skip("no build yet")
+    html = index.read_text(encoding="utf-8")
+    assert 'href="about/"' in html
+    assert "author-strip" in html
+    assert "Raphael Mansuy" in html
+
+
+def test_the_author_artwork_is_present_and_small():
+    """The page must not ship a 4 MB headshot."""
+
+    root = ROOT / "site" / "static"
+    expected = [
+        "author/raphael-mansuy.jpg",
+        "book/definitive-guide-data-integration.jpg",
+        "projects/edgequake.jpg",
+        "projects/edgecrab.jpg",
+        "projects/edgewhisper.jpg",
+    ]
+    for name in expected:
+        path = root / name
+        assert path.is_file(), name
+        assert path.stat().st_size < 200_000, f"{name} is over 200 KB"
+
+
+def test_the_recognised_claim_matches_the_cited_source():
+    """The rank and score come from Favikon. This checks the numbers we publish."""
+
+    page = ROOT / "site" / "dist" / "about" / "index.html"
+    if not page.is_file():
+        pytest.skip("no build yet")
+    html = page.read_text(encoding="utf-8")
+    assert "<strong>12</strong>" in html
+    assert "7,012" in html
+    # The source must be named, so a reader can check it.
+    assert "favikon.com/blog/top-ai-experts-france" in html
+    assert "Source: Favikon" in html

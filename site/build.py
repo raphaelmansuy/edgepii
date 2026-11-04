@@ -25,6 +25,7 @@ DATA = HERE / "data" / "examples.json"
 SHOTS = DOCS / "e2e" / "screenshots"
 
 sys.path.insert(0, str(HERE))
+import author  # noqa: E402
 import examples_page  # noqa: E402
 import links  # noqa: E402
 import mdrender  # noqa: E402
@@ -164,6 +165,16 @@ def write_assets() -> None:
     shutil.copy2(icons / "favicon.ico", OUT / "favicon.ico")
     shutil.copy2(STATIC / "favicon.svg", OUT / "favicon.svg")
 
+    # Author, book, and project artwork. Small, static, and part of the page.
+    for folder in ("author", "book", "projects"):
+        source_dir = STATIC / folder
+        if not source_dir.is_dir():
+            raise SystemExit(f"error: missing {source_dir}")
+        (OUT / "assets" / folder).mkdir(parents=True, exist_ok=True)
+        for image in sorted(source_dir.iterdir()):
+            if image.is_file():
+                shutil.copy2(image, OUT / "assets" / folder / image.name)
+
     # The social card. Raster, because most link previews will not draw an SVG.
     social = STATIC / "social.png"
     if not social.is_file():
@@ -230,6 +241,25 @@ def build_pages(data: dict) -> list[dict]:
                 body=f'<main class="examples-page">{examples_page.build(data)}</main>',
                 active="guide-examples",
                 jsonld=None,
+                hero=False,
+            ),
+        }
+    )
+    pages.append(
+        {
+            "route": "about",
+            "html": page(
+                data,
+                route="about",
+                title="About the author \u00b7 edgepii",
+                description=(
+                    "Raphael Mansuy wrote edgepii: data engineering and AI strategist, "
+                    "author of a data integration book, ranked 12 in Favikon Top AI "
+                    "Experts in France."
+                ),
+                body=f'<div class="author-page">{author.section(relative_prefix("about"))}</div>',
+                active="about",
+                jsonld={"@context": "https://schema.org", "@graph": [author.jsonld()]},
                 hero=False,
             ),
         }
@@ -429,6 +459,7 @@ def page(
       <a href="{prefix}tour/">Screenshots</a>
       <a href="{prefix}evaluation/">Score</a>
       <a href="{prefix}doc-index/">Reference</a>
+      <a href="{prefix}about/">About the author</a>
       <a href="{REPO}" target="_blank" rel="noopener noreferrer">Source</a>
     </nav>
   </div>
@@ -456,6 +487,7 @@ def nav_html(active: str, prefix: str) -> str:
         ("tour", "Screenshots", "tour"),
         ("evaluation", "Score", "evaluation"),
         ("doc-index", "Reference", "doc-index"),
+        ("about", "About", "about"),
     ]
     links = []
     for route, label, key in items:
@@ -658,6 +690,21 @@ def home_body(data: dict) -> str:
     <p class="hint">One YAML file is the only type list. Rank breaks an overlap.</p>
   </div>
   <ul class="type-chips">{type_chips}</ul>
+</section>
+
+<section class="author-strip">
+  <img src="assets/author/raphael-mansuy.jpg" alt="Headshot of Raphael Mansuy, author of edgepii."
+       width="72" height="72" loading="lazy" decoding="async" />
+  <div>
+    <p class="author-strip-name">Built by <strong>Raphael Mansuy</strong></p>
+    <p class="author-strip-meta">Data engineering and AI strategist. Author of
+      <em>The Definitive Guide to Data Integration</em>. Ranked 12 in the Favikon
+      Top 20 AI Experts in France for 2026.</p>
+  </div>
+  <div class="author-strip-actions">
+    <a class="btn primary" href="about/">About the author</a>
+    <a class="btn" href="https://www.linkedin.com/in/raphaelmansuy/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+  </div>
 </section>"""
 
 

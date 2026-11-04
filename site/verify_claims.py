@@ -208,3 +208,63 @@ def failures() -> list[str]:
         if actual != expected:
             problems.append(f"{name}: expected {expected}, got {actual}")
     return problems
+
+
+# Links in the author block. A dead link on an about page is worse than none:
+# the whole point is that a reader can reach out.
+AUTHOR_LINKS = [
+    "https://www.linkedin.com/in/raphaelmansuy/",
+    "https://github.com/raphaelmansuy",
+    "https://github.com/raphaelmansuy/edgepii",
+    "https://www.favikon.com/blog/top-ai-experts-france",
+    "https://www.oreilly.com/library/view/the-definitive-guide/9781837631919/",
+    "https://edgequake.com/",
+    "https://www.edgecrab.com/",
+    "https://edgewhisper.com/",
+]
+
+# The recognition line quotes Favikon. These strings must also appear on the
+# Favikon page, or the claim is ours and not theirs.
+FAVIKON_CLAIM = {"rank": "12", "score": "7 012"}
+
+
+def author_problems(timeout: float = 15.0) -> list[str]:
+    """Check the author links resolve and the Favikon claim still holds.
+
+    Network dependent, so the suite calls this only in the site check and not on
+    every test run. A failure here means a link the reader would hit is broken,
+    or a number we quote has changed at the source.
+    """
+
+    import urllib.error
+    import urllib.request
+
+    problems: list[str] = []
+    for url in AUTHOR_LINKS:
+        request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 edgepii-check"})
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                if response.status >= 400:
+                    problems.append(f"author link {url} answered {response.status}")
+        except urllib.error.HTTPError as exc:
+            # LinkedIn answers 999 to a bot by design, and O'Reilly answers 403.
+            if exc.code not in (403, 999):
+                problems.append(f"author link {url} answered {exc.code}")
+        except OSError as exc:
+            problems.append(f"author link {url} did not answer: {exc}")
+
+    request = urllib.request.Request(
+        "https://www.favikon.com/blog/top-ai-experts-france",
+        headers={"User-Agent": "Mozilla/5.0 edgepii-check"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            page = response.read().decode("utf-8", "ignore")
+    except OSError as exc:
+        problems.append(f"favikon did not answer: {exc}")
+        return problems
+    if "Mansuy" not in page:
+        problems.append("the Favikon article no longer names Mansuy")
+    if FAVIKON_CLAIM["score"] not in page and "7,012" not in page:
+        problems.append("the Favikon score 7,012 is no longer on the page")
+    return problems

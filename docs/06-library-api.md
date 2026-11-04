@@ -18,9 +18,13 @@ result = locator.locate(source, types=["PERSON", "EMAIL", "PHONE"])
 | `source` | yes | The `str` to scan. Not bytes |
 | `types` | no | Subset of the taxonomy. Default: all types except class `quasi` |
 | `taxonomy` | no | Default `2026.11` |
-| `min_score` | no | Caller policy. Default `None`, which keeps every span. A span with no score drops when you set it. See [thresholds](10-taxonomy.md#thresholds) |
+| `min_score` | no | Caller policy. Default `None`, which keeps every span. A span with no score **survives** a floor, because a grammar match carries no probability and dropping it would leave the value unmasked. See [thresholds](10-taxonomy.md#thresholds) |
+| `drop_unscored` | no | Default `False`. Set it to also remove spans that have no score. Do this only after measuring what it costs |
+| `fold` | no | Default `"confusables"`. Folds invisible characters, compatibility forms, and cross-script look-alikes before matching, then maps every hit back onto the source string. Pass `False` to scan the raw text |
 
-`result.taxonomy_version` is a string. `result.spans` is a tuple of `Span`. `result.dropped` is a count of hits that failed the slice check. `result.preset` is the preset name. `result.revision` is the pinned weight revision, or `rules` for the rule preset.
+`result.taxonomy_version` is a string. `result.spans` is a tuple of `Span`. `result.dropped` is a count of hits that failed the slice check. `result.preset` is the preset name. `result.revision` is the pinned weight revision, or `rules` for the rule preset. `result.quasi` is a tuple of `Combination` for any re-identification risk the text carries.
+
+Offsets always index `source`, never the folded text. Folding is the reason a value written with a Cyrillic `а` or a fullwidth `＠` is found at all, and the span still satisfies `source[start:end] == text`.
 
 ```python
 span.type          # "EMAIL"
@@ -66,6 +70,79 @@ masked, vault = redact(source, result.spans)
 `vault` maps the placeholder to the original slice. The caller stores it. The function returns it and keeps nothing.
 
 If two spans overlap, `redact` raises `OverlapError`. The locator must not emit overlaps. The error is a guard, not a second merger.
+
+## Restore
+
+```python
+from edgepii import restore
+
+answer = restore(text, vault, locator=None, types=None)
+```
+
+`restore` is the inbound half of the loop. A model response is new text, so the only way to put the original values back is to find the placeholders the model echoed.
+
+It returns `RestoreResult`, which is a frozen record with five fields:
+
+| Field | Meaning |
+| --- | --- |
+| `text` | The restored string |
+| `resolved` | Placeholders that were found and replaced |
+| `unresolved` | Placeholder-shaped tokens still in the text |
+| `unknown` | Spans whose text the vault never held |
+| `ok` | True only when `unresolved` and `unknown` are both empty |
+
+A placeholder resolves under case drift (`<email_1>`) and spacing drift (`< EMAIL 1 >`, `<EMAIL-1>`), because a model changes both. The longest token is replaced first, so `<EMAIL_10>` is never eaten by the `<EMAIL_1>` pattern.
+
+Pass `locator` to also scan the raw response for PII the vault never sent. The scan runs before restoration, because restoration inserts real values on purpose.
+
+A secret has no vault entry, so `<SECRET>` always appears in `unresolved`. That is the design: restore cannot invent a password.
+
+## Mapping
+
+```python
+from edgepii import mask_mapping, restore_mapping
+
+masked = mask_mapping(args, locator, types=None)
+back = restore_mapping(answer, vault, locator=None, types=None)
+```
+
+`mask_mapping` walks a nested `dict` or `list`, scans each string leaf, and returns a copy with the leaves masked. The input is not modified and the structure is unchanged, so a tool still parses it.
+
+`MaskedMapping` holds four fields:
+
+| Field | Meaning |
+| --- | --- |
+| `value` | The masked tree |
+| `vault` | Placeholder to original, unique across the whole tree |
+| `hits` | `FieldHit` rows with a `path` and the `types` found. Never a value |
+| `dropped` | Count of hits that failed the slice check |
+
+A placeholder carries a leaf index, `<EMAIL_1_0>` and `<EMAIL_1_1>`, because two fields of the same type would otherwise both be `<EMAIL_1>` and restore would write the first value into both.
+
+`restore_mapping` is the inbound equivalent. It returns `RestoredMapping` with `value`, `resolved`, `unresolved`, `unknown`, and `ok`.
+
+Decode the payload before the scan. A JSON escape such as `ada\u0040example.com` holds no `@`, so a scan of the raw text misses it.
+
+## Re-identification risk
+
+```python
+from edgepii import find_combinations, has_combination
+
+rows = find_combinations(source)
+```
+
+A span list cannot express a combination. A postcode, a birth date, and a sex are each ordinary, and together they single out most of a population. `find_combinations` returns a `Combination` for each set it recognises, and `LocateResult.quasi` carries the same rows beside the spans.
+
+| Field | Meaning |
+| --- | --- |
+| `name` | The combination, such as `zip_dob_sex` |
+| `fields` | The members that were found |
+| `risk` | `high` or `medium` |
+| `source` | The rule that justifies the row |
+
+A field needs evidence. A numeric postcode requires a cue word, and a date is a birth date only when the text says so. A UK outward code or a Canadian forward sortation area identifies itself.
+
+The finding is advisory. The library does not mask a combination, because the right response depends on policy.
 
 ## Errors
 

@@ -85,7 +85,7 @@ A name outside `2026.11` raises `UnknownType` before any detector runs.
 
 The library ships no score threshold. A threshold is a decision about a specific corpus. Any number the library picked would be a guess, and a guess in the merge path is a heuristic. The caller measures a floor on its own data and passes `min_score`.
 
-A span with `score = None` has no measured confidence. A `min_score` drops it, because it cannot meet a floor. With no `min_score`, every span stays. That keeps the two cases apart: "I want everything" and "I want only what a validator or a model scored above this line".
+A span with `score = None` has no measured confidence, so a floor cannot compare against it. Dropping it would send an email or a phone number to the model in the clear, which is the failure this library exists to prevent. So such a span **survives** a `min_score`. Pass `drop_unscored=True` to remove it as well, and measure the cost first. With no `min_score`, every span stays. That keeps the two cases apart: "I want everything", and "I want only what a validator or a model scored above this line", and it keeps a third apart: "I want to reduce noise even when that leaves a value unmasked".
 
 ```python
 result = locator.locate(source, types=["PERSON"], min_score=0.9)

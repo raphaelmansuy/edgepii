@@ -562,21 +562,11 @@
               "type": "PERSON",
               "class": "person",
               "start": 3,
-              "end": 4,
-              "text": "张",
-              "score": 0.9540590643882751,
+              "end": 5,
+              "text": "张伟",
+              "score": 0.562475860118866,
               "detector_id": "hf.antoniogr7/pii-identifier-v0.1",
               "raw_label": "first_name"
-            },
-            {
-              "type": "PERSON",
-              "class": "person",
-              "start": 4,
-              "end": 5,
-              "text": "伟",
-              "score": 0.9565272331237793,
-              "detector_id": "hf.antoniogr7/pii-identifier-v0.1",
-              "raw_label": "last_name"
             },
             {
               "type": "PHONE",
@@ -599,15 +589,11 @@
               "raw_label": "email"
             }
           ],
-          "masked": "联系人<PERSON_1><PERSON_2>，手机<PHONE_1>，邮箱<EMAIL_1>。",
+          "masked": "联系人<PERSON_1>，手机<PHONE_1>，邮箱<EMAIL_1>。",
           "vault": [
             {
               "placeholder": "<PERSON_1>",
-              "value": "张"
-            },
-            {
-              "placeholder": "<PERSON_2>",
-              "value": "伟"
+              "value": "张伟"
             },
             {
               "placeholder": "<PHONE_1>",

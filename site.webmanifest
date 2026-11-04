@@ -1,14 +1,43 @@
 {
-  "name": "edgepii",
+  "name": "edgepii — typed character spans",
   "short_name": "edgepii",
   "description": "Locate PII as typed character spans on the exact source string.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#05070d",
   "theme_color": "#05070d",
+  "lang": "en",
+  "categories": [
+    "developer",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
     {
-      "src": "assets/icon.svg",
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }

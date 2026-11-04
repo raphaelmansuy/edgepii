@@ -117,14 +117,16 @@ a:hover { color: #7ee7f7; }
   place-items: center;
   width: 40px; height: 40px;
   border-radius: 12px;
-  background: linear-gradient(145deg, var(--accent), var(--accent-2));
-  color: #04070f;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  /* The inline SVG carries the gradient and the tile. The radius here only
+     softens the focus ring, so the two never disagree. */
+  border-radius: 11px;
+  overflow: hidden;
+  line-height: 0;
   box-shadow: 0 8px 24px rgba(91, 140, 255, 0.34);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
+.mark svg { display: block; width: 100%; height: 100%; }
+.brand:hover .mark { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(91, 140, 255, 0.46); }
 .mark span { opacity: 0.55; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand-text strong { font-size: 16px; letter-spacing: -0.015em; }
@@ -311,8 +313,11 @@ a:hover { color: #7ee7f7; }
 .block-head h2 { margin: 0; }
 .hint { color: var(--faint); font-size: 13px; margin: 0; line-height: 1.55; }
 
-.split { display: grid; gap: 26px; }
-@media (min-width: 860px) { .split { grid-template-columns: 1fr 1fr; } }
+/* `minmax(0, 1fr)` matters: without it the column cannot shrink below the
+   min-content of a table inside it, and the whole page scrolls sideways on a
+   phone. The table gets its own horizontal scroll instead. */
+.split { display: grid; gap: 26px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 860px) { .split { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .label {
   margin: 0 0 8px;
@@ -707,7 +712,7 @@ code {
   padding-top: 22px;
   border-top: 1px solid var(--line);
 }
-@media (min-width: 720px) { .page-nav { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 720px) { .page-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .page-nav-link {
   display: grid;
   gap: 3px;
@@ -777,7 +782,7 @@ code {
   .site-nav a { padding: 11px 14px; font-size: 15px; }
   .brand-text small { display: none; }
   .hero h1 { font-size: clamp(30px, 8.4vw, 42px); }
-  .hero-facts { grid-template-columns: repeat(2, 1fr); }
+  .hero-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .toc { display: none; }
 }
 
@@ -787,6 +792,185 @@ code {
   .prose { max-width: none; }
   .code, .docs-table { border-color: #ccc; }
 }
+
+/* ---------------------------------------------------------------- author */
+
+.author-page { max-width: 980px; }
+.author-section { display: grid; gap: 30px; margin-top: 8px; }
+
+.author-card {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 24px;
+  padding: clamp(18px, 2.6vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+@media (max-width: 640px) {
+  .author-card { grid-template-columns: 1fr; gap: 18px; }
+}
+.portrait {
+  width: 128px; height: 128px;
+  border-radius: 18px;
+  border: 1px solid var(--line-strong);
+  object-fit: cover;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+.author-body .eyebrow { margin-bottom: 10px; }
+.author-body h2 {
+  margin: 0 0 6px;
+  font-size: clamp(24px, 3vw, 32px);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  border: 0;
+  padding: 0;
+}
+.author-meta { margin: 0 0 14px; color: var(--faint); font-size: 13px; }
+.author-body p { margin: 0 0 13px; color: var(--muted); font-size: 15px; line-height: 1.65; }
+.author-body p strong { color: var(--text); }
+
+.author-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 0 !important; }
+.author-links .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
+}
+.author-links .btn:hover { transform: translateY(-1px); border-color: rgba(255, 255, 255, 0.3); color: var(--text); }
+.author-links .btn.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+  color: #04070f;
+  box-shadow: 0 10px 26px rgba(91, 140, 255, 0.28);
+}
+.author-links .btn.primary:hover { color: #04070f; }
+
+.author-grid { display: grid; gap: 16px; }
+@media (min-width: 860px) { .author-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.author-panel {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-solid);
+}
+.author-panel h3 { margin: 0 0 8px; font-size: 16px; letter-spacing: -0.01em; }
+.author-panel p { margin: 0 0 10px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.author-panel .source { margin: 0; color: var(--faint); font-size: 12px; }
+.book-panel { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 18px; align-items: start; }
+.book-panel img {
+  width: 120px; height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  display: block;
+}
+@media (max-width: 520px) { .book-panel { grid-template-columns: 1fr; } }
+
+.author-projects-title {
+  margin: 6px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 600;
+}
+.project-grid { display: grid; gap: 16px; }
+@media (min-width: 760px) { .project-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.project {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-solid);
+}
+.project-media { display: block; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+.project-media img { display: block; width: 100%; height: auto; }
+.project h3 { margin: 0; font-size: 15.5px; letter-spacing: -0.01em; }
+.project h3 a { color: var(--text); text-decoration: none; }
+.project h3 a:hover { color: var(--accent-2); }
+.project p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+.cta-band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px clamp(18px, 2.6vw, 28px);
+  border: 1px solid rgba(91, 140, 255, 0.34);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(30rem 14rem at 8% 0%, rgba(91, 140, 255, 0.16), transparent 70%),
+    var(--panel-solid);
+}
+.cta-band p { margin: 0; color: var(--text); font-size: 16px; }
+.cta-band a.btn {
+  display: inline-flex;
+  padding: 11px 20px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #04070f;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(91, 140, 255, 0.28);
+  transition: transform 0.14s ease;
+}
+.cta-band a.btn:hover { transform: translateY(-1px); color: #04070f; }
+
+/* A short author strip at the end of the home page. The face and the call to
+   action sit one scroll from the hero, without a full about page in the way. */
+.author-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-top: 30px;
+  padding: 20px clamp(18px, 2.6vw, 26px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-solid);
+}
+.author-strip img {
+  width: 72px; height: 72px;
+  border-radius: 14px;
+  border: 1px solid var(--line-strong);
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+.author-strip > div:nth-child(2) { flex: 1 1 260px; min-width: 0; }
+.author-strip-name { margin: 0 0 4px; font-size: 15px; }
+.author-strip-name strong { color: var(--text); }
+.author-strip-meta { margin: 0; color: var(--faint); font-size: 13px; line-height: 1.55; }
+.author-strip-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.author-strip-actions .btn {
+  padding: 9px 15px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.author-strip-actions .btn:hover { border-color: rgba(255, 255, 255, 0.3); color: var(--text); }
+.author-strip-actions .btn.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+  color: #04070f;
+}
+.author-strip-actions .btn.primary:hover { color: #04070f; }
 
 pre { line-height: 125%; }
 td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }

@@ -6,19 +6,30 @@
 <title>Reference · edgepii</title>
 <meta name="description" content="The full specification: problem, contract, API, taxonomy, and evaluation." />
 <link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-index/" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<meta name="author" content="Raphael Mansuy" />
+<meta name="keywords" content="PII detection, personally identifiable information, Python, character spans, data masking, redaction, NER, privacy, edgepii" />
 <meta name="color-scheme" content="dark light" />
 <meta name="theme-color" content="#05070d" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="edgepii" />
+<meta property="og:locale" content="en_US" />
 <meta property="og:title" content="Reference · edgepii" />
 <meta property="og:description" content="The full specification: problem, contract, API, taxonomy, and evaluation." />
 <meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-index/" />
-<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="edgepii: typed character spans on the exact source string, with a span row that proves source[start:end] equals text." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Reference · edgepii" />
 <meta name="twitter:description" content="The full specification: problem, contract, API, taxonomy, and evaluation." />
-<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
-<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta name="twitter:image:alt" content="edgepii: typed character spans on the exact source string." />
+<link rel="icon" href="../favicon.ico" sizes="32x32" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png" sizes="180x180" />
 <link rel="manifest" href="../site.webmanifest" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,27 +37,28 @@
 <link rel="stylesheet" href="../assets/site.css" />
 <link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
 
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://raphaelmansuy.github.io/edgepii/"}, {"@type": "ListItem", "position": 2, "name": "Reference", "item": "https://raphaelmansuy.github.io/edgepii/doc-index/"}]}</script>
 <script src="../assets/site.js" defer></script>
 </head>
 <body class="page-doc">
 <a class="skip" href="#main">Skip to content</a>
 <div class="aurora" aria-hidden="true"></div>
 <header class="site-head">
-  <a class="brand" href="../">
-    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+  <a class="brand" href="../" aria-label="edgepii home">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true" focusable="false"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7aa6ff"/><stop offset=".55" stop-color="#4f86ff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#mg)"/><path d="M24 15 H15 V49 H24" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 15 H49 V49 H40" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
   </a>
   <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
     <span aria-hidden="true">☰</span><span class="sr">Menu</span>
   </button>
-  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index" aria-current="page">Reference</a></nav>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index" aria-current="page">Reference</a><a href="../about/" data-nav="about">About</a></nav>
   <div class="head-meta">
     <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
     <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
 </header>
 <div class="shell">
-  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#read-this-set-in-order">Read this set in order</a></li><li class="toc-l2"><a href="#decision-in-one-page">Decision in one page</a></li><li class="toc-l2"><a href="#what-v1-will-not-do">What v1 will not do</a></li><li class="toc-l2"><a href="#terms">Terms</a></li></ul></aside>
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#read-this-set-in-order">Read this set in order</a></li><li class="toc-l2"><a href="#decision-in-one-page">Decision in one page</a></li><li class="toc-l2"><a href="#assessment-november-2026">Assessment, November 2026</a></li><li class="toc-l2"><a href="#what-v1-will-not-do">What v1 will not do</a></li><li class="toc-l2"><a href="#terms">Terms</a></li></ul></aside>
   <main id="main" class="main">
 <article class="prose"><h1 id="edgepii-specification">edgepii specification</h1>
 <p>Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the <a href="../doc-index/">project README</a> for install and quickstart.</p>
@@ -68,6 +80,8 @@
 </tbody></table></div>
 <p>A classic BERT control stays available as preset <code>en-bert</code> (<a href="https://huggingface.co/ab-ai/pii_model" target="_blank" rel="noopener noreferrer">ab-ai/pii_model</a>). BERT-family token classification is enough when the taxonomy and the domain stay fixed. See <a href="../doc-landscape/#when-the-encoder-is-enough">when the encoder is enough</a>.</p>
 <p>Rules for email, phone, IBAN, and payment cards run beside the model. They do not replace it for names. Chinese schema extraction is an optional ModelScope adapter, not a default. See the <a href="../doc-catalog/">catalog</a>.</p>
+<h2 id="assessment-november-2026">Assessment, November 2026</h2>
+<p>The library is at 0.2.0. It locates spans, masks them, and restores them, and the span contract holds. The <a href="../doc-assessment/">assessment</a> records what is measured, three defects that a reader can reproduce, and where the field moved ahead of the library: the tool-call plane, surrogate replacement, and quasi-identifier combinations.</p>
 <h2 id="what-v1-will-not-do">What v1 will not do</h2>
 <p>V1 will not send the source string to a cloud PII API. V1 will not ask a chat model to rewrite the text. V1 will not treat a document label as success. V1 will not copy a leaderboard F1 into a ship gate. The numeric floors stay open until the golden set exists. Call that open state UNCONFIRMED.</p>
 <h2 id="terms">Terms</h2>
@@ -86,6 +100,7 @@
       <a href="../tour/">Screenshots</a>
       <a href="../evaluation/">Score</a>
       <a href="../doc-index/">Reference</a>
+      <a href="../about/">About the author</a>
       <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
     </nav>
   </div>

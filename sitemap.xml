@@ -3,6 +3,7 @@
   <url><loc>https://raphaelmansuy.github.io/edgepii/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/demo/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/guide-examples/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/about/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/tour/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/evaluation/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/start/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -17,6 +18,7 @@
   <url><loc>https://raphaelmansuy.github.io/edgepii/doc-evaluation/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/doc-corpora/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/doc-score/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-assessment/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/doc-architecture/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/doc-ai-engineering/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raphaelmansuy.github.io/edgepii/doc-landscape/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assessment, November 2026 · edgepii</title>
+<meta name="description" content="edgepii reference: Assessment, November 2026." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-assessment/" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<meta name="author" content="Raphael Mansuy" />
+<meta name="keywords" content="PII detection, personally identifiable information, Python, character spans, data masking, redaction, NER, privacy, edgepii" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Assessment, November 2026 · edgepii" />
+<meta property="og:description" content="edgepii reference: Assessment, November 2026." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-assessment/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="edgepii: typed character spans on the exact source string, with a span row that proves source[start:end] equals text." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Assessment, November 2026 · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Assessment, November 2026." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta name="twitter:image:alt" content="edgepii: typed character spans on the exact source string." />
+<link rel="icon" href="../favicon.ico" sizes="32x32" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png" sizes="180x180" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://raphaelmansuy.github.io/edgepii/"}, {"@type": "ListItem", "position": 2, "name": "Assessment, November 2026", "item": "https://raphaelmansuy.github.io/edgepii/doc-assessment/"}]}</script>
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../" aria-label="edgepii home">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true" focusable="false"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7aa6ff"/><stop offset=".55" stop-color="#4f86ff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#mg)"/><path d="M24 15 H15 V49 H24" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 15 H49 V49 H40" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a><a href="../about/" data-nav="about">About</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#1-where-the-library-stands">1. Where the library stands</a></li><li class="toc-l2"><a href="#2-defects-that-a-reader-can-reproduce">2. Defects that a reader can reproduce</a></li><li class="toc-l3"><a href="#d1-a-partial-span-silently-leaks-a-character">D1. A partial span silently leaks a character</a></li><li class="toc-l3"><a href="#d2-min-score-removes-the-types-that-have-no-score">D2. min_score removes the types that have no score</a></li><li class="toc-l3"><a href="#d3-escaped-pii-in-a-tool-call-is-invisible">D3. Escaped PII in a tool call is invisible</a></li><li class="toc-l2"><a href="#3-what-the-field-moved-to-and-the-library-has-not">3. What the field moved to, and the library has not</a></li><li class="toc-l3"><a href="#31-the-tool-call-plane">3.1 The tool-call plane</a></li><li class="toc-l3"><a href="#32-surrogate-replacement">3.2 Surrogate replacement</a></li><li class="toc-l3"><a href="#33-quasi-identifier-combinations">3.3 Quasi-identifier combinations</a></li><li class="toc-l3"><a href="#34-semantic-not-lexical-leakage">3.4 Semantic, not lexical, leakage</a></li><li class="toc-l2"><a href="#4-prioritised-plan">4. Prioritised plan</a></li><li class="toc-l3"><a href="#on-the-onnx-lane">On the ONNX lane</a></li><li class="toc-l2"><a href="#5-what-not-to-change">5. What not to change</a></li><li class="toc-l2"><a href="#6-sources">6. Sources</a></li><li class="toc-l2"><a href="#7-what-021-changed">7. What 0.2.1 changed</a></li><li class="toc-l3"><a href="#d1-is-closed-folding-with-a-map-back-to-the-source">D1 is closed: folding with a map back to the source</a></li><li class="toc-l3"><a href="#d2-is-closed-a-floor-keeps-a-span-that-has-no-score">D2 is closed: a floor keeps a span that has no score</a></li><li class="toc-l3"><a href="#d3-is-closed-decode-before-the-scan">D3 is closed: decode before the scan</a></li><li class="toc-l3"><a href="#the-tool-call-plane-now-has-a-surface">The tool-call plane now has a surface</a></li><li class="toc-l3"><a href="#still-open">Still open</a></li><li class="toc-l2"><a href="#8-what-030-changed">8. What 0.3.0 changed</a></li><li class="toc-l3"><a href="#the-quasi-identifier-gap-is-closed">The quasi-identifier gap is closed</a></li><li class="toc-l3"><a href="#the-missing-measurement-is-recorded">The missing measurement is recorded</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="assessment-november-2026">Assessment, November 2026</h1>
+<p>This file records the state of <code>edgepii</code>, measured against the research published up to November 2026. It separates what works, what was a defect, and what the field has moved on from. Every defect below was reproduced on this host, not inferred from a paper.</p>
+<p>Version 0.2.1 closes D1, D2 and D3, and adds the tool-call surface. Sections 2 and 3 keep the original finding so a reader can check the fix against the problem. Section 7 records the verification.</p>
+<p>The run date is 4 November 2026. The host is an arm64 CPU with no accelerator.</p>
+<h2 id="1-where-the-library-stands">1. Where the library stands</h2>
+<p>The engineering is sound and the numbers are real. Measured on the shipped code:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Property</th><th style="text-align:left">Value</th><th style="text-align:left">How it was checked</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Public API</td><td style="text-align:left">10 names, one result shape</td><td style="text-align:left"><code>edgepii.__all__</code></td></tr>
+<tr><td style="text-align:left">Source size</td><td style="text-align:left">2 660 lines</td><td style="text-align:left"><code>wc -l src/edgepii</code></td></tr>
+<tr><td style="text-align:left">Tests</td><td style="text-align:left">120</td><td style="text-align:left"><code>pytest --collect-only</code></td></tr>
+<tr><td style="text-align:left">Rules latency</td><td style="text-align:left">4.5 ms per 1 560 characters</td><td style="text-align:left">20 calls, warm</td></tr>
+<tr><td style="text-align:left">Wheel install</td><td style="text-align:left">rules lane pulls no ML framework</td><td style="text-align:left"><code>torch</code> absent from <code>sys.modules</code></td></tr>
+<tr><td style="text-align:left">Span invariant</td><td style="text-align:left">holds on accents, CJK, emoji ZWJ</td><td style="text-align:left">direct probe</td></tr>
+<tr><td style="text-align:left">Long text</td><td style="text-align:left">7 000 characters, 500 spans, 0 dropped</td><td style="text-align:left">direct probe</td></tr>
+<tr><td style="text-align:left">Merge cost</td><td style="text-align:left">linear in span count</td><td style="text-align:left">8 000 spans in 0.057 s</td></tr>
+</tbody></table></div>
+<p>The span contract is the library&#x27;s real asset. It is checkable, it is enforced, and it survives the cases that usually break a chunked NER pipeline. Very few small PII libraries can say the same.</p>
+<p>The outbound and inbound halves now both exist. <code>redact</code> masks, <code>restore</code> puts values back, and <code>restore</code> reports what it could not fix. That closed the gap between the announcement and the API.</p>
+<h2 id="2-defects-that-a-reader-can-reproduce">2. Defects that a reader can reproduce</h2>
+<p>These are not design opinions. Each one is a measurement.</p>
+<h3 id="d1-a-partial-span-silently-leaks-a-character">D1. A partial span silently leaks a character</h3>
+<p>The highest-severity defect. A Cyrillic <code>а</code> (U+0430) in front of an email makes the rules lane return a span that starts after the confusable character:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">src</span> <span class="o">=</span> <span class="s2">"Email </span><span class="se">\u0430</span><span class="s2">da@example.com"</span>      <span class="c1"># Cyrillic a, then da@example.com</span>
+<span class="n">masked</span><span class="p">,</span> <span class="n">vault</span> <span class="o">=</span> <span class="n">redact</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">loc</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">src</span><span class="p">)</span><span class="o">.</span><span class="n">spans</span><span class="p">)</span>
+
+<span class="c1"># masked = "Email \u0430&lt;EMAIL_1&gt;"</span>
+<span class="c1"># vault  = {"&lt;EMAIL_1&gt;": "da@example.com"}</span>
+</code></pre></div>
+<p>A reviewer sees an address that looks masked. One character of it is still in the text, and the vault holds an incomplete value. This is worse than a miss, because a miss is visible and this is not.</p>
+<p>Related, and simpler: a fullwidth <code>＠</code> (U+FF20) and a zero-width space inside an address both produce no span at all. A non-breaking hyphen in a phone number is still spanned, so the two rules disagree with each other.</p>
+<p>Research position: <a href="https://arxiv.org/html/2508.14070v1" target="_blank" rel="noopener noreferrer">Special-Character Adversarial Attacks</a> measures zero-width injection at 54.2% success and cross-script homoglyphs at 58.7% against open models. <a href="https://www.mimecast.com/blog/5-keystrokes-that-defeat-a-privacy-filter/" target="_blank" rel="noopener noreferrer">Mimecast</a> shows the same five-keystroke attack against DLP filters. The defence is NFKC plus a TR39 visual-confusable skeleton pass before detection, and the span must then be reported on the <strong>original</strong> offsets.</p>
+<p>This is the one defect that breaks the library&#x27;s own promise, because the promise is <code>source[start:end] == text</code> and the text is not the value the caller believes it is.</p>
+<h3 id="d2-min-score-removes-the-types-that-have-no-score">D2. <code>min_score</code> removes the types that have no score</h3>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">loc</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">min_score</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># keeps PAYMENT (score 1.0)</span>
+<span class="c1"># drops EMAIL, PHONE, SECRET (score None)</span>
+</code></pre></div>
+<p>For a redaction tool, &quot;dropped&quot; means &quot;sent to the model in the clear&quot;. The behaviour follows from a deliberate principle, that a grammar match reports no invented probability. The principle is right. The consequence is a trap: the one knob a caller reaches for when tuning precision silently deletes recall on the highest-confidence types.</p>
+<h3 id="d3-escaped-pii-in-a-tool-call-is-invisible">D3. Escaped PII in a tool call is invisible</h3>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="s1">'{"q": "ada</span><span class="se">\\</span><span class="s1">u0040example.com"}'</span>    <span class="c1"># → no span</span>
+</code></pre></div>
+<p>An agent that serialises arguments with non-ASCII escaping sends an address the detector never sees. <code>restore</code> handles placeholders inside JSON correctly, so the inbound path is fine; the outbound scan is the gap.</p>
+<h2 id="3-what-the-field-moved-to-and-the-library-has-not">3. What the field moved to, and the library has not</h2>
+<h3 id="31-the-tool-call-plane">3.1 The tool-call plane</h3>
+<p>This is the largest gap between the library and the 2026 threat model.</p>
+<p>The library treats text as a string a human wrote. An agent&#x27;s dominant leak path is now a <strong>structured tool call</strong>: arguments assembled from earlier context and sent to a third-party server before any output guardrail runs.</p>
+<p>Published measurements on this:</p>
+<ul class="doc-list"><li><a href="https://arxiv.org/html/2608.24957" target="_blank" rel="noopener noreferrer">ToolMinimize</a> found that **81–88% of tool calls include unnecessary privacy-sensitive data** under default prompts across GPT-4o, Claude 3.5 Sonnet, and Llama-3.3-70B. Explicit privacy instructions still leave 36–76% over-sharing.</li><li><a href="https://arxiv.org/html/2606.26627" target="_blank" rel="noopener noreferrer">Agents That Know Too Much</a> names the arguments, the responses, and the side effects as three separate surfaces.</li><li><a href="https://www.openlayer.com/blog/llm-output-pii-detection" target="_blank" rel="noopener noreferrer">Openlayer</a> states the asymmetry plainly: a guardrail at the output layer never sees the arguments, because the call already executed.</li><li>Production gateways already ship this (<a href="https://github.com/IntentGate-app/intentgate-gateway/blob/main/internal/pii/mcp_request.go" target="_blank" rel="noopener noreferrer">IntentGate</a>, <a href="https://occludra.ai/blog/mcp-gateway-secure-agent-tool-calls" target="_blank" rel="noopener noreferrer">Occludra</a>), and independently control the outbound and inbound direction, because blocking an outbound argument is safe while blocking an inbound result breaks the agent.</li></ul>
+<p><code>edgepii</code> has every primitive needed for this and no surface for it. A caller can pass a JSON string to <code>locate</code> and get spans, but the offsets are into the serialised text, not into the argument values, and nothing maps a span back to a field path.</p>
+<p>The shape that would close it:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">masked_args</span><span class="p">,</span> <span class="n">vault</span> <span class="o">=</span> <span class="n">redact_mapping</span><span class="p">(</span><span class="n">tool_args</span><span class="p">,</span> <span class="n">locator</span><span class="p">)</span>   <span class="c1"># walks a dict or a list</span>
+<span class="n">restore_mapping</span><span class="p">(</span><span class="n">response_args</span><span class="p">,</span> <span class="n">vault</span><span class="p">)</span>
+</code></pre></div>
+<p>Field paths replace character offsets in the journal, so the caller can say &quot;the <code>customer.email</code> field was masked&quot; without copying the value.</p>
+<h3 id="32-surrogate-replacement">3.2 Surrogate replacement</h3>
+<p>Typed placeholders are a meta-token that violates the distribution the model was trained on. <a href="https://arxiv.org/html/2606.29567" target="_blank" rel="noopener noreferrer">SurrogateShield</a> measures the cost: type-consistent surrogates preserve <strong>94.85%</strong> of semantic utility against <strong>81.59%</strong> for placeholder redaction. It also reports that placeholders leak by shape: in an informed-adversary probe, Presidio&#x27;s <code>[PERSON]</code> markers allowed 1.53% per-value recovery from surrounding context, while surrogates allowed 0%.</p>
+<p><code>edgepii</code> already returns exact spans, so a surrogate strategy is a change to one function, not to the detector. <a href="https://arxiv.org/html/2610.22800" target="_blank" rel="noopener noreferrer">Veil-Then-Reveal</a> shows the structured half: format-preserving encryption keeps a card number card-shaped and a date date-shaped, which is what keeps the model useful.</p>
+<h3 id="33-quasi-identifier-combinations">3.3 Quasi-identifier combinations</h3>
+<p>The taxonomy excludes the <code>quasi</code> class, so <code>DATE_OF_BIRTH</code> and <code>ORG</code> are off by default. A prompt such as:</p>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>Patient born 1985-03-14, ZIP 94110, male, referred for follow-up.
+</code></pre></div>
+<p>returns <strong>no spans at all</strong>. Each field is benign alone. Together, ZIP + date of birth + sex re-identifies most of a population, which is Sweeney&#x27;s k-anonymity result and the rule SurrogateShield ships as ten combination patterns.</p>
+<p>A span-level detector alone cannot express &quot;this combination is the risk&quot;. That needs one more layer above the span list, and it is the most useful thing the taxonomy could gain.</p>
+<h3 id="34-semantic-not-lexical-leakage">3.4 Semantic, not lexical, leakage</h3>
+<p><a href="https://arxiv.org/html/2607.02932v1" target="_blank" rel="noopener noreferrer">PromptPET</a> shows that a profiler attacking a PII-redacted prompt still recovers 1.93 profile labels per query. &quot;I was recently diagnosed with depression and need a therapist near Mountain View&quot; contains no PII after masking, and still discloses a health condition. No span detector closes that, and the library should not pretend otherwise. It belongs in a limits section, so a reader does not over-trust the mask.</p>
+<h2 id="4-prioritised-plan">4. Prioritised plan</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Priority</th><th style="text-align:left">Item</th><th style="text-align:left">Why it is first</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">P0</td><td style="text-align:left">Confusable-safe detection (D1)</td><td style="text-align:left">It breaks the span promise silently</td></tr>
+<tr><td style="text-align:left">P0</td><td style="text-align:left">Decide <code>min_score</code> behaviour (D2)</td><td style="text-align:left">One flag currently disables recall</td></tr>
+<tr><td style="text-align:left">P1</td><td style="text-align:left"><code>redact_mapping</code> for tool arguments</td><td style="text-align:left">The dominant 2026 leak path</td></tr>
+<tr><td style="text-align:left">P1</td><td style="text-align:left">ONNX <code>multi-open</code> lane</td><td style="text-align:left">0.535 F1 on SPY at 704 ms CPU</td></tr>
+<tr><td style="text-align:left">P2</td><td style="text-align:left">Surrogate strategy</td><td style="text-align:left">+13 points of downstream utility</td></tr>
+<tr><td style="text-align:left">P2</td><td style="text-align:left">Quasi-identifier combination check</td><td style="text-align:left">Catches the re-identification case</td></tr>
+<tr><td style="text-align:left">P3</td><td style="text-align:left">Escaped-input scan (D3)</td><td style="text-align:left">Cheap, closes an agent hole</td></tr>
+<tr><td style="text-align:left">P3</td><td style="text-align:left">Stress-test benchmark</td><td style="text-align:left">Turns a paper into a feature</td></tr>
+</tbody></table></div>
+<h3 id="on-the-onnx-lane">On the ONNX lane</h3>
+<p>The library ships <code>multi-open</code>, which is GLiNER2, and never installed it in any measurement here. A quantised ONNX export of the same checkpoint reports <strong>0.534 F1 on SPY-200 at 704 ms CPU</strong> (<a href="https://huggingface.co/okasi/gliner2-privacy-filter-pii-multi-onnx" target="_blank" rel="noopener noreferrer">okasi</a>), against the 0.490 the PyTorch path reports on the same slice, and against <code>en-closed</code> at 0.281 measured here.</p>
+<p>That is the single largest score improvement available, it needs no retraining, and it removes <code>torch</code> from the deployment. The trade is a pinned ONNX artifact plus a <code>labels</code>-at-export-time constraint, which conflicts with the change-the-type-list-at-call-time property <code>multi-open</code> exists for. Worth recording as an ADR before building it.</p>
+<h2 id="5-what-not-to-change">5. What not to change</h2>
+<p>Three things are correct and a future contributor may try to &quot;fix&quot; them:</p>
+<ol class="doc-list"><li><strong>No invented scores.</strong> A shape match reports <code>None</code>. That is what makes the eval numbers mean something. Fix D2 by changing the floor&#x27;s behaviour, not by inventing confidence.</li><li><strong>Secrets never enter the vault.</strong> A restore would write a credential into the next log. Keep it.</li><li><strong>No silent normalisation inside <code>locate</code>.</strong> D1 is tempting to solve by normalising the source in place. That moves every offset. Normalise for matching, report on the original.</li></ol>
+<h2 id="6-sources">6. Sources</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Topic</th><th style="text-align:left">Source</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Tool-call over-sharing, 81–88%</td><td style="text-align:left"><a href="https://arxiv.org/html/2608.24957" target="_blank" rel="noopener noreferrer">ToolMinimize, arXiv:2608.24957</a></td></tr>
+<tr><td style="text-align:left">Agent privacy surfaces</td><td style="text-align:left"><a href="https://arxiv.org/html/2606.26627" target="_blank" rel="noopener noreferrer">Agents That Know Too Much, arXiv:2606.26627</a></td></tr>
+<tr><td style="text-align:left">Output-layer blind spot</td><td style="text-align:left"><a href="https://www.openlayer.com/blog/llm-output-pii-detection" target="_blank" rel="noopener noreferrer">Openlayer</a></td></tr>
+<tr><td style="text-align:left">Unicode and homoglyph evasion</td><td style="text-align:left"><a href="https://arxiv.org/html/2508.14070v1" target="_blank" rel="noopener noreferrer">arXiv:2508.14070</a>, <a href="https://www.mimecast.com/blog/5-keystrokes-that-defeat-a-privacy-filter/" target="_blank" rel="noopener noreferrer">Mimecast</a></td></tr>
+<tr><td style="text-align:left">Surrogate utility, k-anonymity</td><td style="text-align:left"><a href="https://arxiv.org/html/2606.29567" target="_blank" rel="noopener noreferrer">SurrogateShield, arXiv:2606.29567</a></td></tr>
+<tr><td style="text-align:left">Format-preserving surrogates</td><td style="text-align:left"><a href="https://arxiv.org/html/2610.22800" target="_blank" rel="noopener noreferrer">Veil-then-Reveal, arXiv:2610.22800</a></td></tr>
+<tr><td style="text-align:left">Semantic profiling after masking</td><td style="text-align:left"><a href="https://arxiv.org/html/2607.02932v1" target="_blank" rel="noopener noreferrer">PromptPET, arXiv:2607.02932</a></td></tr>
+<tr><td style="text-align:left">Robustness under distribution shift</td><td style="text-align:left"><a href="https://arxiv.org/html/2609.03464v1" target="_blank" rel="noopener noreferrer">Mind the Gap, arXiv:2609.03464</a></td></tr>
+<tr><td style="text-align:left">Privacy-utility evaluation</td><td style="text-align:left"><a href="https://aclanthology.org/2025.emnlp-demos.16.pdf" target="_blank" rel="noopener noreferrer">TAU-EVAL</a></td></tr>
+<tr><td style="text-align:left">ONNX GLiNER2 on SPY</td><td style="text-align:left"><a href="https://huggingface.co/okasi/gliner2-privacy-filter-pii-multi-onnx" target="_blank" rel="noopener noreferrer">okasi ONNX export</a></td></tr>
+<tr><td style="text-align:left">SPY leaderboard</td><td style="text-align:left"><a href="https://arxiv.org/abs/2605.09973" target="_blank" rel="noopener noreferrer">GLiNER2-PII, arXiv:2605.09973</a></td></tr>
+</tbody></table></div>
+<h2 id="7-what-021-changed">7. What 0.2.1 changed</h2>
+<p>Each item names the test that locks it. A regression fails the suite.</p>
+<h3 id="d1-is-closed-folding-with-a-map-back-to-the-source">D1 is closed: folding with a map back to the source</h3>
+<p><code>normalize.py</code> folds text before matching and records the source index of every folded character. The locator runs the detectors on the folded text, then maps each hit back onto the caller&#x27;s string. Three classes of character fold:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Class</th><th style="text-align:left">Example</th><th style="text-align:left">How</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Invisible</td><td style="text-align:left"><code>U+200B</code> zero width space</td><td style="text-align:left">Dropped, and the span covers it</td></tr>
+<tr><td style="text-align:left">Compatibility</td><td style="text-align:left"><code>＠</code> <code>U+FF20</code>, fullwidth digits</td><td style="text-align:left">NFKC</td></tr>
+<tr><td style="text-align:left">Cross-script confusable</td><td style="text-align:left">Cyrillic <code>а</code> <code>U+0430</code></td><td style="text-align:left">An explicit table</td></tr>
+</tbody></table></div>
+<p>The table is small and explicit on purpose. A general skeleton would change text the caller did not ask to change, and the offsets have to stay defensible.</p>
+<p>Result on the original defect:</p>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>before  "Email а&lt;EMAIL_1&gt;"   vault {"&lt;EMAIL_1&gt;": "da@example.com"}
+after   "Email &lt;EMAIL_1&gt;"    vault {"&lt;EMAIL_1&gt;": "аda@example.com"}
+</code></pre></div>
+<p>The mask is complete and the vault holds the full value. Spans still satisfy <code>source[start:end] == text</code>, because folding never escapes the locator.</p>
+<p>Cost on clean text is zero. SPY legal on the rules lane is <strong>unchanged at 0.325</strong> precision 0.358 and recall 0.298, measured before and after the change.</p>
+<p>Locked by <code>tests/test_hardening.py</code>. The e2e and model lanes were re-run: 145 tests pass, and <code>en-closed</code> still returns correct offsets with folding on.</p>
+<h3 id="d2-is-closed-a-floor-keeps-a-span-that-has-no-score">D2 is closed: a floor keeps a span that has no score</h3>
+<p><code>merge_spans</code> now keeps a <code>None</code> score when a floor is set. The stricter behaviour is <code>drop_unscored=True</code>. The demo shows the difference as a checkbox with the cost written beside it, and the site claim check asserts both outcomes.</p>
+<h3 id="d3-is-closed-decode-before-the-scan">D3 is closed: decode before the scan</h3>
+<p><code>mask_mapping</code> walks a decoded tree, so <code>ada\u0040example.com</code> is scanned as <code>ada@example.com</code>. A caller holding raw JSON calls <code>json.loads</code> first, which is the step that produces a value worth scanning.</p>
+<h3 id="the-tool-call-plane-now-has-a-surface">The tool-call plane now has a surface</h3>
+<p><code>mask_mapping</code> and <code>restore_mapping</code> take a nested dict or list and return a copy. The public shape is three fields:</p>
+<ul class="doc-list"><li><code>MaskedMapping.value</code>, the masked tree.</li><li><code>MaskedMapping.vault</code>, unique per tree.</li><li><code>MaskedMapping.hits</code>, a journal of <code>path</code> and <code>types</code> with no values.</li></ul>
+<p>A defect found while building it, and fixed: <code>redact</code> numbers each type from one within a single string, so two leaves both produced <code>&lt;EMAIL_1&gt;</code> and restoring wrote the first value into both fields. Each token now carries a leaf index, <code>&lt;EMAIL_1_0&gt;</code> and <code>&lt;EMAIL_1_1&gt;</code>, and the round trip returns both values.</p>
+<h3 id="still-open">Still open</h3>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Item</th><th style="text-align:left">Status</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">ONNX <code>multi-open</code> lane</td><td style="text-align:left">Open. The PyTorch lane is now measured; an ONNX artifact would cut the 80 s load</td></tr>
+<tr><td style="text-align:left">Surrogate replacement</td><td style="text-align:left">Open. Changes what leaves the host, so it needs its own ADR</td></tr>
+<tr><td style="text-align:left">Quasi-identifier combinations</td><td style="text-align:left"><strong>Closed in 0.3.0.</strong> <code>find_combinations</code> and <code>LocateResult.quasi</code></td></tr>
+<tr><td style="text-align:left">Semantic leakage</td><td style="text-align:left">Out of scope for a span detector, and stated as a limit</td></tr>
+<tr><td style="text-align:left">CI at <code>.github/workflows</code></td><td style="text-align:left">Open. Blocked on a token with the <code>workflow</code> scope</td></tr>
+</tbody></table></div>
+<h2 id="8-what-030-changed">8. What 0.3.0 changed</h2>
+<h3 id="the-quasi-identifier-gap-is-closed">The quasi-identifier gap is closed</h3>
+<p><code>quasi.py</code> reports a set of ordinary fields that singles a person out. The case the assessment recorded now returns a finding instead of nothing:</p>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>"Patient born 1985-03-14, ZIP 94110, male"  -&gt;  spans: ()   quasi: zip_dob_sex, high
+</code></pre></div>
+<p>The check needs evidence before a field counts. A bare five-digit number is an order id as often as a ZIP, and a bare date is a shipping date as often as a birth date. A first version flagged <code>Order 48291 shipped on 2026-11-04</code> as <code>zip_dob</code>, which would train a caller to ignore the check. A numeric postcode now requires a cue word, and a date of birth requires a birth cue. Nine negative cases are locked by <code>tests/test_quasi.py</code>, and the panel is covered by a browser test that proves it appears and disappears.</p>
+<h3 id="the-missing-measurement-is-recorded">The missing measurement is recorded</h3>
+<p>The <code>multi-open</code> lane had never been scored, which the assessment named as the biggest credibility gap. On the same 100 <code>spy-legal</code> documents:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Preset</th><th style="text-align:left">P</th><th style="text-align:left">R</th><th style="text-align:left">F1</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">0.181</td><td style="text-align:left">0.622</td><td style="text-align:left">0.280</td></tr>
+<tr><td style="text-align:left"><code>multi-open</code></td><td style="text-align:left">0.283</td><td style="text-align:left">0.768</td><td style="text-align:left"><strong>0.414</strong></td></tr>
+</tbody></table></div>
+<p><code>multi-open</code> is 48% better on this slice and improves both precision and recall. The cost is real: 80 s to load and about 3x the latency. <code>en-closed</code> stays the default for a fast first pass, and the file now records both numbers so a caller chooses on evidence rather than on a recommendation.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-score/"><span>Previous</span>First public score</a><a class="page-nav-link next" href="../doc-architecture/"><span>Next</span>Architecture</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="../about/">About the author</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

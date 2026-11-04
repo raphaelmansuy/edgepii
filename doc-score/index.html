@@ -6,19 +6,30 @@
 <title>First public score · edgepii</title>
 <meta name="description" content="edgepii reference: First public score." />
 <link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-score/" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<meta name="author" content="Raphael Mansuy" />
+<meta name="keywords" content="PII detection, personally identifiable information, Python, character spans, data masking, redaction, NER, privacy, edgepii" />
 <meta name="color-scheme" content="dark light" />
 <meta name="theme-color" content="#05070d" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="edgepii" />
+<meta property="og:locale" content="en_US" />
 <meta property="og:title" content="First public score · edgepii" />
 <meta property="og:description" content="edgepii reference: First public score." />
 <meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-score/" />
-<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="edgepii: typed character spans on the exact source string, with a span row that proves source[start:end] equals text." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="First public score · edgepii" />
 <meta name="twitter:description" content="edgepii reference: First public score." />
-<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
-<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta name="twitter:image:alt" content="edgepii: typed character spans on the exact source string." />
+<link rel="icon" href="../favicon.ico" sizes="32x32" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png" sizes="180x180" />
 <link rel="manifest" href="../site.webmanifest" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,27 +37,28 @@
 <link rel="stylesheet" href="../assets/site.css" />
 <link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
 
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://raphaelmansuy.github.io/edgepii/"}, {"@type": "ListItem", "position": 2, "name": "First public score", "item": "https://raphaelmansuy.github.io/edgepii/doc-score/"}]}</script>
 <script src="../assets/site.js" defer></script>
 </head>
 <body class="page-doc">
 <a class="skip" href="#main">Skip to content</a>
 <div class="aurora" aria-hidden="true"></div>
 <header class="site-head">
-  <a class="brand" href="../">
-    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+  <a class="brand" href="../" aria-label="edgepii home">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true" focusable="false"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7aa6ff"/><stop offset=".55" stop-color="#4f86ff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#mg)"/><path d="M24 15 H15 V49 H24" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 15 H49 V49 H40" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
   </a>
   <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
     <span aria-hidden="true">☰</span><span class="sr">Menu</span>
   </button>
-  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a><a href="../about/" data-nav="about">About</a></nav>
   <div class="head-meta">
     <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
     <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
 </header>
 <div class="shell">
-  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#what-ran">What ran</a></li><li class="toc-l2"><a href="#the-numbers">The numbers</a></li><li class="toc-l2"><a href="#per-type">Per type</a></li><li class="toc-l2"><a href="#what-this-shows">What this shows</a></li><li class="toc-l2"><a href="#what-to-do-next">What to do next</a></li></ul></aside>
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#what-ran">What ran</a></li><li class="toc-l2"><a href="#the-numbers">The numbers</a></li><li class="toc-l2"><a href="#per-type">Per type</a></li><li class="toc-l2"><a href="#what-this-shows">What this shows</a></li><li class="toc-l2"><a href="#what-to-do-next">What to do next</a></li><li class="toc-l2"><a href="#the-spy-benchmark">The SPY benchmark</a></li><li class="toc-l2"><a href="#comparing-the-two-model-lanes-on-one-slice">Comparing the two model lanes on one slice</a></li></ul></aside>
   <main id="main" class="main">
 <article class="prose"><h1 id="first-public-score">First public score</h1>
 <p>This file records the first score of the shipped lanes on a public corpus. It answers one question: does the library find PII, and where does it fail?</p>
@@ -97,7 +109,37 @@
 <p><strong>Two leak counts matter more than either F1.</strong> <code>en-closed</code> leaks 2 high-severity spans on 500 Nemotron documents and 38 on 400 Gretel documents. The parent product note says a leakage rate above zero blocks a ship. Neither preset is ready to ship on a finance domain, and the number says why.</p>
 <h2 id="what-to-do-next">What to do next</h2>
 <ol class="doc-list"><li>Decide whether an 8-digit PAN is worth keeping. ISO/IEC 7812-1 allows one, but a date in ISO 8601 form is also 8 digits, and 150 of the 251 <code>PAYMENT</code> false positives are exactly that. The rule has a correct source and a bad cost on real text.</li><li>Read twenty <code>PERSON</code> misses on Gretel. The sample is a SWIFT field and a signature block, not prose. That is the shape a Lane G preset should be tested against.</li><li>Add <code>multi-open</code> to the same runs. A span model with a type list at call time is the lane the <a href="../doc-landscape/#escalation-ladder">escalation ladder</a> names after <code>en-closed</code>.</li><li>Keep the two corpora apart. A Nemotron score and a Gretel score are two numbers about two corpora. Do not average them into one.</li></ol>
-<p>None of these steps changes a floor. The floors wait for the sealed freeze.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-corpora/"><span>Previous</span>Public corpora</a><a class="page-nav-link next" href="../doc-architecture/"><span>Next</span>Architecture</a></nav>
+<p>None of these steps changes a floor. The floors wait for the sealed freeze.</p>
+<h2 id="the-spy-benchmark">The SPY benchmark</h2>
+<p>SPY is the out-of-distribution PII benchmark that the published leaderboard uses. The legal and medical splits are Q&amp;A forum prose and medical transcripts, so neither split shares a template with a synthetic training corpus.</p>
+<p>SPY ships token templates such as <code>&lt;NAME&gt;</code>, not values. A score therefore needs one materialisation step. <code>materialize_spy</code> calls <code>Faker.seed(42)</code> and fills each <code>B-</code> entity, in the same order as the official loader. The seed is fixed, so a rerun reads the same strings. The pin still covers the template file.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Split</th><th style="text-align:left">Preset</th><th style="text-align:left">Docs</th><th style="text-align:left">Gold</th><th style="text-align:left">P</th><th style="text-align:left">R</th><th style="text-align:left">F1</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>spy-legal</code></td><td style="text-align:left"><code>rules</code></td><td style="text-align:left">4 197</td><td style="text-align:left">23 128</td><td style="text-align:left">0.358</td><td style="text-align:left">0.298</td><td style="text-align:left">0.325</td></tr>
+<tr><td style="text-align:left"><code>spy-medical</code></td><td style="text-align:left"><code>rules</code></td><td style="text-align:left">4 491</td><td style="text-align:left">27 101</td><td style="text-align:left">0.388</td><td style="text-align:left">0.286</td><td style="text-align:left">0.329</td></tr>
+<tr><td style="text-align:left"><code>spy-legal</code></td><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">200</td><td style="text-align:left">1 026</td><td style="text-align:left">0.183</td><td style="text-align:left">0.614</td><td style="text-align:left">0.281</td></tr>
+</tbody></table></div>
+<p>The published SPY leaderboard reports exact-span F1 for other systems: GLiNER2-PII 0.471, NVIDIA GLiNER-PII 0.391, urchade 0.384, OpenAI Privacy Filter 0.373. Those rows are measured on the 200 document slice with a label map of their own. <code>en-closed</code> at 0.281 on 200 legal documents is below that group, and the gap is the finding: a closed encoder trained on synthetic persona notes does not transfer to Q&amp;A prose.</p>
+<p><code>en-closed</code> reaches recall 0.614 with precision 0.183. It masks a great deal of capitalised text, which is the behaviour the Nemotron slice also showed. The rule lane is more precise and less complete, and the two lanes are merged in a preset for that reason.</p>
+<p>The <code>rules</code> row is the honest floor. It finds emails, phones, cards, IBANs and IPs, and it never finds a name or an address. Those two types hold most of the SPY gold, so the aggregate understates the structured types.</p>
+<p>Run it yourself:</p>
+<div class="code"><div class="code-head"><span class="code-lang">bash</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>python<span class="w"> </span>-m<span class="w"> </span>edgepii.eval.cli<span class="w"> </span>--preset<span class="w"> </span>rules<span class="w"> </span>--corpus<span class="w"> </span>spy-legal<span class="w"> </span>--print
+</code></pre></div>
+<p>The report records the corpus revision and the Faker seed beside the score, so a rerun reads the same strings.</p>
+<h2 id="comparing-the-two-model-lanes-on-one-slice">Comparing the two model lanes on one slice</h2>
+<p>The <code>multi-open</code> lane had never been scored. It is the lane the research section recommends when the type list must move, and it is the same checkpoint family as the top SPY entry, so a comparison was overdue.</p>
+<p>Both lanes ran on the same 100 <code>spy-legal</code> documents, with the same seed and the same taxonomy fold:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Preset</th><th style="text-align:left">Weights</th><th style="text-align:left">P</th><th style="text-align:left">R</th><th style="text-align:left">F1</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">ModernBERT, 0.6 GB</td><td style="text-align:left">0.181</td><td style="text-align:left">0.622</td><td style="text-align:left"><strong>0.280</strong></td></tr>
+<tr><td style="text-align:left"><code>multi-open</code></td><td style="text-align:left">GLiNER2, ~0.3 B params</td><td style="text-align:left">0.283</td><td style="text-align:left">0.768</td><td style="text-align:left"><strong>0.414</strong></td></tr>
+</tbody></table></div>
+<p><code>multi-open</code> raises F1 by 48% relative on this slice, and it raises both precision and recall at once. The likely reason is the shape of the task: a span model reads the label text at inference, so the type list is a prompt rather than a fixed class head. A closed head trained on synthetic persona notes has to map an unseen surface form onto a class it learned, and that is the failure the per-type table already showed for <code>PERSON</code>.</p>
+<p>The costs are real, and they are why <code>en-closed</code> stays the default:</p>
+<ul class="doc-list"><li>Load time was 80 s on this host, against a few seconds for <code>en-closed</code>.</li><li>Throughput was about 1.7 s per document, against 0.6 s.</li><li>The lane needs <code>gliner2</code> and <code>torch</code>, so the install is heavier.</li></ul>
+<p>A caller who needs accuracy on unseen prose should start from <code>multi-open</code>. A caller who needs a fast first pass on a frozen type list should start from <code>en-closed</code>. Both are measured now, which is the point of this file.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-corpora/"><span>Previous</span>Public corpora</a><a class="page-nav-link next" href="../doc-assessment/"><span>Next</span>Assessment, November 2026</a></nav>
   </main>
 </div>
 <footer class="site-foot">
@@ -112,6 +154,7 @@
       <a href="../tour/">Screenshots</a>
       <a href="../evaluation/">Score</a>
       <a href="../doc-index/">Reference</a>
+      <a href="../about/">About the author</a>
       <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
     </nav>
   </div>

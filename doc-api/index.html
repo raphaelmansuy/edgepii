@@ -6,19 +6,30 @@
 <title>Library API · edgepii</title>
 <meta name="description" content="edgepii reference: Library API." />
 <link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-api/" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<meta name="author" content="Raphael Mansuy" />
+<meta name="keywords" content="PII detection, personally identifiable information, Python, character spans, data masking, redaction, NER, privacy, edgepii" />
 <meta name="color-scheme" content="dark light" />
 <meta name="theme-color" content="#05070d" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="edgepii" />
+<meta property="og:locale" content="en_US" />
 <meta property="og:title" content="Library API · edgepii" />
 <meta property="og:description" content="edgepii reference: Library API." />
 <meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-api/" />
-<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="edgepii: typed character spans on the exact source string, with a span row that proves source[start:end] equals text." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Library API · edgepii" />
 <meta name="twitter:description" content="edgepii reference: Library API." />
-<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
-<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.png" />
+<meta name="twitter:image:alt" content="edgepii: typed character spans on the exact source string." />
+<link rel="icon" href="../favicon.ico" sizes="32x32" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png" sizes="180x180" />
 <link rel="manifest" href="../site.webmanifest" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,27 +37,28 @@
 <link rel="stylesheet" href="../assets/site.css" />
 <link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
 
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://raphaelmansuy.github.io/edgepii/"}, {"@type": "ListItem", "position": 2, "name": "Library API", "item": "https://raphaelmansuy.github.io/edgepii/doc-api/"}]}</script>
 <script src="../assets/site.js" defer></script>
 </head>
 <body class="page-doc">
 <a class="skip" href="#main">Skip to content</a>
 <div class="aurora" aria-hidden="true"></div>
 <header class="site-head">
-  <a class="brand" href="../">
-    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+  <a class="brand" href="../" aria-label="edgepii home">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true" focusable="false"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7aa6ff"/><stop offset=".55" stop-color="#4f86ff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#mg)"/><path d="M24 15 H15 V49 H24" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 15 H49 V49 H40" fill="none" stroke="#04070f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
   </a>
   <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
     <span aria-hidden="true">☰</span><span class="sr">Menu</span>
   </button>
-  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a><a href="../about/" data-nav="about">About</a></nav>
   <div class="head-meta">
     <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
     <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
 </header>
 <div class="shell">
-  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#locate">Locate</a></li><li class="toc-l2"><a href="#presets">Presets</a></li><li class="toc-l2"><a href="#redact">Redact</a></li><li class="toc-l2"><a href="#errors">Errors</a></li><li class="toc-l2"><a href="#batch">Batch</a></li><li class="toc-l2"><a href="#windowing">Windowing</a></li><li class="toc-l2"><a href="#what-the-api-refuses">What the API refuses</a></li><li class="toc-l2"><a href="#minimal-types">Minimal types</a></li></ul></aside>
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#locate">Locate</a></li><li class="toc-l2"><a href="#presets">Presets</a></li><li class="toc-l2"><a href="#redact">Redact</a></li><li class="toc-l2"><a href="#restore">Restore</a></li><li class="toc-l2"><a href="#mapping">Mapping</a></li><li class="toc-l2"><a href="#re-identification-risk">Re-identification risk</a></li><li class="toc-l2"><a href="#errors">Errors</a></li><li class="toc-l2"><a href="#batch">Batch</a></li><li class="toc-l2"><a href="#windowing">Windowing</a></li><li class="toc-l2"><a href="#what-the-api-refuses">What the API refuses</a></li><li class="toc-l2"><a href="#minimal-types">Minimal types</a></li></ul></aside>
   <main id="main" class="main">
 <article class="prose"><h1 id="public-api">Public API</h1>
 <p>Package name: <code>edgepii</code>. Python 3.11 or newer. The result shape is the <a href="../doc-span-contract/">span contract</a>. Types come from <a href="../doc-taxonomy/">taxonomy 2026.11</a>. Presets come from the <a href="../doc-catalog/">catalog</a>.</p>
@@ -62,9 +74,12 @@
 <tr><td style="text-align:left"><code>source</code></td><td style="text-align:left">yes</td><td style="text-align:left">The <code>str</code> to scan. Not bytes</td></tr>
 <tr><td style="text-align:left"><code>types</code></td><td style="text-align:left">no</td><td style="text-align:left">Subset of the taxonomy. Default: all types except class <code>quasi</code></td></tr>
 <tr><td style="text-align:left"><code>taxonomy</code></td><td style="text-align:left">no</td><td style="text-align:left">Default <code>2026.11</code></td></tr>
-<tr><td style="text-align:left"><code>min_score</code></td><td style="text-align:left">no</td><td style="text-align:left">Caller policy. Default <code>None</code>, which keeps every span. A span with no score drops when you set it. See <a href="../doc-taxonomy/#thresholds">thresholds</a></td></tr>
+<tr><td style="text-align:left"><code>min_score</code></td><td style="text-align:left">no</td><td style="text-align:left">Caller policy. Default <code>None</code>, which keeps every span. A span with no score <strong>survives</strong> a floor, because a grammar match carries no probability and dropping it would leave the value unmasked. See <a href="../doc-taxonomy/#thresholds">thresholds</a></td></tr>
+<tr><td style="text-align:left"><code>drop_unscored</code></td><td style="text-align:left">no</td><td style="text-align:left">Default <code>False</code>. Set it to also remove spans that have no score. Do this only after measuring what it costs</td></tr>
+<tr><td style="text-align:left"><code>fold</code></td><td style="text-align:left">no</td><td style="text-align:left">Default <code>&quot;confusables&quot;</code>. Folds invisible characters, compatibility forms, and cross-script look-alikes before matching, then maps every hit back onto the source string. Pass <code>False</code> to scan the raw text</td></tr>
 </tbody></table></div>
-<p><code>result.taxonomy_version</code> is a string. <code>result.spans</code> is a tuple of <code>Span</code>. <code>result.dropped</code> is a count of hits that failed the slice check. <code>result.preset</code> is the preset name. <code>result.revision</code> is the pinned weight revision, or <code>rules</code> for the rule preset.</p>
+<p><code>result.taxonomy_version</code> is a string. <code>result.spans</code> is a tuple of <code>Span</code>. <code>result.dropped</code> is a count of hits that failed the slice check. <code>result.preset</code> is the preset name. <code>result.revision</code> is the pinned weight revision, or <code>rules</code> for the rule preset. <code>result.quasi</code> is a tuple of <code>Combination</code> for any re-identification risk the text carries.</p>
+<p>Offsets always index <code>source</code>, never the folded text. Folding is the reason a value written with a Cyrillic <code>а</code> or a fullwidth <code>＠</code> is found at all, and the span still satisfies <code>source[start:end] == text</code>.</p>
 <div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">span</span><span class="o">.</span><span class="n">type</span>          <span class="c1"># "EMAIL"</span>
 <span class="n">span</span><span class="o">.</span><span class="n">start</span>         <span class="c1"># int, inclusive</span>
 <span class="n">span</span><span class="o">.</span><span class="n">end</span>           <span class="c1"># int, exclusive</span>
@@ -97,6 +112,60 @@
 <p><code>redact</code> is a pure function. It walks spans from the end of the string toward the start, so earlier indexes stay valid. It writes <code>&lt;TYPE_N&gt;</code> for vaulted types. It writes <code>&lt;SECRET&gt;</code> for class <code>secret</code>, and it does not put the secret in <code>vault</code>.</p>
 <p><code>vault</code> maps the placeholder to the original slice. The caller stores it. The function returns it and keeps nothing.</p>
 <p>If two spans overlap, <code>redact</code> raises <code>OverlapError</code>. The locator must not emit overlaps. The error is a guard, not a second merger.</p>
+<h2 id="restore">Restore</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">restore</span>
+
+<span class="n">answer</span> <span class="o">=</span> <span class="n">restore</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">vault</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p><code>restore</code> is the inbound half of the loop. A model response is new text, so the only way to put the original values back is to find the placeholders the model echoed.</p>
+<p>It returns <code>RestoreResult</code>, which is a frozen record with five fields:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Field</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>text</code></td><td style="text-align:left">The restored string</td></tr>
+<tr><td style="text-align:left"><code>resolved</code></td><td style="text-align:left">Placeholders that were found and replaced</td></tr>
+<tr><td style="text-align:left"><code>unresolved</code></td><td style="text-align:left">Placeholder-shaped tokens still in the text</td></tr>
+<tr><td style="text-align:left"><code>unknown</code></td><td style="text-align:left">Spans whose text the vault never held</td></tr>
+<tr><td style="text-align:left"><code>ok</code></td><td style="text-align:left">True only when <code>unresolved</code> and <code>unknown</code> are both empty</td></tr>
+</tbody></table></div>
+<p>A placeholder resolves under case drift (<code>&lt;email_1&gt;</code>) and spacing drift (<code>&lt; EMAIL 1 &gt;</code>, <code>&lt;EMAIL-1&gt;</code>), because a model changes both. The longest token is replaced first, so <code>&lt;EMAIL_10&gt;</code> is never eaten by the <code>&lt;EMAIL_1&gt;</code> pattern.</p>
+<p>Pass <code>locator</code> to also scan the raw response for PII the vault never sent. The scan runs before restoration, because restoration inserts real values on purpose.</p>
+<p>A secret has no vault entry, so <code>&lt;SECRET&gt;</code> always appears in <code>unresolved</code>. That is the design: restore cannot invent a password.</p>
+<h2 id="mapping">Mapping</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">mask_mapping</span><span class="p">,</span> <span class="n">restore_mapping</span>
+
+<span class="n">masked</span> <span class="o">=</span> <span class="n">mask_mapping</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">locator</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">back</span> <span class="o">=</span> <span class="n">restore_mapping</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">vault</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p><code>mask_mapping</code> walks a nested <code>dict</code> or <code>list</code>, scans each string leaf, and returns a copy with the leaves masked. The input is not modified and the structure is unchanged, so a tool still parses it.</p>
+<p><code>MaskedMapping</code> holds four fields:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Field</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>value</code></td><td style="text-align:left">The masked tree</td></tr>
+<tr><td style="text-align:left"><code>vault</code></td><td style="text-align:left">Placeholder to original, unique across the whole tree</td></tr>
+<tr><td style="text-align:left"><code>hits</code></td><td style="text-align:left"><code>FieldHit</code> rows with a <code>path</code> and the <code>types</code> found. Never a value</td></tr>
+<tr><td style="text-align:left"><code>dropped</code></td><td style="text-align:left">Count of hits that failed the slice check</td></tr>
+</tbody></table></div>
+<p>A placeholder carries a leaf index, <code>&lt;EMAIL_1_0&gt;</code> and <code>&lt;EMAIL_1_1&gt;</code>, because two fields of the same type would otherwise both be <code>&lt;EMAIL_1&gt;</code> and restore would write the first value into both.</p>
+<p><code>restore_mapping</code> is the inbound equivalent. It returns <code>RestoredMapping</code> with <code>value</code>, <code>resolved</code>, <code>unresolved</code>, <code>unknown</code>, and <code>ok</code>.</p>
+<p>Decode the payload before the scan. A JSON escape such as <code>ada\u0040example.com</code> holds no <code>@</code>, so a scan of the raw text misses it.</p>
+<h2 id="re-identification-risk">Re-identification risk</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_combinations</span><span class="p">,</span> <span class="n">has_combination</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="n">find_combinations</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</code></pre></div>
+<p>A span list cannot express a combination. A postcode, a birth date, and a sex are each ordinary, and together they single out most of a population. <code>find_combinations</code> returns a <code>Combination</code> for each set it recognises, and <code>LocateResult.quasi</code> carries the same rows beside the spans.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Field</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>name</code></td><td style="text-align:left">The combination, such as <code>zip_dob_sex</code></td></tr>
+<tr><td style="text-align:left"><code>fields</code></td><td style="text-align:left">The members that were found</td></tr>
+<tr><td style="text-align:left"><code>risk</code></td><td style="text-align:left"><code>high</code> or <code>medium</code></td></tr>
+<tr><td style="text-align:left"><code>source</code></td><td style="text-align:left">The rule that justifies the row</td></tr>
+</tbody></table></div>
+<p>A field needs evidence. A numeric postcode requires a cue word, and a date is a birth date only when the text says so. A UK outward code or a Canadian forward sortation area identifies itself.</p>
+<p>The finding is advisory. The library does not mask a combination, because the right response depends on policy.</p>
 <h2 id="errors">Errors</h2>
 <div class="table-wrap"><table class="doc-table">
 <thead><tr><th style="text-align:left">Error</th><th style="text-align:left">When</th><th style="text-align:left">Message contents</th></tr></thead>
@@ -133,6 +202,7 @@
       <a href="../tour/">Screenshots</a>
       <a href="../evaluation/">Score</a>
       <a href="../doc-index/">Reference</a>
+      <a href="../about/">About the author</a>
       <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
     </nav>
   </div>

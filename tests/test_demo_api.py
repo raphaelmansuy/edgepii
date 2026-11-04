@@ -30,7 +30,13 @@ def test_types_exclude_quasi_by_default():
     assert "threshold" not in dob
 
 
-def test_min_score_filters_when_the_caller_asks():
+def test_min_score_keeps_a_span_that_has_no_score():
+    """A floor must not remove a value the mask needs to cover.
+
+    The email span comes from a grammar and reports no score. Before 0.2.1 a
+    floor dropped it, and the email went out in the clear.
+    """
+
     body = client.post(
         "/api/locate",
         json={
@@ -38,6 +44,23 @@ def test_min_score_filters_when_the_caller_asks():
             "preset": "rules",
             "types": ["EMAIL", "PAYMENT"],
             "min_score": 0.5,
+        },
+    ).json()
+    assert [span["type"] for span in body["spans"]] == ["EMAIL", "PAYMENT"]
+    assert "ada@example.com" not in body["masked"]
+
+
+def test_drop_unscored_is_opt_in_on_the_api():
+    """The stricter behaviour is reachable, and it is explicit."""
+
+    body = client.post(
+        "/api/locate",
+        json={
+            "source": "Email ada@example.com. Card 4242424242424242.",
+            "preset": "rules",
+            "types": ["EMAIL", "PAYMENT"],
+            "min_score": 0.5,
+            "drop_unscored": True,
         },
     ).json()
     assert [span["type"] for span in body["spans"]] == ["PAYMENT"]

@@ -33,6 +33,10 @@ class LocateRequest(BaseModel):
     preset: str = Field(default="rules")
     types: list[str] = Field(default_factory=list)
     min_score: float | None = Field(default=None, description="Caller policy. No library default.")
+    drop_unscored: bool = Field(
+        default=False,
+        description="Also drop spans that carry no score. Off by default: a grammar match has no probability, and dropping it leaves the value unmasked.",
+    )
 
 
 @app.get("/", include_in_schema=False)
@@ -63,7 +67,13 @@ def samples() -> dict:
 @app.post("/api/locate")
 def locate_endpoint(request: LocateRequest) -> JSONResponse:
     try:
-        payload = locate(request.source, request.preset, request.types, request.min_score)
+        payload = locate(
+            request.source,
+            request.preset,
+            request.types,
+            request.min_score,
+            request.drop_unscored,
+        )
     except DemoError as exc:
         body = {"ok": False, "error": exc.kind, "message": exc.message}
         if exc.hint:

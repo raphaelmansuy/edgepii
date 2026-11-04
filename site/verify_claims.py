@@ -131,16 +131,22 @@ print(len(result.spans))
 
 NEGATIVE_EXPECTED = ["0"]
 
-# A caller floor removes a span with no score, as the demo page says.
+# A caller floor keeps a span that has no score, because dropping it would leave
+# the value unmasked. The stricter behaviour is opt in, and the second call
+# proves it.
 FLOOR_CALL = """
 from edgepii import Locator
 
 source = "Email ada@example.com. Card 4242424242424242."
-result = Locator.preset("rules").locate(source, min_score=0.9)
-print([span.type for span in result.spans])
+locator = Locator.preset("rules")
+kept = [span.type for span in locator.locate(source, min_score=0.9).spans]
+strict = [
+    span.type for span in locator.locate(source, min_score=0.9, drop_unscored=True).spans
+]
+print(kept, strict)
 """
 
-FLOOR_EXPECTED = ["['PAYMENT']"]
+FLOOR_EXPECTED = ["['EMAIL', 'PAYMENT'] ['PAYMENT']"]
 
 # The API page claims the offsets index the whole string after a long prefix.
 LONG_CALL = """

@@ -132,6 +132,7 @@ def locate(
     preset: str,
     types: list[str],
     min_score: float | None = None,
+    drop_unscored: bool = False,
 ) -> dict:
     if not isinstance(source, str):
         raise DemoError("bad_source", "The source must be text.")
@@ -148,7 +149,9 @@ def locate(
     started = time.perf_counter()
     try:
         locator = _locator(preset)
-        result = locator.locate(source, types=wanted or None, min_score=min_score)
+        result = locator.locate(
+            source, types=wanted or None, min_score=min_score, drop_unscored=drop_unscored
+        )
     except DemoError:
         raise
     except DetectorLoadError as exc:

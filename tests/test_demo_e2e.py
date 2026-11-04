@@ -251,6 +251,15 @@ def test_score_floor_is_caller_policy(page):
     page.dispatch_event("#min-score", "input")
     assert page.locator("#min-score-value").inner_text() == "0.90"
     page.click("#run")
+    # A floor cannot compare a span that has no score, so those spans stay. A
+    # redaction tool that dropped them would send the email out in the clear.
+    page.wait_for_function(
+        "() => document.querySelectorAll('#span-body tr').length === 3"
+    )
+    assert page.locator("#span-body .score-none").count() == 2
+
+    # The stricter behaviour is one click away, and it says what it costs.
+    page.check("#drop-unscored")
     page.wait_for_function(
         "() => document.querySelectorAll('#span-body tr').length === 1"
     )

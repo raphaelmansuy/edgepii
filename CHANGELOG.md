@@ -4,6 +4,46 @@ All notable changes to this project are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-11-04
+
+Closes the three defects the November 2026 assessment found, and adds the
+tool-call surface an agent needs.
+
+### Added
+
+- `mask_mapping(value, locator)` and `restore_mapping(value, vault)`: mask and
+  restore a nested dict or list. Every string leaf is scanned, the tree shape is
+  preserved, and `MaskedMapping.hits` records a field path and the types found
+  without copying a value. A placeholder is unique across the tree
+  (`<EMAIL_1_0>`, `<EMAIL_1_1>`), so two fields of the same type both round-trip.
+- `edgepii.normalize`, with `fold()` and `needs_fold()`. Text is folded before
+  matching: invisible characters are dropped, compatibility forms fold through
+  NFKC, and a small explicit table folds cross-script confusables. Every folded
+  character keeps its source index, so public offsets still index the caller's
+  string.
+- `locate(fold=...)`, on by default. `fold=False` restores the old behaviour.
+- `locate(drop_unscored=...)` and the same field on the demo API.
+
+### Changed
+
+- A `min_score` floor now **keeps** a span that has no score. A grammar match
+  carries no probability, so a floor cannot compare against it, and dropping it
+  sent an email or a phone number to the model in the clear. The stricter
+  behaviour is `drop_unscored=True`, and the demo shows it as a checkbox with
+  the cost written beside it.
+- The site claim check asserts both floor outcomes, so the guide cannot drift.
+
+### Fixed
+
+- A look-alike character no longer yields a partial span. Before this release,
+  `Email аda@example.com` with a Cyrillic `а` returned a span starting after the
+  character, so the mask read `Email а<EMAIL_1>` and the vault held an
+  incomplete value. It now returns the whole address.
+- A fullwidth `＠`, a zero-width space inside an address, and fullwidth digits
+  are all found. They were missed completely.
+- The non-breaking hyphen in a phone number folded to a hyphen, so the phone
+  rule and the payment rule now agree on what a separator is.
+
 ## [0.2.0] - 2026-11-04
 
 The loop the announcement describes is now complete. `redact` masks the outbound

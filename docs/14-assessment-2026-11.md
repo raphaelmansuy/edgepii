@@ -2,10 +2,14 @@
 
 <!-- ste: descriptive -->
 
-This file records the state of `edgepii` at version 0.2.0, measured against the
-research published up to November 2026. It separates what works, what is a real
-defect, and what the field has moved on from. Every defect below was reproduced
-on this host, not inferred from a paper.
+This file records the state of `edgepii`, measured against the research
+published up to November 2026. It separates what works, what was a defect, and
+what the field has moved on from. Every defect below was reproduced on this
+host, not inferred from a paper.
+
+Version 0.2.1 closes D1, D2 and D3, and adds the tool-call surface. Sections 2
+and 3 keep the original finding so a reader can check the fix against the
+problem. Section 7 records the verification.
 
 The run date is 4 November 2026. The host is an arm64 CPU with no accelerator.
 
@@ -229,3 +233,74 @@ Three things are correct and a future contributor may try to "fix" them:
 | Privacy-utility evaluation | [TAU-EVAL](https://aclanthology.org/2025.emnlp-demos.16.pdf) |
 | ONNX GLiNER2 on SPY | [okasi ONNX export](https://huggingface.co/okasi/gliner2-privacy-filter-pii-multi-onnx) |
 | SPY leaderboard | [GLiNER2-PII, arXiv:2605.09973](https://arxiv.org/abs/2605.09973) |
+
+## 7. What 0.2.1 changed
+
+Each item names the test that locks it. A regression fails the suite.
+
+### D1 is closed: folding with a map back to the source
+
+`normalize.py` folds text before matching and records the source index of every
+folded character. The locator runs the detectors on the folded text, then maps
+each hit back onto the caller's string. Three classes of character fold:
+
+| Class | Example | How |
+| --- | --- | --- |
+| Invisible | `U+200B` zero width space | Dropped, and the span covers it |
+| Compatibility | `＠` `U+FF20`, fullwidth digits | NFKC |
+| Cross-script confusable | Cyrillic `а` `U+0430` | An explicit table |
+
+The table is small and explicit on purpose. A general skeleton would change text
+the caller did not ask to change, and the offsets have to stay defensible.
+
+Result on the original defect:
+
+```text
+before  "Email а<EMAIL_1>"   vault {"<EMAIL_1>": "da@example.com"}
+after   "Email <EMAIL_1>"    vault {"<EMAIL_1>": "аda@example.com"}
+```
+
+The mask is complete and the vault holds the full value. Spans still satisfy
+`source[start:end] == text`, because folding never escapes the locator.
+
+Cost on clean text is zero. SPY legal on the rules lane is **unchanged at 0.325**
+precision 0.358 and recall 0.298, measured before and after the change.
+
+Locked by `tests/test_hardening.py`. The e2e and model lanes were re-run: 145
+tests pass, and `en-closed` still returns correct offsets with folding on.
+
+### D2 is closed: a floor keeps a span that has no score
+
+`merge_spans` now keeps a `None` score when a floor is set. The stricter
+behaviour is `drop_unscored=True`. The demo shows the difference as a checkbox
+with the cost written beside it, and the site claim check asserts both outcomes.
+
+### D3 is closed: decode before the scan
+
+`mask_mapping` walks a decoded tree, so `ada\u0040example.com` is scanned as
+`ada@example.com`. A caller holding raw JSON calls `json.loads` first, which is
+the step that produces a value worth scanning.
+
+### The tool-call plane now has a surface
+
+`mask_mapping` and `restore_mapping` take a nested dict or list and return a copy.
+The public shape is three fields:
+
+- `MaskedMapping.value`, the masked tree.
+- `MaskedMapping.vault`, unique per tree.
+- `MaskedMapping.hits`, a journal of `path` and `types` with no values.
+
+A defect found while building it, and fixed: `redact` numbers each type from one
+within a single string, so two leaves both produced `<EMAIL_1>` and restoring
+wrote the first value into both fields. Each token now carries a leaf index,
+`<EMAIL_1_0>` and `<EMAIL_1_1>`, and the round trip returns both values.
+
+### Still open
+
+| Item | Why it is not in 0.2.1 |
+| --- | --- |
+| ONNX `multi-open` lane | Needs an artifact pin and an ADR for the fixed label set |
+| Surrogate replacement | Changes what leaves the host, so it needs its own ADR |
+| Quasi-identifier combinations | Needs a layer above spans, not a detector change |
+| Semantic leakage | Out of scope for a span detector, and now stated as a limit |
+| CI at `.github/workflows` | Blocked on a token with the `workflow` scope |

@@ -1,7 +1,7 @@
 # Your prompt is your data leak.
 
-> LinkedIn post — `edgepii` announcement.
-> Body is plain text, no Markdown, no code fences. Copy from the line after `---` to the hashtags.
+> LinkedIn post — `edgepii` announcement.  
+> Body is plain text, no Markdown, no code fences. Copy from the line after `---` to the hashtags.  
 > Post body: 2,792 characters, under the 3,000 limit. Recount after any edit.
 
 ---
@@ -30,14 +30,16 @@ from edgepii import Locator, redact, restore
 
 prompt = "My card 4242424242424242 was charged twice. I am Ada Lovelace, call me on +852 5555 0101."
 
-spans = Locator.preset("rules").locate(prompt).spans
+spans = Locator.preset("rules").locate(prompt).spans  
 masked, vault = redact(prompt, spans)
 
 print(masked)
-# My card <PAYMENT_1> was charged twice. I am Ada Lovelace, call me on <PHONE_1>.
+
+# My card  was charged twice. I am Ada Lovelace, call me on .
 
 # send masked to any model, then restore its answer on your host
-answer = "Refund for <PAYMENT_1> is sent. We will call <PHONE_1>."
+
+answer = "Refund for  is sent. We will call ."  
 answer = restore(answer, vault).text
 
 # Refund for 4242424242424242 is sent. We will call +852 5555 0101.
@@ -62,14 +64,14 @@ Look again at the output. "Ada Lovelace" stayed in the text. A name has no check
 
 For names, add the model lane:
 
-pip install "edgepii[hf]"
+pip install "edgepii[hf]"  
 Locator.preset("en-closed")
 
 It runs on your CPU. No API key. That lane does find Ada.
 
 I scored it on public data instead of trusting the model card:
 
-PERSON, in domain: 0.995
+PERSON, in domain: 0.995  
 PERSON, on finance documents: 0.048
 
 Same model. It learned where a name sits in a synthetic note, not what a name is. So the library publishes the failure next to the score, per type, never averaged.
@@ -84,8 +86,8 @@ TRY IT
 
 pip install edgepii
 
-Docs and demo: https://raphaelmansuy.github.io/edgepii
-Code: https://pypi.org/project/edgepii
+Docs and demo: [https://raphaelmansuy.github.io/edgepii](https://raphaelmansuy.github.io/edgepii)  
+Code: [https://pypi.org/project/edgepii](https://pypi.org/project/edgepii)
 
 What do you send to a model today that you would rather keep?
 
@@ -97,68 +99,74 @@ What do you send to a model today that you would rather keep?
 
 ### What changed from the first draft
 
-The first version was an argument about document flags. This one starts at the LLM call,
+The first version was an argument about document flags. This one starts at the LLM call,  
 because that is where the reader's pain is. The flag argument is now one short paragraph.
 
-| Block | Job |
-|---|---|
-| Line 1 | Names the reader's own prompt. |
+| Block               | Job                                                               |
+| ------------------- | ----------------------------------------------------------------- |
+| Line 1              | Names the reader's own prompt.                                    |
 | The three sentences | Concrete loss: name, phone, card. Then "you cannot take it back". |
-| WHY | The pivot. Flag versus character. |
-| THE MOVE | The product as three sentences and one code block. |
-| The code | Intercept, mask, restore. The whole loop, copyable. |
-| ONE CHECK | The proof, in one line. |
-| HONEST LIMIT | The name stays visible. This is the section that earns trust. |
-| The two scores | Proof that a model card is not a measurement. |
-| Close | A question the reader can answer from their own pipeline. |
+| WHY                 | The pivot. Flag versus character.                                 |
+| THE MOVE            | The product as three sentences and one code block.                |
+| The code            | Intercept, mask, restore. The whole loop, copyable.               |
+| ONE CHECK           | The proof, in one line.                                           |
+| HONEST LIMIT        | The name stays visible. This is the section that earns trust.     |
+| The two scores      | Proof that a model card is not a measurement.                     |
+| Close               | A question the reader can answer from their own pipeline.         |
 
 ### Why the name leak is in the post
 
-The rules lane does not find `Ada Lovelace`, and the output shows it. I kept that
-instead of hiding it, for three reasons. It is true. A reader who runs the code will
-see it anyway. And a tool that admits one gap is easier to believe about the other ten
+The rules lane does not find `Ada Lovelace`, and the output shows it. I kept that  
+instead of hiding it, for three reasons. It is true. A reader who runs the code will  
+see it anyway. And a tool that admits one gap is easier to believe about the other ten  
 types.
 
-It also does the selling. The reader now knows the rule lane is fast and free, and the
+It also does the selling. The reader now knows the rule lane is fast and free, and the  
 model lane is the one that finds names.
 
 ### Verified claims
 
-| Claim in the body | Where it is true |
-|---|---|
-| The masked string, verbatim | Ran on this host, 4 November 2026 |
-| The restore loop returns the real card and phone | Same run, output copied |
-| `Ada Lovelace` stays unspanned on the rules lane | Same run: 2 spans, 0 dropped |
-| `en-closed` finds `PERSON`, on CPU, no key | Ran it: 5 spans, name replaced |
-| `source[start:end] == text` is enforced | `docs/01-span-contract.md`, `tests/test_acceptance.py` |
-| A bad offset is dropped and counted | `LocateResult.dropped` |
-| PERSON 0.995 in domain, 0.048 on finance | `docs/13-first-public-score.md`, `docs/eval/*.json` |
-| A secret never enters the vault | `docs/adr/0004-secrets-irreversible.md`, ran it |
-| Apache-2.0, Python 3.11+ | `pyproject.toml`, wheel metadata |
-| `pip install edgepii` works | Installed from PyPI into a clean 3.11 venv |
-| Both URLs return 200 | Checked 4 November 2026 |
+| Claim in the body                                | Where it is true                                       |
+| ------------------------------------------------ | ------------------------------------------------------ |
+| The masked string, verbatim                      | Ran on this host, 4 November 2026                      |
+| The restore loop returns the real card and phone | Same run, output copied                                |
+| `Ada Lovelace` stays unspanned on the rules lane | Same run: 2 spans, 0 dropped                           |
+| `en-closed` finds `PERSON`, on CPU, no key       | Ran it: 5 spans, name replaced                         |
+| `source[start:end] == text` is enforced          | `docs/01-span-contract.md`, `tests/test_acceptance.py` |
+| A bad offset is dropped and counted              | `LocateResult.dropped`                                 |
+| PERSON 0.995 in domain, 0.048 on finance         | `docs/13-first-public-score.md`, `docs/eval/*.json`    |
+| A secret never enters the vault                  | `docs/adr/0004-secrets-irreversible.md`, ran it        |
+| Apache-2.0, Python 3.11+                         | `pyproject.toml`, wheel metadata                       |
+| `pip install edgepii` works                      | Installed from PyPI into a clean 3.11 venv             |
+| Both URLs return 200                             | Checked 4 November 2026                                |
 
 ### Things I fixed while checking
 
-1. **`pip install edgepii` is live.** Published to PyPI on 4 November 2026, now at
-   0.2.0. Installed from the public index into clean Python 3.11, 3.12, and 3.13
-   environments and ran the post's code on each.
+1. `pip install edgepii` **is live.** Published to PyPI on 4 November 2026, now at
+
+   0.2.0. Installed from the public index into clean Python 3.11, 3.12, and 3.13  
+    environments and ran the post's code on each.
 2. **The code block was executed, not written.** Every printed line in the post is copied
+
    from a real run.
-3. **The post uses `restore`, not a `str.replace` loop.** A loop fails silently when a
-   model lower-cases a placeholder, spaces the brackets, or invents one. `restore` reports
-   those in `unresolved` and `unknown`. Before 0.2.0 the library had no such call, and
-   this post had to teach the fragile loop instead.
+3. **The post uses** `restore`**, not a** `str.replace` **loop.** A loop fails silently when a
+
+   model lower-cases a placeholder, spaces the brackets, or invents one. `restore` reports  
+    those in `unresolved` and `unknown`. Before 0.2.0 the library had no such call, and  
+    this post had to teach the fragile loop instead.
 4. **The HONEST LIMIT block stays.** The rules lane leaves `Ada Lovelace` unmatched,
-   and 0.2.0 does not change that. The model lane is still the answer, and the SPY
-   score (0.281) is the reason the post does not overclaim it.
+
+   and 0.2.0 does not change that. The model lane is still the answer, and the SPY  
+    score (0.281) is the reason the post does not overclaim it.
 5. **The two F1 numbers stay separate.** Averaging the two corpora is the mistake the
+
    eval docs warn against.
 6. **The repo link points at PyPI**, where the install line already lives.
 
 ### Before posting
 
 1. Attach `docs/e2e/screenshots/02-rules-ticket.png`. It shows the real span table beside
+
    the masked string, which is the claim in one image.
 2. Optional second image: `docs/e2e/screenshots/06-placeholders.png`, for the numbering.
 3. The first 210 characters are the feed preview. The hook and the three losses fit.

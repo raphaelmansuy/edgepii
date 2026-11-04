@@ -210,7 +210,7 @@ Build a locator with pinned detectors. Raises `DetectorLoadError` when an extra 
 
 Build a locator from your own objects. A detector exposes `locate(text, labels)` and returns dicts or `Hit` rows. This method is the test seam and the eval seam.
 
-### `locator.locate(source, types=None, taxonomy=None, min_score=None)`
+### `locator.locate(source, types=None, taxonomy=None, min_score=None, fold="confusables", drop_unscored=False)`
 
 Returns `LocateResult`:
 
@@ -223,6 +223,8 @@ Returns `LocateResult`:
 | `taxonomy_version` | `2026.11` |
 
 `Span` freezes these fields: `type`, `start`, `end`, `text`, `score`, `detector_id`, and `raw_label`. `score` can be `None` when no validator exists for the form. The library sets no minimum score. `min_score` is caller policy.
+
+A span with no score **survives** a `min_score` floor. A grammar match has no probability, so a floor cannot compare against it, and dropping it would send an email or a phone number to the model in the clear. Pass `drop_unscored=True` to remove those spans as well, after measuring what it costs. `fold="confusables"` is on by default and folds look-alike characters before matching; `fold=False` turns it off.
 
 The merge order does not change. Higher class rank wins. A tie prefers a detector kind the type names, then a longer span, then a higher score, then a smaller start, then the type name. The merge is order independent, so the same inputs give the same result.
 
@@ -237,6 +239,10 @@ Returns `(masked, vault)`. See [Masking and the vault](#masking-and-the-vault).
 ### `restore(text, vault, *, locator=None, types=None)`
 
 Returns `RestoreResult`. See [Restore a model response](#restore-a-model-response).
+
+### `mask_mapping(value, locator, *, types=None)` and `restore_mapping(value, vault, *, locator=None, types=None)`
+
+Mask and restore a nested mapping or list. See [Tool calls](#tool-calls).
 
 ### Errors
 
@@ -261,6 +267,53 @@ No error message contains PII.
 A vault key maps to the original slice. The caller stores the vault. The function keeps nothing. Secrets stay irreversible because a restore would write a password into a ticket, a log, or a second prompt. See [ADR 0004](https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md).
 
 `redact` raises `OverlapError` if two spans overlap. The locator guarantees non-overlapping output, so the error is a guard, not a second merge pass.
+
+## Tool calls
+
+An agent does not send one string. It sends a mapping of field names to values, and the arguments are the leak path: the call executes before any output guardrail runs.
+
+`mask_mapping` walks a dict or a list, scans every string leaf, and returns a copy with the leaves masked. The structure is unchanged, so the tool still parses it.
+
+```python
+from edgepii import Locator, mask_mapping, restore_mapping
+
+locator = Locator.preset("rules")
+args = {
+    "customer": {"email": "ada@example.com"},
+    "billing": {"email": "grace@example.com"},
+    "note": "card 4242424242424242",
+}
+
+masked = mask_mapping(args, locator)
+print(masked.value)
+# {'customer': {'email': '<EMAIL_1_0>'}, 'billing': {'email': '<EMAIL_1_1>'}, 'note': 'card <PAYMENT_1_2>'}
+
+print([(hit.path, hit.types) for hit in masked.hits])
+# [('customer.email', ('EMAIL',)), ('billing.email', ('EMAIL',)), ('note', ('PAYMENT',))]
+```
+
+Two properties matter here:
+
+**The field path names what changed.** A journal row says `customer.email` was masked, with the type, and never the value. `masked.to_dict()` is safe to log: it carries the masked tree and the paths.
+
+**A placeholder is unique across the tree.** `redact` numbers each type from one inside a single string, so two leaves would both produce `<EMAIL_1>`. Restoring would then write the first value into both fields and lose the second. Each token takes a leaf index: `<EMAIL_1_0>`, `<EMAIL_1_1>`. The round trip returns both values.
+
+Restore the inbound side with the same vault:
+
+```python
+answer = {"email": "<EMAIL_1_0>", "note": "also <PERSON_9>"}
+back = restore_mapping(answer, masked.vault, locator=locator)
+print(back.value["email"])
+# ada@example.com
+print(back.unresolved)
+# ('<PERSON_9>',)
+print(back.ok)
+# False
+```
+
+`unresolved` holds a placeholder the model invented. `unknown` holds PII the vault never sent. A caller that ignores both is trusting a tree it did not check.
+
+Decode the payload first. A JSON escape such as `ada\u0040example.com` holds no `@`, so a scan of the raw text misses it. `json.loads` produces the real value, and `mask_mapping` scans that.
 
 ## Restore a model response
 

@@ -96,11 +96,23 @@ def test_no_score_floor_ships_with_the_library():
     assert merge_spans([span], taxonomy, {"PERSON"}, min_score=0.5) == []
 
 
-def test_a_span_with_no_score_cannot_meet_a_floor():
+def test_a_floor_keeps_a_span_that_has_no_score():
+    """A grammar match has no probability. Dropping it would leave it unmasked."""
+
     taxonomy = load_taxonomy()
     shaped = Span("EMAIL", 0, 5, "aaaaa", None, "rules.email", "email")
     assert len(merge_spans([shaped], taxonomy, {"EMAIL"})) == 1
-    assert merge_spans([shaped], taxonomy, {"EMAIL"}, min_score=0.1) == []
+    # A floor compares scores. A span with no score survives, because a
+    # redaction tool that drops it sends the value out in the clear.
+    assert len(merge_spans([shaped], taxonomy, {"EMAIL"}, min_score=0.1)) == 1
+
+
+def test_drop_unscored_restores_the_stricter_behaviour_on_request():
+    """The old behaviour is available, but only when the caller asks for it."""
+
+    taxonomy = load_taxonomy()
+    shaped = Span("EMAIL", 0, 5, "aaaaa", None, "rules.email", "email")
+    assert merge_spans([shaped], taxonomy, {"EMAIL"}, min_score=0.1, drop_unscored=True) == []
 
 
 def test_threshold_field_is_gone_from_the_taxonomy():

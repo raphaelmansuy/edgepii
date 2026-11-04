@@ -41,6 +41,7 @@ const nodes = {
   copyJson: el("copy-json"),
   minScore: el("min-score"),
   minScoreValue: el("min-score-value"),
+  dropUnscored: el("drop-unscored"),
 };
 
 const CLASS_LABEL = {
@@ -430,6 +431,7 @@ async function run() {
         preset: state.selectedPreset,
         types: [...state.selectedTypes],
         min_score: currentFloor(),
+        drop_unscored: Boolean(nodes.dropUnscored && nodes.dropUnscored.checked),
       }),
     });
     if (nodes.source.value !== source) {
@@ -542,6 +544,9 @@ nodes.copyMasked.addEventListener("click", async () => {  if (!state.lastResult)
   await flash(nodes.copyMasked, done ? "Copied" : "Press ⌘C", "Copy");
 });
 nodes.minScore.addEventListener("input", renderFloor);
+if (nodes.dropUnscored) {
+  nodes.dropUnscored.addEventListener("change", run);
+}
 nodes.trySample.addEventListener("click", () => {
   if (state.samples.length > 0) {
     loadSample(state.samples[0]);

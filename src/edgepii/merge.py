@@ -47,6 +47,7 @@ def merge_spans(
     taxonomy: Taxonomy,
     allowed_types: set[str],
     min_score: float | None = None,
+    drop_unscored: bool = False,
 ) -> list[Span]:
     """Return one non-overlapping list. min_score is caller policy, not a default.
 
@@ -54,9 +55,16 @@ def merge_spans(
     unmeasured guess. A caller that wants one passes a number that the caller
     measured on its own data.
 
-    A span with no score cannot meet a floor. It has no measured confidence,
-    so `min_score` drops it. With no `min_score` it stays, because the caller
-    asked for every span.
+    A span with no score is the case that matters for a redaction tool. A rule
+    that confirms a slice through a grammar reports `None`, because no
+    probability exists for it. Dropping such a span because a floor cannot
+    compare against it would send an email or a phone number to the model in
+    the clear, which is the failure this library exists to prevent. So a span
+    with no score **survives** a floor by default.
+
+    Pass `drop_unscored=True` to get the older behaviour, where a floor also
+    removes every span that has no score. A caller should only do that after
+    measuring what it costs.
 
     Overlap resolution is a sweep, not a pairwise compare. The list is sorted by
     start offset, so once a later span starts at or after the current span ends,
@@ -71,7 +79,12 @@ def merge_spans(
         if taxonomy.types.get(span.type) is None:
             continue
         if min_score is not None:
-            if span.score is None or span.score < min_score:
+            if span.score is None:
+                # No measured confidence. Keep it unless the caller opted out,
+                # because dropping it leaves the value unmasked.
+                if drop_unscored:
+                    continue
+            elif span.score < min_score:
                 continue
         kept.append(span)
     if not kept:

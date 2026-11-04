@@ -40,6 +40,7 @@ class LocateResult:
     dropped: int
     preset: str
     revision: str
+    quasi: tuple = ()
 
     def to_dict(self) -> dict:
         """Export the contract. Callers who log this dict copy PII."""
@@ -50,4 +51,5 @@ class LocateResult:
             "revision": self.revision,
             "dropped": self.dropped,
             "spans": [span.to_dict() for span in self.spans],
+            "quasi": [row.to_dict() for row in self.quasi],
         }

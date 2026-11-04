@@ -14,7 +14,7 @@ from edgepii.presets import PRESETS
 from edgepii.protocol import Hit, coerce_hit
 from edgepii.span import LocateResult, Span
 from edgepii.windows import split_windows
-from edgepii import normalize
+from edgepii import normalize, quasi
 
 log = logging.getLogger("edgepii")
 
@@ -112,6 +112,7 @@ class Locator:
             dropped=dropped,
             preset=self.preset_name,
             revision=self.revision,
+            quasi=quasi.find_combinations(source),
         )
 
     def locate_many(

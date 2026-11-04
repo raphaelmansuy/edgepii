@@ -151,3 +151,34 @@ python -m edgepii.eval.cli --preset rules --corpus spy-legal --print
 
 The report records the corpus revision and the Faker seed beside the score, so a
 rerun reads the same strings.
+
+## Comparing the two model lanes on one slice
+
+The `multi-open` lane had never been scored. It is the lane the research
+section recommends when the type list must move, and it is the same checkpoint
+family as the top SPY entry, so a comparison was overdue.
+
+Both lanes ran on the same 100 `spy-legal` documents, with the same seed and
+the same taxonomy fold:
+
+| Preset | Weights | P | R | F1 |
+| --- | --- | --- | --- | --- |
+| `en-closed` | ModernBERT, 0.6 GB | 0.181 | 0.622 | **0.280** |
+| `multi-open` | GLiNER2, ~0.3 B params | 0.283 | 0.768 | **0.414** |
+
+`multi-open` raises F1 by 48% relative on this slice, and it raises both
+precision and recall at once. The likely reason is the shape of the task: a
+span model reads the label text at inference, so the type list is a prompt
+rather than a fixed class head. A closed head trained on synthetic persona
+notes has to map an unseen surface form onto a class it learned, and that is
+the failure the per-type table already showed for `PERSON`.
+
+The costs are real, and they are why `en-closed` stays the default:
+
+- Load time was 80 s on this host, against a few seconds for `en-closed`.
+- Throughput was about 1.7 s per document, against 0.6 s.
+- The lane needs `gliner2` and `torch`, so the install is heavier.
+
+A caller who needs accuracy on unseen prose should start from `multi-open`. A
+caller who needs a fast first pass on a frozen type list should start from
+`en-closed`. Both are measured now, which is the point of this file.

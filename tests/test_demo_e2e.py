@@ -291,3 +291,20 @@ def test_model_lane_finds_a_name(page):
     assert "Ada" in marks and "Lovelace" in marks
     assert page.locator("#span-body .slice-bad").count() == 0
     shot(page, "10-model-lane.png")
+
+
+def test_reidentification_risk_is_shown(page):
+    """A complete mask can still leave a person identifiable. Say so in the UI."""
+
+    locate(page, "Patient born 1985-03-14, ZIP 94110, male, follow-up booked.")
+
+    # The rules lane finds no span here, which is the point.
+    page.wait_for_selector("#quasi-block:not([hidden])")
+    items = page.locator("#quasi-list .quasi-item")
+    assert items.count() == 1
+    assert "zip_dob_sex" in items.first.inner_text()
+    assert "high risk" in items.first.inner_text()
+
+    # And it disappears when the fields are not a combination.
+    locate(page, "Patient followed up on 2026-11-04 about order 94110.")
+    page.wait_for_selector("#quasi-block", state="hidden")

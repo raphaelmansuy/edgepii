@@ -28,6 +28,8 @@ That check is the contract. If a detector returns an offset that fails it, the l
 - [API](#api)
 - [Masking and the vault](#masking-and-the-vault)
 - [Restore a model response](#restore-a-model-response)
+- [Re-identification risk](#re-identification-risk)
+- [Tool calls](#tool-calls)
 - [Make targets](#make-targets)
 - [Tests](#tests)
 - [Site](#site)
@@ -267,6 +269,41 @@ No error message contains PII.
 A vault key maps to the original slice. The caller stores the vault. The function keeps nothing. Secrets stay irreversible because a restore would write a password into a ticket, a log, or a second prompt. See [ADR 0004](https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md).
 
 `redact` raises `OverlapError` if two spans overlap. The locator guarantees non-overlapping output, so the error is a guard, not a second merge pass.
+
+## Re-identification risk
+
+A complete mask can still leave a person identifiable. A postcode, a birth date, and a sex are each ordinary, and together they single out most of a population. That is Sweeney's k-anonymity result. The taxonomy excludes those types by default, so a span list cannot report the risk.
+
+`locate` now checks for it and returns the finding beside the spans:
+
+```python
+from edgepii import Locator, find_combinations
+
+source = "Patient born 1985-03-14, ZIP 94110, male, follow-up booked."
+result = Locator.preset("rules").locate(source)
+
+print(result.spans)
+# ()
+print([(row.name, row.risk) for row in result.quasi])
+# [('zip_dob_sex', 'high')]
+```
+
+No span is found, and the text is still identifying. That gap is the reason for this check.
+
+`find_combinations(text)` returns the same rows on its own. Each row names the fields, a risk level, and the rule that justifies it:
+
+| Combination | Risk | Source |
+| --- | --- | --- |
+| postcode + date of birth + sex | high | Sweeney 2002 |
+| postcode + date of birth | medium | Sweeney 2002 |
+| date of birth + sex | medium | Sweeney 2002 |
+| postcode + age | medium | GDPR Article 4(1) |
+
+A field needs evidence before it counts. A bare five-digit number is an order id as often as it is a ZIP, so a numeric postcode requires a cue word, and a date is a birth date only when the text says *born* or *date of birth*. A UK outward code or a Canadian forward sortation area carries letters and identifies itself. `tests/test_quasi.py` locks nine negative cases, because a check that fires on every invoice is one a caller turns off.
+
+The finding is advisory. The library does not mask a combination, because the right response depends on the policy: mask the whole set, generalise one field, or refuse the request.
+
+![Re-identification risk panel](https://github.com/raphaelmansuy/edgepii/raw/main/docs/e2e/screenshots/13-quasi-risk.png)
 
 ## Tool calls
 

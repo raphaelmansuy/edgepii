@@ -297,10 +297,44 @@ wrote the first value into both fields. Each token now carries a leaf index,
 
 ### Still open
 
-| Item | Why it is not in 0.2.1 |
+| Item | Status |
 | --- | --- |
-| ONNX `multi-open` lane | Needs an artifact pin and an ADR for the fixed label set |
-| Surrogate replacement | Changes what leaves the host, so it needs its own ADR |
-| Quasi-identifier combinations | Needs a layer above spans, not a detector change |
-| Semantic leakage | Out of scope for a span detector, and now stated as a limit |
-| CI at `.github/workflows` | Blocked on a token with the `workflow` scope |
+| ONNX `multi-open` lane | Open. The PyTorch lane is now measured; an ONNX artifact would cut the 80 s load |
+| Surrogate replacement | Open. Changes what leaves the host, so it needs its own ADR |
+| Quasi-identifier combinations | **Closed in 0.3.0.** `find_combinations` and `LocateResult.quasi` |
+| Semantic leakage | Out of scope for a span detector, and stated as a limit |
+| CI at `.github/workflows` | Open. Blocked on a token with the `workflow` scope |
+
+## 8. What 0.3.0 changed
+
+### The quasi-identifier gap is closed
+
+`quasi.py` reports a set of ordinary fields that singles a person out. The case
+the assessment recorded now returns a finding instead of nothing:
+
+```text
+"Patient born 1985-03-14, ZIP 94110, male"  ->  spans: ()   quasi: zip_dob_sex, high
+```
+
+The check needs evidence before a field counts. A bare five-digit number is an
+order id as often as a ZIP, and a bare date is a shipping date as often as a
+birth date. A first version flagged `Order 48291 shipped on 2026-11-04` as
+`zip_dob`, which would train a caller to ignore the check. A numeric postcode now
+requires a cue word, and a date of birth requires a birth cue. Nine negative
+cases are locked by `tests/test_quasi.py`, and the panel is covered by a browser
+test that proves it appears and disappears.
+
+### The missing measurement is recorded
+
+The `multi-open` lane had never been scored, which the assessment named as the
+biggest credibility gap. On the same 100 `spy-legal` documents:
+
+| Preset | P | R | F1 |
+| --- | --- | --- | --- |
+| `en-closed` | 0.181 | 0.622 | 0.280 |
+| `multi-open` | 0.283 | 0.768 | **0.414** |
+
+`multi-open` is 48% better on this slice and improves both precision and recall.
+The cost is real: 80 s to load and about 3x the latency. `en-closed` stays the
+default for a fast first pass, and the file now records both numbers so a caller
+chooses on evidence rather than on a recommendation.

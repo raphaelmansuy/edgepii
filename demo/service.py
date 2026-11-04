@@ -218,6 +218,7 @@ def locate(
         "class_counts": class_counts,
         "types_requested": wanted,
         "slice_ok": all(row["slice_ok"] for row in rows),
+        "quasi": [row.to_dict() for row in result.quasi],
     }
 
 

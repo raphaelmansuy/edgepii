@@ -4,6 +4,32 @@ All notable changes to this project are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-11-04
+
+Closes the quasi-identifier gap and records the measurement the assessment asked
+for. The `multi-open` lane had never been scored.
+
+### Added
+
+- `find_combinations(text)`, `has_combination(text)`, and `Combination`. Reports
+  a set of ordinary fields that re-identifies a person, which a span list cannot
+  express. `LocateResult.quasi` carries the finding beside the spans, and the
+  demo shows it as a panel.
+  - A field needs evidence. A numeric postcode needs a cue word, and a date is a
+    date of birth only when the text says so, so an order id and a shipping date
+    are not flagged. Nine negative cases are locked by tests.
+  - The finding is advisory. The library does not mask a combination, because
+    the right response depends on policy.
+- The demo API returns `quasi`, and the demo page renders it with the risk level
+  and a cited source. An e2e test proves it appears and disappears correctly.
+
+### Changed
+
+- `docs/13-first-public-score.md` records `multi-open` against `en-closed` on the
+  same 100 SPY legal documents: **0.414 against 0.280**. `multi-open` raises both
+  precision and recall, at 80 s of load time and about 3x the latency. Both lanes
+  are measured now, so a caller can choose on evidence.
+
 ## [0.2.1] - 2026-11-04
 
 Closes the three defects the November 2026 assessment found, and adds the

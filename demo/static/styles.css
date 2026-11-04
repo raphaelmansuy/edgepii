@@ -838,3 +838,40 @@ table.spans tbody tr:hover td {
     gap: 4px;
   }
 }
+
+/* Re-identification risk. A complete mask can still leave a person identifiable,
+   so this block uses the warning tone rather than the neutral panel tone. */
+.quasi-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.quasi-item {
+  border: 1px solid var(--line, #d8dee9);
+  border-left-width: 4px;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  background: var(--panel, #fff);
+}
+
+.quasi-item.risk-high {
+  border-left-color: var(--danger, #b3261e);
+}
+
+.quasi-item.risk-medium {
+  border-left-color: var(--warn, #a15c00);
+}
+
+.quasi-fields {
+  color: var(--muted, #5b6472);
+  font-variant-numeric: tabular-nums;
+}
+
+.quasi-source {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted, #5b6472);
+}

@@ -29,6 +29,8 @@ const nodes = {
   stats: el("stats"),
   highlight: el("highlight"),
   masked: el("masked"),
+  quasiBlock: el("quasi-block"),
+  quasiList: el("quasi-list"),
   spanBody: el("span-body"),
   vaultBody: el("vault-body"),
   vaultBlock: el("vault-block"),
@@ -286,6 +288,26 @@ function renderHighlight(result) {
   }
 }
 
+function renderQuasi(result) {
+  const rows = result.quasi || [];
+  nodes.quasiList.textContent = "";
+  nodes.quasiBlock.hidden = rows.length === 0;
+  for (const row of rows) {
+    const item = document.createElement("li");
+    item.className = `quasi-item risk-${row.risk}`;
+    const name = document.createElement("strong");
+    name.textContent = row.name;
+    const fields = document.createElement("span");
+    fields.className = "quasi-fields";
+    fields.textContent = ` ${row.risk} risk: ${row.fields.join(" + ")}`;
+    const why = document.createElement("p");
+    why.className = "quasi-source";
+    why.textContent = row.source;
+    item.append(name, fields, why);
+    nodes.quasiList.appendChild(item);
+  }
+}
+
 function renderMasked(result) {
   nodes.masked.textContent = "";
   if (result.redact_error) {
@@ -396,6 +418,7 @@ function renderResult(result) {
   renderStats(result);
   renderHighlight(result);
   renderMasked(result);
+  renderQuasi(result);
   renderTable(result);
   renderVault(result);
   nodes.footerRun.textContent = `preset=${result.preset} revision=${result.revision} taxonomy=${result.taxonomy_version}`;

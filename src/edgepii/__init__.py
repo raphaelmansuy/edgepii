@@ -3,6 +3,7 @@
 from edgepii._version import __version__
 from edgepii.errors import DetectorLoadError, OverlapError, UnknownType
 from edgepii.locator import Locator
+from edgepii.quasi import Combination, find_combinations, has_combination
 from edgepii.redact import redact
 from edgepii.restore import RestoreResult, restore
 from edgepii.span import LocateResult, Span
@@ -15,6 +16,7 @@ from edgepii.toolcall import (
 )
 
 __all__ = [
+    "Combination",
     "DetectorLoadError",
     "FieldHit",
     "LocateResult",
@@ -26,6 +28,8 @@ __all__ = [
     "Span",
     "UnknownType",
     "__version__",
+    "find_combinations",
+    "has_combination",
     "mask_mapping",
     "redact",
     "restore",

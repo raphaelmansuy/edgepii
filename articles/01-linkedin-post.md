@@ -26,7 +26,7 @@ Find the PII. Swap it for a placeholder. Send the placeholder. Put the real valu
 
 That is the whole idea.
 
-from edgepii import Locator, redact
+from edgepii import Locator, redact, restore
 
 prompt = "My card 4242424242424242 was charged twice. I am Ada Lovelace, call me on +852 5555 0101."
 
@@ -38,8 +38,7 @@ print(masked)
 
 # send masked to any model, then restore its answer on your host
 answer = "Refund for <PAYMENT_1> is sent. We will call <PHONE_1>."
-for placeholder, real in vault.items():
-    answer = answer.replace(placeholder, real)
+answer = restore(answer, vault).text
 
 # Refund for 4242424242424242 is sent. We will call +852 5555 0101.
 
@@ -142,16 +141,20 @@ model lane is the one that finds names.
 ### Things I fixed while checking
 
 1. **`pip install edgepii` is live.** Published to PyPI on 4 November 2026, now at
-   0.1.1. Installed from the public index into clean Python 3.11, 3.12, and 3.13
+   0.2.0. Installed from the public index into clean Python 3.11, 3.12, and 3.13
    environments and ran the post's code on each.
 2. **The code block was executed, not written.** Every printed line in the post is copied
    from a real run.
-3. **The restore loop is written out, not described.** The library has no `restore()`
-   call; it returns the vault and the caller applies it. The post shows the loop so a
-   reader does not go looking for a function that does not exist.
-4. **The two F1 numbers stay separate.** Averaging the two corpora is the mistake the
+3. **The post uses `restore`, not a `str.replace` loop.** A loop fails silently when a
+   model lower-cases a placeholder, spaces the brackets, or invents one. `restore` reports
+   those in `unresolved` and `unknown`. Before 0.2.0 the library had no such call, and
+   this post had to teach the fragile loop instead.
+4. **The HONEST LIMIT block stays.** The rules lane leaves `Ada Lovelace` unmatched,
+   and 0.2.0 does not change that. The model lane is still the answer, and the SPY
+   score (0.281) is the reason the post does not overclaim it.
+5. **The two F1 numbers stay separate.** Averaging the two corpora is the mistake the
    eval docs warn against.
-5. **The repo link points at PyPI**, where the install line already lives.
+6. **The repo link points at PyPI**, where the install line already lives.
 
 ### Before posting
 

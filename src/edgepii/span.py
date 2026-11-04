@@ -17,6 +17,19 @@ class Span:
     detector_id: str
     raw_label: str
 
+    def to_dict(self) -> dict:
+        """Export one span. The `text` field is a copy of your source string."""
+
+        return {
+            "type": self.type,
+            "start": self.start,
+            "end": self.end,
+            "text": self.text,
+            "score": self.score,
+            "detector_id": self.detector_id,
+            "raw_label": self.raw_label,
+        }
+
 
 @dataclass(frozen=True, slots=True)
 class LocateResult:
@@ -36,16 +49,5 @@ class LocateResult:
             "preset": self.preset,
             "revision": self.revision,
             "dropped": self.dropped,
-            "spans": [
-                {
-                    "type": span.type,
-                    "start": span.start,
-                    "end": span.end,
-                    "text": span.text,
-                    "score": span.score,
-                    "detector_id": span.detector_id,
-                    "raw_label": span.raw_label,
-                }
-                for span in self.spans
-            ],
+            "spans": [span.to_dict() for span in self.spans],
         }

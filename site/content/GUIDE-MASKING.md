@@ -138,11 +138,23 @@ credential is replaced.
 Then restore, if the caller kept the vault:
 
 ```python
-restored = masked
-for placeholder, value in vault.items():
-    restored = restored.replace(placeholder, value)
-# The email and the card come back. <SECRET> stays, because it has no vault entry.
+from edgepii import restore
+
+answer = restore("I sent the refund to <EMAIL_1>.", vault)
+print(answer.text)
+# I sent the refund to ada@example.com.
+print(answer.ok)
+# True
 ```
+
+Use `restore` rather than a hand-written `str.replace` loop. A loop breaks when the model changes the case of a token, spaces the brackets, or invents a placeholder, and it fails silently in all three cases. `restore` reports each one:
+
+```text
+unresolved  ('<SECRET>',)     a secret has no vault entry, by design
+unknown     (EMAIL, grace@example.com)   PII the vault never held
+```
+
+See [Restore a model response](../doc-index/) for the full contract.
 
 ## What to store, and where
 

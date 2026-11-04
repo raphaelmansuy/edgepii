@@ -116,3 +116,59 @@ corpora:
         reason: A GPS point. docs/10-taxonomy.md says ADDRESS is not a GPS point by itself.
       - labels: [credit_card_security_code, account_pin]
         reason: A three or four digit code. SECRET needs a cue word, and a bare code has none.
+  spy-legal:
+    title: SPY Synthetic PII Yesterday, legal questions split
+    role: Out-of-domain English. Legal Q&A forum prose, the standard PII benchmark slice.
+    repo_id: mks-logic/SPY
+    revision: 093be5a0235c9e15bc1c364f10ac48b9563de34c
+    file: data/legal_questions_placeholders.jsonl
+    bytes: 45690405
+    sha256: bb1337d1b289e3da63accc032d614330313fd700612792094a482266fcc389d9
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/legalcode
+    citation: https://aclanthology.org/2025.naacl-srw.23/
+    text_column: text
+    spans_column: ent_tags
+    spans_encoding: bio
+    id_column: null
+    group_columns: []
+    slices:
+      legal: {}
+    labels:
+      NAME: PERSON
+      EMAIL: EMAIL
+      PHONE_NUM: PHONE
+      ADDRESS: ADDRESS
+      USERNAME: USERNAME
+      ID_NUM: GOV_ID
+    drop:
+      - labels: [URL]
+        reason: A web address is a trace identifier outside taxonomy 2026.11, and it is the same decision the Nemotron map records for url.
+  spy-medical:
+    title: SPY Synthetic PII Yesterday, medical consultations split
+    role: Out-of-domain English. Medical transcripts, the second standard SPY slice.
+    repo_id: mks-logic/SPY
+    revision: 093be5a0235c9e15bc1c364f10ac48b9563de34c
+    file: data/medical_consultations_placeholders.jsonl
+    bytes: 44188672
+    sha256: 230f508921503c1ec6e352c420d639458d89c6cf658b9f0d8ea75bf014c6e15b
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/legalcode
+    citation: https://aclanthology.org/2025.naacl-srw.23/
+    text_column: text
+    spans_column: ent_tags
+    spans_encoding: bio
+    id_column: null
+    group_columns: []
+    slices:
+      medical: {}
+    labels:
+      NAME: PERSON
+      EMAIL: EMAIL
+      PHONE_NUM: PHONE
+      ADDRESS: ADDRESS
+      USERNAME: USERNAME
+      ID_NUM: GOV_ID
+    drop:
+      - labels: [URL]
+        reason: A web address is a trace identifier outside taxonomy 2026.11, and it is the same decision the Nemotron map records for url.

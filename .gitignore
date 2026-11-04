@@ -9,3 +9,7 @@ build/
 
 # The built site. `make site` recreates it.
 site/dist/
+
+# A short local eval run. A committed report must come from a full slice.
+docs/eval/*-5.json
+docs/eval/*-10.json

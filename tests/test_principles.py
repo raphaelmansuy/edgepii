@@ -162,3 +162,22 @@ def test_no_rule_contains_a_magic_probability():
     assert "0.8" not in text
     assert "0.80" not in text
     assert re.search(r"Hit\([^)]*0\.[0-9]+", text) is None
+
+
+def test_every_preset_pins_a_revision():
+    """Design rule 8: a floating branch is not a preset.
+
+    A branch name lets a rebuild change the weights under a fixed version
+    string, which breaks replay. A commit sha or a release tag is fixed.
+    """
+
+    from edgepii.presets import PRESETS
+
+    floating = {"main", "master", "dev", "HEAD", "latest"}
+    for name, row in PRESETS.items():
+        if row.detectors == ("rules",):
+            continue
+        assert row.revision, f"preset {name} has no revision"
+        assert row.revision.casefold() not in floating, (
+            f"preset {name} floats on {row.revision!r}"
+        )

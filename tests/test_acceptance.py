@@ -336,3 +336,31 @@ def test_version_is_single_sourced():
     # The demo must not hard-code a second copy.
     demo = (Path(__file__).resolve().parent.parent / "demo" / "app.py").read_text()
     assert "version=__version__" in demo
+
+
+def test_merge_stays_linear_in_span_count():
+    """A pairwise compare was 16x slower per doubling. The sweep is not."""
+
+    import time
+
+    from edgepii.labelmap import load_taxonomy
+    from edgepii.merge import merge_spans
+
+    taxonomy = load_taxonomy("2026.11")
+    allowed = set(taxonomy.default_types())
+
+    def timed(count: int) -> float:
+        spans = [
+            Span("EMAIL", index * 10, index * 10 + 5, "a@b.c", None, "rules.email", "email")
+            for index in range(count)
+        ]
+        start = time.perf_counter()
+        merged = merge_spans(spans, taxonomy, allowed)
+        assert len(merged) == count
+        return time.perf_counter() - start
+
+    timed(200)  # warm up, so import and cache cost stay out of the ratio
+    small = max(timed(500), 1e-6)
+    large = max(timed(4000), 1e-6)
+    # 8x the spans. A quadratic merge costs about 64x; the sweep costs about 8x.
+    assert large / small < 20, f"merge looks super-linear: {small:.4f}s -> {large:.4f}s"

@@ -4,7 +4,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/edgepii.svg)](https://pypi.org/project/edgepii/)
 [![License](https://img.shields.io/pypi/l/edgepii.svg)](https://github.com/raphaelmansuy/edgepii/blob/main/LICENSE)
 
-Locate personally identifiable information (PII) as typed character spans on the exact source string.
+Locate personally identifiable information (PII) as typed character spans on the exact source string, then put the values back in the model's answer.
 
 `edgepii` returns `{type, start, end, text, score}` rows. It does not label a whole document and it does not rewrite text with a chat model. Every row proves one invariant:
 
@@ -27,6 +27,7 @@ That check is the contract. If a detector returns an offset that fails it, the l
 - [Types](#types)
 - [API](#api)
 - [Masking and the vault](#masking-and-the-vault)
+- [Restore a model response](#restore-a-model-response)
 - [Make targets](#make-targets)
 - [Tests](#tests)
 - [Site](#site)
@@ -170,7 +171,7 @@ A preset is a fixed detector list. `locate` does not branch on the preset name.
 | `multi-open` | [fastino/gliner2-privacy-filter-PII-multi](https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi) | `1cb4166` | The caller must change the type list per call |
 | `en-bert` | [ab-ai/pii_model](https://huggingface.co/ab-ai/pii_model) | `bbb5e83` | BERT control. The owner gates this repo, so you need access |
 | `phi-open` | [nvidia/gliner-PII](https://huggingface.co/nvidia/gliner-PII) | `bd23e8e` | Health-adjacent text. Its health labels are outside taxonomy `2026.11` |
-| `zh-schema` | [iic/nlp_structbert_siamese-uie_chinese-base](https://modelscope.cn/models/iic/nlp_structbert_siamese-uie_chinese-base) | `master` | Chinese text through ModelScope schema prompts |
+| `zh-schema` | [iic/nlp_structbert_siamese-uie_chinese-base](https://modelscope.cn/models/iic/nlp_structbert_siamese-uie_chinese-base) | `v1.2` | Chinese text through ModelScope schema prompts |
 
 `en-closed` is the default candidate for a closed English lane. `en-bert` is a control, not the only answer to "is BERT enough?". The full argument is in [when the encoder is enough](https://github.com/raphaelmansuy/edgepii/blob/main/docs/04-research-landscape.md#when-the-encoder-is-enough).
 
@@ -231,7 +232,11 @@ Returns one result per source, in order. The method does not join strings, so of
 
 ### `redact(source, spans, taxonomy="2026.11")`
 
-Returns `(masked, vault)`. See below.
+Returns `(masked, vault)`. See [Masking and the vault](#masking-and-the-vault).
+
+### `restore(text, vault, *, locator=None, types=None)`
+
+Returns `RestoreResult`. See [Restore a model response](#restore-a-model-response).
 
 ### Errors
 
@@ -256,6 +261,62 @@ No error message contains PII.
 A vault key maps to the original slice. The caller stores the vault. The function keeps nothing. Secrets stay irreversible because a restore would write a password into a ticket, a log, or a second prompt. See [ADR 0004](https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md).
 
 `redact` raises `OverlapError` if two spans overlap. The locator guarantees non-overlapping output, so the error is a guard, not a second merge pass.
+
+## Restore a model response
+
+`redact` is the outbound half of the loop. `restore` is the inbound half. Both are pure functions: the vault lives with the caller.
+
+```python
+from edgepii import Locator, redact, restore
+
+locator = Locator.preset("rules")
+prompt = "Email ada@example.com and card 4242424242424242."
+masked, vault = redact(prompt, locator.locate(prompt).spans)
+
+answer = restore("I sent a note to <email_1> about <PAYMENT_1>.", vault)
+print(answer.text)
+# I sent a note to ada@example.com about 4242424242424242.
+print(answer.ok)
+# True
+```
+
+`restore` exists because a model response is new text. A plain `str.replace` loop fails in three ways that a real model produces:
+
+| Failure | What a naive loop does | What `restore` does |
+| --- | --- | --- |
+| The model lower-cases a token, `<email_1>` | Leaves it in the text, visibly | Matches it, restores the value |
+| The model spaces the brackets, `< EMAIL 1 >` | Leaves it in the text | Matches it |
+| The model invents `<PERSON_9>` | Leaves it in the text, silently | Reports it in `unresolved` |
+
+The returned `RestoreResult` has five fields:
+
+| Field | Meaning |
+| --- | --- |
+| `text` | The restored string |
+| `resolved` | Placeholders that were found and replaced |
+| `unresolved` | Placeholder-shaped tokens still in the text. Never ignore this |
+| `unknown` | Spans whose text the vault never held |
+| `ok` | `True` only when both of the last two are empty |
+
+A secret has no vault entry, so `<SECRET>` always comes back in `unresolved`. That is the design, not a bug: restore cannot invent a password. Show a message instead.
+
+### Checking the response for PII
+
+Pass the locator and `restore` also scans the model's own text. This catches a response that contains PII the mask missed, or PII the model hallucinated:
+
+```python
+answer = restore(
+    "Also grace@example.com wrote in.",
+    vault,
+    locator=locator,
+)
+print([(span.type, span.text) for span in answer.unknown])
+# [('EMAIL', 'grace@example.com')]
+print(answer.ok)
+# False
+```
+
+The scan runs on the raw response, before restoration, because restoration inserts real values on purpose. One extra detector pass, and it is the difference between "we masked the prompt" and "we checked the answer".
 
 ## Make targets
 
@@ -324,25 +385,30 @@ Two properties are worth keeping:
 
 **The docs are not copied.** `build.py` reads `docs/*.md` directly. An edit to a doc appears on the site without a second edit, and `site/links.py` rewrites the relative `.md` links into routes.
 
-GitHub Pages serves the site from `.github/workflows/site.yml`. The workflow runs the same four commands, so a local build and a deployed build are the same build.
+GitHub Pages serves the site from the `site` workflow. The workflow runs the same four commands, so a local build and a deployed build are the same build. The workflow file lives at `site/workflow/site.yml` and is installed into `.github/workflows/site.yml` by the repository owner, because a token without the `workflow` scope cannot push that path.
 
 ## Evaluation
 
 Scoring is exact-span F1 in the CoNLL sense: a prediction counts only when `type`, `start`, and `end` all match gold. The report also counts misses, wrong types, shifted spans, extras, and leakage. Exact match is strict by design, because a one-character shift breaks the mask.
 
-The harness scores a preset on a pinned public PII corpus. A corpus is a repository id, a commit revision, a byte count, and a `sha256`, so a run replays exactly. Two corpora ship:
+The harness scores a preset on a pinned public PII corpus. A corpus is a repository id, a commit revision, a byte count, and a `sha256`, so a run replays exactly. Four corpora ship:
 
 | Key | Corpus | License | Role |
 | --- | --- | --- | --- |
 | `nemotron-pii` | [nvidia/Nemotron-PII](https://huggingface.co/datasets/nvidia/Nemotron-PII) test split | CC-BY-4.0 | In domain: the `en-closed` checkpoint trains on this distribution |
 | `gretel-finance-en` | [gretelai/synthetic_pii_finance_multilingual](https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual) English test split | Apache-2.0 | Out of domain: finance documents and SWIFT messages |
+| `spy-legal` | [SPY](https://huggingface.co/datasets/mks-logic/SPY) legal questions | CC-BY-4.0 | Out of domain: legal Q&A prose, the standard PII benchmark slice |
+| `spy-medical` | [SPY](https://huggingface.co/datasets/mks-logic/SPY) medical consultations | CC-BY-4.0 | Out of domain: medical transcripts |
+
+SPY ships templates such as `<NAME>`, so a run fills them with `Faker.seed(42)` before scoring. The seed is fixed and recorded with the score. The `eval` extra supplies `faker`.
 
 ```bash
-make install                          # adds pyarrow for the eval extra
+make install                          # adds pyarrow and faker for the eval extra
 make eval CORPUS=nemotron-pii LIMIT=2000
 make eval-model CORPUS=nemotron-pii LIMIT=500     # needs .[hf]
 
 python -m edgepii.eval.cli --preset rules --corpus nemotron-pii --limit 2000 --print
+python -m edgepii.eval.cli --preset rules --corpus spy-legal --print
 ```
 
 Each external gold label folds into taxonomy `2026.11`, or it drops with a written reason. A label that neither map names is counted as `unknown`, never guessed. [Public corpora](https://github.com/raphaelmansuy/edgepii/blob/main/docs/12-public-corpora.md) lists every fold and every drop.

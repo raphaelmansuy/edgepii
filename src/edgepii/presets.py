@@ -49,6 +49,9 @@ PRESETS: dict[str, Preset] = {
         "ms",
         ("rules", "uie"),
         "iic/nlp_structbert_siamese-uie_chinese-base",
-        "master",
+        # A tag, not the `master` branch. The repo publishes v1.0, v1.1, and
+        # v1.2; a branch would let a rebuild change the weights under a fixed
+        # version string. Design rule 8 says a preset pins a revision.
+        "v1.2",
     ),
 }

@@ -32,7 +32,13 @@ from edgepii.labelmap import load_taxonomy
 def test_registry_is_a_pin_not_a_moving_file():
     """Every corpus names a revision, a sha256, and a license."""
 
-    assert corpus_keys() == ["gretel-finance-en", "nemotron-pii"]
+    # A new corpus is a deliberate edit to this list, never a silent addition.
+    assert corpus_keys() == [
+        "gretel-finance-en",
+        "nemotron-pii",
+        "spy-legal",
+        "spy-medical",
+    ]
     for key in corpus_keys():
         spec = load_spec(key)
         assert len(spec.revision) == 40, key
@@ -338,3 +344,61 @@ def _doc(spans, text):
     from edgepii.eval.corpora import Doc
 
     return Doc(doc_id="d", text=text, groups=(), spans=spans)
+
+
+def test_bio_encoding_builds_spans_on_the_source_string():
+    """A BIO corpus stores tokens. The decoder must rebuild offsets that slice."""
+
+    record = {
+        "tokens": ["Call ", "Ada ", "Lovelace", " at ", "a@b.co", "."],
+        "ent_tags": ["O", "B-NAME", "I-NAME", "O", "B-EMAIL", "O"],
+    }
+    text = corpora.record_text({"tokens": record["tokens"], "text": None}, load_spec("spy-legal"))
+    assert text == "Call Ada Lovelace at a@b.co."
+
+    spans = corpora.bio_to_spans(record, text)
+    found = {(item["label"], text[item["start"] : item["end"]]) for item in spans}
+    assert ("NAME", "Ada Lovelace") in found
+    assert ("EMAIL", "a@b.co") in found
+    for item in spans:
+        assert text[item["start"] : item["end"]].strip() == text[item["start"] : item["end"]]
+
+
+def test_bio_encoding_does_not_merge_two_entities_of_one_type():
+    """Two NAME entities separated by plain text stay two spans."""
+
+    record = {
+        "tokens": ["Ada ", "met ", "Grace", "."],
+        "ent_tags": ["B-NAME", "O", "B-NAME", "O"],
+    }
+    text = "Ada met Grace."
+    spans = corpora.bio_to_spans(record, text)
+    assert [(text[s["start"] : s["end"]]) for s in spans] == ["Ada", "Grace"]
+
+
+def test_bio_encoding_trims_the_entity_edge():
+    """SPY tokens carry their trailing space. A gold span must not include it."""
+
+    record = {"tokens": ["Email ", "a@b.co ", "now"], "ent_tags": ["O", "B-EMAIL", "O"]}
+    text = "Email a@b.co now"
+    spans = corpora.bio_to_spans(record, text)
+    assert text[spans[0]["start"] : spans[0]["end"]] == "a@b.co"
+
+
+def test_spy_materialisation_is_reproducible_for_one_seed():
+    """The official loader seeds Faker. Two runs at one seed must agree."""
+
+    pytest.importorskip("faker")
+    records = [
+        {
+            "tokens": ["I am ", "<NAME>", " at ", "<EMAIL>", "."],
+            "ent_tags": ["O", "B-NAME", "O", "B-EMAIL", "O"],
+            "trailing_whitespaces": [True, False, True, False, False],
+        }
+    ]
+    first = corpora.materialize_spy(records, seed=42)
+    second = corpora.materialize_spy(records, seed=42)
+    assert first[0]["tokens"] == second[0]["tokens"]
+    # The placeholder must be gone and a value must be in its place.
+    assert "<NAME>" not in "".join(first[0]["tokens"])
+    assert "B-NAME" in first[0]["ent_tags"]

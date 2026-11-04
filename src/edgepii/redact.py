@@ -32,10 +32,17 @@ def redact(
 
 
 def _reject_overlaps(spans: tuple[Span, ...]) -> None:
-    for index, left in enumerate(spans):
-        for right in spans[index + 1 :]:
-            if left.start < right.end and right.start < left.end:
-                raise OverlapError(left.start, left.end)
+    """Sort by start, so one comparison per span proves the list is disjoint.
+
+    The spans arrive sorted. If each span starts at or after the previous end,
+    the list is disjoint. Any earlier pair would already have failed.
+    """
+
+    reach = -1
+    for span in spans:
+        if span.start < reach:
+            raise OverlapError(span.start, span.end)
+        reach = span.end
 
 
 def _assign_placeholders(spans: tuple[Span, ...], taxonomy: Taxonomy) -> list[str]:

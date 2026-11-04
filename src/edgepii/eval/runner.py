@@ -15,7 +15,18 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from edgepii.eval.corpora import build_docs, ensure_file, label_audit, load_spec, read_raw
+from edgepii.eval.corpora import (
+    build_docs,
+    ensure_file,
+    label_audit,
+    load_spec,
+    materialize_spy,
+    read_raw,
+)
+
+# The official SPY loader seeds Faker. A fixed seed makes a rerun identical.
+SPY_SEED = 42
+
 from edgepii.eval.score import TypeScore, leakage_count
 
 # A gold span in one of these classes must not survive redact. See ADR 0004 and
@@ -136,7 +147,12 @@ def score_corpus(
             raise RuntimeError(f"corpus {corpus} has no slice {name}")
 
     path = ensure_file(spec, cache_dir)
-    docs, diagnostics = build_docs(read_raw(path), spec, allowed)
+    records = read_raw(path)
+    # A corpus of templates needs one materialisation step before scoring. The
+    # seed is fixed, so a rerun reads the same values.
+    if spec.spans_encoding == "bio":
+        records = materialize_spy(records, seed=SPY_SEED)
+    docs, diagnostics = build_docs(records, spec, allowed)
 
     # One pass over the documents. Each document feeds every slice it belongs to,
     # so a run with four slices does not call the locator four times per document.

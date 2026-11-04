@@ -109,3 +109,45 @@ preset is ready to ship on a finance domain, and the number says why.
    numbers about two corpora. Do not average them into one.
 
 None of these steps changes a floor. The floors wait for the sealed freeze.
+
+## The SPY benchmark
+
+SPY is the out-of-distribution PII benchmark that the published leaderboard uses.
+The legal and medical splits are Q&A forum prose and medical transcripts, so
+neither split shares a template with a synthetic training corpus.
+
+SPY ships token templates such as `<NAME>`, not values. A score therefore needs
+one materialisation step. `materialize_spy` calls `Faker.seed(42)` and fills each
+`B-` entity, in the same order as the official loader. The seed is fixed, so a
+rerun reads the same strings. The pin still covers the template file.
+
+| Split | Preset | Docs | Gold | P | R | F1 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `spy-legal` | `rules` | 4 197 | 23 128 | 0.358 | 0.298 | 0.325 |
+| `spy-medical` | `rules` | 4 491 | 27 101 | 0.388 | 0.286 | 0.329 |
+| `spy-legal` | `en-closed` | 200 | 1 026 | 0.183 | 0.614 | 0.281 |
+
+The published SPY leaderboard reports exact-span F1 for other systems:
+GLiNER2-PII 0.471, NVIDIA GLiNER-PII 0.391, urchade 0.384, OpenAI Privacy Filter
+0.373. Those rows are measured on the 200 document slice with a label map of
+their own. `en-closed` at 0.281 on 200 legal documents is below that group, and
+the gap is the finding: a closed encoder trained on synthetic persona notes does
+not transfer to Q&A prose.
+
+`en-closed` reaches recall 0.614 with precision 0.183. It masks a great deal of
+capitalised text, which is the behaviour the Nemotron slice also showed. The
+rule lane is more precise and less complete, and the two lanes are merged in a
+preset for that reason.
+
+The `rules` row is the honest floor. It finds emails, phones, cards, IBANs and
+IPs, and it never finds a name or an address. Those two types hold most of the
+SPY gold, so the aggregate understates the structured types.
+
+Run it yourself:
+
+```bash
+python -m edgepii.eval.cli --preset rules --corpus spy-legal --print
+```
+
+The report records the corpus revision and the Faker seed beside the score, so a
+rerun reads the same strings.

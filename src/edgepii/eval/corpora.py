@@ -226,7 +226,7 @@ def read_raw(path: Path) -> list[dict]:
 
 
 def parse_spans(raw, encoding: str) -> list[dict]:
-    if encoding not in {"json", "python_literal"}:
+    if encoding not in {"json", "python_literal", "bio"}:
         raise CorpusError(f"unknown spans encoding {encoding}")
     if raw is None:
         return []
@@ -242,6 +242,71 @@ def parse_spans(raw, encoding: str) -> list[dict]:
     if encoding == "json":
         return json.loads(text)
     return ast.literal_eval(text)
+
+
+def bio_to_spans(record: dict, text: str) -> list[dict]:
+    """Turn a BIO-tagged record into character spans on `text`.
+
+    The corpus stores tokens, a tag per token, and a flag that says whether the
+    token carries a trailing space. The offsets are rebuilt by walking the text,
+    then checked against it. A token whose slice does not match the text is
+    shifted by a whitespace fix or dropped, never guessed.
+
+    A tag is `B-TYPE`, `I-TYPE`, or `O`. An `I-` tag continues the previous span
+    only when the type matches and the two tokens touch.
+    """
+
+    tokens = record.get("tokens") or []
+    tags = record.get("ent_tags") or []
+    if len(tokens) != len(tags):
+        return []
+
+    spans: list[dict] = []
+    cursor = 0
+    open_type: str | None = None
+    open_start = 0
+    open_end = 0
+
+    def close() -> None:
+        nonlocal open_type
+        if open_type is not None:
+            # Tokens carry their trailing space, so trim the entity edges. The
+            # locator trims the same way, and exact-span F1 compares the two.
+            start, end = open_start, open_end
+            while start < end and text[start].isspace():
+                start += 1
+            while end > start and text[end - 1].isspace():
+                end -= 1
+            if start < end:
+                spans.append({"label": open_type, "start": start, "end": end})
+            open_type = None
+
+    for token, tag in zip(tokens, tags, strict=False):
+        piece = str(token)
+        prefix, _, label = str(tag).partition("-")
+
+        start = text.find(piece, cursor)
+        if start < 0:
+            close()
+            continue
+        end = start + len(piece)
+        cursor = end
+
+        if prefix == "B" or (prefix == "I" and open_type != label):
+            close()
+            open_type, open_start, open_end = label, start, end
+        elif prefix == "I" and open_type == label:
+            # Only extend when the two tokens are adjacent on the source string.
+            if start == open_end:
+                open_end = end
+            else:
+                close()
+                open_type, open_start, open_end = label, start, end
+        else:
+            close()
+
+    close()
+    return spans
 
 
 def build_docs(
@@ -276,13 +341,117 @@ def _in_slice(raw: dict, where: dict[str, str]) -> bool:
     return all(str(raw.get(column)) == str(value) for column, value in where.items())
 
 
-def _to_doc(raw: dict, spec: CorpusSpec, allowed_types: set[str], diagnostics: GoldDiagnostics) -> Doc:
+def record_text(raw: dict, spec: CorpusSpec) -> str:
+    """Return the document text. A BIO corpus stores tokens, not a text column."""
+
     text = raw.get(spec.text_column)
-    if not isinstance(text, str):
-        raise CorpusError(f"corpus {spec.key} row has no text in {spec.text_column}")
+    if isinstance(text, str):
+        return text
+    tokens = raw.get("tokens")
+    if isinstance(tokens, list):
+        return "".join(str(token) for token in tokens)
+    raise CorpusError(f"corpus {spec.key} row has no text in {spec.text_column}")
+
+
+def materialize_spy(records: list[dict], seed: int) -> list[dict]:
+    """Replace SPY's placeholders with seeded fake values.
+
+    SPY ships templates such as `<NAME>` rather than real strings, so a score
+    needs a materialisation step. The official loader calls `Faker.seed(seed)`
+    and fills each `B-` entity with a generated value of the same type. This
+    function does the same, in the same order, so a run replays exactly.
+
+    A materialised corpus is derived data, not the pinned bytes. The pin still
+    covers the template file, and the seed is recorded in the report.
+    """
+
+    try:
+        from faker import Faker
+    except ImportError as exc:
+        raise CorpusError(
+            'SPY needs faker to fill its templates: pip install "edgepii[eval]"'
+        ) from exc
+
+    fake = Faker()
+    Faker.seed(seed)
+
+    generators = {
+        "EMAIL": [fake.ascii_email, fake.ascii_free_email],
+        "NAME": [fake.name],
+        "URL": [lambda: fake.uri(deep=1), lambda: fake.uri(deep=2)],
+        "PHONE_NUM": [fake.phone_number],
+        "ID_NUM": [
+            fake.ripe_id,
+            fake.msisdn,
+            fake.ssn,
+            fake.sbn9,
+            fake.iban,
+            fake.credit_card_number,
+        ],
+        "ADDRESS": [fake.street_address],
+        "USERNAME": [fake.user_name],
+    }
+
+    out: list[dict] = []
+    for record in records:
+        tokens = list(record.get("tokens") or [])
+        tags = list(record.get("ent_tags") or [])
+        spaces = list(record.get("trailing_whitespaces") or [True] * len(tokens))
+        if len(tokens) != len(tags):
+            out.append(record)
+            continue
+
+        new_tokens: list[str] = []
+        new_tags: list[str] = []
+        new_spaces: list[bool] = []
+        for token, tag, space in zip(tokens, tags, spaces, strict=False):
+            if not str(tag).startswith("B-"):
+                new_tokens.append(str(token))
+                new_tags.append(str(tag))
+                new_spaces.append(bool(space))
+                continue
+
+            entity = str(tag)[2:]
+            pool = generators.get(entity)
+            if not pool:
+                new_tokens.append(str(token))
+                new_tags.append(str(tag))
+                new_spaces.append(bool(space))
+                continue
+
+            words = str(pool[0]()).split()
+            if not words:
+                words = ["x"]
+            for index, word in enumerate(words):
+                last = index == len(words) - 1
+                # The source tokens carry their own trailing space, so a token
+                # that ends a word must do the same. Joining bare words would
+                # fuse an entity into the next one.
+                if not last:
+                    new_tokens.append(f"{word} ")
+                elif space:
+                    new_tokens.append(f"{word} ")
+                else:
+                    new_tokens.append(word)
+                new_tags.append(f"B-{entity}" if index == 0 else f"I-{entity}")
+                new_spaces.append(True if not last else bool(space))
+
+        out.append(
+            {
+                **record,
+                "tokens": new_tokens,
+                "ent_tags": new_tags,
+                "trailing_whitespaces": new_spaces,
+            }
+        )
+    return out
+
+
+def _to_doc(raw: dict, spec: CorpusSpec, allowed_types: set[str], diagnostics: GoldDiagnostics) -> Doc:
+    text = record_text(raw, spec)
     groups = tuple((column, str(raw.get(column))) for column in spec.group_columns)
     doc_id = str(raw[spec.id_column]) if spec.id_column else str(diagnostics.rows)
-    spans, overlapping = gold_spans(text, raw.get(spec.spans_column), spec, allowed_types, diagnostics)
+    spans, overlapping = gold_spans(text, raw, spec, allowed_types, diagnostics)
     diagnostics.rows += 1
     if overlapping:
         diagnostics.overlapping_rows += 1
@@ -299,7 +468,14 @@ def gold_spans(
     """Return non-overlapping gold triples. An unknown label is counted, not folded."""
 
     rows: list[tuple[str, int, int]] = []
-    for item in parse_spans(raw_spans, spec.spans_encoding):
+    if spec.spans_encoding == "bio":
+        # A BIO corpus needs the whole record: tokens, tags, and spacing.
+        items = bio_to_spans(raw_spans, text)
+    else:
+        # Other encodings pass the spans column alone.
+        column = raw_spans.get(spec.spans_column) if isinstance(raw_spans, dict) else raw_spans
+        items = parse_spans(column, spec.spans_encoding)
+    for item in items:
         label = str(item.get("label") or "")
         public = spec.labels.get(label)
         if public is None:

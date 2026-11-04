@@ -7,6 +7,8 @@ from edgepii.span import Span
 
 
 def _overlaps(left: Span, right: Span) -> bool:
+    """Half-open test. Kept for the tests that pin the old policy shape."""
+
     return left.start < right.end and right.start < left.end
 
 
@@ -55,14 +57,18 @@ def merge_spans(
     A span with no score cannot meet a floor. It has no measured confidence,
     so `min_score` drops it. With no `min_score` it stays, because the caller
     asked for every span.
+
+    Overlap resolution is a sweep, not a pairwise compare. The list is sorted by
+    start offset, so once a later span starts at or after the current span ends,
+    no later span can overlap it. That bound keeps a long document linear in the
+    number of spans instead of quadratic.
     """
 
     kept: list[Span] = []
     for span in spans:
         if span.type not in allowed_types:
             continue
-        info = taxonomy.types.get(span.type)
-        if info is None:
+        if taxonomy.types.get(span.type) is None:
             continue
         if min_score is not None:
             if span.score is None or span.score < min_score:
@@ -70,26 +76,35 @@ def merge_spans(
         kept.append(span)
     if not kept:
         return []
-    parent = list(range(len(kept)))
 
-    def find(index: int) -> int:
-        while parent[index] != index:
-            parent[index] = parent[parent[index]]
-            index = parent[index]
-        return index
-
-    for i, left in enumerate(kept):
-        for j in range(i + 1, len(kept)):
-            if _overlaps(left, kept[j]):
-                root_i = find(i)
-                root_j = find(j)
-                if root_i != root_j:
-                    parent[root_j] = root_i
-    groups: dict[int, list[Span]] = {}
-    for index, span in enumerate(kept):
-        groups.setdefault(find(index), []).append(span)
-    winners = [_better_of(group, taxonomy) for group in groups.values()]
+    kept.sort(key=lambda span: (span.start, span.end, span.type))
+    winners = _resolve_overlaps(kept, taxonomy)
     winners.sort(key=lambda span: (span.start, span.end, span.type))
+    return winners
+
+
+def _resolve_overlaps(ordered: list[Span], taxonomy: Taxonomy) -> list[Span]:
+    """Group transitively overlapping spans, then keep one winner per group.
+
+    `ordered` is sorted by start offset. A group is closed as soon as a span
+    starts at or after the furthest end seen so far, because nothing later can
+    reach back into it.
+    """
+
+    winners: list[Span] = []
+    group: list[Span] = []
+    reach = -1
+
+    for span in ordered:
+        if group and span.start >= reach:
+            winners.append(_better_of(group, taxonomy))
+            group = []
+            reach = -1
+        group.append(span)
+        reach = max(reach, span.end)
+
+    if group:
+        winners.append(_better_of(group, taxonomy))
     return winners
 
 

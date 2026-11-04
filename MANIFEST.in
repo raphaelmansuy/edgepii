@@ -1,0 +1,23 @@
+include LICENSE
+include README.md
+include CHANGELOG.md
+include pyproject.toml
+
+# The docs are part of the source release. The README links to them.
+recursive-include docs *.md *.yaml *.json
+
+# Tests let a reader check the claims on the page that ships with the code.
+recursive-include tests *.py
+
+# Package data, declared a second time so a source build keeps it.
+recursive-include src/edgepii/taxonomies *.yaml
+recursive-include src/edgepii/eval *.yaml
+include src/edgepii/py.typed
+
+# Not shipped: the site build, the demo, and local caches.
+prune .venv
+prune build
+prune dist
+prune site/dist
+prune modal
+global-exclude __pycache__ *.py[cod] .DS_Store

@@ -313,3 +313,26 @@ def test_same_slice_reuses_placeholder():
     assert masked.count("<EMAIL_1>") == 2
     assert "<EMAIL_2>" not in masked
     assert vault == {"<EMAIL_1>": "ada@example.com"}
+
+
+def test_version_is_single_sourced():
+    """The package, the wheel metadata, and the docs must not drift apart."""
+
+    import tomllib
+
+    import edgepii
+
+    assert edgepii.__version__
+    assert "__version__" in edgepii.__all__
+
+    pyproject = Path(__file__).resolve().parent.parent / "pyproject.toml"
+    config = tomllib.loads(pyproject.read_text())
+    # The version lives in the module, so the build cannot carry a stale copy.
+    assert "version" in config["project"]["dynamic"]
+    assert "version" not in config["project"]
+    assert config["tool"]["setuptools"]["dynamic"]["version"]["attr"] == (
+        "edgepii._version.__version__"
+    )
+    # The demo must not hard-code a second copy.
+    demo = (Path(__file__).resolve().parent.parent / "demo" / "app.py").read_text()
+    assert "version=__version__" in demo

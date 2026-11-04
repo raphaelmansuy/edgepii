@@ -196,6 +196,11 @@ Rank breaks an overlap. Higher rank wins. A tie then prefers a rule hit, then a 
 
 ## API
 
+### `edgepii.__version__`
+
+The installed version string. It is read from `edgepii/_version.py`, so the
+package and the wheel metadata cannot disagree.
+
 ### `Locator.preset(name, device="cpu", taxonomy="2026.11")`
 
 Build a locator with pinned detectors. Raises `DetectorLoadError` when an extra does not exist.
@@ -273,7 +278,7 @@ make clean         # remove caches
 ## Tests
 
 ```bash
-make test                      # 22 contract, 18 principle, 24 eval, 8 demo API tests
+make test                      # 23 contract, 18 principle, 24 eval, 8 demo API tests
 make e2e                       # 13 browser tests, screenshots to docs/e2e/screenshots
 .venv/bin/pytest tests -q      # everything installed
 ```

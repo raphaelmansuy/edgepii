@@ -9,6 +9,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from edgepii import __version__
 from demo.samples import SAMPLES
 from demo.service import (
     DemoError,
@@ -23,7 +24,7 @@ STATIC = HERE / "static"
 app = FastAPI(
     title="edgepii demo",
     description="Locate PII as typed character spans on the source string.",
-    version="0.1.0",
+    version=__version__,
 )
 
 

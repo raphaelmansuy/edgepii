@@ -1,6 +1,6 @@
 # Your prompt is your data leak.
 
-> LinkedIn post — `edgepii` 0.1.0 announcement.
+> LinkedIn post — `edgepii` announcement.
 > Body is plain text, no Markdown, no code fences. Copy from the line after `---` to the hashtags.
 > Post body: 2,792 characters, under the 3,000 limit. Recount after any edit.
 
@@ -141,8 +141,9 @@ model lane is the one that finds names.
 
 ### Things I fixed while checking
 
-1. **`pip install edgepii` is live.** Published to PyPI as 0.1.0 on 4 November 2026.
-   Installed from the public index into a clean Python 3.11 venv and ran the post's code.
+1. **`pip install edgepii` is live.** Published to PyPI on 4 November 2026, now at
+   0.1.1. Installed from the public index into clean Python 3.11, 3.12, and 3.13
+   environments and ran the post's code on each.
 2. **The code block was executed, not written.** Every printed line in the post is copied
    from a real run.
 3. **The restore loop is written out, not described.** The library has no `restore()`

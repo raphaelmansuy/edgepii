@@ -1,0 +1,113 @@
+version: "2026.11"
+default_excluded_classes:
+  - quasi
+classes:
+  secret:
+    rank: 40
+    redact: irreversible
+  gov_id:
+    rank: 30
+    redact: vault
+  payment:
+    rank: 20
+    redact: vault
+  contact:
+    rank: 10
+    redact: vault
+  person:
+    rank: 10
+    redact: vault
+  quasi:
+    rank: 0
+    redact: vault
+types:
+  SECRET:
+    class: secret
+    prefer: rule
+  GOV_ID:
+    class: gov_id
+    prefer: rule
+  PAYMENT:
+    class: payment
+    prefer: rule
+  EMAIL:
+    class: contact
+    prefer: rule
+  PHONE:
+    class: contact
+    prefer: rule
+  PERSON:
+    class: person
+    prefer: model
+  ADDRESS:
+    class: person
+    prefer: model
+  USERNAME:
+    class: contact
+    prefer: model
+  IP_ADDRESS:
+    class: contact
+    prefer: rule
+  DATE_OF_BIRTH:
+    class: quasi
+    prefer: model
+  ORG:
+    class: quasi
+    prefer: model
+labels:
+  email: EMAIL
+  phone_number: PHONE
+  phonenumber: PHONE
+  phone: PHONE
+  person: PERSON
+  full_name: PERSON
+  first_name: PERSON
+  last_name: PERSON
+  firstname: PERSON
+  lastname: PERSON
+  middlename: PERSON
+  address: ADDRESS
+  street_address: ADDRESS
+  street: ADDRESS
+  city: ADDRESS
+  state: ADDRESS
+  zipcode: ADDRESS
+  postcode: ADDRESS
+  country: ADDRESS
+  creditcardnumber: PAYMENT
+  credit_debit_card: PAYMENT
+  card_number: PAYMENT
+  payment_card: PAYMENT
+  iban: PAYMENT
+  bank_account: PAYMENT
+  ssn: GOV_ID
+  national_id: GOV_ID
+  national_id_number: GOV_ID
+  passport_number: GOV_ID
+  tax_id: GOV_ID
+  password: SECRET
+  secret: SECRET
+  api_key: SECRET
+  access_token: SECRET
+  ip_address: IP_ADDRESS
+  ip: IP_ADDRESS
+  ipv4: IP_ADDRESS
+  ipv6: IP_ADDRESS
+  date_of_birth: DATE_OF_BIRTH
+  dob: DATE_OF_BIRTH
+  username: USERNAME
+  companyname: ORG
+  organization: ORG
+  姓名: PERSON
+  电子邮箱: EMAIL
+  手机号: PHONE
+  身份证号: GOV_ID
+  银行卡号: PAYMENT
+  详细地址: ADDRESS
+schema_zh:
+  PERSON: 姓名
+  EMAIL: 电子邮箱
+  PHONE: 手机号
+  GOV_ID: 身份证号
+  PAYMENT: 银行卡号
+  ADDRESS: 详细地址

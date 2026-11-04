@@ -1,0 +1,104 @@
+"""Score an edgepii preset on a pinned public PII corpus.
+
+    python -m edgepii.eval.cli --preset rules --corpus nemotron-pii
+    python -m edgepii.eval.cli --preset rules --corpus gretel-finance-en --limit 500
+
+The run reads the pin from `corpora.yaml`, checks the sha256, scores every
+document, and writes one JSON report. The report holds counts, not source text.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+from edgepii.eval.corpora import CorpusError, corpus_keys, load_spec
+from edgepii.eval.runner import score_corpus
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="edgepii.eval")
+    parser.add_argument("--preset", default="rules", help="preset name, for example rules")
+    parser.add_argument("--corpus", required=True, help="corpus key, for example nemotron-pii")
+    parser.add_argument("--limit", type=int, default=None, help="take the first N documents of each slice")
+    parser.add_argument("--slice", action="append", dest="slices", default=None, help="slice name. repeatable")
+    parser.add_argument("--types", default=None, help="comma separated type subset")
+    parser.add_argument("--cache", default=None, help="corpus cache directory")
+    parser.add_argument("--out", default=None, help="report path. default is a name in docs/eval")
+    parser.add_argument("--device", default="cpu", help="torch device for a model preset")
+    parser.add_argument("--print", action="store_true", dest="show", help="print the table too")
+    args = parser.parse_args(argv)
+
+    from edgepii import DetectorLoadError, Locator
+
+    cache = Path(args.cache) if args.cache else _default_cache()
+    types = [name.strip() for name in args.types.split(",")] if args.types else None
+    try:
+        locator = Locator.preset(args.preset, device=args.device)
+        report = score_corpus(
+            locator,
+            corpus=args.corpus,
+            cache_dir=cache,
+            limit=args.limit,
+            slices=args.slices,
+            types=types,
+        )
+    except (CorpusError, DetectorLoadError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+
+    payload = report.to_dict()
+    out = Path(args.out) if args.out else _default_report(args.preset, args.corpus, args.limit)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if args.show:
+        print(table(payload))
+    print(f"wrote {out}", file=sys.stderr)
+    return 0
+
+
+def table(payload: dict) -> str:
+    lines = [
+        f"preset={payload['preset']} revision={payload['preset_revision'][:12]} "
+        f"corpus={payload['corpus']}@{payload['corpus_revision'][:12]} "
+        f"taxonomy={payload['taxonomy_version']} limit={payload['document_limit']}"
+    ]
+    header = f"{'slice':13} {'docs':>6} {'gold':>6} {'pred':>6} {'tp':>6} {'fp':>5} {'fn':>5} {'P':>6} {'R':>6} {'F1':>6} {'F2':>6} {'leak':>4}"
+    lines.append(header)
+    for name, row in payload["slices"].items():
+        lines.append(
+            f"{name:13} {row['documents']:6d} {row['gold_spans']:6d} {row['predicted_spans']:6d} "
+            f"{row['tp']:6d} {row['fp']:5d} {row['fn']:5d} "
+            f"{row['precision']:6.3f} {row['recall']:6.3f} {row['f1']:6.3f} {row['f2']:6.3f} "
+            f"{row['high_severity_leaks']:4d}"
+        )
+    diagnostics = payload["corpus_diagnostics"]
+    if diagnostics["unknown_labels"]:
+        lines.append(f"unknown gold labels: {diagnostics['unknown_labels']}")
+    lines.append("")
+    lines.append("per type, slice 'all':")
+    for name, row in payload["slices"].get("all", {}).get("per_type", {}).items():
+        lines.append(
+            f"  {name:13} tp={row['tp']:5d} fp={row['fp']:5d} fn={row['fn']:5d} "
+            f"P={row['precision']:.3f} R={row['recall']:.3f} F1={row['f1']:.3f}"
+        )
+    return "\n".join(lines)
+
+
+def _default_cache() -> Path:
+    override = os.environ.get("EDGEPII_CACHE")
+    if override:
+        return Path(override)
+    return Path.home() / ".cache" / "edgepii"
+
+
+def _default_report(preset: str, corpus: str, limit: int | None) -> Path:
+    suffix = f"-{limit}" if limit else "-full"
+    return Path("docs/eval") / f"{corpus}__{preset}{suffix}.json"
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

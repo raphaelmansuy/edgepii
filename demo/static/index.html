@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>edgepii · locate PII spans</title>
+    <meta
+      name="description"
+      content="Locate personally identifiable information as typed character spans on the exact source string."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">e<span>·</span>p</div>
+        <div>
+          <h1>edgepii</h1>
+          <p class="tagline">Typed character spans on the exact source string</p>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <span class="pill" id="taxonomy-pill">taxonomy 2026.11</span>
+        <a class="pill link" href="/docs" target="_blank" rel="noreferrer">API docs</a>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel controls" aria-label="Detection settings">
+        <section class="group">
+          <div class="group-head">
+            <h2>Lane</h2>
+            <p class="hint">Rules need no weights. Model lanes load local weights.</p>
+          </div>
+          <div class="preset-list" id="preset-list" role="radiogroup" aria-label="Preset"></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <h2>Types</h2>
+            <p class="hint">Empty means the default list. Quasi identifiers stay off.</p>
+          </div>
+          <div class="type-actions">
+            <button type="button" class="ghost" id="types-default">Defaults</button>
+            <button type="button" class="ghost" id="types-all">All</button>
+            <button type="button" class="ghost" id="types-none">Clear</button>
+          </div>
+          <div class="type-list" id="type-list"></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <h2>Score floor</h2>
+            <p class="hint">Caller policy. The library sets no default.</p>
+          </div>
+          <div class="floor">
+            <input
+              type="range"
+              id="min-score"
+              min="0"
+              max="1"
+              step="0.05"
+              value="0"
+              aria-label="Minimum score"
+            />
+            <output class="floor-value" id="min-score-value">none</output>
+          </div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <h2>Samples</h2>
+            <p class="hint">Every string is fake.</p>
+          </div>
+          <div class="sample-list" id="sample-list"></div>
+        </section>
+      </aside>
+
+      <section class="panel workbench" aria-label="Source text">
+        <div class="workbench-head">
+          <h2>Source</h2>
+          <div class="workbench-meta">
+            <span class="counter" id="char-count">0 chars</span>
+            <button type="button" class="ghost" id="clear">Clear</button>
+          </div>
+        </div>
+        <textarea
+          id="source"
+          spellcheck="false"
+          placeholder="Paste a ticket, a note, or a prompt. Do not paste real data."
+        ></textarea>
+        <div class="actions">
+          <button type="button" class="primary" id="run">
+            Locate spans
+            <kbd>⌘↵</kbd>
+          </button>
+          <span class="status" id="status" role="status" aria-live="polite"></span>
+          <button type="button" class="ghost push" id="copy-json" hidden>Copy JSON</button>
+        </div>
+
+        <div class="error" id="error" hidden>
+          <strong id="error-title">Request failed</strong>
+          <p id="error-message"></p>
+          <code id="error-hint" hidden></code>
+        </div>
+
+        <div class="intro" id="intro">
+          <div class="intro-steps">
+            <div class="intro-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Pick a lane</strong>
+                <p>Rules use regex and checksums. Model lanes use local weights.</p>
+              </div>
+            </div>
+            <div class="intro-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Add text</strong>
+                <p>Offsets always refer to the string you paste.</p>
+              </div>
+            </div>
+            <div class="intro-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Read the spans</strong>
+                <p>Every row proves <code>source[start:end] == text</code>.</p>
+              </div>
+            </div>
+          </div>
+          <div class="intro-cta">
+            <button type="button" class="primary" id="try-sample">Load the first sample</button>
+            <span class="hint">Fake data only. No network call to a PII service.</span>
+          </div>
+        </div>
+
+        <div class="results" id="results" hidden>
+          <div class="stats" id="stats"></div>
+
+          <section class="block">
+            <div class="block-head">
+              <h3>Highlights</h3>
+              <p class="hint">Each mark is a public span. Hover for offsets. Names need a model lane.</p>
+            </div>
+            <div class="highlight" id="highlight"></div>
+          </section>
+
+          <section class="block">
+            <div class="block-head">
+              <h3>Masked output</h3>
+              <p class="hint">Secrets become <code>&lt;SECRET&gt;</code> and never enter the vault.</p>
+            </div>
+            <div class="masked-wrap">
+              <pre class="masked" id="masked"></pre>
+              <button type="button" class="ghost copy" id="copy-masked">Copy</button>
+            </div>
+          </section>
+
+          <section class="block">
+            <div class="block-head">
+              <h3>Span table</h3>
+              <p class="hint">type, start, end, and the slice check. A dash means no checksum, so no score.</p>
+            </div>
+            <div class="table-wrap">
+              <table class="spans" id="span-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Text</th>
+                    <th>Score</th>
+                    <th>Detector</th>
+                    <th>Slice</th>
+                  </tr>
+                </thead>
+                <tbody id="span-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="block" id="vault-block">
+            <div class="block-head">
+              <h3>Vault</h3>
+              <p class="hint">Placeholder to source slice. The caller stores this.</p>
+            </div>
+            <div class="table-wrap">
+              <table class="spans" id="vault-table">
+                <thead>
+                  <tr>
+                    <th>Placeholder</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody id="vault-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Result unit: characters on the source string. End is exclusive.</span>
+      <span>No score floor ships. A dash means no validator, so no probability.</span>
+      <span id="footer-run"></span>
+    </footer>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

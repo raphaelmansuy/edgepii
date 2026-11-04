@@ -1,0 +1,118 @@
+# Public PII corpora that the scorer can read.
+#
+# This file is not the taxonomy. It maps the gold labels of an external corpus
+# into taxonomy 2026.11, and it pins the corpus bytes. A corpus row has one
+# revision, one sha256, and one license. A map entry names a public type or a
+# reason to drop the label. Read docs/12-public-corpora.md for the audit.
+#
+# A label with no entry in `labels` and no entry in `drop` counts as an unknown
+# label. The report prints it. Add it here with a type or a reason.
+
+version: "1"
+
+corpora:
+  nemotron-pii:
+    title: Nemotron-PII test split
+    role: In-domain English. The en-closed checkpoint trains on this distribution.
+    repo_id: nvidia/Nemotron-PII
+    revision: b70ffaf5ff39e079776134c5bf4381f00a9fd1ed
+    file: data/test-00000-of-00001.parquet
+    bytes: 150968398
+    sha256: 1a4b0512ecb5370f0992d29d0f9c07351e6de13f0d7ea33bb18cecb984780247
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/legalcode
+    citation: https://huggingface.co/datasets/nvidia/Nemotron-PII
+    text_column: text
+    spans_column: spans
+    spans_encoding: python_literal
+    id_column: uid
+    group_columns: [locale, document_format, domain]
+    slices:
+      us: {locale: us}
+      intl: {locale: intl}
+      structured: {document_format: structured}
+      unstructured: {document_format: unstructured}
+    labels:
+      first_name: PERSON
+      last_name: PERSON
+      company_name: ORG
+      email: EMAIL
+      phone_number: PHONE
+      fax_number: PHONE
+      street_address: ADDRESS
+      credit_debit_card: PAYMENT
+      ssn: GOV_ID
+      national_id: GOV_ID
+      tax_id: GOV_ID
+      password: SECRET
+      api_key: SECRET
+      ipv4: IP_ADDRESS
+      ipv6: IP_ADDRESS
+      user_name: USERNAME
+      date_of_birth: DATE_OF_BIRTH
+    drop:
+      - labels: [city, state, county, postcode, country]
+        reason: A component of one postal address. ADDRESS is the street through locality, so scoring each component as its own span would double count one address.
+      - labels: [date, date_time, time]
+        reason: A date or a time with no birth cue. Taxonomy 2026.11 has no DATE type.
+      - labels: [age, gender, race_ethnicity, sexuality, religious_belief, political_view, blood_type, language, education_level, employment_status, occupation]
+        reason: Sensitive attribute outside taxonomy 2026.11. docs/10-taxonomy.md keeps these out on purpose.
+      - labels: [account_number, bank_routing_number, swift_bic, customer_id, employee_id, unique_id]
+        reason: An account or an internal identifier. The taxonomy type list has no class for it, and an internal id is not PII by default.
+      - labels: [medical_record_number, health_plan_beneficiary_number, certificate_license_number]
+        reason: A national or a clinic scheme that taxonomy 2026.11 leaves to GOV_ID patterns that are opt in per country. No pattern ships in v1.
+      - labels: [coordinate]
+        reason: A GPS point. docs/10-taxonomy.md says ADDRESS is not a GPS point by itself.
+      - labels: [url, http_cookie, device_identifier, mac_address, license_plate, vehicle_identifier, biometric_identifier]
+        reason: A trace identifier outside taxonomy 2026.11.
+      - labels: [cvv, pin]
+        reason: A three or four digit code. SECRET needs a cue word, and a bare code has none, so scoring it would measure a detector the library does not claim.
+  gretel-finance-en:
+    title: Gretel synthetic PII, finance domain, English test split
+    role: Out-of-domain English. Finance documents and SWIFT messages.
+    repo_id: gretelai/synthetic_pii_finance_multilingual
+    revision: 7b844d16738527a04264f50214cb426a4cea0897
+    file: data/English_test-00000-of-00001.parquet
+    bytes: 2720729
+    sha256: c02b06d3c5b7c375525136d6f74acc52ab8fc07fa863d0aa50734910ec0ef2ad
+    license: Apache-2.0
+    license_url: https://www.apache.org/licenses/LICENSE-2.0
+    citation: https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual
+    text_column: generated_text
+    spans_column: pii_spans
+    spans_encoding: json
+    id_column: null
+    group_columns: [domain, document_type]
+    slices:
+      finance: {domain: finance}
+    labels:
+      name: PERSON
+      first_name: PERSON
+      last_name: PERSON
+      company: ORG
+      email: EMAIL
+      phone_number: PHONE
+      street_address: ADDRESS
+      credit_card_number: PAYMENT
+      iban: PAYMENT
+      bban: PAYMENT
+      ssn: GOV_ID
+      passport_number: GOV_ID
+      driver_license_number: GOV_ID
+      password: SECRET
+      api_key: SECRET
+      ipv4: IP_ADDRESS
+      ipv6: IP_ADDRESS
+      user_name: USERNAME
+      date_of_birth: DATE_OF_BIRTH
+    drop:
+      - labels: [date, date_time, time]
+        reason: A date or a time with no birth cue. Taxonomy 2026.11 has no DATE type.
+      - labels: [employee_id, customer_id, bank_routing_number]
+        reason: An account or an internal identifier. The taxonomy type list has no class for it, and an internal id is not PII by default.
+      - labels: [swift_bic_code]
+        reason: A bank identifier, not a personal identifier.
+      - labels: [local_latlng]
+        reason: A GPS point. docs/10-taxonomy.md says ADDRESS is not a GPS point by itself.
+      - labels: [credit_card_security_code, account_pin]
+        reason: A three or four digit code. SECRET needs a cue word, and a bare code has none.

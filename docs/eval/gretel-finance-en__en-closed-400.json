@@ -1,0 +1,250 @@
+{
+  "corpus": "gretel-finance-en",
+  "corpus_diagnostics": {
+    "dropped_labels": {
+      "account_pin": 80,
+      "bank_routing_number": 81,
+      "credit_card_security_code": 76,
+      "customer_id": 94,
+      "date": 923,
+      "date_time": 38,
+      "employee_id": 114,
+      "local_latlng": 58,
+      "swift_bic_code": 112,
+      "time": 211
+    },
+    "gold_bad_offset": 0,
+    "gold_in_scope": 7464,
+    "gold_out_of_scope": 3602,
+    "gold_text_mismatch": 0,
+    "rows": 2891,
+    "rows_with_overlapping_gold": 59,
+    "unknown_labels": {}
+  },
+  "corpus_diagnostics_scope": "whole file, not the limited run",
+  "corpus_license": "Apache-2.0",
+  "corpus_revision": "7b844d16738527a04264f50214cb426a4cea0897",
+  "corpus_sha256": "c02b06d3c5b7c375525136d6f74acc52ab8fc07fa863d0aa50734910ec0ef2ad",
+  "document_limit": 400,
+  "documents_scored": 400,
+  "environment": {
+    "detectors": [
+      "RuleDetector",
+      "HfTokenDetector"
+    ],
+    "executable": "/Users/raphaelmansuy/Github/03-working/edgepii/.venv/bin/python",
+    "machine": "arm64",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python": "3.11.9"
+  },
+  "preset": "en-closed",
+  "preset_revision": "3d0f39eceaf0c95fc07943064c58fba3fff60243",
+  "seconds": 81.37,
+  "slices": {
+    "all": {
+      "documents": 400,
+      "dropped_offsets": 0,
+      "extra": 977,
+      "f1": 0.13575889220743959,
+      "f2": 0.18856539447880524,
+      "fn": 732,
+      "fp": 2451,
+      "gold_spans": 982,
+      "high_severity_leaks": 38,
+      "miss": 112,
+      "per_type": {
+        "ADDRESS": {
+          "f1": 0.12299465240641712,
+          "f2": 0.19566142067205441,
+          "fn": 193,
+          "fp": 1119,
+          "precision": 0.07597027250206441,
+          "recall": 0.32280701754385965,
+          "tp": 92
+        },
+        "EMAIL": {
+          "f1": 0.43103448275862066,
+          "f2": 0.6157635467980296,
+          "fn": 4,
+          "fp": 62,
+          "precision": 0.28735632183908044,
+          "recall": 0.8620689655172413,
+          "tp": 25
+        },
+        "GOV_ID": {
+          "f1": 0.32142857142857145,
+          "f2": 0.32846715328467146,
+          "fn": 18,
+          "fp": 20,
+          "precision": 0.3103448275862069,
+          "recall": 0.3333333333333333,
+          "tp": 9
+        },
+        "IP_ADDRESS": {
+          "f1": 0.8125000000000001,
+          "f2": 0.8783783783783784,
+          "fn": 1,
+          "fp": 5,
+          "precision": 0.7222222222222222,
+          "recall": 0.9285714285714286,
+          "tp": 13
+        },
+        "PAYMENT": {
+          "f1": 0.23188405797101452,
+          "f2": 0.3375527426160338,
+          "fn": 17,
+          "fp": 89,
+          "precision": 0.1523809523809524,
+          "recall": 0.48484848484848486,
+          "tp": 16
+        },
+        "PERSON": {
+          "f1": 0.04814573845152895,
+          "f2": 0.05973522763965127,
+          "fn": 483,
+          "fp": 980,
+          "precision": 0.03638151425762045,
+          "recall": 0.07115384615384615,
+          "tp": 37
+        },
+        "PHONE": {
+          "f1": 0.4100418410041841,
+          "f2": 0.5975609756097561,
+          "fn": 8,
+          "fp": 133,
+          "precision": 0.2692307692307692,
+          "recall": 0.8596491228070176,
+          "tp": 49
+        },
+        "SECRET": {
+          "f1": 0.2909090909090909,
+          "f2": 0.425531914893617,
+          "fn": 5,
+          "fp": 34,
+          "precision": 0.19047619047619047,
+          "recall": 0.6153846153846154,
+          "tp": 8
+        },
+        "USERNAME": {
+          "f1": 0.14285714285714288,
+          "f2": 0.1923076923076923,
+          "fn": 3,
+          "fp": 9,
+          "precision": 0.1,
+          "recall": 0.25,
+          "tp": 1
+        }
+      },
+      "precision": 0.09255831173639392,
+      "predicted_spans": 2701,
+      "recall": 0.2545824847250509,
+      "shift": 601,
+      "slice": "all",
+      "tp": 250,
+      "wrong_type": 19
+    },
+    "finance": {
+      "documents": 400,
+      "dropped_offsets": 0,
+      "extra": 977,
+      "f1": 0.13575889220743959,
+      "f2": 0.18856539447880524,
+      "fn": 732,
+      "fp": 2451,
+      "gold_spans": 982,
+      "high_severity_leaks": 38,
+      "miss": 112,
+      "per_type": {
+        "ADDRESS": {
+          "f1": 0.12299465240641712,
+          "f2": 0.19566142067205441,
+          "fn": 193,
+          "fp": 1119,
+          "precision": 0.07597027250206441,
+          "recall": 0.32280701754385965,
+          "tp": 92
+        },
+        "EMAIL": {
+          "f1": 0.43103448275862066,
+          "f2": 0.6157635467980296,
+          "fn": 4,
+          "fp": 62,
+          "precision": 0.28735632183908044,
+          "recall": 0.8620689655172413,
+          "tp": 25
+        },
+        "GOV_ID": {
+          "f1": 0.32142857142857145,
+          "f2": 0.32846715328467146,
+          "fn": 18,
+          "fp": 20,
+          "precision": 0.3103448275862069,
+          "recall": 0.3333333333333333,
+          "tp": 9
+        },
+        "IP_ADDRESS": {
+          "f1": 0.8125000000000001,
+          "f2": 0.8783783783783784,
+          "fn": 1,
+          "fp": 5,
+          "precision": 0.7222222222222222,
+          "recall": 0.9285714285714286,
+          "tp": 13
+        },
+        "PAYMENT": {
+          "f1": 0.23188405797101452,
+          "f2": 0.3375527426160338,
+          "fn": 17,
+          "fp": 89,
+          "precision": 0.1523809523809524,
+          "recall": 0.48484848484848486,
+          "tp": 16
+        },
+        "PERSON": {
+          "f1": 0.04814573845152895,
+          "f2": 0.05973522763965127,
+          "fn": 483,
+          "fp": 980,
+          "precision": 0.03638151425762045,
+          "recall": 0.07115384615384615,
+          "tp": 37
+        },
+        "PHONE": {
+          "f1": 0.4100418410041841,
+          "f2": 0.5975609756097561,
+          "fn": 8,
+          "fp": 133,
+          "precision": 0.2692307692307692,
+          "recall": 0.8596491228070176,
+          "tp": 49
+        },
+        "SECRET": {
+          "f1": 0.2909090909090909,
+          "f2": 0.425531914893617,
+          "fn": 5,
+          "fp": 34,
+          "precision": 0.19047619047619047,
+          "recall": 0.6153846153846154,
+          "tp": 8
+        },
+        "USERNAME": {
+          "f1": 0.14285714285714288,
+          "f2": 0.1923076923076923,
+          "fn": 3,
+          "fp": 9,
+          "precision": 0.1,
+          "recall": 0.25,
+          "tp": 1
+        }
+      },
+      "precision": 0.09255831173639392,
+      "predicted_spans": 2701,
+      "recall": 0.2545824847250509,
+      "shift": 601,
+      "slice": "finance",
+      "tp": 250,
+      "wrong_type": 19
+    }
+  },
+  "taxonomy_version": "2026.11"
+}

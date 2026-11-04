@@ -1,0 +1,584 @@
+{
+  "corpus": "nemotron-pii",
+  "corpus_diagnostics": {
+    "dropped_labels": {
+      "account_number": 16693,
+      "age": 7167,
+      "bank_routing_number": 8354,
+      "biometric_identifier": 11379,
+      "blood_type": 5539,
+      "certificate_license_number": 3002,
+      "city": 18347,
+      "coordinate": 7659,
+      "country": 23475,
+      "county": 8465,
+      "customer_id": 20502,
+      "cvv": 4843,
+      "date": 73867,
+      "date_time": 13221,
+      "device_identifier": 2507,
+      "education_level": 9378,
+      "employee_id": 8878,
+      "employment_status": 11018,
+      "gender": 7645,
+      "health_plan_beneficiary_number": 10558,
+      "http_cookie": 4892,
+      "language": 8651,
+      "license_plate": 4078,
+      "mac_address": 4250,
+      "medical_record_number": 11098,
+      "occupation": 36888,
+      "pin": 6456,
+      "political_view": 6402,
+      "postcode": 6279,
+      "race_ethnicity": 9248,
+      "religious_belief": 6257,
+      "sexuality": 3312,
+      "state": 18318,
+      "swift_bic": 5559,
+      "time": 24506,
+      "unique_id": 1777,
+      "url": 37847,
+      "vehicle_identifier": 4561
+    },
+    "gold_bad_offset": 0,
+    "gold_in_scope": 304548,
+    "gold_out_of_scope": 72916,
+    "gold_text_mismatch": 934,
+    "rows": 100000,
+    "rows_with_overlapping_gold": 1,
+    "unknown_labels": {}
+  },
+  "corpus_diagnostics_scope": "whole file, not the limited run",
+  "corpus_license": "CC-BY-4.0",
+  "corpus_revision": "b70ffaf5ff39e079776134c5bf4381f00a9fd1ed",
+  "corpus_sha256": "1a4b0512ecb5370f0992d29d0f9c07351e6de13f0d7ea33bb18cecb984780247",
+  "document_limit": 500,
+  "documents_scored": 500,
+  "environment": {
+    "detectors": [
+      "RuleDetector",
+      "HfTokenDetector"
+    ],
+    "executable": "/Users/raphaelmansuy/Github/03-working/edgepii/.venv/bin/python",
+    "machine": "arm64",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python": "3.11.9"
+  },
+  "preset": "en-closed",
+  "preset_revision": "3d0f39eceaf0c95fc07943064c58fba3fff60243",
+  "seconds": 199.042,
+  "slices": {
+    "all": {
+      "documents": 500,
+      "dropped_offsets": 0,
+      "extra": 531,
+      "f1": 0.8261682242990654,
+      "f2": 0.9158723580605057,
+      "fn": 17,
+      "fp": 541,
+      "gold_spans": 1343,
+      "high_severity_leaks": 2,
+      "miss": 6,
+      "per_type": {
+        "ADDRESS": {
+          "f1": 0.38306451612903225,
+          "f2": 0.6081946222791293,
+          "fn": 0,
+          "fp": 306,
+          "precision": 0.23690773067331672,
+          "recall": 1.0,
+          "tp": 95
+        },
+        "EMAIL": {
+          "f1": 0.9942196531791908,
+          "f2": 0.9907834101382488,
+          "fn": 2,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 0.9885057471264368,
+          "tp": 172
+        },
+        "GOV_ID": {
+          "f1": 1.0,
+          "f2": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 61
+        },
+        "IP_ADDRESS": {
+          "f1": 0.7368421052631579,
+          "f2": 0.8588957055214723,
+          "fn": 1,
+          "fp": 19,
+          "precision": 0.5957446808510638,
+          "recall": 0.9655172413793104,
+          "tp": 28
+        },
+        "PAYMENT": {
+          "f1": 0.6909090909090909,
+          "f2": 0.8482142857142857,
+          "fn": 0,
+          "fp": 68,
+          "precision": 0.5277777777777778,
+          "recall": 1.0,
+          "tp": 76
+        },
+        "PERSON": {
+          "f1": 0.9954407294832828,
+          "f2": 0.994533859702399,
+          "fn": 4,
+          "fp": 2,
+          "precision": 0.9969558599695586,
+          "recall": 0.9939301972685888,
+          "tp": 655
+        },
+        "PHONE": {
+          "f1": 0.6331658291457286,
+          "f2": 0.7964601769911505,
+          "fn": 5,
+          "fp": 141,
+          "precision": 0.47191011235955055,
+          "recall": 0.9618320610687023,
+          "tp": 126
+        },
+        "SECRET": {
+          "f1": 0.8913043478260869,
+          "f2": 0.8913043478260869,
+          "fn": 5,
+          "fp": 5,
+          "precision": 0.8913043478260869,
+          "recall": 0.8913043478260869,
+          "tp": 41
+        },
+        "USERNAME": {
+          "f1": 1.0,
+          "f2": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 72
+        }
+      },
+      "precision": 0.7102303160149973,
+      "predicted_spans": 1867,
+      "recall": 0.9873417721518988,
+      "shift": 6,
+      "slice": "all",
+      "tp": 1326,
+      "wrong_type": 5
+    },
+    "intl": {
+      "documents": 500,
+      "dropped_offsets": 0,
+      "extra": 563,
+      "f1": 0.8196817913965821,
+      "f2": 0.9104594842256839,
+      "fn": 24,
+      "fp": 588,
+      "gold_spans": 1415,
+      "high_severity_leaks": 2,
+      "miss": 6,
+      "per_type": {
+        "ADDRESS": {
+          "f1": 0.22795698924731184,
+          "f2": 0.41471048513302033,
+          "fn": 5,
+          "fp": 354,
+          "precision": 0.13022113022113022,
+          "recall": 0.9137931034482759,
+          "tp": 53
+        },
+        "EMAIL": {
+          "f1": 0.9879518072289157,
+          "f2": 0.9849004804392588,
+          "fn": 5,
+          "fp": 2,
+          "precision": 0.9930795847750865,
+          "recall": 0.9828767123287672,
+          "tp": 287
+        },
+        "GOV_ID": {
+          "f1": 0.9696969696969696,
+          "f2": 0.9785932721712538,
+          "fn": 1,
+          "fp": 3,
+          "precision": 0.9552238805970149,
+          "recall": 0.9846153846153847,
+          "tp": 64
+        },
+        "IP_ADDRESS": {
+          "f1": 0.7017543859649124,
+          "f2": 0.8547008547008547,
+          "fn": 0,
+          "fp": 17,
+          "precision": 0.5405405405405406,
+          "recall": 1.0,
+          "tp": 20
+        },
+        "PAYMENT": {
+          "f1": 0.6804123711340206,
+          "f2": 0.8418367346938775,
+          "fn": 0,
+          "fp": 62,
+          "precision": 0.515625,
+          "recall": 1.0,
+          "tp": 66
+        },
+        "PERSON": {
+          "f1": 0.9934545454545454,
+          "f2": 0.9938882421420256,
+          "fn": 4,
+          "fp": 5,
+          "precision": 0.9927325581395349,
+          "recall": 0.9941775836972343,
+          "tp": 683
+        },
+        "PHONE": {
+          "f1": 0.6331658291457287,
+          "f2": 0.7904642409033876,
+          "fn": 7,
+          "fp": 139,
+          "precision": 0.47547169811320755,
+          "recall": 0.9473684210526315,
+          "tp": 126
+        },
+        "SECRET": {
+          "f1": 0.9090909090909091,
+          "f2": 0.9308510638297872,
+          "fn": 2,
+          "fp": 5,
+          "precision": 0.875,
+          "recall": 0.9459459459459459,
+          "tp": 35
+        },
+        "USERNAME": {
+          "f1": 0.9913043478260869,
+          "f2": 0.9965034965034965,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.9827586206896551,
+          "recall": 1.0,
+          "tp": 57
+        }
+      },
+      "precision": 0.7028802425467408,
+      "predicted_spans": 1979,
+      "recall": 0.9830388692579505,
+      "shift": 13,
+      "slice": "intl",
+      "tp": 1391,
+      "wrong_type": 5
+    },
+    "structured": {
+      "documents": 500,
+      "dropped_offsets": 0,
+      "extra": 616,
+      "f1": 0.8139797068771139,
+      "f2": 0.9069212410501194,
+      "fn": 27,
+      "fp": 633,
+      "gold_spans": 1471,
+      "high_severity_leaks": 4,
+      "miss": 9,
+      "per_type": {
+        "ADDRESS": {
+          "f1": 0.3187390542907181,
+          "f2": 0.5390995260663507,
+          "fn": 0,
+          "fp": 389,
+          "precision": 0.18958333333333333,
+          "recall": 1.0,
+          "tp": 91
+        },
+        "EMAIL": {
+          "f1": 0.995260663507109,
+          "f2": 0.995260663507109,
+          "fn": 1,
+          "fp": 1,
+          "precision": 0.995260663507109,
+          "recall": 0.995260663507109,
+          "tp": 210
+        },
+        "GOV_ID": {
+          "f1": 0.9696969696969697,
+          "f2": 0.9756097560975608,
+          "fn": 1,
+          "fp": 2,
+          "precision": 0.96,
+          "recall": 0.9795918367346939,
+          "tp": 48
+        },
+        "IP_ADDRESS": {
+          "f1": 0.8113207547169812,
+          "f2": 0.903361344537815,
+          "fn": 1,
+          "fp": 19,
+          "precision": 0.6935483870967742,
+          "recall": 0.9772727272727273,
+          "tp": 43
+        },
+        "PAYMENT": {
+          "f1": 0.6550218340611355,
+          "f2": 0.8259911894273128,
+          "fn": 0,
+          "fp": 79,
+          "precision": 0.487012987012987,
+          "recall": 1.0,
+          "tp": 75
+        },
+        "PERSON": {
+          "f1": 0.9944367176634215,
+          "f2": 0.991953385127636,
+          "fn": 7,
+          "fp": 1,
+          "precision": 0.9986033519553073,
+          "recall": 0.9903047091412742,
+          "tp": 715
+        },
+        "PHONE": {
+          "f1": 0.6476190476190475,
+          "f2": 0.7816091954022987,
+          "fn": 14,
+          "fp": 134,
+          "precision": 0.5037037037037037,
+          "recall": 0.9066666666666666,
+          "tp": 136
+        },
+        "SECRET": {
+          "f1": 0.8888888888888888,
+          "f2": 0.9166666666666669,
+          "fn": 3,
+          "fp": 8,
+          "precision": 0.8461538461538461,
+          "recall": 0.9361702127659575,
+          "tp": 44
+        },
+        "USERNAME": {
+          "f1": 1.0,
+          "f2": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 82
+        }
+      },
+      "precision": 0.6952335098700048,
+      "predicted_spans": 2077,
+      "recall": 0.981645139360979,
+      "shift": 4,
+      "slice": "structured",
+      "tp": 1444,
+      "wrong_type": 14
+    },
+    "unstructured": {
+      "documents": 500,
+      "dropped_offsets": 0,
+      "extra": 404,
+      "f1": 0.8578895785690951,
+      "f2": 0.9310736065806268,
+      "fn": 17,
+      "fp": 418,
+      "gold_spans": 1330,
+      "high_severity_leaks": 0,
+      "miss": 3,
+      "per_type": {
+        "ADDRESS": {
+          "f1": 0.4205378973105134,
+          "f2": 0.6389301634472512,
+          "fn": 2,
+          "fp": 235,
+          "precision": 0.26791277258566976,
+          "recall": 0.9772727272727273,
+          "tp": 86
+        },
+        "EMAIL": {
+          "f1": 0.9972299168975068,
+          "f2": 0.9955752212389382,
+          "fn": 1,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 0.994475138121547,
+          "tp": 180
+        },
+        "GOV_ID": {
+          "f1": 1.0,
+          "f2": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 57
+        },
+        "IP_ADDRESS": {
+          "f1": 0.759493670886076,
+          "f2": 0.8875739644970415,
+          "fn": 0,
+          "fp": 19,
+          "precision": 0.6122448979591837,
+          "recall": 1.0,
+          "tp": 30
+        },
+        "PAYMENT": {
+          "f1": 0.7283950617283951,
+          "f2": 0.8702064896755163,
+          "fn": 0,
+          "fp": 44,
+          "precision": 0.5728155339805825,
+          "recall": 1.0,
+          "tp": 59
+        },
+        "PERSON": {
+          "f1": 0.997824510514866,
+          "f2": 0.9973905479849232,
+          "fn": 2,
+          "fp": 1,
+          "precision": 0.9985486211901307,
+          "recall": 0.9971014492753624,
+          "tp": 688
+        },
+        "PHONE": {
+          "f1": 0.6473988439306357,
+          "f2": 0.7932011331444759,
+          "fn": 8,
+          "fp": 114,
+          "precision": 0.49557522123893805,
+          "recall": 0.9333333333333333,
+          "tp": 112
+        },
+        "SECRET": {
+          "f1": 0.9052631578947369,
+          "f2": 0.9110169491525425,
+          "fn": 4,
+          "fp": 5,
+          "precision": 0.8958333333333334,
+          "recall": 0.9148936170212766,
+          "tp": 43
+        },
+        "USERNAME": {
+          "f1": 1.0,
+          "f2": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 58
+        }
+      },
+      "precision": 0.7585210860774119,
+      "predicted_spans": 1731,
+      "recall": 0.987218045112782,
+      "shift": 5,
+      "slice": "unstructured",
+      "tp": 1313,
+      "wrong_type": 9
+    },
+    "us": {
+      "documents": 500,
+      "dropped_offsets": 0,
+      "extra": 531,
+      "f1": 0.8261682242990654,
+      "f2": 0.9158723580605057,
+      "fn": 17,
+      "fp": 541,
+      "gold_spans": 1343,
+      "high_severity_leaks": 2,
+      "miss": 6,
+      "per_type": {
+        "ADDRESS": {
+          "f1": 0.38306451612903225,
+          "f2": 0.6081946222791293,
+          "fn": 0,
+          "fp": 306,
+          "precision": 0.23690773067331672,
+          "recall": 1.0,
+          "tp": 95
+        },
+        "EMAIL": {
+          "f1": 0.9942196531791908,
+          "f2": 0.9907834101382488,
+          "fn": 2,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 0.9885057471264368,
+          "tp": 172
+        },
+        "GOV_ID": {
+          "f1": 1.0,
+          "f2": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 61
+        },
+        "IP_ADDRESS": {
+          "f1": 0.7368421052631579,
+          "f2": 0.8588957055214723,
+          "fn": 1,
+          "fp": 19,
+          "precision": 0.5957446808510638,
+          "recall": 0.9655172413793104,
+          "tp": 28
+        },
+        "PAYMENT": {
+          "f1": 0.6909090909090909,
+          "f2": 0.8482142857142857,
+          "fn": 0,
+          "fp": 68,
+          "precision": 0.5277777777777778,
+          "recall": 1.0,
+          "tp": 76
+        },
+        "PERSON": {
+          "f1": 0.9954407294832828,
+          "f2": 0.994533859702399,
+          "fn": 4,
+          "fp": 2,
+          "precision": 0.9969558599695586,
+          "recall": 0.9939301972685888,
+          "tp": 655
+        },
+        "PHONE": {
+          "f1": 0.6331658291457286,
+          "f2": 0.7964601769911505,
+          "fn": 5,
+          "fp": 141,
+          "precision": 0.47191011235955055,
+          "recall": 0.9618320610687023,
+          "tp": 126
+        },
+        "SECRET": {
+          "f1": 0.8913043478260869,
+          "f2": 0.8913043478260869,
+          "fn": 5,
+          "fp": 5,
+          "precision": 0.8913043478260869,
+          "recall": 0.8913043478260869,
+          "tp": 41
+        },
+        "USERNAME": {
+          "f1": 1.0,
+          "f2": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 72
+        }
+      },
+      "precision": 0.7102303160149973,
+      "predicted_spans": 1867,
+      "recall": 0.9873417721518988,
+      "shift": 6,
+      "slice": "us",
+      "tp": 1326,
+      "wrong_type": 5
+    }
+  },
+  "taxonomy_version": "2026.11"
+}

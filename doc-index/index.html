@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reference · edgepii</title>
+<meta name="description" content="The full specification: problem, contract, API, taxonomy, and evaluation." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-index/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Reference · edgepii" />
+<meta property="og:description" content="The full specification: problem, contract, API, taxonomy, and evaluation." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-index/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Reference · edgepii" />
+<meta name="twitter:description" content="The full specification: problem, contract, API, taxonomy, and evaluation." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index" aria-current="page">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#read-this-set-in-order">Read this set in order</a></li><li class="toc-l2"><a href="#decision-in-one-page">Decision in one page</a></li><li class="toc-l2"><a href="#what-v1-will-not-do">What v1 will not do</a></li><li class="toc-l2"><a href="#terms">Terms</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="edgepii-specification">edgepii specification</h1>
+<p>Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the <a href="../doc-index/">project README</a> for install and quickstart.</p>
+<p><code>edgepii</code> is a Python library that locates personally identifiable information (PII) in text. The library returns typed character spans on the same string the caller passed. The library does not decide that a whole document is sensitive.</p>
+<p>This set records the problem, the research, the public API, and the build plan. Card scores in the research notes are not ship gates. See the <a href="../doc-evaluation/">evaluation spec</a>.</p>
+<p>Origin notes, Ideas Lab:</p>
+<ul class="doc-list"><li><a href="https://app.notion.com/p/40c887c3416481c79345da8888298a75" target="_blank" rel="noopener noreferrer">Locate PII spans in text</a></li><li><a href="https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775" target="_blank" rel="noopener noreferrer">Hide names and phones before the AI sees them</a></li><li><a href="https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe" target="_blank" rel="noopener noreferrer">Span pipeline</a> (detect, then classify)</li></ul>
+<h2 id="read-this-set-in-order">Read this set in order</h2>
+<ol class="doc-list"><li><a href="../doc-why/">Five whys</a>. The problem, one cause at a time.</li><li><a href="../doc-span-contract/">Span contract</a>. The only result the library can return.</li><li><a href="../doc-first-principles/">First principles</a>. Rules that stay true when models change.</li><li><a href="../doc-ai-engineering/">AI engineering</a>. How the team chooses and rejects a model.</li><li><a href="../doc-landscape/">Research landscape</a>. Papers and lanes, as of November 2026.</li><li><a href="../doc-catalog/">Model catalog</a>. Hugging Face and ModelScope candidates.</li><li><a href="../doc-taxonomy/">Taxonomy</a>. The versioned type list and the label maps.</li><li><a href="../doc-api/">Public API</a>. Call shapes and errors.</li><li><a href="../guide-examples/">Examples</a>. Fake text that shows each preset.</li><li><a href="../doc-corpora/">Public corpora</a>. The pinned PII sets and the label fold.</li><li><a href="../doc-score/">First public score</a>. Two lanes, two corpora, measured.</li><li><a href="../doc-architecture/">Architecture</a>. Modules, DRY, and SOLID.</li><li><a href="../doc-plan/">Implementation plan</a>. Build order and acceptance tests.</li><li><a href="../doc-evaluation/">Evaluation</a>. Exact-span F1, slices, and ship gates.</li><li><a href="../doc-glossary/">Glossary</a>. One name for each concept.</li></ol>
+<p>Decisions:</p>
+<ul class="doc-list"><li><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0001-locate-spans.md" target="_blank" rel="noopener noreferrer">ADR 0001, locate spans</a></li><li><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0002-two-default-lanes.md" target="_blank" rel="noopener noreferrer">ADR 0002, two default lanes</a></li><li><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0003-local-weights.md" target="_blank" rel="noopener noreferrer">ADR 0003, local weights in v1</a></li><li><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md" target="_blank" rel="noopener noreferrer">ADR 0004, secrets stay irreversible</a></li></ul>
+<h2 id="decision-in-one-page">Decision in one page</h2>
+<p>Keep a locator that returns <code>{type, start, end, text, score}</code> on the source string. Ship two default lanes after a frozen golden set, not before it.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Lane</th><th style="text-align:left">Preset</th><th style="text-align:left">Weights</th><th style="text-align:left">Use when</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Closed encoder</td><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left"><a href="https://huggingface.co/antoniogr7/pii-identifier-v0.1" target="_blank" rel="noopener noreferrer">antoniogr7/pii-identifier-v0.1</a></td><td style="text-align:left">The team freezes the type list, the text is English, and latency matters</td></tr>
+<tr><td style="text-align:left">Open schema</td><td style="text-align:left"><code>multi-open</code></td><td style="text-align:left"><a href="https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi" target="_blank" rel="noopener noreferrer">fastino/gliner2-privacy-filter-PII-multi</a></td><td style="text-align:left">The caller must change types at call time</td></tr>
+</tbody></table></div>
+<p>A classic BERT control stays available as preset <code>en-bert</code> (<a href="https://huggingface.co/ab-ai/pii_model" target="_blank" rel="noopener noreferrer">ab-ai/pii_model</a>). BERT-family token classification is enough when the taxonomy and the domain stay fixed. See <a href="../doc-landscape/#when-the-encoder-is-enough">when the encoder is enough</a>.</p>
+<p>Rules for email, phone, IBAN, and payment cards run beside the model. They do not replace it for names. Chinese schema extraction is an optional ModelScope adapter, not a default. See the <a href="../doc-catalog/">catalog</a>.</p>
+<h2 id="what-v1-will-not-do">What v1 will not do</h2>
+<p>V1 will not send the source string to a cloud PII API. V1 will not ask a chat model to rewrite the text. V1 will not treat a document label as success. V1 will not copy a leaderboard F1 into a ship gate. The numeric floors stay open until the golden set exists. Call that open state UNCONFIRMED.</p>
+<h2 id="terms">Terms</h2>
+<p>Use the names in the <a href="../doc-glossary/">glossary</a>. Do not rename a span to an entity, a hit, or a finding in this set.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../guide-evaluate/"><span>Previous</span>Score it yourself</a><a class="page-nav-link next" href="../doc-span-contract/"><span>Next</span>The span contract</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

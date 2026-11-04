@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Public score · edgepii</title>
+<meta name="description" content="Exact-span F1 for edgepii on two pinned public PII corpora, with the label fold and the failure analysis." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/evaluation/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Public score · edgepii" />
+<meta property="og:description" content="Exact-span F1 for edgepii on two pinned public PII corpora, with the label fold and the failure analysis." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/evaluation/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Public score · edgepii" />
+<meta name="twitter:description" content="Exact-span F1 for edgepii on two pinned public PII corpora, with the label fold and the failure analysis." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation" aria-current="page">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  
+  <main id="main" class="main">
+<section class="hero short">
+  <p class="eyebrow">Measured, not claimed</p>
+  <h1>Public score</h1>
+  <p class="lede">
+    Exact-span F1 on two pinned public PII corpora. A prediction counts only when the type, the start,
+    and the end all match gold. A one-character shift is a miss, because one character is enough to
+    break a mask.
+  </p>
+</section>
+
+<section class="panel-block">
+  <h2>The two corpora</h2>
+  <div class="table-wrap"><table class="docs-table">
+    <thead><tr><th>Key</th><th>Corpus</th><th>License</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><code>nemotron-pii</code></td><td>NVIDIA Nemotron-PII, test split</td><td>CC-BY-4.0</td>
+        <td>In domain. The <code>en-closed</code> checkpoint trains on this distribution</td></tr>
+      <tr><td><code>gretel-finance-en</code></td><td>Gretel synthetic PII, finance, English test split</td><td>Apache-2.0</td>
+        <td>Out of domain. Finance documents and SWIFT messages</td></tr>
+    </tbody>
+  </table></div>
+  <p class="hint">Each corpus is pinned by commit revision, byte count, and <code>sha256</code>. A download
+  that does not match stops the run, because a moved file makes an old score unreadable.</p>
+</section>
+
+<section class="panel-block">
+  <h2>Results</h2>
+  <div class="table-wrap"><table class="docs-table">
+    <thead><tr><th>Corpus</th><th>Preset</th><th>Docs</th><th>Gold</th><th>P</th><th>R</th><th>F1</th><th>F2</th><th>Leaks</th></tr></thead>
+    <tbody><tr><td><code>nemotron-pii</code></td><td><code>rules</code></td><td>2,000</td><td>5,890</td><td>0.653</td><td>0.266</td><td><strong>0.378</strong></td><td>0.301</td><td>589</td></tr><tr><td><code>nemotron-pii</code></td><td><code>en-closed</code></td><td>500</td><td>1,343</td><td>0.710</td><td>0.987</td><td><strong>0.826</strong></td><td>0.916</td><td>2</td></tr><tr><td><code>gretel-finance-en</code></td><td><code>rules</code></td><td>2,891</td><td>7,397</td><td>0.260</td><td>0.119</td><td><strong>0.163</strong></td><td>0.133</td><td>424</td></tr><tr><td><code>gretel-finance-en</code></td><td><code>en-closed</code></td><td>400</td><td>982</td><td>0.093</td><td>0.255</td><td><strong>0.136</strong></td><td>0.189</td><td>38</td></tr></tbody>
+  </table></div>
+  <p class="hint">The <code>rules</code> lane finds no name, so PERSON and ADDRESS score zero for that lane
+  by construction. Those two types need a model lane.</p>
+</section>
+
+<section class="panel-block">
+  <h2>Per type</h2>
+  <div class="table-wrap"><table class="docs-table"><thead><tr><th>Type</th><th>nemotron<br /><small>rules</small></th><th>nemotron<br /><small>en-closed</small></th><th>gretel<br /><small>rules</small></th><th>gretel<br /><small>en-closed</small></th></tr></thead><tbody><tr><td><code>PERSON</code></td><td>0.000</td><td>0.995</td><td>0.000</td><td>0.048</td></tr><tr><td><code>ADDRESS</code></td><td>0.000</td><td>0.383</td><td>0.000</td><td>0.123</td></tr><tr><td><code>EMAIL</code></td><td>0.998</td><td>0.994</td><td>0.450</td><td>0.431</td></tr><tr><td><code>PHONE</code></td><td>0.644</td><td>0.633</td><td>0.351</td><td>0.410</td></tr><tr><td><code>PAYMENT</code></td><td>0.091</td><td>0.691</td><td>0.236</td><td>0.232</td></tr><tr><td><code>GOV_ID</code></td><td>0.000</td><td>1.000</td><td>0.000</td><td>0.321</td></tr><tr><td><code>SECRET</code></td><td>0.438</td><td>0.891</td><td>0.189</td><td>0.291</td></tr><tr><td><code>IP_ADDRESS</code></td><td>0.817</td><td>0.737</td><td>0.886</td><td>0.813</td></tr><tr><td><code>USERNAME</code></td><td>0.000</td><td>1.000</td><td>0.000</td><td>0.143</td></tr></tbody></table></div>
+</section>
+
+<section class="panel-block callout-block">
+  <h2>The finding that matters</h2>
+  <p>
+    The <code>en-closed</code> checkpoint scores <strong>0.995</strong> on PERSON in domain and
+    <strong>0.048</strong> out of domain. It learned where a name sits in a synthetic persona note,
+    not what a name is. The model card reports F1 0.9628 on its own test split, and that number alone
+    would have shipped the lane.
+  </p>
+  <p>
+    This is why the harness exists. Read the full analysis in
+    <a href="../doc-score/">the first public score</a>.
+  </p>
+</section>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Taxonomy 2026.11 · edgepii</title>
+<meta name="description" content="edgepii reference: Taxonomy 2026.11." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-taxonomy/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Taxonomy 2026.11 · edgepii" />
+<meta property="og:description" content="edgepii reference: Taxonomy 2026.11." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-taxonomy/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Taxonomy 2026.11 · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Taxonomy 2026.11." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#classes">Classes</a></li><li class="toc-l2"><a href="#types">Types</a></li><li class="toc-l2"><a href="#caller-subset">Caller subset</a></li><li class="toc-l2"><a href="#thresholds">Thresholds</a></li><li class="toc-l2"><a href="#placeholder-shape">Placeholder shape</a></li><li class="toc-l2"><a href="#what-stays-out-of-202611">What stays out of 2026.11</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="taxonomy-version-202611">Taxonomy version 2026.11</h1>
+<p>The taxonomy is the public type list. Model labels are private. The <a href="../doc-span-contract/">span contract</a> rejects a type that is not in the active version.</p>
+<p>File in the future tree: <code>src/edgepii/taxonomies/2026.11.yaml</code>. This spec is the source of that file. Do not keep a second list in Python.</p>
+<p>Version string: <code>2026.11</code>. A change that adds, removes, or renames a type creates a new version. A change that only adds a model label to a map does not.</p>
+<h2 id="classes">Classes</h2>
+<p>Each type has one class. The class sets merge rank and the redact rule. Higher severity wins an overlap. The number is rank, not a probability.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Class</th><th style="text-align:left">Rank</th><th style="text-align:left">Redact</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>secret</code></td><td style="text-align:left">40</td><td style="text-align:left">Irreversible mask. No vault entry. <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md" target="_blank" rel="noopener noreferrer">ADR 0004</a></td></tr>
+<tr><td style="text-align:left"><code>gov_id</code></td><td style="text-align:left">30</td><td style="text-align:left">Placeholder, vault on the caller. Fail closed if a second pass still sees the span</td></tr>
+<tr><td style="text-align:left"><code>payment</code></td><td style="text-align:left">20</td><td style="text-align:left">Same as <code>gov_id</code></td></tr>
+<tr><td style="text-align:left"><code>contact</code></td><td style="text-align:left">10</td><td style="text-align:left">Placeholder</td></tr>
+<tr><td style="text-align:left"><code>person</code></td><td style="text-align:left">10</td><td style="text-align:left">Placeholder</td></tr>
+<tr><td style="text-align:left"><code>quasi</code></td><td style="text-align:left">0</td><td style="text-align:left">Off unless the caller lists the type. Easy to over-mask</td></tr>
+</tbody></table></div>
+<p>Rank 10 is a tie. The overlap rule then uses length, then score, then the type field <code>prefer</code>. See the <a href="../doc-architecture/">architecture</a>.</p>
+<h2 id="types">Types</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Type</th><th style="text-align:left">Class</th><th style="text-align:left">prefer</th><th style="text-align:left">Notes</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">SECRET</td><td style="text-align:left">secret</td><td style="text-align:left">rule</td><td style="text-align:left">Password, key, token, recovery code. Locate always. Never vault</td></tr>
+<tr><td style="text-align:left">GOV_ID</td><td style="text-align:left">gov_id</td><td style="text-align:left">rule</td><td style="text-align:left">National id, passport, license, tax id. Patterns stay opt-in per country</td></tr>
+<tr><td style="text-align:left">PAYMENT</td><td style="text-align:left">payment</td><td style="text-align:left">rule</td><td style="text-align:left">Card number after Luhn. IBAN after MOD-97</td></tr>
+<tr><td style="text-align:left">EMAIL</td><td style="text-align:left">contact</td><td style="text-align:left">rule</td><td style="text-align:left">Shape check</td></tr>
+<tr><td style="text-align:left">PHONE</td><td style="text-align:left">contact</td><td style="text-align:left">rule</td><td style="text-align:left">libphonenumber parse</td></tr>
+<tr><td style="text-align:left">PERSON</td><td style="text-align:left">person</td><td style="text-align:left">model</td><td style="text-align:left">Given name, surname, full name. Rules are weak</td></tr>
+<tr><td style="text-align:left">ADDRESS</td><td style="text-align:left">person</td><td style="text-align:left">model</td><td style="text-align:left">Street through locality. Not a GPS point by itself</td></tr>
+<tr><td style="text-align:left">USERNAME</td><td style="text-align:left">contact</td><td style="text-align:left">model</td><td style="text-align:left">A login name, not a display name, when the text marks an account</td></tr>
+<tr><td style="text-align:left">IP_ADDRESS</td><td style="text-align:left">contact</td><td style="text-align:left">rule</td><td style="text-align:left">v4 and v6</td></tr>
+<tr><td style="text-align:left">DATE_OF_BIRTH</td><td style="text-align:left">quasi</td><td style="text-align:left">model</td><td style="text-align:left">A lone date is not this type. Context must mark birth</td></tr>
+<tr><td style="text-align:left">ORG</td><td style="text-align:left">quasi</td><td style="text-align:left">model</td><td style="text-align:left">Off by default. Policy can enable it</td></tr>
+</tbody></table></div>
+<p>Eleven types are enough for v1. The model cards that emit 42 or 55 labels fold into this list through the map. A finer public list is a new taxonomy version, not a fork inside one adapter.</p>
+<p>Fold examples:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Model label, lower case</th><th style="text-align:left">Public type</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>email</code></td><td style="text-align:left">EMAIL</td></tr>
+<tr><td style="text-align:left"><code>phone_number</code>, <code>phonenumber</code>, <code>phone</code></td><td style="text-align:left">PHONE</td></tr>
+<tr><td style="text-align:left"><code>person</code>, <code>full_name</code>, <code>first_name</code>, <code>last_name</code>, <code>firstname</code>, <code>lastname</code></td><td style="text-align:left">PERSON</td></tr>
+<tr><td style="text-align:left"><code>address</code>, <code>street_address</code>, <code>street</code></td><td style="text-align:left">ADDRESS</td></tr>
+<tr><td style="text-align:left"><code>creditcardnumber</code>, <code>credit_debit_card</code>, <code>card_number</code>, <code>payment_card</code></td><td style="text-align:left">PAYMENT</td></tr>
+<tr><td style="text-align:left"><code>iban</code>, <code>bank_account</code></td><td style="text-align:left">PAYMENT</td></tr>
+<tr><td style="text-align:left"><code>ssn</code>, <code>national_id</code>, <code>national_id_number</code>, <code>passport_number</code>, <code>tax_id</code></td><td style="text-align:left">GOV_ID</td></tr>
+<tr><td style="text-align:left"><code>password</code>, <code>secret</code>, <code>api_key</code>, <code>access_token</code></td><td style="text-align:left">SECRET</td></tr>
+<tr><td style="text-align:left"><code>ip_address</code>, <code>ip</code>, <code>ipv4</code>, <code>ipv6</code></td><td style="text-align:left">IP_ADDRESS</td></tr>
+<tr><td style="text-align:left"><code>date_of_birth</code>, <code>dob</code></td><td style="text-align:left">DATE_OF_BIRTH</td></tr>
+<tr><td style="text-align:left"><code>username</code></td><td style="text-align:left">USERNAME</td></tr>
+<tr><td style="text-align:left"><code>companyname</code>, <code>organization</code></td><td style="text-align:left">ORG</td></tr>
+<tr><td style="text-align:left"><code>city</code>, <code>state</code>, <code>zipcode</code>, <code>postcode</code>, <code>country</code></td><td style="text-align:left">ADDRESS</td></tr>
+<tr><td style="text-align:left"><code>age</code>, <code>gender</code>, <code>date</code> with no birth cue</td><td style="text-align:left">no map. Drop</td></tr>
+</tbody></table></div>
+<p><code>city</code> alone is a known over-mask risk. V1 maps it to ADDRESS so the caller can disable ADDRESS. A later version can split CITY out after the golden set shows the cost.</p>
+<p>Chinese schema labels for <code>zh-schema</code> use the same public types. The adapter sends Chinese schema names and maps the returned label back.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Schema name passed to UIE</th><th style="text-align:left">Public type</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">姓名</td><td style="text-align:left">PERSON</td></tr>
+<tr><td style="text-align:left">电子邮箱</td><td style="text-align:left">EMAIL</td></tr>
+<tr><td style="text-align:left">手机号</td><td style="text-align:left">PHONE</td></tr>
+<tr><td style="text-align:left">身份证号</td><td style="text-align:left">GOV_ID</td></tr>
+<tr><td style="text-align:left">银行卡号</td><td style="text-align:left">PAYMENT</td></tr>
+<tr><td style="text-align:left">详细地址</td><td style="text-align:left">ADDRESS</td></tr>
+</tbody></table></div>
+<p>Those Chinese names are schema prompts, not public types. The public result still says <code>PERSON</code> or <code>EMAIL</code>.</p>
+<h2 id="caller-subset">Caller subset</h2>
+<p>The caller can pass <code>types=[&quot;EMAIL&quot;, &quot;PHONE&quot;, &quot;PERSON&quot;]</code>. The locator asks each detector only for labels that map to that subset. A closed encoder cannot drop a head output by request. The locator filters after the map. An open-schema model receives only the mapped label strings for the subset. That keeps Lane G honest: the type list is an input.</p>
+<p>A name outside <code>2026.11</code> raises <code>UnknownType</code> before any detector runs.</p>
+<h2 id="thresholds">Thresholds</h2>
+<p>The library ships no score threshold. A threshold is a decision about a specific corpus. Any number the library picked would be a guess, and a guess in the merge path is a heuristic. The caller measures a floor on its own data and passes <code>min_score</code>.</p>
+<p>A span with <code>score = None</code> has no measured confidence. A <code>min_score</code> drops it, because it cannot meet a floor. With no <code>min_score</code>, every span stays. That keeps the two cases apart: &quot;I want everything&quot; and &quot;I want only what a validator or a model scored above this line&quot;.</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">result</span> <span class="o">=</span> <span class="n">locator</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s2">"PERSON"</span><span class="p">],</span> <span class="n">min_score</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</code></pre></div>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Score</th><th style="text-align:left">Meaning</th><th style="text-align:left">Source</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>1.0</code></td><td style="text-align:left">A published checksum or parser confirmed the slice</td><td style="text-align:left">ISO 7812 Luhn, ISO 13616 MOD-97, RFC 4291, libphonenumber validity</td></tr>
+<tr><td style="text-align:left"><code>null</code></td><td style="text-align:left">A grammar matched and no validator exists</td><td style="text-align:left">RFC 5321 shape, RFC 3986 shape, cue-plus-value</td></tr>
+<tr><td style="text-align:left">A model number</td><td style="text-align:left">The checkpoint confidence for this span</td><td style="text-align:left">The checkpoint, not this library</td></tr>
+</tbody></table></div>
+<p>A rule hit with a checksum is not automatically trusted. It still passes the slice check and the overlap merge. A rule hit with no checksum reports <code>score = None</code>. The library never invents a probability there, because a fixed 0.8 would order spans by nothing.</p>
+<p>A model threshold is also the checkpoint author&#x27;s. The adapter does not add a second cut-off. A caller who wants a stricter floor passes <code>min_score</code>, and the eval report shows what that floor costs.</p>
+<h2 id="placeholder-shape">Placeholder shape</h2>
+<p>The redact helper builds placeholders as <code>&lt;TYPE_N&gt;</code>. <code>N</code> starts at 1 for each type in the call. Two different slices of type PERSON become <code>&lt;PERSON_1&gt;</code> and <code>&lt;PERSON_2&gt;</code>. The same slice later in the same call reuses the same placeholder.</p>
+<p>The angle brackets are deliberate. They are rare in prose and easy to test. The helper does not use a bare <code>PERSON_1</code>, because that string can already occur in the source.</p>
+<h2 id="what-stays-out-of-202611">What stays out of 2026.11</h2>
+<p>Blood type, religion, ethnicity, sexuality, and political view appear on some cards. V1 does not ship them. They are sensitive, and a synthetic card score is a poor reason to detect them by default. Add them in a later version with a written policy and a slice in the golden set.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-api/"><span>Previous</span>Library API</a><a class="page-nav-link next" href="../doc-evaluation/"><span>Next</span>Evaluation</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

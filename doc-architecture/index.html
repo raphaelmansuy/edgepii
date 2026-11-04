@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Architecture · edgepii</title>
+<meta name="description" content="edgepii reference: Architecture." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-architecture/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Architecture · edgepii" />
+<meta property="og:description" content="edgepii reference: Architecture." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-architecture/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Architecture · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Architecture." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#module-map">Module map</a></li><li class="toc-l2"><a href="#dry">DRY</a></li><li class="toc-l2"><a href="#solid">SOLID</a></li><li class="toc-l2"><a href="#call-sequence">Call sequence</a></li><li class="toc-l2"><a href="#merge">Merge</a></li><li class="toc-l2"><a href="#windows">Windows</a></li><li class="toc-l2"><a href="#preset-wiring">Preset wiring</a></li><li class="toc-l2"><a href="#logging-and-secrets">Logging and secrets</a></li><li class="toc-l2"><a href="#package-layout">Package layout</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="architecture">Architecture</h1>
+<p>This file names the modules and the reason each module exists. The <a href="../doc-plan/">implementation plan</a> builds them in an order that keeps each module testable alone. The public surface is the <a href="../doc-api/">API</a>.</p>
+<h2 id="module-map">Module map</h2>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>flowchart TD
+  API[&quot;Locator.preset / locate&quot;] --&gt; TAX[&quot;taxonomy loader&quot;]
+  API --&gt; WIN[&quot;windower&quot;]
+  API --&gt; DET[&quot;Detector protocol&quot;]
+  DET --&gt; RULES[&quot;RuleDetector&quot;]
+  DET --&gt; HF[&quot;HfTokenDetector&quot;]
+  DET --&gt; G2[&quot;Gliner2Detector&quot;]
+  DET --&gt; G1[&quot;GlinerDetector&quot;]
+  DET --&gt; UIE[&quot;UieDetector&quot;]
+  RULES --&gt; MAP[&quot;label map&quot;]
+  HF --&gt; MAP
+  G2 --&gt; MAP
+  G1 --&gt; MAP
+  UIE --&gt; MAP
+  MAP --&gt; CHK[&quot;slice check&quot;]
+  CHK --&gt; MERGE[&quot;merger&quot;]
+  WIN --&gt; DET
+  MERGE --&gt; RES[&quot;LocateResult&quot;]
+  RES --&gt; RED[&quot;redact&quot;]</code></pre></div>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Module</th><th style="text-align:left">Owns</th><th style="text-align:left">Does not own</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>span.py</code></td><td style="text-align:left"><code>Span</code>, <code>LocateResult</code></td><td style="text-align:left">Detection</td></tr>
+<tr><td style="text-align:left"><code>taxonomies/2026.11.yaml</code></td><td style="text-align:left">Types, ranks, maps</td><td style="text-align:left">Python logic</td></tr>
+<tr><td style="text-align:left"><code>protocol.py</code></td><td style="text-align:left"><code>Detector</code> protocol</td><td style="text-align:left">A framework base class with behavior</td></tr>
+<tr><td style="text-align:left"><code>locator.py</code></td><td style="text-align:left">Preset wiring, filter, call order</td><td style="text-align:left">Overlap math</td></tr>
+<tr><td style="text-align:left"><code>windows.py</code></td><td style="text-align:left">Split and shift</td><td style="text-align:left">Type policy</td></tr>
+<tr><td style="text-align:left"><code>labelmap.py</code></td><td style="text-align:left">Raw label to public type</td><td style="text-align:left">Thresholds</td></tr>
+<tr><td style="text-align:left"><code>check.py</code></td><td style="text-align:left">Slice equality, drop counter</td><td style="text-align:left">Merge</td></tr>
+<tr><td style="text-align:left"><code>merge.py</code></td><td style="text-align:left">One non-overlapping list</td><td style="text-align:left">Model code</td></tr>
+<tr><td style="text-align:left"><code>redact.py</code></td><td style="text-align:left">Placeholder replace and vault return</td><td style="text-align:left">Storage</td></tr>
+<tr><td style="text-align:left"><code>detectors/rules.py</code></td><td style="text-align:left">Email, phone, IBAN, Luhn, IP</td><td style="text-align:left">Person names</td></tr>
+<tr><td style="text-align:left"><code>detectors/hf_token.py</code></td><td style="text-align:left">BERT and ModernBERT adapters</td><td style="text-align:left">GLiNER</td></tr>
+<tr><td style="text-align:left"><code>detectors/gliner2.py</code></td><td style="text-align:left">fastino call</td><td style="text-align:left">Taxonomy names as model labels</td></tr>
+<tr><td style="text-align:left"><code>detectors/gliner.py</code></td><td style="text-align:left">nvidia and urchade call</td><td style="text-align:left">A second span type</td></tr>
+<tr><td style="text-align:left"><code>detectors/uie.py</code></td><td style="text-align:left">ModelScope schema call</td><td style="text-align:left">English defaults</td></tr>
+<tr><td style="text-align:left"><code>eval/score.py</code></td><td style="text-align:left">Exact-span counts</td><td style="text-align:left">Training</td></tr>
+<tr><td style="text-align:left"><code>presets.py</code></td><td style="text-align:left">Repo id, revision, extra</td><td style="text-align:left">Downloaded weights</td></tr>
+</tbody></table></div>
+<h2 id="dry">DRY</h2>
+<p>One fact lives in one place.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Fact</th><th style="text-align:left">Single home</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Public fields of a span</td><td style="text-align:left"><code>span.py</code></td></tr>
+<tr><td style="text-align:left">Type list and label map</td><td style="text-align:left"><code>2026.11.yaml</code></td></tr>
+<tr><td style="text-align:left">Slice check</td><td style="text-align:left"><code>check.py</code></td></tr>
+<tr><td style="text-align:left">Overlap policy</td><td style="text-align:left"><code>merge.py</code></td></tr>
+<tr><td style="text-align:left">Placeholder syntax</td><td style="text-align:left"><code>redact.py</code></td></tr>
+<tr><td style="text-align:left">Window shift</td><td style="text-align:left"><code>windows.py</code></td></tr>
+<tr><td style="text-align:left">Hub repo id</td><td style="text-align:left"><code>presets.py</code></td></tr>
+<tr><td style="text-align:left">Exact-match count</td><td style="text-align:left"><code>eval/score.py</code></td></tr>
+</tbody></table></div>
+<p>An adapter that copies the slice check is a defect. An adapter that returns a dict the locator silently accepts is also a defect. The adapter returns <code>Span</code> or it returns a private <code>Hit</code> that <code>check.py</code> is the only module allowed to turn into a <code>Span</code>.</p>
+<p>Preferred private type:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Hit</span><span class="p">:</span>
+    <span class="n">raw_label</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">end</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">detector_id</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+<p><code>Hit</code> has no <code>text</code> and no public <code>type</code>. <code>check.py</code> reads <code>source[start:end]</code> and <code>labelmap.py</code> assigns the type. The adapter cannot disagree with the source string about the surface form.</p>
+<h2 id="solid">SOLID</h2>
+<p><strong>Single responsibility.</strong> <code>RuleDetector</code> finds structured forms. <code>HfTokenDetector</code> runs one token-classification stack. <code>merge.py</code> only merges. <code>redact.py</code> only replaces. <code>Locator</code> only orders those steps. None of them parse YAML and call torch and score F1.</p>
+<p><strong>Open for a new model.</strong> A new checkpoint adds a preset row and, if the call shape is new, one detector class. <code>Locator.locate</code> does not grow a branch on the hub name. The protocol is the extension point.</p>
+<p><strong>Substitution.</strong> Every detector implements <code>locate(source, labels) -&gt; tuple[Hit, ...]</code>. <code>labels</code> is the raw label list for the call, already limited by the caller subset. A test double returns hits. The slice check and the merger do not know which class produced them. Example 5 in the <a href="../guide-examples/">examples</a> depends on this.</p>
+<p><strong>Small interface.</strong> The protocol has <code>locate</code> and <code>max_chars</code>. It does not have <code>train</code>, <code>redact</code>, or <code>explain</code>. Batching is a loop in the locator until a detector offers <code>locate_many</code>. The locator uses <code>locate_many</code> only when the object has it. Missing <code>locate_many</code> is not an error.</p>
+<p><strong>Dependency direction.</strong> <code>locator.py</code> depends on the protocol, not on <code>transformers</code>, <code>gliner2</code>, or <code>modelscope</code>. Those imports live inside the detector modules. The core tests install no extra. Preset construction imports the detector module only when the caller requests that preset. A missing extra raises <code>DetectorLoadError</code> with the extra name.</p>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>flowchart BT
+  LOC[&quot;locator&quot;] --&gt; PROTO[&quot;Detector protocol&quot;]
+  HF[&quot;hf_token&quot;] --&gt; PROTO
+  G2[&quot;gliner2&quot;] --&gt; PROTO
+  HF --&gt; TORCH[&quot;transformers&quot;]
+  G2 --&gt; GL[&quot;gliner2 package&quot;]
+  LOC -.-&gt; TORCH</code></pre></div>
+<p>The dotted edge breaks the rule. <code>locator</code> does not import <code>transformers</code>.</p>
+<h2 id="call-sequence">Call sequence</h2>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>sequenceDiagram
+  participant C as Caller
+  participant L as Locator
+  participant D as Detectors
+  participant K as check and merge
+  C-&gt;&gt;L: locate(source, types)
+  L-&gt;&gt;L: reject unknown types
+  L-&gt;&gt;D: locate(source, raw labels)
+  D--&gt;&gt;L: hits
+  L-&gt;&gt;K: map, check, merge
+  K--&gt;&gt;L: spans
+  L--&gt;&gt;C: LocateResult</code></pre></div>
+<p>Detectors in one preset run as a set. The rule detector always runs. Model detectors run when the preset names them. The merger sees the union. There is no hidden second pass inside a detector.</p>
+<h2 id="merge">Merge</h2>
+<ol class="doc-list"><li>Drop a hit whose public type is outside the caller subset.</li><li>Drop a hit whose score is below <code>min_score</code>, when the caller passed one. A hit with no score also drops, because it has no measured confidence. With no <code>min_score</code> nothing drops on score. The slice check still applies.</li><li>Build overlap groups on half-open ranges.</li><li>In a group, keep the span with the higher class rank.</li><li>If the rank ties, keep the span whose type <code>prefer</code> matches the winning detector kind. <code>rule</code> prefers a <code>detector_id</code> that starts with <code>rules.</code>. <code>model</code> prefers any other id.</li><li>If that still ties, keep the longer span.</li><li>If length ties, keep the higher score.</li><li>If the score ties, keep the smaller start, then the name that sorts first, so the result is stable.</li></ol>
+<p>The steps live in <code>merge.py</code> only. Tests cover each tie with injected hits. No model weights.</p>
+<h2 id="windows">Windows</h2>
+<p><code>max_chars</code> is a property of the detector. The adapter reads the checkpoint context at load time and sets the window from it. <code>HfTokenDetector</code> uses 75 percent of <code>max_position_embeddings</code> as a conservative character bound. The splitter exists because a caller can pass a longer string than the window.</p>
+<ol class="doc-list"><li>If <code>len(source) &lt;= max_chars</code>, call the detector one time.</li><li>Else, cut on the last paragraph break that the overlap keeps behind the window start. If none exists, cut on the last space. If none exists, cut hard at <code>max_chars</code>.</li><li>Repeat the last <code>overlap_chars</code> characters at the start of the next window. Default <code>overlap_chars</code> is 64.</li><li>Add the window start to each hit offset before the slice check.</li><li>Let the merger drop duplicate ranges.</li></ol>
+<p>The cut has one requirement: the next window must start after the current one. A fixed &quot;cut in the second half&quot; rule has no source, so the splitter does not use it.</p>
+<p>A gold span that the cut splits is a window bug. The eval slice <code>long_doc</code> in the <a href="../doc-evaluation/">evaluation spec</a> exists to catch it.</p>
+<h2 id="preset-wiring">Preset wiring</h2>
+<p><code>presets.py</code> is data:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">Preset</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"en-closed"</span><span class="p">,</span>
+    <span class="n">extra</span><span class="o">=</span><span class="s2">"hf"</span><span class="p">,</span>
+    <span class="n">detectors</span><span class="o">=</span><span class="p">(</span><span class="s2">"rules"</span><span class="p">,</span> <span class="s2">"hf_token"</span><span class="p">),</span>
+    <span class="n">repo_id</span><span class="o">=</span><span class="s2">"antoniogr7/pii-identifier-v0.1"</span><span class="p">,</span>
+    <span class="n">revision</span><span class="o">=</span><span class="s2">"&lt;pinned&gt;"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><code>Locator.preset</code> reads that row. It does not special-case the name <code>en-closed</code> in <code>locate</code>.</p>
+<h2 id="logging-and-secrets">Logging and secrets</h2>
+<p>The logger is a parameter with a default that writes counts. Detectors receive a logger that already redacts. They do not format the source string into a message. Secret slices follow <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md" target="_blank" rel="noopener noreferrer">ADR 0004</a> inside <code>redact.py</code> only. The merger does not know the vault.</p>
+<h2 id="package-layout">Package layout</h2>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>src/edgepii/
+  __init__.py
+  span.py
+  protocol.py
+  locator.py
+  windows.py
+  labelmap.py
+  check.py
+  merge.py
+  redact.py
+  presets.py
+  errors.py
+  taxonomies/2026.11.yaml
+  detectors/rules.py
+  detectors/hf_token.py
+  detectors/gliner2.py
+  detectors/gliner.py
+  detectors/uie.py
+  eval/score.py
+tests/
+  test_contract.py
+  test_merge.py
+  test_redact.py
+  test_rules.py
+  test_windows.py
+  test_score.py
+</code></pre></div>
+<p><code>detectors/uie.py</code> lands in the optional phase. The tree does not import it from <code>__init__.py</code>.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-score/"><span>Previous</span>First public score</a><a class="page-nav-link next" href="../doc-ai-engineering/"><span>Next</span>AI engineering</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

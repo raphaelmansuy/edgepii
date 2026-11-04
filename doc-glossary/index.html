@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glossary · edgepii</title>
+<meta name="description" content="edgepii reference: Glossary." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-glossary/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Glossary · edgepii" />
+<meta property="og:description" content="edgepii reference: Glossary." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-glossary/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Glossary · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Glossary." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  
+  <main id="main" class="main">
+<article class="prose"><h1 id="glossary">Glossary</h1>
+<p>Use these names in code, docs, and reviews. If a synonym appears in a model card, map it here and do not reuse the synonym as a public name.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Term</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">source string</td><td style="text-align:left">The <code>str</code> the caller passed to <code>locate</code>. The only legal target of an offset</td></tr>
+<tr><td style="text-align:left">offset</td><td style="text-align:left">A Python index into the source string. Code points, not bytes</td></tr>
+<tr><td style="text-align:left">span</td><td style="text-align:left">One half-open range plus a public type, the slice, a score, a detector id, and a raw label</td></tr>
+<tr><td style="text-align:left">type</td><td style="text-align:left">A name in the active taxonomy. Example: <code>EMAIL</code></td></tr>
+<tr><td style="text-align:left">taxonomy</td><td style="text-align:left">The versioned type list. Current version: <code>2026.11</code></td></tr>
+<tr><td style="text-align:left">label map</td><td style="text-align:left">The table from a raw model label to a type</td></tr>
+<tr><td style="text-align:left">raw label</td><td style="text-align:left">The string the model or the rule emitted before the map</td></tr>
+<tr><td style="text-align:left">detector</td><td style="text-align:left">An object that returns hits for a source string</td></tr>
+<tr><td style="text-align:left">hit</td><td style="text-align:left">A private range with a raw label. Not a public span yet</td></tr>
+<tr><td style="text-align:left">locator</td><td style="text-align:left">The object that maps, checks, and merges hits into a result</td></tr>
+<tr><td style="text-align:left">preset</td><td style="text-align:left">A named set of detectors and a pinned revision</td></tr>
+<tr><td style="text-align:left">lane</td><td style="text-align:left">A family of detectors. Rules, closed encoder, open schema, or Chinese schema</td></tr>
+<tr><td style="text-align:left">merger</td><td style="text-align:left">The only module that resolves overlapping spans</td></tr>
+<tr><td style="text-align:left">exact-span F1</td><td style="text-align:left">Precision and recall where a match needs the same type, start, and end</td></tr>
+<tr><td style="text-align:left">miss</td><td style="text-align:left">A gold span with no overlapping prediction</td></tr>
+<tr><td style="text-align:left">extra span</td><td style="text-align:left">A prediction that overlaps no gold span</td></tr>
+<tr><td style="text-align:left">golden set</td><td style="text-align:left">Labeled rows with frozen offsets. Split into a dev freeze and a sealed freeze</td></tr>
+<tr><td style="text-align:left">dev freeze</td><td style="text-align:left">The golden subset builders can use to tune a caller score floor</td></tr>
+<tr><td style="text-align:left">sealed freeze</td><td style="text-align:left">The golden subset for one ship decision</td></tr>
+<tr><td style="text-align:left">leakage</td><td style="text-align:left">A gold high-severity slice still present at its offsets after redact</td></tr>
+<tr><td style="text-align:left">vault</td><td style="text-align:left">The map from placeholder to slice. The caller holds it. The library does not</td></tr>
+<tr><td style="text-align:left">class</td><td style="text-align:left">The policy group of a type. <code>secret</code>, <code>gov_id</code>, <code>payment</code>, <code>contact</code>, <code>person</code>, or <code>quasi</code></td></tr>
+<tr><td style="text-align:left">UNCONFIRMED</td><td style="text-align:left">A number or a rank with no measure on our golden set</td></tr>
+</tbody></table></div>
+<h2 id="do-not-alternate">Do not alternate</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Say</th><th style="text-align:left">Do not also say</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">span</td><td style="text-align:left">entity, hit, finding, match, as a public name</td></tr>
+<tr><td style="text-align:left">source string</td><td style="text-align:left">document, text, payload, as the offset target. &quot;text&quot; is the slice field only</td></tr>
+<tr><td style="text-align:left">type</td><td style="text-align:left">label, tag, category, as the public name. &quot;raw label&quot; is the private one</td></tr>
+<tr><td style="text-align:left">preset</td><td style="text-align:left">model, when you mean the wired stack. The model is the checkpoint</td></tr>
+<tr><td style="text-align:left">locator</td><td style="text-align:left">pipeline, engine, analyzer</td></tr>
+<tr><td style="text-align:left">golden set</td><td style="text-align:left">benchmark, when you mean our freeze. A public benchmark keeps its own name</td></tr>
+<tr><td style="text-align:left">vault</td><td style="text-align:left">map, in code. Prose can say &quot;the vault&quot;. Do not also say &quot;the store&quot;</td></tr>
+</tbody></table></div>
+<p>PII means personally identifiable information in this set. The law can say personal data and mean a wider set. Counsel owns that wider set. The library owns the taxonomy.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-why/"><span>Previous</span>Five whys</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

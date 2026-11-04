@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Research landscape · edgepii</title>
+<meta name="description" content="edgepii reference: Research landscape." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-landscape/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Research landscape · edgepii" />
+<meta property="og:description" content="edgepii reference: Research landscape." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-landscape/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Research landscape · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Research landscape." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#the-task-in-the-literature">The task in the literature</a></li><li class="toc-l2"><a href="#lanes">Lanes</a></li><li class="toc-l2"><a href="#lane-e-encoders">Lane E. Encoders</a></li><li class="toc-l2"><a href="#when-the-encoder-is-enough">When the encoder is enough</a></li><li class="toc-l2"><a href="#lane-g-open-schema">Lane G. Open schema</a></li><li class="toc-l2"><a href="#reported-scores-and-why-they-are-not-the-gate">Reported scores, and why they are not the gate</a></li><li class="toc-l2"><a href="#lane-z-modelscope-and-chinese">Lane Z. ModelScope and Chinese</a></li><li class="toc-l2"><a href="#lane-r-rules">Lane R. Rules</a></li><li class="toc-l2"><a href="#data-the-golden-set-can-cite">Data the golden set can cite</a></li><li class="toc-l2"><a href="#escalation-ladder">Escalation ladder</a></li><li class="toc-l2"><a href="#systems-that-are-adjacent">Systems that are adjacent</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="research-landscape">Research landscape</h1>
+<p>As of 4 November 2026. This file says which research lane fits the <a href="../doc-span-contract/">span contract</a>. It does not rank models by a number we measured. This file marks paper figures and card figures as reported. They stay UNCONFIRMED as ship gates. See <a href="../doc-ai-engineering/">AI engineering</a> and <a href="../doc-evaluation/">evaluation</a>.</p>
+<p>The model rows and links live in the <a href="../doc-catalog/">catalog</a>. This file is the map.</p>
+<h2 id="the-task-in-the-literature">The task in the literature</h2>
+<p>The public name is span NER, or token classification when the labels are BIO or BILOU. CoNLL-2003 fixed exact-entity match as the score (<a href="https://aclanthology.org/W03-0419/" target="_blank" rel="noopener noreferrer">W03-0419</a>). SeqScore later set rules for fair sequence scores (<a href="https://aclanthology.org/2021.eval4nlp-1.5/" target="_blank" rel="noopener noreferrer">2021.eval4nlp-1.5</a>).</p>
+<p>CoNLL types are person, organization, location, and miscellaneous. Those types are not a PII taxonomy. A strong CoNLL model can still miss an email, a card, or a national id. The locate note records that limit. <code>dslim/bert-base-NER</code> is a CoNLL model, not a candidate default (<a href="https://huggingface.co/dslim/bert-base-NER" target="_blank" rel="noopener noreferrer">card</a>).</p>
+<h2 id="lanes">Lanes</h2>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>flowchart TD
+  T[&quot;Source string&quot;] --&gt; R[&quot;Lane R. Rules and checksums&quot;]
+  T --&gt; E[&quot;Lane E. Closed encoder&quot;]
+  T --&gt; G[&quot;Lane G. Open schema&quot;]
+  T --&gt; Z[&quot;Lane Z. Chinese schema, optional&quot;]
+  R --&gt; M[&quot;Merger&quot;]
+  E --&gt; M
+  G --&gt; M
+  Z --&gt; M
+  M --&gt; S[&quot;Span list on the source string&quot;]</code></pre></div>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Lane</th><th style="text-align:left">What it is</th><th style="text-align:left">Contract fit</th><th style="text-align:left">When it is the right tool</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">R</td><td style="text-align:left">Patterns plus a validator</td><td style="text-align:left">Yes when a standard defines the form</td><td style="text-align:left">Email, phone, IBAN, card, IP, secret cue</td></tr>
+<tr><td style="text-align:left">E</td><td style="text-align:left">Encoder with a token-classification head</td><td style="text-align:left">Yes after offset mapping</td><td style="text-align:left">Frozen types, known domain, low latency</td></tr>
+<tr><td style="text-align:left">G</td><td style="text-align:left">Span model that takes the type list at call time</td><td style="text-align:left">Yes. Native start and end</td><td style="text-align:left">The taxonomy must move without a new train run</td></tr>
+<tr><td style="text-align:left">Z</td><td style="text-align:left">Schema extractor for Chinese, ModelScope</td><td style="text-align:left">Yes only if offsets check out</td><td style="text-align:left">Chinese text and a host that loads ModelScope</td></tr>
+<tr><td style="text-align:left">Chat</td><td style="text-align:left">A generative model that rewrites or emits JSON</td><td style="text-align:left">Only if code checks offsets</td><td style="text-align:left">Last. Not a v1 default</td></tr>
+</tbody></table></div>
+<p>Lane R is necessary and not sufficient. Names, messy addresses, and context-heavy ids need Lane E or Lane G. The parent pipeline says the same thing (<a href="https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe" target="_blank" rel="noopener noreferrer">span pipeline</a>).</p>
+<h2 id="lane-e-encoders">Lane E. Encoders</h2>
+<p>BERT showed that a bidirectional encoder can feed a token-classification head (<a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener noreferrer">arXiv:1810.04805</a>). The head emits BIO or BILOU. The adapter turns those tags into character spans. That path meets the contract when labeled spans exist.</p>
+<p>Later encoders keep the same head and change the backbone.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Backbone</th><th style="text-align:left">Why it exists</th><th style="text-align:left">PII-shaped checkpoint</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">BERT</td><td style="text-align:left">Cheap control. Short context</td><td style="text-align:left"><a href="https://huggingface.co/ab-ai/pii_model" target="_blank" rel="noopener noreferrer">ab-ai/pii_model</a></td></tr>
+<tr><td style="text-align:left">ClinicalBERT</td><td style="text-align:left">Clinical notes</td><td style="text-align:left"><a href="https://huggingface.co/obi/deid_bert_i2b2" target="_blank" rel="noopener noreferrer">obi/deid_bert_i2b2</a>, paper <a href="https://arxiv.org/abs/1904.03323" target="_blank" rel="noopener noreferrer">arXiv:1904.03323</a></td></tr>
+<tr><td style="text-align:left">RoBERTa</td><td style="text-align:left">Stronger pretrain, same contract</td><td style="text-align:left"><a href="https://huggingface.co/obi/deid_roberta_i2b2" target="_blank" rel="noopener noreferrer">obi/deid_roberta_i2b2</a></td></tr>
+<tr><td style="text-align:left">DeBERTa-v3</td><td style="text-align:left">Disentangled attention. Often paired with a CRF</td><td style="text-align:left"><a href="https://huggingface.co/DataikuNLP/kiji-pii-model" target="_blank" rel="noopener noreferrer">DataikuNLP/kiji-pii-model</a>. DeBERTa v3: <a href="https://arxiv.org/abs/2111.09543" target="_blank" rel="noopener noreferrer">arXiv:2111.09543</a></td></tr>
+<tr><td style="text-align:left">ModernBERT</td><td style="text-align:left">Long context, current encoder train</td><td style="text-align:left"><a href="https://huggingface.co/antoniogr7/pii-identifier-v0.1" target="_blank" rel="noopener noreferrer">antoniogr7/pii-identifier-v0.1</a>. Paper <a href="https://arxiv.org/abs/2412.13663" target="_blank" rel="noopener noreferrer">arXiv:2412.13663</a>. Base weights <a href="https://huggingface.co/answerdotai/ModernBERT-base" target="_blank" rel="noopener noreferrer">answerdotai/ModernBERT-base</a></td></tr>
+</tbody></table></div>
+<p>Clinical de-identification is a neighbor task, not the default taxonomy. Stanford published a transformer de-identifier (<a href="https://doi.org/10.1093/jamia/ocac219" target="_blank" rel="noopener noreferrer">JAMIA, doi:10.1093/jamia/ocac219</a>, <a href="https://huggingface.co/StanfordAIMI/stanford-deidentifier-base" target="_blank" rel="noopener noreferrer">card</a>). Use it only when the text is clinical and the data-use terms allow it. n2c2 text stays under its data-use agreement. Do not copy it into this repo.</p>
+<h2 id="when-the-encoder-is-enough">When the encoder is enough</h2>
+<p>Use a closed encoder when all of the lines below are true.</p>
+<ol class="doc-list"><li>The team freezes the type list. Callers do not add a type at runtime.</li><li>The language and the genre match the train mix. For the ModernBERT candidate, that mix is English synthetic PII.</li><li>Labeled spans exist, or a public checkpoint already covers the types.</li><li>CPU cost and p95 latency matter more than a new type next week.</li><li>The context fits the window, or the window splitter in the <a href="../doc-architecture/">architecture</a> covers the tail.</li></ol>
+<p>Leave the encoder when any line below is true.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Trigger</th><th style="text-align:left">Next lane</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">The caller must pass a new type without a train run</td><td style="text-align:left">Lane G</td></tr>
+<tr><td style="text-align:left">The golden set shows a residual miss on names after the caller floor moves</td><td style="text-align:left">A stronger encoder, then Lane G</td></tr>
+<tr><td style="text-align:left">The document is longer than the encoder window and the splitter cuts gold spans</td><td style="text-align:left">ModernBERT long context, or a wider overlap</td></tr>
+<tr><td style="text-align:left">The text is Chinese and the English encoder misses the slice</td><td style="text-align:left">Lane Z, then measure</td></tr>
+<tr><td style="text-align:left">The text is clinical PHI under a research agreement</td><td style="text-align:left">A de-id checkpoint, not the default preset</td></tr>
+</tbody></table></div>
+<p>BERT is a solution for the contract. BERT is not a claim of the best paper F1 on every set. The locate note says the same thing, and this spec keeps that caution. Soft-kill any &quot;BERT&quot; wrapper that has no offset path on the card.</p>
+<p>The 2026 closed default is ModernBERT, not 2018 BERT-base. ModernBERT is still Lane E. It is the current form of &quot;a BERT-family token classifier is enough&quot;. Preset <code>en-bert</code> keeps BERT-base as the control so the team can see what the extra backbone buys on the golden set.</p>
+<h2 id="lane-g-open-schema">Lane G. Open schema</h2>
+<p>GLiNER matches label text to span vectors and returns start and end (<a href="https://arxiv.org/abs/2311.08526" target="_blank" rel="noopener noreferrer">arXiv:2311.08526</a>, <a href="https://aclanthology.org/2024.naacl-long.300/" target="_blank" rel="noopener noreferrer">NAACL 2024</a>). The type list is an input. That property is why Lane G exists. A closed head cannot add <code>TAX_ID</code> on one call without a new label set and a new train run.</p>
+<p>GLiNER2-PII adapts that idea to a PII inventory and a multilingual synthetic train set (<a href="https://arxiv.org/abs/2605.09973" target="_blank" rel="noopener noreferrer">arXiv:2605.09973</a>, 2026-05). The public weights are <a href="https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi" target="_blank" rel="noopener noreferrer">fastino/gliner2-privacy-filter-PII-multi</a>. The card says 205M parameters. The paper abstract says about 0.3B. This spec does not resolve that gap. Read the card you pin.</p>
+<p>Other span checkpoints in this lane: <a href="https://huggingface.co/nvidia/gliner-PII" target="_blank" rel="noopener noreferrer">nvidia/gliner-PII</a>, <a href="https://huggingface.co/urchade/gliner_multi_pii-v1" target="_blank" rel="noopener noreferrer">urchade/gliner_multi_pii-v1</a>, <a href="https://huggingface.co/gretelai/gretel-gliner-bi-large-v1.0" target="_blank" rel="noopener noreferrer">gretelai/gretel-gliner-bi-large-v1.0</a>, <a href="https://huggingface.co/knowledgator/gliner-pii-edge-v1.0" target="_blank" rel="noopener noreferrer">knowledgator/gliner-pii-edge-v1.0</a>.</p>
+<p>LOGICAL studies local obfuscation with a GLiNER PII stack (<a href="https://arxiv.org/abs/2510.19346" target="_blank" rel="noopener noreferrer">arXiv:2510.19346</a>). It is a system paper, not a default checkpoint.</p>
+<h2 id="reported-scores-and-why-they-are-not-the-gate">Reported scores, and why they are not the gate</h2>
+<p>SPY is a synthetic PII set with legal and medical subsets (<a href="https://aclanthology.org/2025.naacl-srw.23/" target="_blank" rel="noopener noreferrer">NAACL 2025 SRW</a>). Authors score exact span match. Two write-ups of the same models do not match.</p>
+<p>Paper table in <a href="https://arxiv.org/html/2605.09973" target="_blank" rel="noopener noreferrer">arXiv:2605.09973</a>, average exact-span F1: fastino 0.471, nvidia 0.391, urchade 0.384, OpenAI Privacy Filter 0.373, knowledgator base 0.368.</p>
+<p>The fastino card table reports a different average: fastino 0.477, nvidia 0.400, urchade 0.398, OpenAI Privacy Filter 0.380 (<a href="https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi" target="_blank" rel="noopener noreferrer">card</a>).</p>
+<p>A separate study of OpenAI Privacy Filter reports other SPY figures (<a href="https://arxiv.org/abs/2608.02616" target="_blank" rel="noopener noreferrer">arXiv:2608.02616</a>). That paper also reports a training result. A fine-tuned encoder can pass a zero-shot filter after about 500 labeled rows, on that paper&#x27;s protocol. The result supports Lane E when labels exist. Those figures are not our gate.</p>
+<p><code>antoniogr7/pii-identifier-v0.1</code> reports F1 0.9628 and F2 0.9699 on the Nemotron-PII test inside the PIIMB harness (<a href="https://huggingface.co/antoniogr7/pii-identifier-v0.1" target="_blank" rel="noopener noreferrer">card</a>). That set is the train distribution&#x27;s test split. It is not SPY. A high in-domain F1 does not imply a high SPY F1.</p>
+<p>Do not average these tables. Do not pick a winner from them. Run the <a href="../doc-evaluation/">golden set</a>.</p>
+<h2 id="lane-z-modelscope-and-chinese">Lane Z. ModelScope and Chinese</h2>
+<p>Hugging Face is the default hub. ModelScope is the hub when the host is in a network that reaches ModelScope cleanly, or when the text is Chinese.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Role</th><th style="text-align:left">Id</th><th style="text-align:left">Why it is here</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Schema spans for Chinese</td><td style="text-align:left"><a href="https://www.modelscope.cn/models/iic/nlp_structbert_siamese-uie_chinese-base" target="_blank" rel="noopener noreferrer">iic/nlp_structbert_siamese-uie_chinese-base</a></td><td style="text-align:left">The caller passes a schema. The lineage is UIE (<a href="https://aclanthology.org/2022.acl-long.395/" target="_blank" rel="noopener noreferrer">ACL 2022</a>, <a href="https://arxiv.org/abs/2203.12277" target="_blank" rel="noopener noreferrer">arXiv:2203.12277</a>) on StructBERT (<a href="https://arxiv.org/abs/1908.04577" target="_blank" rel="noopener noreferrer">arXiv:1908.04577</a>)</td></tr>
+<tr><td style="text-align:left">Same family, <code>damo</code> namespace</td><td style="text-align:left"><a href="https://www.modelscope.cn/models/damo/nlp_structbert_siamese-uie_chinese-base" target="_blank" rel="noopener noreferrer">damo/nlp_structbert_siamese-uie_chinese-base</a></td><td style="text-align:left">Alternate id seen in public tutorials. Pin one id in the adapter</td></tr>
+<tr><td style="text-align:left">PII token classifier mirror</td><td style="text-align:left"><a href="https://www.modelscope.cn/models/onnx-community/multilang-pii-ner-ONNX" target="_blank" rel="noopener noreferrer">onnx-community/multilang-pii-ner-ONNX</a></td><td style="text-align:left">ONNX mirror of an XLM-RoBERTa PII NER. Languages on the HF card: English, German, Italian, French (<a href="https://huggingface.co/onnx-community/multilang-pii-ner-ONNX" target="_blank" rel="noopener noreferrer">HF card</a>)</td></tr>
+</tbody></table></div>
+<p>The ModelScope pages returned HTTP 500 from this writing environment on 4 November 2026. Search indexes still list the model ids. Re-check the card before you pin a hash.</p>
+<p>Siamese-UIE is a general extractor. It is not a PII-tuned checkpoint. The adapter must prove <code>source[start:end]</code> equals the surface before a span is public. A Chinese generic NER such as RA-NER returns <code>{type, start, end, span}</code> (<a href="https://github.com/modelscope/modelscope/issues/274" target="_blank" rel="noopener noreferrer">modelscope issue 274</a>) but the types are news types, not the taxonomy. Do not use it as a PII default.</p>
+<h2 id="lane-r-rules">Lane R. Rules</h2>
+<p>Use rules for forms that a published grammar or checksum defines.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Form</th><th style="text-align:left">Check</th><th style="text-align:left">Source</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Email</td><td style="text-align:left">Local part 64 octets, path 254, dotted domain</td><td style="text-align:left"><a href="https://www.rfc-editor.org/rfc/rfc5321#section-4.5.3.1" target="_blank" rel="noopener noreferrer">RFC 5321 section 4.5.3.1</a></td></tr>
+<tr><td style="text-align:left">Phone</td><td style="text-align:left">Parse, then a validity or a possible-length test</td><td style="text-align:left"><a href="https://github.com/google/libphonenumber" target="_blank" rel="noopener noreferrer">libphonenumber</a>, Python port</td></tr>
+<tr><td style="text-align:left">IBAN</td><td style="text-align:left">Two letters, two check digits, MOD-97</td><td style="text-align:left"><a href="https://www.iso.org/standard/81090.html" target="_blank" rel="noopener noreferrer">ISO 13616</a></td></tr>
+<tr><td style="text-align:left">Payment card</td><td style="text-align:left">8 to 19 digits, a leading 1 to 9, Luhn</td><td style="text-align:left"><a href="https://www.iso.org/standard/70484.html" target="_blank" rel="noopener noreferrer">ISO/IEC 7812-1</a></td></tr>
+<tr><td style="text-align:left">IP address</td><td style="text-align:left">Text form, then a stdlib parse</td><td style="text-align:left"><a href="https://www.rfc-editor.org/rfc/rfc4291" target="_blank" rel="noopener noreferrer">RFC 4291</a>, <a href="https://www.rfc-editor.org/rfc/rfc3986" target="_blank" rel="noopener noreferrer">RFC 3986</a></td></tr>
+<tr><td style="text-align:left">Secret</td><td style="text-align:left">A cue word and one value token</td><td style="text-align:left"><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md" target="_blank" rel="noopener noreferrer">ADR 0004</a>. No standard exists, so the score stays null</td></tr>
+<tr><td style="text-align:left">National id</td><td style="text-align:left">Only where policy names the pattern</td><td style="text-align:left">Off unless the taxonomy type is enabled</td></tr>
+</tbody></table></div>
+<p>Every rule reports <code>1.0</code> only when a validator confirms the slice. A rule with no validator reports <code>null</code>. The library never invents a middle number, because a fixed value would order spans by nothing.</p>
+<p>Microsoft Presidio already wires patterns and a transformers engine (<a href="https://microsoft.github.io/presidio/analyzer/nlp_engines/transformers/" target="_blank" rel="noopener noreferrer">engine doc</a>, <a href="https://github.com/microsoft/presidio" target="_blank" rel="noopener noreferrer">GitHub</a>). Recognizers-Text covers several structured forms (<a href="https://github.com/microsoft/Recognizers-Text" target="_blank" rel="noopener noreferrer">GitHub</a>). V1 does not depend on Presidio. A later bridge can convert our spans into Presidio results. One merger stays inside <code>edgepii</code>.</p>
+<h2 id="data-the-golden-set-can-cite">Data the golden set can cite</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Set</th><th style="text-align:left">Role</th><th style="text-align:left">Link</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Nemotron-PII</td><td style="text-align:left">Large synthetic English spans</td><td style="text-align:left"><a href="https://huggingface.co/datasets/nvidia/Nemotron-PII" target="_blank" rel="noopener noreferrer">dataset</a>, <a href="https://huggingface.co/blog/nvidia/nemotron-pii" target="_blank" rel="noopener noreferrer">blog</a></td></tr>
+<tr><td style="text-align:left">OpenPII</td><td style="text-align:left">Span and BIO fields, many rows</td><td style="text-align:left"><a href="https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1.5m" target="_blank" rel="noopener noreferrer">1.5m</a></td></tr>
+<tr><td style="text-align:left">SPY</td><td style="text-align:left">Out-of-domain legal and medical prose</td><td style="text-align:left"><a href="https://aclanthology.org/2025.naacl-srw.23/" target="_blank" rel="noopener noreferrer">paper</a></td></tr>
+<tr><td style="text-align:left">Kiji train data</td><td style="text-align:left">Multilingual synthetic, six languages</td><td style="text-align:left"><a href="https://huggingface.co/datasets/DataikuNLP/kiji-pii-training-data" target="_blank" rel="noopener noreferrer">DataikuNLP/kiji-pii-training-data</a></td></tr>
+</tbody></table></div>
+<p>Synthetic rows need a template id. The sealed freeze must also hold a small human slice of the real channel. The locate note forbids a train-test bleed.</p>
+<h2 id="escalation-ladder">Escalation ladder</h2>
+<p>Use this order. Skip a step only when the trigger in &quot;when the encoder is enough&quot; is already true on the dev freeze.</p>
+<ol class="doc-list"><li>Lane R for structured types.</li><li>BERT-base control (<code>en-bert</code>) so the team has a cheap baseline.</li><li>ModernBERT closed preset (<code>en-closed</code>) for English and a frozen type list.</li><li>DeBERTa plus CRF only when the residual errors are illegal BIO paths the linear head emits. Kiji is the candidate, after a license re-read.</li><li>Lane G (<code>multi-open</code>, then <code>phi-open</code> if health types are in scope).</li><li>Lane Z for a Chinese slice.</li><li>A generative model only if it emits offsets and the scorer checks them. Not in v1.</li></ol>
+<h2 id="systems-that-are-adjacent">Systems that are adjacent</h2>
+<p>These systems mask and restore. They are consumers of spans, or rivals to the product around the library. They are not the locator contract.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">System</th><th style="text-align:left">What it adds</th><th style="text-align:left">Link</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Presidio anonymizer</td><td style="text-align:left">Operators and an optional encrypt path</td><td style="text-align:left"><a href="https://microsoft.github.io/presidio/anonymizer/" target="_blank" rel="noopener noreferrer">docs</a></td></tr>
+<tr><td style="text-align:left">Hide and Seek</td><td style="text-align:left">Hide entities, then recover them in the answer</td><td style="text-align:left"><a href="https://arxiv.org/abs/2309.03057" target="_blank" rel="noopener noreferrer">arXiv:2309.03057</a></td></tr>
+<tr><td style="text-align:left">Portcullis</td><td style="text-align:left">A verifiable gateway paper</td><td style="text-align:left"><a href="https://doi.org/10.1609/aaai.v39i1.32088" target="_blank" rel="noopener noreferrer">doi:10.1609/aaai.v39i1.32088</a></td></tr>
+</tbody></table></div>
+<p>Cloud detect APIs (Comprehend, Azure Language PII, Sensitive Data Protection) return spans and copy the text to the vendor. <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0003-local-weights.md" target="_blank" rel="noopener noreferrer">ADR 0003</a> keeps them out of v1.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-ai-engineering/"><span>Previous</span>AI engineering</a><a class="page-nav-link next" href="../doc-catalog/"><span>Next</span>Model catalog</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "edgepii",
+  "short_name": "edgepii",
+  "description": "Locate PII as typed character spans on the exact source string.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#05070d",
+  "theme_color": "#05070d",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

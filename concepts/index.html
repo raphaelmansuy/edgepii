@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How it works · edgepii</title>
+<meta name="description" content="Why the library returns character spans, and how rules and models combine." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/concepts/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="How it works · edgepii" />
+<meta property="og:description" content="Why the library returns character spans, and how rules and models combine." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/concepts/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="How it works · edgepii" />
+<meta name="twitter:description" content="Why the library returns character spans, and how rules and models combine." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts" aria-current="page">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#the-one-rule">The one rule</a></li><li class="toc-l2"><a href="#spans-not-labels">Spans, not labels</a></li><li class="toc-l2"><a href="#two-lanes-one-merge">Two lanes, one merge</a></li><li class="toc-l2"><a href="#why-a-score-of-none-is-a-fact">Why a score of None is a fact</a></li><li class="toc-l2"><a href="#the-eleven-types">The eleven types</a></li><li class="toc-l2"><a href="#rank-breaks-a-tie">Rank breaks a tie</a></li><li class="toc-l2"><a href="#masking-is-reversible-except-for-secrets">Masking is reversible, except for secrets</a></li><li class="toc-l2"><a href="#what-it-does-not-do">What it does not do</a></li><li class="toc-l2"><a href="#next">Next</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="how-it-works">How it works</h1>
+<p>Most PII tools answer one question: is this document sensitive? That answer is too coarse for a support ticket, a log line, or a prompt. The team still needs the rest of the string to do the work, and it needs proof of which characters left the system.</p>
+<p><code>edgepii</code> answers a narrower question, and the answer is checkable: <strong>which characters, of which type, on this string?</strong></p>
+<h2 id="the-one-rule">The one rule</h2>
+<p>Every result row proves this:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">source</span><span class="p">[</span><span class="n">span</span><span class="o">.</span><span class="n">start</span><span class="p">:</span><span class="n">span</span><span class="o">.</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">span</span><span class="o">.</span><span class="n">text</span>
+</code></pre></div>
+<p>That equation is the contract. If a detector returns an offset that fails it, the library drops the span and increments a counter. The library never searches your text for something that looks close.</p>
+<p>Why so strict? Consider a span that is off by one character. <code>ada@example.com</code> becomes <code>da@example.com</code>. A mask built on that offset leaves the first character in place, and the address still resolves. A one-character bug is a data leak.</p>
+<h2 id="spans-not-labels">Spans, not labels</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Approach</th><th style="text-align:left">Result</th><th style="text-align:left">Can you check it?</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Document classifier</td><td style="text-align:left">One label per document</td><td style="text-align:left">No. Which characters?</td></tr>
+<tr><td style="text-align:left">Chat model rewrite</td><td style="text-align:left">New prose</td><td style="text-align:left">No. What changed?</td></tr>
+<tr><td style="text-align:left"><strong>Character spans</strong></td><td style="text-align:left"><strong>Typed ranges on your string</strong></td><td style="text-align:left"><strong>Yes, with one equality test</strong></td></tr>
+</tbody></table></div>
+<p>A span is a claim about a range. A claim about a range can be verified by a machine.</p>
+<h2 id="two-lanes-one-merge">Two lanes, one merge</h2>
+<p>The library combines two kinds of detector.</p>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>flowchart TD
+  T[&quot;Your string&quot;] --&gt; R[&quot;Rules: grammar and checksum&quot;]
+  T --&gt; M[&quot;Model: names and addresses&quot;]
+  R --&gt; G[&quot;Merger&quot;]
+  M --&gt; G
+  G --&gt; S[&quot;One non-overlapping span list&quot;]</code></pre></div>
+<p><strong>Rules</strong> own forms that a published standard defines. An email follows RFC 5321. A card follows ISO/IEC 7812-1 and a Luhn check. A phone follows libphonenumber. A rule reports a score of <code>1.0</code> only when a validator confirms the slice, and <code>None</code> when the form matched but no validator exists.</p>
+<p><strong>Models</strong> own forms that no grammar can express. A person name is the clearest case. There is no regex for &quot;Ada Lovelace&quot;.</p>
+<p>The merge matters. When two detectors disagree about overlapping characters, the library picks one winner by a fixed order: class rank, then the detector kind the type prefers, then the longer span, then the higher score, then the earlier start. The order never changes, so the same input gives the same output.</p>
+<h2 id="why-a-score-of-none-is-a-fact">Why a score of <code>None</code> is a fact</h2>
+<p>A <code>None</code> score means: a grammar matched and no validator exists. The library will not invent a number there, because a made-up <code>0.8</code> would order spans by nothing at all.</p>
+<p>That choice moves a decision to you. The library ships <strong>no</strong> minimum score. If you want one, you measure it on your own data and pass <code>min_score</code>. A span with no score cannot meet a floor, so a floor removes it. The <a href="../doc-taxonomy/">taxonomy</a> records this reasoning.</p>
+<h2 id="the-eleven-types">The eleven types</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Type</th><th style="text-align:left">Class</th><th style="text-align:left">Who finds it</th><th style="text-align:left">Example</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>SECRET</code></td><td style="text-align:left">secret</td><td style="text-align:left">rule</td><td style="text-align:left"><code>password: hunter2</code></td></tr>
+<tr><td style="text-align:left"><code>GOV_ID</code></td><td style="text-align:left">gov_id</td><td style="text-align:left">rule</td><td style="text-align:left">A national id, where policy names the pattern</td></tr>
+<tr><td style="text-align:left"><code>PAYMENT</code></td><td style="text-align:left">payment</td><td style="text-align:left">rule</td><td style="text-align:left">A card after Luhn, an IBAN after MOD-97</td></tr>
+<tr><td style="text-align:left"><code>EMAIL</code></td><td style="text-align:left">contact</td><td style="text-align:left">rule</td><td style="text-align:left"><code>ada@example.com</code></td></tr>
+<tr><td style="text-align:left"><code>PHONE</code></td><td style="text-align:left">contact</td><td style="text-align:left">rule</td><td style="text-align:left"><code>+852 5555 0101</code></td></tr>
+<tr><td style="text-align:left"><code>IP_ADDRESS</code></td><td style="text-align:left">contact</td><td style="text-align:left">rule</td><td style="text-align:left"><code>198.51.100.7</code></td></tr>
+<tr><td style="text-align:left"><code>USERNAME</code></td><td style="text-align:left">contact</td><td style="text-align:left">model</td><td style="text-align:left">A login name</td></tr>
+<tr><td style="text-align:left"><code>PERSON</code></td><td style="text-align:left">person</td><td style="text-align:left">model</td><td style="text-align:left"><code>Ada Lovelace</code></td></tr>
+<tr><td style="text-align:left"><code>ADDRESS</code></td><td style="text-align:left">person</td><td style="text-align:left">model</td><td style="text-align:left"><code>12 Rue de Rivoli</code></td></tr>
+<tr><td style="text-align:left"><code>DATE_OF_BIRTH</code></td><td style="text-align:left">quasi</td><td style="text-align:left">model</td><td style="text-align:left">Off by default</td></tr>
+<tr><td style="text-align:left"><code>ORG</code></td><td style="text-align:left">quasi</td><td style="text-align:left">model</td><td style="text-align:left">Off by default</td></tr>
+</tbody></table></div>
+<p>Eleven types is a deliberate limit. A finer list is a new taxonomy version, not a fork inside one adapter. The <a href="../doc-taxonomy/">taxonomy page</a> shows how a model label such as <code>credit_debit_card</code> folds into the public type <code>PAYMENT</code>.</p>
+<h2 id="rank-breaks-a-tie">Rank breaks a tie</h2>
+<p>Each class has a rank. A secret outranks a government id, which outranks a payment, which outranks a contact.</p>
+<p>This is why a card number that also looks like a national id resolves to one answer instead of two. The rank is data in one YAML file, not a condition buried in code.</p>
+<h2 id="masking-is-reversible-except-for-secrets">Masking is reversible, except for secrets</h2>
+<p><code>redact</code> walks the span list from the right, so earlier offsets stay valid. Each span becomes <code>&lt;TYPE_N&gt;</code>, and the vault maps that placeholder back to the original slice.</p>
+<p>A <code>SECRET</code> is the exception. It becomes <code>&lt;SECRET&gt;</code> and never enters the vault. A restore would write a password into a ticket, a log, or a second prompt. That decision is recorded as <a href="../doc-index/">ADR 0004</a>.</p>
+<h2 id="what-it-does-not-do">What it does not do</h2>
+<ul class="doc-list"><li>It does not decide that a document is sensitive. Use a classifier for that.</li><li>It does not rewrite your prose. You keep the text; only spans are replaced.</li><li>It does not send your string to a cloud PII service. All weights are local.</li><li>It does not find a name on the rule lane. That is a model job.</li></ul>
+<h2 id="next">Next</h2>
+<ul class="doc-list"><li>See it run in the <a href="../demo/">live demo</a></li><li>Read <a href="../guide-examples/">fifteen worked examples</a> with real output</li><li>Check the <a href="../evaluation/">accuracy claim</a> on public data</li></ul></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../start/"><span>Previous</span>Get started</a><a class="page-nav-link next" href="../guide-masking/"><span>Next</span>Mask and restore</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

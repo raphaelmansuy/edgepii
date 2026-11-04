@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Public corpora · edgepii</title>
+<meta name="description" content="edgepii reference: Public corpora." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-corpora/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Public corpora · edgepii" />
+<meta property="og:description" content="edgepii reference: Public corpora." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-corpora/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Public corpora · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Public corpora." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#the-two-corpora">The two corpora</a></li><li class="toc-l3"><a href="#why-these-two">Why these two</a></li><li class="toc-l2"><a href="#what-the-map-keeps-and-drops">What the map keeps and drops</a></li><li class="toc-l2"><a href="#nested-gold-spans">Nested gold spans</a></li><li class="toc-l2"><a href="#run-a-score">Run a score</a></li><li class="toc-l2"><a href="#the-report">The report</a></li><li class="toc-l2"><a href="#the-score-is-per-document">The score is per document</a></li><li class="toc-l2"><a href="#gaps">Gaps</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="public-corpora">Public corpora</h1>
+<p>This file names the public PII corpora that the scorer reads, the license of each, and the fold from each external gold label into taxonomy <code>2026.11</code>. The data lives in <a href="https://github.com/raphaelmansuy/edgepii/blob/main/src/edgepii/eval/corpora.yaml" target="_blank" rel="noopener noreferrer">corpora.yaml</a>. That file is the only list.</p>
+<p>A score is replayable only when the bytes are pinned. Each corpus row carries a repository id, a commit revision, a file name, a byte count, and a <code>sha256</code>. A download that does not match the pin stops the run. It does not warn and continue, because a moved file makes an old score unreadable.</p>
+<h2 id="the-two-corpora">The two corpora</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Key</th><th style="text-align:left">Corpus</th><th style="text-align:left">License</th><th style="text-align:left">Role</th><th style="text-align:left">Size</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>nemotron-pii</code></td><td style="text-align:left"><a href="https://huggingface.co/datasets/nvidia/Nemotron-PII" target="_blank" rel="noopener noreferrer">nvidia/Nemotron-PII</a> test split</td><td style="text-align:left">CC-BY-4.0</td><td style="text-align:left">In domain. The <code>en-closed</code> checkpoint trains on this distribution</td><td style="text-align:left">100 000 documents</td></tr>
+<tr><td style="text-align:left"><code>gretel-finance-en</code></td><td style="text-align:left"><a href="https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual" target="_blank" rel="noopener noreferrer">gretelai/synthetic_pii_finance_multilingual</a> English test split</td><td style="text-align:left">Apache-2.0</td><td style="text-align:left">Out of domain. Finance documents and SWIFT messages</td><td style="text-align:left">2 891 documents</td></tr>
+</tbody></table></div>
+<p>Both are fully synthetic. Neither holds real personal data. Both licenses allow redistribution and commercial use, so either one can sit in a public gate.</p>
+<h3 id="why-these-two">Why these two</h3>
+<p>The <a href="../doc-evaluation/">evaluation spec</a> asks for one slice that the checkpoint card names and one slice it does not. A card score on a set that the checkpoint trained on is in domain. It is not evidence for a new domain.</p>
+<ul class="doc-list"><li><code>nemotron-pii</code> is the in-domain slice. The <code>antoniogr7/pii-identifier-v0.1</code> card and its <code>preprocessing.json</code> both name <code>nvidia/Nemotron-PII</code> as the source, so this corpus measures the ceiling of that checkpoint rather than its transfer.</li><li><code>gretel-finance-en</code> is the out-of-domain slice. A finance document with SWIFT fields and a chat transcript looks nothing like a synthetic persona note. A preset that passes <code>nemotron-pii</code> and fails here has learned a template, not a type.</li></ul>
+<p>SPY is the third name in the research note. The public release is not reachable without an access grant from this writing environment, so it is not a pin. The <a href="#gaps">gaps</a> section records that.</p>
+<h2 id="what-the-map-keeps-and-drops">What the map keeps and drops</h2>
+<p>Each corpus uses its own label names. The map folds a label into one public type, or it drops the label with a written reason. A label that the file does not name at all is a third case: the report prints it under <code>unknown_labels</code>. A silent fold would inflate recall, so the run refuses to guess.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Public type</th><th style="text-align:left">Nemotron labels</th><th style="text-align:left">Gretel labels</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>PERSON</code></td><td style="text-align:left"><code>first_name</code>, <code>last_name</code></td><td style="text-align:left"><code>name</code>, <code>first_name</code>, <code>last_name</code></td></tr>
+<tr><td style="text-align:left"><code>EMAIL</code></td><td style="text-align:left"><code>email</code></td><td style="text-align:left"><code>email</code></td></tr>
+<tr><td style="text-align:left"><code>PHONE</code></td><td style="text-align:left"><code>phone_number</code>, <code>fax_number</code></td><td style="text-align:left"><code>phone_number</code></td></tr>
+<tr><td style="text-align:left"><code>ADDRESS</code></td><td style="text-align:left"><code>street_address</code></td><td style="text-align:left"><code>street_address</code></td></tr>
+<tr><td style="text-align:left"><code>PAYMENT</code></td><td style="text-align:left"><code>credit_debit_card</code></td><td style="text-align:left"><code>credit_card_number</code>, <code>iban</code>, <code>bban</code></td></tr>
+<tr><td style="text-align:left"><code>GOV_ID</code></td><td style="text-align:left"><code>ssn</code>, <code>national_id</code>, <code>tax_id</code></td><td style="text-align:left"><code>ssn</code>, <code>passport_number</code>, <code>driver_license_number</code></td></tr>
+<tr><td style="text-align:left"><code>SECRET</code></td><td style="text-align:left"><code>password</code>, <code>api_key</code></td><td style="text-align:left"><code>password</code>, <code>api_key</code></td></tr>
+<tr><td style="text-align:left"><code>IP_ADDRESS</code></td><td style="text-align:left"><code>ipv4</code>, <code>ipv6</code></td><td style="text-align:left"><code>ipv4</code>, <code>ipv6</code></td></tr>
+<tr><td style="text-align:left"><code>USERNAME</code></td><td style="text-align:left"><code>user_name</code></td><td style="text-align:left"><code>user_name</code></td></tr>
+<tr><td style="text-align:left"><code>DATE_OF_BIRTH</code></td><td style="text-align:left"><code>date_of_birth</code></td><td style="text-align:left"><code>date_of_birth</code></td></tr>
+<tr><td style="text-align:left"><code>ORG</code></td><td style="text-align:left"><code>company_name</code></td><td style="text-align:left"><code>company</code></td></tr>
+</tbody></table></div>
+<p>The drops fall into five groups. The reason is in the YAML next to the label, so the decision travels with the data.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Group</th><th style="text-align:left">Examples</th><th style="text-align:left">Why it is not in scope</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Address components</td><td style="text-align:left"><code>city</code>, <code>state</code>, <code>county</code>, <code>postcode</code>, <code>country</code></td><td style="text-align:left">One postal address would become five gold spans. The taxonomy type is street through locality, so scoring each component would double count</td></tr>
+<tr><td style="text-align:left">A date with no birth cue</td><td style="text-align:left"><code>date</code>, <code>date_time</code>, <code>time</code></td><td style="text-align:left">Taxonomy <code>2026.11</code> has no <code>DATE</code> type. <code>DATE_OF_BIRTH</code> needs a birth cue</td></tr>
+<tr><td style="text-align:left">Sensitive attribute</td><td style="text-align:left"><code>gender</code>, <code>race_ethnicity</code>, <code>blood_type</code>, <code>political_view</code></td><td style="text-align:left"><a href="../doc-taxonomy/">The taxonomy</a> keeps these out of v1 on purpose</td></tr>
+<tr><td style="text-align:left">Account or internal id</td><td style="text-align:left"><code>account_number</code>, <code>customer_id</code>, <code>employee_id</code>, <code>bank_routing_number</code></td><td style="text-align:left">No class in the type list, and an internal id is not PII by default</td></tr>
+<tr><td style="text-align:left">Trace identifier</td><td style="text-align:left"><code>url</code>, <code>http_cookie</code>, <code>mac_address</code>, <code>license_plate</code></td><td style="text-align:left">Outside taxonomy <code>2026.11</code></td></tr>
+</tbody></table></div>
+<p>Two of these deserve a note.</p>
+<p><code>cvv</code> and <code>pin</code> are dropped although they look secret. A <code>SECRET</code> span needs a cue word and a value. A bare four digit code has no cue, so scoring it would measure a detector that the library does not claim. The <a href="../doc-index/#every-rule-names-its-source">rule audit</a> forbids a rule with no source.</p>
+<p><code>city</code> alone is a known over-mask risk that the taxonomy already records. Nemotron labels a city inside an address, so a keep would score a span the library never returns.</p>
+<h2 id="nested-gold-spans">Nested gold spans</h2>
+<p>A corpus row can nest two labels. Gretel puts a person name inside a company name, and a street address inside a person name. The locator returns one non-overlapping list, so gold must be one list too. The harness keeps the longer range and counts the row under <code>rows_with_overlapping_gold</code>.</p>
+<p>Nemotron holds one such row in 100 000. Gretel holds 1 866 in 2 891. The Gretel number is a property of that generator, and it is why a Gretel score is not comparable to a Nemotron score by type.</p>
+<h2 id="run-a-score">Run a score</h2>
+<div class="code"><div class="code-head"><span class="code-lang">bash</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[eval]"</span><span class="w">                                  </span><span class="c1"># pyarrow</span>
+python<span class="w"> </span>-m<span class="w"> </span>edgepii.eval.cli<span class="w"> </span>--preset<span class="w"> </span>rules<span class="w"> </span>--corpus<span class="w"> </span>nemotron-pii<span class="w"> </span>--limit<span class="w"> </span><span class="m">500</span><span class="w"> </span>--print
+python<span class="w"> </span>-m<span class="w"> </span>edgepii.eval.cli<span class="w"> </span>--preset<span class="w"> </span>rules<span class="w"> </span>--corpus<span class="w"> </span>gretel-finance-en<span class="w"> </span>--print
+</code></pre></div>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Flag</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>--preset</code></td><td style="text-align:left">A preset name from <code>presets.py</code>, or <code>rules</code></td></tr>
+<tr><td style="text-align:left"><code>--corpus</code></td><td style="text-align:left">A key from <code>corpora.yaml</code></td></tr>
+<tr><td style="text-align:left"><code>--limit</code></td><td style="text-align:left">Take the first N documents of each slice</td></tr>
+<tr><td style="text-align:left"><code>--slice</code></td><td style="text-align:left">Score one slice. Repeat the flag for more</td></tr>
+<tr><td style="text-align:left"><code>--types</code></td><td style="text-align:left">Score a type subset</td></tr>
+<tr><td style="text-align:left"><code>--cache</code></td><td style="text-align:left">Where the pinned file lives. Default <code>~/.cache/edgepii</code></td></tr>
+<tr><td style="text-align:left"><code>--out</code></td><td style="text-align:left">The report path. Default <code>docs/eval/&lt;corpus&gt;__&lt;preset&gt;-&lt;limit|full&gt;.json</code></td></tr>
+</tbody></table></div>
+<p><code>--limit</code> cuts a prefix per slice, not per corpus. A corpus-wide prefix would read only the <code>us</code> block of Nemotron-PII, because the locales arrive in two blocks of 50 000, and it would report an empty <code>intl</code> slice with a perfect precision and recall of <code>1.000</code>. A prefix per slice keeps every slice populated.</p>
+<h2 id="the-report">The report</h2>
+<p>The report is JSON. It holds counts, the two pins, the taxonomy version, and the environment. It holds no source text. A span score is a number; the text that produced it stays out of the file.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Field</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>preset</code>, <code>preset_revision</code></td><td style="text-align:left">Which lane, and the checkpoint revision</td></tr>
+<tr><td style="text-align:left"><code>corpus</code>, <code>corpus_revision</code>, <code>corpus_sha256</code>, <code>corpus_license</code></td><td style="text-align:left">The pin the run read</td></tr>
+<tr><td style="text-align:left"><code>document_limit</code></td><td style="text-align:left"><code>null</code> for a full run</td></tr>
+<tr><td style="text-align:left"><code>documents_scored</code></td><td style="text-align:left">Documents in the <code>all</code> slice. Compare it with <code>document_limit</code></td></tr>
+<tr><td style="text-align:left"><code>corpus_diagnostics</code></td><td style="text-align:left">What the map did to every gold label in the whole file</td></tr>
+<tr><td style="text-align:left"><code>corpus_diagnostics_scope</code></td><td style="text-align:left">A reminder that the diagnostics read the file, not the limited run</td></tr>
+<tr><td style="text-align:left"><code>slices.&lt;name&gt;</code></td><td style="text-align:left">Counts and ratios for one slice</td></tr>
+<tr><td style="text-align:left"><code>slices.&lt;name&gt;.per_type</code></td><td style="text-align:left">The same counts per public type</td></tr>
+<tr><td style="text-align:left"><code>slices.&lt;name&gt;.high_severity_leaks</code></td><td style="text-align:left">Gold spans in <code>secret</code>, <code>gov_id</code>, or <code>payment</code> that no prediction covers</td></tr>
+<tr><td style="text-align:left"><code>seconds</code></td><td style="text-align:left">Wall time for the scoring pass, without the download</td></tr>
+</tbody></table></div>
+<p><code>corpus_diagnostics</code> is the audit of the map. It reports the count of in-scope spans, out-of-scope spans, dropped labels, unknown labels, bad offsets, and rows with nested gold. A change to <code>corpora.yaml</code> shows up here before it shows up in a ratio.</p>
+<h2 id="the-score-is-per-document">The score is per document</h2>
+<p>The scorer runs <code>locate</code>, then compares the spans of that one document with the gold of that one document, then adds the counts. It never pools every gold span into one list.</p>
+<p>A pooled list would score two documents as one string. A span in document B could match a gold span in document A when the two texts share a prefix, and the report would claim a hit for a document that holds no such text. <code>tests/test_eval_corpora.py</code> locks that case with a fixed detector.</p>
+<p>The metrics are the ones in the <a href="../doc-evaluation/">evaluation spec</a>: exact span, per type and micro, with <code>miss</code>, <code>wrong_type</code>, <code>shift</code>, and <code>extra</code> as exclusive counts that add up to the false negatives.</p>
+<h2 id="gaps">Gaps</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Gap</th><th style="text-align:left">State</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">SPY legal and medical prose</td><td style="text-align:left">Not a pin. The public release did not answer from this environment on 4 November 2026. It stays the named third slice</td></tr>
+<tr><td style="text-align:left">A human-read slice of the real channel</td><td style="text-align:left">Open. A synthetic corpus cannot replace it</td></tr>
+<tr><td style="text-align:left">Chinese</td><td style="text-align:left">Open. No public Chinese PII corpus is pinned yet</td></tr>
+<tr><td style="text-align:left">Floors</td><td style="text-align:left">Open. A score is not a gate until <a href="../doc-plan/">phase 9</a> writes the number</td></tr>
+<tr><td style="text-align:left"><code>bank_routing_number</code></td><td style="text-align:left">Dropped on Gretel as an internal bank id. On Nemotron the same label is also dropped. A later taxonomy version can decide whether an ABA routing number is personal</td></tr>
+</tbody></table></div></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-evaluation/"><span>Previous</span>Evaluation</a><a class="page-nav-link next" href="../doc-score/"><span>Next</span>First public score</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

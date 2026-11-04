@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mask and restore · edgepii</title>
+<meta name="description" content="Replace spans with placeholders, keep a vault, and keep secrets out of it." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/guide-masking/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Mask and restore · edgepii" />
+<meta property="og:description" content="Replace spans with placeholders, keep a vault, and keep secrets out of it." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/guide-masking/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mask and restore · edgepii" />
+<meta name="twitter:description" content="Replace spans with placeholders, keep a vault, and keep secrets out of it." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#the-two-return-values">The two return values</a></li><li class="toc-l2"><a href="#why-placeholders-are-numbered">Why placeholders are numbered</a></li><li class="toc-l2"><a href="#applying-spans-from-the-right">Applying spans from the right</a></li><li class="toc-l2"><a href="#secrets-are-different">Secrets are different</a></li><li class="toc-l2"><a href="#overlaps-are-an-error">Overlaps are an error</a></li><li class="toc-l2"><a href="#a-worked-example-with-a-restore">A worked example with a restore</a></li><li class="toc-l2"><a href="#what-to-store-and-where">What to store, and where</a></li><li class="toc-l2"><a href="#next">Next</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="mask-and-restore">Mask and restore</h1>
+<p><code>redact</code> replaces each span with a placeholder and returns a vault. This page explains the shape of the output, why a secret is different, and how to restore text safely.</p>
+<h2 id="the-two-return-values">The two return values</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locator</span><span class="p">,</span> <span class="n">redact</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="s2">"Email ada@example.com and call +852 5555 0101."</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Locator</span><span class="o">.</span><span class="n">preset</span><span class="p">(</span><span class="s2">"rules"</span><span class="p">)</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+<span class="n">masked</span><span class="p">,</span> <span class="n">vault</span> <span class="o">=</span> <span class="n">redact</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">spans</span><span class="p">)</span>
+</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>masked  Email &lt;EMAIL_1&gt; and call &lt;PHONE_1&gt;.
+vault   {'&lt;EMAIL_1&gt;': 'ada@example.com', '&lt;PHONE_1&gt;': '+852 5555 0101'}
+</code></pre></div>
+<p><code>redact</code> keeps nothing. It is a pure function: same input, same output, no state. The vault is the caller&#x27;s to store, encrypt, or discard.</p>
+<h2 id="why-placeholders-are-numbered">Why placeholders are numbered</h2>
+<p>The number keeps two different values apart. A text with two emails produces two placeholders:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">source</span> <span class="o">=</span> <span class="s2">"Write to ada@example.com or grace@example.com."</span>
+</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>Write to &lt;EMAIL_1&gt; or &lt;EMAIL_2&gt;.
+{'&lt;EMAIL_1&gt;': 'ada@example.com', '&lt;EMAIL_2&gt;': 'grace@example.com'}
+</code></pre></div>
+<p>A repeat of the <strong>same</strong> value reuses its placeholder, so a model reading the masked text can still tell that two mentions point at one person:</p>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>Write to &lt;EMAIL_1&gt; or grace@example.com. The desk is &lt;EMAIL_1&gt;.
+</code></pre></div>
+<p>The angle brackets matter. They are rare in prose, so a placeholder is unlikely to collide with real text.</p>
+<h2 id="applying-spans-from-the-right">Applying spans from the right</h2>
+<p><code>redact</code> walks the span list from the <strong>end</strong> of the string. That is the only way offsets stay valid while the string changes length:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">source</span> <span class="o">=</span> <span class="s2">"ada@example.com and +852 5555 0101"</span>
+<span class="c1"># Replace the phone first, at 20:34. The email offset, 0:15, is still correct.</span>
+<span class="c1"># Then replace the email. No offset needed to move.</span>
+</code></pre></div>
+<p>Replacing left to right would shift every later offset, and a long text would drift. The test suite locks this with a fixture that supplies spans out of order.</p>
+<h2 id="secrets-are-different">Secrets are different</h2>
+<p>A password becomes <code>&lt;SECRET&gt;</code>, and the vault gets <strong>no entry</strong> for it:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">source</span> <span class="o">=</span> <span class="s2">"Do not include the password hunter2 in the note."</span>
+</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>Do not include the password &lt;SECRET&gt; in the note.
+{}    ← the vault, which holds no secret
+</code></pre></div>
+<p>This is deliberate. A restore would write the credential into the next system, which is exactly the leak the library exists to prevent. A caller who truly needs the password must read it before masking. The library will not hold it.</p>
+<p>The cue word stays visible and only the value is replaced, so <code>password</code> remains in the masked text. That is a trade, not an oversight: the cue is not itself a secret, and keeping it lets a reader see why a <code>&lt;SECRET&gt;</code> sits in that position.</p>
+<p>The decision is recorded as ADR 0004 and enforced by a test that searches the vault values for the secret. The test fails if a secret ever appears there.</p>
+<div class="callout callout-important"><span class="callout-kind">important</span><div class="callout-body">Do not build a &quot;show the original&quot; feature on top of the vault and expect it to work for secrets.<br />It cannot, by design. Show a message instead.</div></div>
+<h2 id="overlaps-are-an-error">Overlaps are an error</h2>
+<p><code>redact</code> raises <code>OverlapError</code> when two spans share a character:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">OverlapError</span><span class="p">,</span> <span class="n">Span</span><span class="p">,</span> <span class="n">redact</span>
+
+<span class="n">spans</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Span</span><span class="p">(</span><span class="s2">"EMAIL"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="s2">"ada@example.com"</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"test"</span><span class="p">,</span> <span class="s2">"email"</span><span class="p">),</span>
+    <span class="n">Span</span><span class="p">(</span><span class="s2">"PERSON"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"ada"</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">"test"</span><span class="p">,</span> <span class="s2">"person"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">redact</span><span class="p">(</span><span class="s2">"ada@example.com"</span><span class="p">,</span> <span class="n">spans</span><span class="p">)</span>   <span class="c1"># raises OverlapError</span>
+</code></pre></div>
+<p>The locator never produces overlapping spans, so this error is a guard against a hand-built span list, not a second merge pass. The error message carries the offsets only, never the text.</p>
+<h2 id="a-worked-example-with-a-restore">A worked example with a restore</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locator</span><span class="p">,</span> <span class="n">redact</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Ada Lovelace called. Email ada@example.com. "</span>
+    <span class="s2">"Card 4242424242424242. Password: hunter2."</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Locator</span><span class="o">.</span><span class="n">preset</span><span class="p">(</span><span class="s2">"rules"</span><span class="p">)</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+<span class="n">masked</span><span class="p">,</span> <span class="n">vault</span> <span class="o">=</span> <span class="n">redact</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">spans</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">masked</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">vault</span><span class="p">))</span>
+</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>Ada Lovelace called. Email &lt;EMAIL_1&gt;. Card &lt;PAYMENT_1&gt;. Password: &lt;SECRET&gt;.
+['&lt;EMAIL_1&gt;', '&lt;PAYMENT_1&gt;']
+</code></pre></div>
+<p>The span covers only the value, not the cue word. <code>Password:</code> stays readable, and only the credential is replaced.</p>
+<div class="callout callout-warning"><span class="callout-kind">warning</span><div class="callout-body">The cue word must sit directly before the value. <code>Password: hunter2</code> is found. <code>Password is hunter2</code><br />is <strong>not</strong>, because the grammar reads <code>is</code> as the value and then rejects it for holding no digit or<br />symbol. If your text puts a verb between the cue and the secret, the rule lane will miss it. Test<br />your own phrasing, and use a model lane or a policy gate if a miss is unacceptable.</div></div>
+<p>Then restore, if the caller kept the vault:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">restored</span> <span class="o">=</span> <span class="n">masked</span>
+<span class="k">for</span> <span class="n">placeholder</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">vault</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">restored</span> <span class="o">=</span> <span class="n">restored</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">placeholder</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<span class="c1"># The email and the card come back. &lt;SECRET&gt; stays, because it has no vault entry.</span>
+</code></pre></div>
+<h2 id="what-to-store-and-where">What to store, and where</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Item</th><th style="text-align:left">Store it?</th><th style="text-align:left">Why</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">The masked string</td><td style="text-align:left">Yes, anywhere</td><td style="text-align:left">It holds no original values</td></tr>
+<tr><td style="text-align:left">The vault</td><td style="text-align:left">Only somewhere you already protect personal data</td><td style="text-align:left">It is the sensitive part</td></tr>
+<tr><td style="text-align:left">The span list</td><td style="text-align:left">Yes, for a review</td><td style="text-align:left">It holds offsets and types, but <code>text</code> copies PII</td></tr>
+<tr><td style="text-align:left">The original string</td><td style="text-align:left">Wherever it lived before</td><td style="text-align:left">The library does not keep a copy</td></tr>
+</tbody></table></div>
+<p>One detail catches people out: a span row has a <code>text</code> field, and that field is a copy of your string. A log of <code>result.to_dict()</code> therefore copies PII. The library never logs span text unless <code>EDGEPII_LOG_TEXT=1</code> is set, and the default log line has offsets only.</p>
+<h2 id="next">Next</h2>
+<ul class="doc-list"><li>See masking run in the <a href="../demo/">live demo</a></li><li>Read the <a href="../guide-examples/">worked examples</a> for more shapes</li><li>Read the <a href="../doc-api/">library API</a> for <code>redact</code> and the error table</li></ul></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../concepts/"><span>Previous</span>How it works</a><a class="page-nav-link next" href="../guide-evaluate/"><span>Next</span>Score it yourself</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

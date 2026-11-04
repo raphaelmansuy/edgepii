@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>edgepii · find PII as character spans</title>
+<meta name="description" content="A Python library that finds personally identifiable information as typed character spans on the exact string you passed. Local weights, no cloud PII service." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="edgepii · find PII as character spans" />
+<meta property="og:description" content="A Python library that finds personally identifiable information as typed character spans on the exact string you passed. Local weights, no cloud PII service." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="edgepii · find PII as character spans" />
+<meta name="twitter:description" content="A Python library that finds personally identifiable information as typed character spans on the exact string you passed. Local weights, no cloud PII service." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
+<link rel="alternate" type="application/json" href="assets/examples.json" title="Recorded span output" />
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "edgepii", "applicationCategory": "DeveloperApplication", "operatingSystem": "Linux, macOS, Windows", "description": "A Python library that locates personally identifiable information as typed character spans on the exact source string.", "programmingLanguage": "Python", "license": "https://www.apache.org/licenses/LICENSE-2.0", "url": "https://raphaelmansuy.github.io/edgepii/", "codeRepository": "https://github.com/raphaelmansuy/edgepii", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "WebSite", "name": "edgepii", "url": "https://raphaelmansuy.github.io/edgepii/", "inLanguage": "en"}]}</script>
+<script src="assets/site.js" defer></script>
+</head>
+<body class="page-home">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="./" data-nav="home">Home</a><a href="start/" data-nav="start">Install</a><a href="concepts/" data-nav="concepts">How it works</a><a href="guide-examples/" data-nav="guide-examples">Examples</a><a href="demo/" data-nav="demo">Live demo</a><a href="tour/" data-nav="tour">Screenshots</a><a href="evaluation/" data-nav="evaluation">Score</a><a href="doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  
+  <main id="main" class="main">
+<section class="hero">
+  <p class="eyebrow">Python library · Apache-2.0 · local weights</p>
+  <h1>Know exactly which characters are personal data.</h1>
+  <p class="lede">
+    <strong>edgepii</strong> finds personally identifiable information as typed character spans on the
+    string you passed in. Every result row proves one thing:
+    <code>source[start:end] == text</code>. If a detector returns an offset that fails that check,
+    the library drops the span and counts it. It never searches the string for a repair.
+  </p>
+  <div class="cta-row">
+    <a class="button primary" href="start/">Install in 5 minutes</a>
+    <a class="button" href="demo/">Try the live demo</a>
+    <a class="button quiet" href="tour/">See screenshots</a>
+  </div>
+  <ul class="hero-facts">
+    <li><strong>11</strong><span>public types</span></li>
+    <li><strong>1</strong><span>model pass per call</span></li>
+    <li><strong>0</strong><span>cloud PII services</span></li>
+    <li><strong>2</strong><span>pinned public corpora</span></li>
+  </ul>
+</section>
+
+<section class="panel-block" aria-labelledby="try-title">
+  <div class="block-head">
+    <h2 id="try-title">What it returns</h2>
+    <p class="hint">Real output from the <code>rules</code> lane. No weights, no network.</p>
+  </div>
+  <div class="split">
+    <div>
+      <p class="label">Source</p>
+      <div class="highlight" aria-label="Source with spans marked">Customer Ada Lovelace called from <mark class="m" data-class="contact" title="PHONE 34:48 score —">+852 5555 0101</mark>. Email <mark class="m" data-class="contact" title="EMAIL 56:71 score —">ada@example.com</mark>. Card <mark class="m" data-class="payment" title="PAYMENT 78:94 score 1.00">4242424242424242</mark>. Order 48291.</div>
+      <p class="label">Masked</p>
+      <pre class="masked">Customer Ada Lovelace called from &lt;PHONE_1&gt;. Email &lt;EMAIL_1&gt;. Card &lt;PAYMENT_1&gt;. Order 48291.</pre>
+    </div>
+    <div>
+      <p class="label">Span table</p>
+      <div class="table-wrap">
+        <table class="docs-table compact">
+          <thead><tr><th>Type</th><th>Start</th><th>End</th><th>Text</th><th>Score</th></tr></thead>
+          <tbody><tr><td>PHONE</td><td>34</td><td>48</td><td><code>+852 5555 0101</code></td><td>—</td></tr>
+<tr><td>EMAIL</td><td>56</td><td>71</td><td><code>ada@example.com</code></td><td>—</td></tr>
+<tr><td>PAYMENT</td><td>78</td><td>94</td><td><code>4242424242424242</code></td><td>1.00</td></tr></tbody>
+        </table>
+      </div>
+      <p class="hint">A dash means no checksum covers that form, so the library reports no score.
+      It does not invent a probability. <code>Order 48291</code> stays clear because an internal id is
+      not in the type list.</p>
+    </div>
+  </div>
+</section>
+
+<section class="value-grid">
+  <article class="value-card">
+    <h3>Offsets you can check</h3>
+    <p>A span is a slice of your string, not a sentence a model rewrote. You can assert it in a test
+    and diff it in a review.</p>
+  </article>
+  <article class="value-card">
+    <h3>Rules beside models</h3>
+    <p>Email, phone, card, IBAN, and IP follow a published grammar or checksum. Names need a model.
+    The preset runs both and merges the results.</p>
+  </article>
+  <article class="value-card">
+    <h3>Secrets stay gone</h3>
+    <p>A password is masked irreversibly and never enters the vault. Restoring it would leak the
+    credential into the next system.</p>
+  </article>
+  <article class="value-card">
+    <h3>Measured in public</h3>
+    <p>Two pinned corpora with a <code>sha256</code> each. Exact-span F1 per type, with the misses
+    counted. See the <a href="evaluation/">score</a>.</p>
+  </article>
+</section>
+
+<section class="panel-block">
+  <div class="block-head">
+    <h2>The whole API in one example</h2>
+    <p class="hint">Three calls: build a locator, locate spans, mask them.</p>
+  </div>
+  <div class="code-sample"><div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locator</span><span class="p">,</span> <span class="n">redact</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Customer Ada Lovelace called from +852 5555 0101. "</span>
+    <span class="s2">"Email ada@example.com. Card 4242424242424242. Order 48291."</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">Locator</span><span class="o">.</span><span class="n">preset</span><span class="p">(</span><span class="s2">"rules"</span><span class="p">)</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">spans</span><span class="p">:</span>
+    <span class="n">proof</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="n">span</span><span class="o">.</span><span class="n">start</span><span class="p">:</span><span class="n">span</span><span class="o">.</span><span class="n">end</span><span class="p">]</span> <span class="o">==</span> <span class="n">span</span><span class="o">.</span><span class="n">text</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">span</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">span</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> <span class="n">proof</span><span class="p">)</span>
+
+<span class="n">masked</span><span class="p">,</span> <span class="n">vault</span> <span class="o">=</span> <span class="n">redact</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">spans</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">masked</span><span class="p">)</span>
+<span class="c1"># Customer Ada Lovelace called from &lt;PHONE_1&gt;. Email &lt;EMAIL_1&gt;. Card &lt;PAYMENT_1&gt;. Order 48291.</span>
+</code></pre></div></div>
+</section>
+
+<section class="panel-block">
+  <div class="block-head">
+    <h2>Eleven public types</h2>
+    <p class="hint">One YAML file is the only type list. Rank breaks an overlap.</p>
+  </div>
+  <ul class="type-chips"><li><span class="dot" data-class="secret"></span><code>SECRET</code><small>secret</small></li><li><span class="dot" data-class="gov_id"></span><code>GOV_ID</code><small>gov_id</small></li><li><span class="dot" data-class="payment"></span><code>PAYMENT</code><small>payment</small></li><li><span class="dot" data-class="person"></span><code>ADDRESS</code><small>person</small></li><li><span class="dot" data-class="contact"></span><code>EMAIL</code><small>contact</small></li><li><span class="dot" data-class="contact"></span><code>IP_ADDRESS</code><small>contact</small></li><li><span class="dot" data-class="person"></span><code>PERSON</code><small>person</small></li><li><span class="dot" data-class="contact"></span><code>PHONE</code><small>contact</small></li><li><span class="dot" data-class="contact"></span><code>USERNAME</code><small>contact</small></li><li><span class="dot" data-class="quasi"></span><code>DATE_OF_BIRTH</code><small>quasi</small></li><li><span class="dot" data-class="quasi"></span><code>ORG</code><small>quasi</small></li></ul>
+</section>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="start/">Install</a>
+      <a href="demo/">Live demo</a>
+      <a href="tour/">Screenshots</a>
+      <a href="evaluation/">Score</a>
+      <a href="doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

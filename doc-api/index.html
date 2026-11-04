@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Library API · edgepii</title>
+<meta name="description" content="edgepii reference: Library API." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-api/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Library API · edgepii" />
+<meta property="og:description" content="edgepii reference: Library API." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-api/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Library API · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Library API." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#locate">Locate</a></li><li class="toc-l2"><a href="#presets">Presets</a></li><li class="toc-l2"><a href="#redact">Redact</a></li><li class="toc-l2"><a href="#errors">Errors</a></li><li class="toc-l2"><a href="#batch">Batch</a></li><li class="toc-l2"><a href="#windowing">Windowing</a></li><li class="toc-l2"><a href="#what-the-api-refuses">What the API refuses</a></li><li class="toc-l2"><a href="#minimal-types">Minimal types</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="public-api">Public API</h1>
+<p>Package name: <code>edgepii</code>. Python 3.11 or newer. The result shape is the <a href="../doc-span-contract/">span contract</a>. Types come from <a href="../doc-taxonomy/">taxonomy 2026.11</a>. Presets come from the <a href="../doc-catalog/">catalog</a>.</p>
+<h2 id="locate">Locate</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locator</span>
+
+<span class="n">locator</span> <span class="o">=</span> <span class="n">Locator</span><span class="o">.</span><span class="n">preset</span><span class="p">(</span><span class="s2">"en-closed"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">locator</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s2">"PERSON"</span><span class="p">,</span> <span class="s2">"EMAIL"</span><span class="p">,</span> <span class="s2">"PHONE"</span><span class="p">])</span>
+</code></pre></div>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Argument</th><th style="text-align:left">Required</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>source</code></td><td style="text-align:left">yes</td><td style="text-align:left">The <code>str</code> to scan. Not bytes</td></tr>
+<tr><td style="text-align:left"><code>types</code></td><td style="text-align:left">no</td><td style="text-align:left">Subset of the taxonomy. Default: all types except class <code>quasi</code></td></tr>
+<tr><td style="text-align:left"><code>taxonomy</code></td><td style="text-align:left">no</td><td style="text-align:left">Default <code>2026.11</code></td></tr>
+<tr><td style="text-align:left"><code>min_score</code></td><td style="text-align:left">no</td><td style="text-align:left">Caller policy. Default <code>None</code>, which keeps every span. A span with no score drops when you set it. See <a href="../doc-taxonomy/#thresholds">thresholds</a></td></tr>
+</tbody></table></div>
+<p><code>result.taxonomy_version</code> is a string. <code>result.spans</code> is a tuple of <code>Span</code>. <code>result.dropped</code> is a count of hits that failed the slice check. <code>result.preset</code> is the preset name. <code>result.revision</code> is the pinned weight revision, or <code>rules</code> for the rule preset.</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">span</span><span class="o">.</span><span class="n">type</span>          <span class="c1"># "EMAIL"</span>
+<span class="n">span</span><span class="o">.</span><span class="n">start</span>         <span class="c1"># int, inclusive</span>
+<span class="n">span</span><span class="o">.</span><span class="n">end</span>           <span class="c1"># int, exclusive</span>
+<span class="n">span</span><span class="o">.</span><span class="n">text</span>          <span class="c1"># source[span.start:span.end]</span>
+<span class="n">span</span><span class="o">.</span><span class="n">score</span>         <span class="c1"># float or None</span>
+<span class="n">span</span><span class="o">.</span><span class="n">detector_id</span>   <span class="c1"># "hf.antoniogr7/pii-identifier-v0.1"</span>
+<span class="n">span</span><span class="o">.</span><span class="n">raw_label</span>     <span class="c1"># "EMAIL" or "email"</span>
+</code></pre></div>
+<p><code>Span</code> uses a frozen dataclass. Callers cannot edit a span in place.</p>
+<h2 id="presets">Presets</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Name</th><th style="text-align:left">Detector</th><th style="text-align:left">Extra</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>rules</code></td><td style="text-align:left">Rules only</td><td style="text-align:left">none</td></tr>
+<tr><td style="text-align:left"><code>en-bert</code></td><td style="text-align:left">BERT-base control plus rules</td><td style="text-align:left"><code>hf</code></td></tr>
+<tr><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">ModernBERT plus rules</td><td style="text-align:left"><code>hf</code></td></tr>
+<tr><td style="text-align:left"><code>multi-open</code></td><td style="text-align:left">GLiNER2 plus rules</td><td style="text-align:left"><code>gliner2</code></td></tr>
+<tr><td style="text-align:left"><code>phi-open</code></td><td style="text-align:left">NVIDIA GLiNER-PII plus rules</td><td style="text-align:left"><code>gliner</code></td></tr>
+<tr><td style="text-align:left"><code>zh-schema</code></td><td style="text-align:left">Siamese-UIE plus rules</td><td style="text-align:left"><code>ms</code></td></tr>
+</tbody></table></div>
+<p>Every preset except a future <code>model-only</code> test flag includes the rule detector. Structured types would otherwise depend on the model alone, which breaks the ladder in the <a href="../doc-landscape/">research note</a>.</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">locator</span> <span class="o">=</span> <span class="n">Locator</span><span class="o">.</span><span class="n">preset</span><span class="p">(</span><span class="s2">"multi-open"</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">"cpu"</span><span class="p">)</span>
+</code></pre></div>
+<p><code>device</code> is <code>cpu</code> or <code>cuda</code>. The default is <code>cpu</code>. The library does not pick a device from a global config file.</p>
+<h2 id="redact">Redact</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">redact</span>
+
+<span class="n">masked</span><span class="p">,</span> <span class="n">vault</span> <span class="o">=</span> <span class="n">redact</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">spans</span><span class="p">)</span>
+</code></pre></div>
+<p><code>redact</code> is a pure function. It walks spans from the end of the string toward the start, so earlier indexes stay valid. It writes <code>&lt;TYPE_N&gt;</code> for vaulted types. It writes <code>&lt;SECRET&gt;</code> for class <code>secret</code>, and it does not put the secret in <code>vault</code>.</p>
+<p><code>vault</code> maps the placeholder to the original slice. The caller stores it. The function returns it and keeps nothing.</p>
+<p>If two spans overlap, <code>redact</code> raises <code>OverlapError</code>. The locator must not emit overlaps. The error is a guard, not a second merger.</p>
+<h2 id="errors">Errors</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Error</th><th style="text-align:left">When</th><th style="text-align:left">Message contents</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>TypeError</code></td><td style="text-align:left"><code>source</code> is not a <code>str</code></td><td style="text-align:left">Type name only</td></tr>
+<tr><td style="text-align:left"><code>UnknownType</code></td><td style="text-align:left">A requested type is not in the taxonomy</td><td style="text-align:left">The bad name</td></tr>
+<tr><td style="text-align:left"><code>DetectorLoadError</code></td><td style="text-align:left">Weights fail to load</td><td style="text-align:left">Repo id and revision. No source text</td></tr>
+<tr><td style="text-align:left"><code>OverlapError</code></td><td style="text-align:left"><code>redact</code> sees an overlap</td><td style="text-align:left">Start and end only. No slice text</td></tr>
+<tr><td style="text-align:left"><code>OffsetError</code></td><td style="text-align:left">Internal. Not raised to the caller</td><td style="text-align:left">The locator drops the span and counts it</td></tr>
+</tbody></table></div>
+<p>INFO logs can include <code>detector_id</code>, <code>type</code>, <code>start</code>, <code>end</code>, and <code>score</code>. They must not include <code>source</code> or <code>span.text</code>. A debug flag <code>EDGEPII_LOG_TEXT=1</code> can log text. The default is off.</p>
+<p><strong>WARNING:</strong> A log line that includes <code>span.text</code> is a copy of PII. Leave the flag off in production.</p>
+<h2 id="batch">Batch</h2>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="n">results</span> <span class="o">=</span> <span class="n">locator</span><span class="o">.</span><span class="n">locate_many</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s2">"EMAIL"</span><span class="p">])</span>
+</code></pre></div>
+<p><code>locate_many</code> preserves order. It does not join strings into one document. Offsets in each result refer to that element only. An empty element returns an empty span list.</p>
+<h2 id="windowing">Windowing</h2>
+<p>Callers pass the full source string. The locator can split it inside the model adapter when the string exceeds <code>max_chars</code> for that detector. Public offsets still refer to the original source string. The split rule is in the <a href="../doc-architecture/">architecture</a>. Callers do not pass windows.</p>
+<h2 id="what-the-api-refuses">What the API refuses</h2>
+<ul class="doc-list"><li>A method named <code>contains_pii</code> that returns only a bool. The method is a document flag.</li><li>A method that returns token ids as the public span.</li><li>A method that sends <code>source</code> to a URL.</li><li>A default argument that turns on fuzzy restore.</li></ul>
+<h2 id="minimal-types">Minimal types</h2>
+<p>The implementation uses <code>@dataclass(frozen=True, slots=True)</code> for <code>Span</code> and <code>LocateResult</code>. No dict subclass. No pandas object in the public API. JSON export is <code>result.to_dict()</code>, and it includes <code>text</code> because the contract includes <code>text</code>. Callers who write that dict to a log copy PII. The docstring says so.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-first-principles/"><span>Previous</span>First principles</a><a class="page-nav-link next" href="../doc-taxonomy/"><span>Next</span>Taxonomy 2026.11</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

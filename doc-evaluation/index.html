@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Evaluation · edgepii</title>
+<meta name="description" content="edgepii reference: Evaluation." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-evaluation/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Evaluation · edgepii" />
+<meta property="og:description" content="edgepii reference: Evaluation." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-evaluation/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Evaluation · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Evaluation." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#primary-metric">Primary metric</a></li><li class="toc-l2"><a href="#diagnostics">Diagnostics</a></li><li class="toc-l2"><a href="#leakage">Leakage</a></li><li class="toc-l2"><a href="#sets">Sets</a></li><li class="toc-l2"><a href="#floors">Floors</a></li><li class="toc-l2"><a href="#report">Report</a></li><li class="toc-l2"><a href="#contamination-checks">Contamination checks</a></li><li class="toc-l2"><a href="#what-is-not-an-eval">What is not an eval</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="evaluation">Evaluation</h1>
+<p>The scorer exists before the adapters. See phase 1 of the <a href="../doc-plan/">implementation plan</a> and principle 1 in <a href="../doc-ai-engineering/">AI engineering</a>.</p>
+<h2 id="primary-metric">Primary metric</h2>
+<p>Exact-span F1. A prediction is a true positive only when <code>type</code>, <code>start</code>, and <code>end</code> equal a gold span. The rule is CoNLL exact entity match, on character spans (<a href="https://aclanthology.org/W03-0419/" target="_blank" rel="noopener noreferrer">W03-0419</a>). SeqScore&#x27;s cautions on double-counting still apply (<a href="https://aclanthology.org/2021.eval4nlp-1.5/" target="_blank" rel="noopener noreferrer">2021.eval4nlp-1.5</a>). One gold span can credit one prediction.</p>
+<p>Report the metric per type and as a micro average. Do not report a single bucket named PII. Macro F1 is a diagnostic. It is not the ship metric, because rare types would dominate it.</p>
+<h2 id="diagnostics">Diagnostics</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Name</th><th style="text-align:left">Definition</th><th style="text-align:left">Role</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Miss</td><td style="text-align:left">Gold span with no overlapping prediction of any type</td><td style="text-align:left">Leak candidate</td></tr>
+<tr><td style="text-align:left">Wrong type</td><td style="text-align:left">Overlap, exact range or not, with a different type</td><td style="text-align:left">Policy miss</td></tr>
+<tr><td style="text-align:left">Shift</td><td style="text-align:left">Same type, overlap, not exact</td><td style="text-align:left">Boundary bug</td></tr>
+<tr><td style="text-align:left">Extra span</td><td style="text-align:left">Prediction that overlaps no gold span</td><td style="text-align:left">Utility cost</td></tr>
+<tr><td style="text-align:left">Token F1</td><td style="text-align:left">Token tags, inside an adapter test</td><td style="text-align:left">Debug only. Not a ship gate</td></tr>
+</tbody></table></div>
+<p>Partial overlap is not a true positive for the ship metric. It is a shift or a wrong type.</p>
+<p>F2 (beta = 2) is a second column for high-severity types. Presidio&#x27;s own guidance favors recall when the cost is a leak (<a href="https://github.com/microsoft/presidio/blob/main/docs/faq.md" target="_blank" rel="noopener noreferrer">FAQ</a>). F2 does not replace exact-span F1. It explains a threshold move.</p>
+<h2 id="leakage">Leakage</h2>
+<p>Leakage is a product metric on the string a later step would send. For a gold span, the span leaks when <code>span.text</code> still occurs in the masked string at the gold offsets. The check uses offsets, not a global search, so a repeated token elsewhere is not a false leak.</p>
+<p><code>edgepii</code> can compute this because <code>redact</code> is pure. The eval harness runs <code>locate</code>, then <code>redact</code>, then the leakage check. High-severity classes for this check are <code>secret</code>, <code>gov_id</code>, and <code>payment</code>.</p>
+<p>The parent product note says that a high-severity leakage rate above zero on the freeze means that the team must not ship (<a href="https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775" target="_blank" rel="noopener noreferrer">Hide names and phones</a>). This spec keeps that gate for the masked string on the sealed freeze. It does not claim a model has no misses. If the model misses and the rule lane also misses, the preset does not ship. The mitigation is a better detector or a refusal to send, not a softer score.</p>
+<p>The downstream task owns its utility floors. This spec leaves those floors open.</p>
+<h2 id="sets">Sets</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Set</th><th style="text-align:left">Who can read it</th><th style="text-align:left">Use</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Unit fixtures</td><td style="text-align:left">Everyone</td><td style="text-align:left">Fake strings in <a href="../guide-examples/">Examples</a></td></tr>
+<tr><td style="text-align:left">Public corpus</td><td style="text-align:left">Everyone</td><td style="text-align:left">A pinned open PII set. <a href="../doc-corpora/">Public corpora</a></td></tr>
+<tr><td style="text-align:left">Dev freeze</td><td style="text-align:left">Builders who tune</td><td style="text-align:left">Thresholds, error reading</td></tr>
+<tr><td style="text-align:left">Sealed freeze</td><td style="text-align:left">One run per promotion</td><td style="text-align:left">Ship decision. No tuning after the run starts</td></tr>
+</tbody></table></div>
+<p>The public corpus replaced the plan to write a freeze from scratch. <code>nemotron-pii</code> is the in-domain slice and <code>gretel-finance-en</code> is the out-of-domain slice, and both carry a commit revision, a byte count, and a <code>sha256</code> in <a href="https://github.com/raphaelmansuy/edgepii/blob/main/src/edgepii/eval/corpora.yaml" target="_blank" rel="noopener noreferrer">corpora.yaml</a>. A run that does not match the pin stops. Two people can score the same preset and get the same number.</p>
+<p>A public corpus is not the sealed freeze. It is public, so a checkpoint can train on it. The sealed freeze still needs a human-read slice of the real channel.</p>
+<p>Split synthetic rows by template id. Split real rows by document id. A template in both train and test is an eval failure, even if F1 rises. The locate note and the builder note both require this split.</p>
+<p>The dev freeze must include at least these slices:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Slice</th><th style="text-align:left">What it holds</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>structured</code></td><td style="text-align:left">Email, phone, IBAN, Luhn card, one bad PAN</td></tr>
+<tr><td style="text-align:left"><code>names</code></td><td style="text-align:left">Two people, one person, a person who is also a street name</td></tr>
+<tr><td style="text-align:left"><code>secrets</code></td><td style="text-align:left">A fake password next to an email</td></tr>
+<tr><td style="text-align:left"><code>negative</code></td><td style="text-align:left">An order id, a SKU, a public company name with ORG disabled</td></tr>
+<tr><td style="text-align:left"><code>long_doc</code></td><td style="text-align:left">A gold email past the first window</td></tr>
+<tr><td style="text-align:left"><code>zh</code></td><td style="text-align:left">Optional. Fake Chinese contact line. Required only for phase 10</td></tr>
+</tbody></table></div>
+<p>Start the dev freeze from public synthetic spans (Nemotron-PII, OpenPII, SPY) plus rows you write. Tag every row with <code>source_corpus</code> and <code>template_id</code>. Do not put n2c2 or other DUA text in the repo.</p>
+<p>A human must read the dev freeze before the first sealed run. Model drafts are not gold. Do not edit gold to match a model.</p>
+<h2 id="floors">Floors</h2>
+<p>Until phase 9 writes numbers, every floor stays open. Phase 9 sets them from the dev freeze in a commit that does not include the sealed scores. Then the sealed run uses those numbers unchanged.</p>
+<p>The kinds of floors, with no fake targets:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Floor</th><th style="text-align:left">Kind</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Exact-span recall for <code>PAYMENT</code>, <code>GOV_ID</code>, <code>EMAIL</code>, <code>PHONE</code></td><td style="text-align:left">Minimum on the sealed freeze</td></tr>
+<tr><td style="text-align:left">Exact-span recall for <code>PERSON</code></td><td style="text-align:left">Minimum. Expected to be the hard type</td></tr>
+<tr><td style="text-align:left">Extra-span rate on <code>negative</code></td><td style="text-align:left">Maximum</td></tr>
+<tr><td style="text-align:left">High-severity leakage after redact</td><td style="text-align:left">0 on the sealed freeze, from the parent gate</td></tr>
+<tr><td style="text-align:left">p95 locate latency on CPU for a 2_000 character note</td><td style="text-align:left">Maximum. Host-specific. UNCONFIRMED</td></tr>
+</tbody></table></div>
+<p>Do not copy 0.96 from a card into the recall floor. That number is in-domain for someone else&#x27;s split.</p>
+<h2 id="report">Report</h2>
+<p>Each run writes a JSON report: preset, revision, taxonomy version, per-type counts, leakage, and the slice name. The report omits source strings. A local HTML or text dump for error reading can include text. That dump stays out of git when the text is not from the fake examples.</p>
+<p>The harness is <code>python -m edgepii.eval.cli</code>. It takes a preset, a corpus key, an optional limit, and an optional type subset. The report lands in <code>docs/eval/</code>. <a href="../doc-corpora/">Public corpora</a> documents every field.</p>
+<p>Compare presets on the same gold file. Two different gold files do not make a valid compare. The research note shows why: SPY tables already disagree with each other. A Nemotron score and a Gretel score are two different numbers about two different corpora. Neither one wins.</p>
+<p>A run must score one document at a time. A pooled list of every gold span would let a prediction in one document match gold in another, and the report would claim a hit for text that document does not hold. <code>tests/test_eval_corpora.py</code> locks the case.</p>
+<h2 id="contamination-checks">Contamination checks</h2>
+<ol class="doc-list"><li>Hash each template id in the sealed freeze.</li><li>If that id appears in a train list you used to fine-tune, fail the run.</li><li>If a builder opened the sealed file in the same change as a threshold edit, fail the run.</li><li>Record the git revision of the scorer next to the score.</li></ol>
+<p>V1 does not fine-tune. Check 2 is still required. A public checkpoint can train on OpenPII or Nemotron-PII.</p>
+<p>When the preset card lists that corpus, mark the slice <code>in_domain</code>. Do not use an <code>in_domain</code> slice as the only ship gate. Keep one slice the card does not list. SPY is the public candidate for that slice. Our own ticket-shaped fake rows are the other.</p>
+<h2 id="what-is-not-an-eval">What is not an eval</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Practice</th><th style="text-align:left">Why it fails</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">LLM-as-judge for spans</td><td style="text-align:left">The match is code</td></tr>
+<tr><td style="text-align:left">One screenshot</td><td style="text-align:left">No counts</td></tr>
+<tr><td style="text-align:left">Micro F1 on a fixture of three emails</td><td style="text-align:left">No names, no negatives</td></tr>
+<tr><td style="text-align:left">A vendor F1 with no gold file in the repo</td><td style="text-align:left">Not replayable</td></tr>
+</tbody></table></div></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-taxonomy/"><span>Previous</span>Taxonomy 2026.11</a><a class="page-nav-link next" href="../doc-corpora/"><span>Next</span>Public corpora</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

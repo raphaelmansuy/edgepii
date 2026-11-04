@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>First principles · edgepii</title>
+<meta name="description" content="edgepii reference: First principles." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-first-principles/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="First principles · edgepii" />
+<meta property="og:description" content="edgepii reference: First principles." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-first-principles/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="First principles · edgepii" />
+<meta name="twitter:description" content="edgepii reference: First principles." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#facts">Facts</a></li><li class="toc-l2"><a href="#axioms-for-the-build">Axioms for the build</a></li><li class="toc-l2"><a href="#kill-list">Kill list</a></li><li class="toc-l2"><a href="#decisions-that-follow">Decisions that follow</a></li><li class="toc-l2"><a href="#trust-boundary">Trust boundary</a></li><li class="toc-l2"><a href="#legal-inputs-not-detectors">Legal inputs, not detectors</a></li><li class="toc-l2"><a href="#domain-shift">Domain shift</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="first-principles">First principles</h1>
+<p>A first principle here is a fact the team cannot remove without losing the job. Models, vendors, and card scores sit above these facts. When a design fights a fact, the design loses.</p>
+<p>The chain that produces the facts is the <a href="../doc-why/">five whys</a>. The contract that encodes them is the <a href="../doc-span-contract/">span contract</a>.</p>
+<h2 id="facts">Facts</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Id</th><th style="text-align:left">Fact</th><th style="text-align:left">Consequence</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">F1</td><td style="text-align:left">The editable object is the source string</td><td style="text-align:left">Public offsets are character indexes on that object</td></tr>
+<tr><td style="text-align:left">F2</td><td style="text-align:left">A document flag does not name characters</td><td style="text-align:left">The library has no document-label API</td></tr>
+<tr><td style="text-align:left">F3</td><td style="text-align:left">The next action depends on the type</td><td style="text-align:left">The public type comes from one taxonomy</td></tr>
+<tr><td style="text-align:left">F4</td><td style="text-align:left">A miss can leave the trust boundary</td><td style="text-align:left">High-severity recall is a gate. Extra spans are a budget</td></tr>
+<tr><td style="text-align:left">F5</td><td style="text-align:left">Formats and genres move</td><td style="text-align:left">A frozen regex set cannot be the only detector</td></tr>
+<tr><td style="text-align:left">F6</td><td style="text-align:left">A remote detect call is a copy</td><td style="text-align:left">V1 loads weights on the host. See <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0003-local-weights.md" target="_blank" rel="noopener noreferrer">ADR 0003</a></td></tr>
+<tr><td style="text-align:left">F7</td><td style="text-align:left">Card F1 is someone else&#x27;s test</td><td style="text-align:left">The golden set is the only ranker. See <a href="../doc-evaluation/">evaluation</a></td></tr>
+<tr><td style="text-align:left">F8</td><td style="text-align:left">Token labels are not characters</td><td style="text-align:left">Adapters convert BIO to offsets inside one module</td></tr>
+<tr><td style="text-align:left">F9</td><td style="text-align:left">Two people of one type are different</td><td style="text-align:left">Placeholders use a counter per type per call</td></tr>
+<tr><td style="text-align:left">F10</td><td style="text-align:left">A password is not a stand-in</td><td style="text-align:left">The locator finds secrets. <code>redact</code> then destroys them. See <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md" target="_blank" rel="noopener noreferrer">ADR 0004</a></td></tr>
+</tbody></table></div>
+<p>F1 to F3 come from Chain B. F4 comes from the parent note on leak cost. A miss is a leak. An extra span is a utility cost. F6 follows because a remote detector would copy the source string before the mask.</p>
+<h2 id="axioms-for-the-build">Axioms for the build</h2>
+<p>These axioms are the engineering form of the facts. They are short so a review can check a pull request against them.</p>
+<ol class="doc-list"><li>Spans, not a document class.</li><li>Same source string. No silent normalize.</li><li>Taxonomy version on every result.</li><li>One span type in code. Detectors do not invent a second result shape.</li><li>Code scores spans. A language model does not judge exact-span F1.</li><li>Per-type metrics. No single PII bucket in the score report.</li><li>Rules and models both emit spans. The merger is the only place that resolves overlap.</li><li>The locator drops invalid offsets. It does not guess a repair.</li></ol>
+<h2 id="kill-list">Kill list</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Kill for v1</th><th style="text-align:left">Fact it breaks</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Regex-only hero detector</td><td style="text-align:left">F5</td></tr>
+<tr><td style="text-align:left">Chat model as the locator</td><td style="text-align:left">F1, F7</td></tr>
+<tr><td style="text-align:left">Whole-file delete as the privacy feature</td><td style="text-align:left">F2&#x27;s useful remainder. The file still has work</td></tr>
+<tr><td style="text-align:left">Copied leaderboard F1 as a go or no-go</td><td style="text-align:left">F7</td></tr>
+<tr><td style="text-align:left">Document classifier as the product</td><td style="text-align:left">F2</td></tr>
+<tr><td style="text-align:left">Cloud PII API as a default detector</td><td style="text-align:left">F6</td></tr>
+<tr><td style="text-align:left">Free-text types from the model</td><td style="text-align:left">F3</td></tr>
+<tr><td style="text-align:left">Fuzzy match to repair a bad offset</td><td style="text-align:left">F1. The repair can bind the wrong copy</td></tr>
+<tr><td style="text-align:left">Logging <code>span.text</code> at INFO</td><td style="text-align:left">The log becomes a second copy</td></tr>
+</tbody></table></div>
+<h2 id="decisions-that-follow">Decisions that follow</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Decision</th><th style="text-align:left">Choice</th><th style="text-align:left">Record</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Public unit</td><td style="text-align:left">Half-open character span</td><td style="text-align:left"><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0001-locate-spans.md" target="_blank" rel="noopener noreferrer">ADR 0001</a></td></tr>
+<tr><td style="text-align:left">Default models</td><td style="text-align:left">One closed encoder, one open-schema model</td><td style="text-align:left"><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0002-two-default-lanes.md" target="_blank" rel="noopener noreferrer">ADR 0002</a></td></tr>
+<tr><td style="text-align:left">Where weights run</td><td style="text-align:left">On the host in v1</td><td style="text-align:left"><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0003-local-weights.md" target="_blank" rel="noopener noreferrer">ADR 0003</a></td></tr>
+<tr><td style="text-align:left">Secrets</td><td style="text-align:left">Locate, then irreversible mask</td><td style="text-align:left"><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md" target="_blank" rel="noopener noreferrer">ADR 0004</a></td></tr>
+<tr><td style="text-align:left">When to leave the encoder</td><td style="text-align:left">Only after the golden set shows a miss the encoder cannot close</td><td style="text-align:left"><a href="../doc-landscape/">Research</a></td></tr>
+</tbody></table></div>
+<h2 id="trust-boundary">Trust boundary</h2>
+<p>Detection runs inside the trust boundary. A later product step can send text out only after it masks or drops the spans. <code>edgepii</code> does not open that socket.</p>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>flowchart LR
+  subgraph Host[&quot;Trusted host&quot;]
+    IN[&quot;Source string&quot;]
+    LOC[&quot;edgepii locator&quot;]
+    SP[&quot;Span list&quot;]
+    RED[&quot;redact, optional&quot;]
+  end
+  subgraph Out[&quot;Outside the host&quot;]
+    LLM[&quot;Any remote model&quot;]
+  end
+  IN --&gt; LOC --&gt; SP --&gt; RED
+  RED --&gt;|&quot;masked string only&quot;| LLM</code></pre></div>
+<p>The map from placeholder to original stays on the host. The library returns the map to the caller and does not store it. If restore fails, the caller shows the masked string. The library does not guess a person.</p>
+<h2 id="legal-inputs-not-detectors">Legal inputs, not detectors</h2>
+<p>Counsel uses these texts to decide which types exist. The library does not embed a legal conclusion.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Input</th><th style="text-align:left">Role</th><th style="text-align:left">Link</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">NIST SP 800-122</td><td style="text-align:left">US guide on PII confidentiality</td><td style="text-align:left"><a href="https://csrc.nist.gov/pubs/sp/800/122/final" target="_blank" rel="noopener noreferrer">CSRC</a></td></tr>
+<tr><td style="text-align:left">GDPR Article 4</td><td style="text-align:left">EU definition of personal data</td><td style="text-align:left"><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679" target="_blank" rel="noopener noreferrer">EUR-Lex 2016/679</a></td></tr>
+<tr><td style="text-align:left">EDPB Guidelines 01/2025</td><td style="text-align:left">Pseudonymisation is not anonymisation when the map exists</td><td style="text-align:left"><a href="https://www.edpb.europa.eu/system/files/2025-01/edpb_guidelines_202501_pseudonymisation_en.pdf" target="_blank" rel="noopener noreferrer">PDF</a></td></tr>
+<tr><td style="text-align:left">PDPO</td><td style="text-align:left">Hong Kong ordinance. Counsel reads it. This spec does not interpret it</td><td style="text-align:left"><a href="https://www.pcpd.org.hk/english/data_privacy_law/ordinance_at_a_Glance/ordinance.html" target="_blank" rel="noopener noreferrer">PCPD</a></td></tr>
+</tbody></table></div>
+<p>A placeholder plus a host-side map is pseudonymisation for the party that holds the map. It is still personal data for that party. The remote model does not receive the original if the mask is complete. Completeness is an eval result, not a slogan.</p>
+<h2 id="domain-shift">Domain shift</h2>
+<p>A pattern that is true on synthetic email text can fail on a chat, an OCR line, or another language. F5 says the library must allow a new detector without a new result type. F7 says the team measures the new detector on a slice of the golden set before the team changes the default preset. The <a href="../doc-ai-engineering/">AI engineering</a> note states how that measurement works.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-span-contract/"><span>Previous</span>The span contract</a><a class="page-nav-link next" href="../doc-api/"><span>Next</span>Library API</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

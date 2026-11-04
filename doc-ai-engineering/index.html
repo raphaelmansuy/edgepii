@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI engineering · edgepii</title>
+<meta name="description" content="edgepii reference: AI engineering." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-ai-engineering/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="AI engineering · edgepii" />
+<meta property="og:description" content="edgepii reference: AI engineering." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-ai-engineering/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI engineering · edgepii" />
+<meta name="twitter:description" content="edgepii reference: AI engineering." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#principle-1-write-the-scorer-before-the-adapter">Principle 1. Write the scorer before the adapter</a></li><li class="toc-l2"><a href="#principle-2-a-private-set-outranks-a-card">Principle 2. A private set outranks a card</a></li><li class="toc-l2"><a href="#principle-3-code-judges-spans-a-model-does-not">Principle 3. Code judges spans. A model does not</a></li><li class="toc-l2"><a href="#principle-4-look-at-misses-then-add-a-slice">Principle 4. Look at misses, then add a slice</a></li><li class="toc-l2"><a href="#principle-5-score-the-part-then-the-whole">Principle 5. Score the part, then the whole</a></li><li class="toc-l2"><a href="#principle-6-latency-and-license-are-filters-not-a-footnote">Principle 6. Latency and license are filters, not a footnote</a></li><li class="toc-l2"><a href="#principle-7-smallest-lane-that-meets-the-floor">Principle 7. Smallest lane that meets the floor</a></li><li class="toc-l2"><a href="#principle-8-keep-train-and-test-apart">Principle 8. Keep train and test apart</a></li><li class="toc-l2"><a href="#principle-9-tie-the-score-to-an-action">Principle 9. Tie the score to an action</a></li><li class="toc-l2"><a href="#loop">Loop</a></li><li class="toc-l2"><a href="#what-the-team-will-not-adopt">What the team will not adopt</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="ai-engineering-principles">AI engineering principles</h1>
+<p>This file applies current AI engineering practice to a closed task. Span location has a right answer a program can check. The team uses that fact. The team does not import habits that exist for open-ended chat.</p>
+<p>Three public sources ground the practice below:</p>
+<ul class="doc-list"><li>Chip Huyen, <em>AI Engineering</em>. Evaluation criteria come before a build. Public benchmarks filter models. A private set picks the model. Cost and latency are criteria. Notes: <a href="https://pagefy.io/ai-engineering/ai-engineering-by-chip-huyen/evaluate-ai-systems" target="_blank" rel="noopener noreferrer">evaluation chapter summary</a>.</li><li>Hamel Husain, <a href="https://hamel.dev/blog/posts/evals/index.html" target="_blank" rel="noopener noreferrer">Your AI Product Needs Evals</a>. Look at data. Write tests for failures you can show. Do not trust a generic score.</li><li>Hamel Husain, <a href="https://hamel.dev/blog/posts/evals-faq/" target="_blank" rel="noopener noreferrer">Evals FAQ</a>. Do not invent a large eval for failures you did not observe. Exception: a constraint with a known success test. Exact span match is that exception.</li></ul>
+<h2 id="principle-1-write-the-scorer-before-the-adapter">Principle 1. Write the scorer before the adapter</h2>
+<p>The success test is closed. A predicted span matches a gold span only when type, start, and end match. That test is exact-span F1. It is the same idea as exact entity match in the CoNLL-2003 shared task (<a href="https://aclanthology.org/W03-0419/" target="_blank" rel="noopener noreferrer">W03-0419</a>).</p>
+<p>Huyen calls this shape evaluation-driven development. Husain warns that the habit fails for open-ended chat, because the failures are not known yet. Both can be true here. The match rule is known, so the scorer comes first. The slices and the per-type floors come from misses the team reads, so those gates come second.</p>
+<p>The first code in the <a href="../doc-plan/">implementation plan</a> is the scorer and a fake detector. No checkpoint is a default until that scorer runs.</p>
+<h2 id="principle-2-a-private-set-outranks-a-card">Principle 2. A private set outranks a card</h2>
+<p>Public numbers filter candidates. They do not crown a default. Huyen states that model selection is a private leaderboard. Hard filters come first: license, language, on-host weights, span output.</p>
+<p>The <a href="../doc-catalog/">catalog</a> records card scores and paper scores as reported. Several of those numbers disagree with each other. The disagreement is a reason to ignore them as gates. The golden set is the ranker. See <a href="../doc-evaluation/">evaluation</a>.</p>
+<h2 id="principle-3-code-judges-spans-a-model-does-not">Principle 3. Code judges spans. A model does not</h2>
+<p>Exact-span F1 is a deterministic compare. An LLM-as-judge adds a second model, a second prompt, and a score the team cannot replay bit for bit. The locate note forbids that judge for span F1.</p>
+<p>A model can draft synthetic rows. A human freezes the golden set. The team never edits gold to chase a score. The builder note states the same rule (<a href="https://app.notion.com/p/407887c3416481af80b4c82ef23e5ffe" target="_blank" rel="noopener noreferrer">span pipeline</a>).</p>
+<h2 id="principle-4-look-at-misses-then-add-a-slice">Principle 4. Look at misses, then add a slice</h2>
+<p>Husain&#x27;s loop is: read traces, name the failure in plain language, cluster, write a narrow test for the costly cluster.</p>
+<p>For this library the trace is one row: source string, gold spans, predicted spans. The plain failure is one of miss, wrong type, shift, or extra span. The team adds a slice when a cluster is real. Examples: OCR line breaks, code-mixed names, two people in one note, a secret next to a person name.</p>
+<p>Do not add a slice for a failure the team did not observe. The Husain warning applies after the closed scorer exists.</p>
+<h2 id="principle-5-score-the-part-then-the-whole">Principle 5. Score the part, then the whole</h2>
+<p>Huyen says to evaluate each component and the final output. The parts here are the rule detector, each model adapter, and the merger. The whole is the locator for one preset.</p>
+<p>A gain in the merger can hide a regression in the encoder. The eval report shows both. The report never shows only a micro score over all types.</p>
+<h2 id="principle-6-latency-and-license-are-filters-not-a-footnote">Principle 6. Latency and license are filters, not a footnote</h2>
+<p>A model that misses the latency budget on CPU is out of the default preset, even if a paper F1 is higher. A license that blocks commercial use is out of the default preset. Piiranha is the example in the <a href="../doc-catalog/">catalog</a>: the card carries a non-commercial term, so it is not a default.</p>
+<p>Record p50 and p95 for locate on a fixed CPU note in the eval report. The team leaves the numeric budget open until it measures the target host.</p>
+<h2 id="principle-7-smallest-lane-that-meets-the-floor">Principle 7. Smallest lane that meets the floor</h2>
+<p>The ladder in the <a href="../doc-landscape/">research note</a> is an escalation rule. Start with rules for checksums and a closed encoder for names. Move to an open-schema model when the type list must change at call time. Also move when the golden set shows a miss the encoder does not close. Move to a longer-context encoder when the window is the miss. Do not start at the heaviest model because a blog calls it best.</p>
+<p>The closed lane is &quot;BERT is enough&quot; in engineering form. The 2026 encoder in the closed lane is ModernBERT, which keeps the token-classification contract and extends context. Classic BERT stays as the control. See <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0002-two-default-lanes.md" target="_blank" rel="noopener noreferrer">ADR 0002</a>.</p>
+<h2 id="principle-8-keep-train-and-test-apart">Principle 8. Keep train and test apart</h2>
+<p>Synthetic text leaks when the same template sits in train and test. The split key is the template id, then the document id. The builder note and the locate note both require that split. The sealed test freeze is not a place to tune a threshold. Thresholds move on the dev freeze only.</p>
+<h2 id="principle-9-tie-the-score-to-an-action">Principle 9. Tie the score to an action</h2>
+<p>A span score is not a product outcome. The outcome is the string a later step will send. Define leakage as the share of gold high-severity spans that remain in that string. Define utility as the task score on masked text.</p>
+<p>The product that owns the task measures utility. <code>edgepii</code> reports the spans. The product owns the task score.</p>
+<p>Huyen asks what the metric means for the business. A high-severity miss can block release of the mask path. The team leaves the numeric floor open.</p>
+<p>The parent note sets a hard line: zero high-severity leakage on the freeze. That line is a product gate for the outbound string. The line does not claim that a model has zero misses. The second local pass and the rule lane exist because models miss. See <a href="../doc-evaluation/">evaluation</a>.</p>
+<h2 id="loop">Loop</h2>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>flowchart TD
+  S[&quot;Scorer for exact-span match&quot;] --&gt; C[&quot;Filter cards by license, language, local weights&quot;]
+  C --&gt; D[&quot;Run candidates on the dev freeze&quot;]
+  D --&gt; R[&quot;Read misses. Name the cluster&quot;]
+  R --&gt; G{&quot;Floor met on the sealed freeze?&quot;}
+  G --&gt;|No| L[&quot;Change threshold, merger, or lane&quot;]
+  L --&gt; D
+  G --&gt;|Yes| P[&quot;Preset can become a default&quot;]</code></pre></div>
+<p>The loop does not include a step that copies a card F1 into the gate.</p>
+<h2 id="what-the-team-will-not-adopt">What the team will not adopt</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Habit</th><th style="text-align:left">Why it is out</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">LLM-as-judge for span match</td><td style="text-align:left">Principle 3. The match is code</td></tr>
+<tr><td style="text-align:left">One demo screenshot as proof</td><td style="text-align:left">Principle 4. Read a set, not one row</td></tr>
+<tr><td style="text-align:left">A new model as the default before the sealed freeze</td><td style="text-align:left">Principle 2</td></tr>
+<tr><td style="text-align:left">A generic NER score with no PII types</td><td style="text-align:left">Principle 5. CoNLL types are not this taxonomy</td></tr>
+<tr><td style="text-align:left">Tuning on the sealed freeze</td><td style="text-align:left">Principle 8</td></tr>
+</tbody></table></div></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-architecture/"><span>Previous</span>Architecture</a><a class="page-nav-link next" href="../doc-landscape/"><span>Next</span>Research landscape</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

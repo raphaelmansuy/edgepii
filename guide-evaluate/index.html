@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Score it yourself · edgepii</title>
+<meta name="description" content="Run the public PII corpus score and read the report." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/guide-evaluate/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Score it yourself · edgepii" />
+<meta property="og:description" content="Run the public PII corpus score and read the report." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/guide-evaluate/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Score it yourself · edgepii" />
+<meta name="twitter:description" content="Run the public PII corpus score and read the report." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#why-you-would-do-this">Why you would do this</a></li><li class="toc-l2"><a href="#install-the-eval-extra">Install the eval extra</a></li><li class="toc-l2"><a href="#run-a-score">Run a score</a></li><li class="toc-l2"><a href="#read-the-columns">Read the columns</a></li><li class="toc-l2"><a href="#what-the---limit-flag-does">What the --limit flag does</a></li><li class="toc-l2"><a href="#add-a-model-lane">Add a model lane</a></li><li class="toc-l2"><a href="#compare-in-domain-against-out-of-domain">Compare in domain against out of domain</a></li><li class="toc-l2"><a href="#write-your-own-corpus">Write your own corpus</a></li><li class="toc-l2"><a href="#what-the-report-holds">What the report holds</a></li><li class="toc-l2"><a href="#a-floor-is-your-decision">A floor is your decision</a></li><li class="toc-l2"><a href="#next">Next</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="score-it-yourself">Score it yourself</h1>
+<p>A card figure is not evidence. This page runs the library against two public PII corpora and shows how to read the report.</p>
+<h2 id="why-you-would-do-this">Why you would do this</h2>
+<p>Every vendor reports a number. Most of those numbers come from a split that the model trained on. That number tells you what the model memorised, not what it will do on your text.</p>
+<p>The harness here pins two corpora, so two people can score the same preset on the same bytes and get the same answer. Nothing is averaged across corpora, because two corpora are two different measurements.</p>
+<h2 id="install-the-eval-extra">Install the eval extra</h2>
+<div class="code"><div class="code-head"><span class="code-lang">bash</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>.venv/bin/pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"edgepii[eval]"</span>
+</code></pre></div>
+<p>That adds <code>pyarrow</code>, which reads the Parquet files. The rest of the library does not need it.</p>
+<h2 id="run-a-score">Run a score</h2>
+<div class="code"><div class="code-head"><span class="code-lang">bash</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>python<span class="w"> </span>-m<span class="w"> </span>edgepii.eval.cli<span class="w"> </span>--preset<span class="w"> </span>rules<span class="w"> </span>--corpus<span class="w"> </span>nemotron-pii<span class="w"> </span>--limit<span class="w"> </span><span class="m">2000</span><span class="w"> </span>--print
+</code></pre></div>
+<p>You should see a table like this:</p>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>preset=rules revision=rules corpus=nemotron-pii@b70ffaf5ff39 taxonomy=2026.11 limit=2000
+slice           docs   gold   pred     tp    fp    fn      P      R     F1     F2 leak
+all             2000   5890   2396   1565   831  4325  0.653  0.266  0.378  0.301  589
+intl            2000   6157   2742   1891   851  4266  0.690  0.307  0.425  0.345  595
+structured      2000   6191   2751   1767   984  4424  0.642  0.285  0.395  0.321  638
+unstructured    2000   5666   2244   1533   711  4133  0.683  0.271  0.388  0.308  543
+us              2000   5890   2396   1565   831  4325  0.653  0.266  0.378  0.301  589
+</code></pre></div>
+<p>The run downloads about 150 MB on the first call and caches it under <code>~/.cache/edgepii</code>. Every later run reads the cache.</p>
+<h2 id="read-the-columns">Read the columns</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Column</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>docs</code></td><td style="text-align:left">Documents scored in this slice</td></tr>
+<tr><td style="text-align:left"><code>gold</code></td><td style="text-align:left">Gold spans the map put in scope</td></tr>
+<tr><td style="text-align:left"><code>pred</code></td><td style="text-align:left">Spans the library returned</td></tr>
+<tr><td style="text-align:left"><code>tp</code></td><td style="text-align:left">Exact matches: same type, same start, same end</td></tr>
+<tr><td style="text-align:left"><code>fp</code></td><td style="text-align:left">Predicted spans with no match</td></tr>
+<tr><td style="text-align:left"><code>fn</code></td><td style="text-align:left">Gold spans with no match</td></tr>
+<tr><td style="text-align:left"><code>P</code>, <code>R</code></td><td style="text-align:left">Precision and recall, from those counts</td></tr>
+<tr><td style="text-align:left"><code>F1</code></td><td style="text-align:left">The harmonic mean. The primary metric</td></tr>
+<tr><td style="text-align:left"><code>F2</code></td><td style="text-align:left">Recall weighted twice. A leak costs more than an over-mask</td></tr>
+<tr><td style="text-align:left"><code>leak</code></td><td style="text-align:left">Gold spans in a high-severity class that no prediction covers</td></tr>
+</tbody></table></div>
+<p>Exact match is strict on purpose. A prediction that covers 14 of 15 characters is not a true positive. It is a shifted span, and one missing character can leave an address resolvable.</p>
+<h2 id="what-the---limit-flag-does">What the <code>--limit</code> flag does</h2>
+<p><code>--limit</code> takes the first N documents <strong>of each slice</strong>, not the first N of the corpus.</p>
+<p>This matters. The Nemotron locals sit in two blocks of 50 000, so a corpus-wide limit of 500 reads only the <code>us</code> block and reports an empty <code>intl</code> slice with a precision and recall of <code>1.000</code>. A perfect score on zero documents is the most misleading number a report can print. The limit is per slice to prevent it.</p>
+<h2 id="add-a-model-lane">Add a model lane</h2>
+<div class="code"><div class="code-head"><span class="code-lang">bash</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>.venv/bin/pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"edgepii[hf]"</span>
+python<span class="w"> </span>-m<span class="w"> </span>edgepii.eval.cli<span class="w"> </span>--preset<span class="w"> </span>en-closed<span class="w"> </span>--corpus<span class="w"> </span>nemotron-pii<span class="w"> </span>--limit<span class="w"> </span><span class="m">500</span><span class="w"> </span>--print
+</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>preset=en-closed revision=3d0f39eceaf0 corpus=nemotron-pii@b70ffaf5ff39 taxonomy=2026.11 limit=500
+slice           docs   gold   pred     tp    fp    fn      P      R     F1     F2 leak
+all              500   1343   1867   1326   541    17  0.710  0.987  0.826  0.916    2
+</code></pre></div>
+<p>Recall near 0.99 and precision 0.71. The lane masks nearly every capitalised run, so it finds names and also invents some.</p>
+<h2 id="compare-in-domain-against-out-of-domain">Compare in domain against out of domain</h2>
+<p>Run the same preset on the finance corpus:</p>
+<div class="code"><div class="code-head"><span class="code-lang">bash</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>python<span class="w"> </span>-m<span class="w"> </span>edgepii.eval.cli<span class="w"> </span>--preset<span class="w"> </span>en-closed<span class="w"> </span>--corpus<span class="w"> </span>gretel-finance-en<span class="w"> </span>--limit<span class="w"> </span><span class="m">400</span><span class="w"> </span>--print
+</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-lang">text</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>all              400    982   2701    250  2451   732  0.093  0.255  0.136  0.189   38
+</code></pre></div>
+<p>F1 falls from 0.826 to 0.136. Per type, <code>PERSON</code> falls from 0.995 to 0.048. That gap is the single most useful fact about this checkpoint, and no model card contains it.</p>
+<div class="callout callout-warning"><span class="callout-kind">warning</span><div class="callout-body">Do not average a Nemotron score with a Gretel score. They measure two corpora with two label<br />distributions. A single number would hide the gap that matters.</div></div>
+<h2 id="write-your-own-corpus">Write your own corpus</h2>
+<p>A corpus is data, not code. Add a row to <code>src/edgepii/eval/corpora.yaml</code>:</p>
+<div class="code"><div class="code-head"><span class="code-lang">yaml</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="nt">corpora</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">my-corpus</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My support tickets</span>
+<span class="w">    </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Out of domain. Hand labels on the real channel.</span>
+<span class="w">    </span><span class="nt">repo_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-org/my-corpus</span>
+<span class="w">    </span><span class="nt">revision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;full commit sha&gt;</span>
+<span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/test.parquet</span>
+<span class="w">    </span><span class="nt">bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234567</span>
+<span class="w">    </span><span class="nt">sha256</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;sha256 of the file&gt;</span>
+<span class="w">    </span><span class="nt">license</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CC-BY-4.0</span>
+<span class="w">    </span><span class="nt">text_column</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
+<span class="w">    </span><span class="nt">spans_column</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spans</span>
+<span class="w">    </span><span class="nt">spans_encoding</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">json</span>
+<span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">email_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EMAIL</span>
+<span class="w">      </span><span class="nt">person_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PERSON</span>
+<span class="w">    </span><span class="nt">drop</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">order_id</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">An internal id. No class in the taxonomy, and it is not PII.</span>
+</code></pre></div>
+<p>Then run it:</p>
+<div class="code"><div class="code-head"><span class="code-lang">bash</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code>python<span class="w"> </span>-m<span class="w"> </span>edgepii.eval.cli<span class="w"> </span>--preset<span class="w"> </span>rules<span class="w"> </span>--corpus<span class="w"> </span>my-corpus<span class="w"> </span>--print
+</code></pre></div>
+<p>Three rules keep the score honest:</p>
+<ol class="doc-list"><li><strong>Pin the bytes.</strong> A <code>sha256</code> that does not match stops the run. A moved file makes an old score unreadable.</li><li><strong>Name every label.</strong> A gold label the map does not name is counted as <code>unknown</code> and printed. It is never folded into a neighbour, because a silent fold inflates recall.</li><li><strong>Write a reason for every drop.</strong> A label you exclude needs a sentence, so a reader can disagree with the decision.</li></ol>
+<h2 id="what-the-report-holds">What the report holds</h2>
+<p>The report is JSON. It holds counts, the corpus pin, the preset revision, the taxonomy version, and the environment. It holds <strong>no source text</strong>, so it is safe to commit.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Field</th><th style="text-align:left">Meaning</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>corpus_sha256</code>, <code>corpus_revision</code></td><td style="text-align:left">Which bytes were read</td></tr>
+<tr><td style="text-align:left"><code>preset_revision</code></td><td style="text-align:left">Which weights, if any</td></tr>
+<tr><td style="text-align:left"><code>corpus_diagnostics</code></td><td style="text-align:left">What the map did to every label in the whole file</td></tr>
+<tr><td style="text-align:left"><code>documents_scored</code></td><td style="text-align:left">Documents in the <code>all</code> slice</td></tr>
+<tr><td style="text-align:left"><code>slices.&lt;name&gt;.per_type</code></td><td style="text-align:left">Counts and ratios per public type</td></tr>
+<tr><td style="text-align:left"><code>slices.&lt;name&gt;.high_severity_leaks</code></td><td style="text-align:left">Secret, gov id, and payment spans that survived</td></tr>
+</tbody></table></div>
+<h2 id="a-floor-is-your-decision">A floor is your decision</h2>
+<p>The library ships no minimum score. If you want one, measure it. Here is the real sweep on 500 Nemotron documents, run on 4 November 2026:</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Lane</th><th style="text-align:left">Floor</th><th style="text-align:left">Spans</th><th style="text-align:left">P</th><th style="text-align:left">R</th><th style="text-align:left">F1</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>rules</code></td><td style="text-align:left">none</td><td style="text-align:left">586</td><td style="text-align:left">0.602</td><td style="text-align:left">0.213</td><td style="text-align:left">0.314</td></tr>
+<tr><td style="text-align:left"><code>rules</code></td><td style="text-align:left">0.50</td><td style="text-align:left">392</td><td style="text-align:left">0.411</td><td style="text-align:left">0.097</td><td style="text-align:left">0.157</td></tr>
+<tr><td style="text-align:left"><code>rules</code></td><td style="text-align:left">0.90</td><td style="text-align:left">392</td><td style="text-align:left">0.411</td><td style="text-align:left">0.097</td><td style="text-align:left">0.157</td></tr>
+<tr><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">none</td><td style="text-align:left">797</td><td style="text-align:left">0.764</td><td style="text-align:left">0.979</td><td style="text-align:left">0.858</td></tr>
+<tr><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">0.90</td><td style="text-align:left">783</td><td style="text-align:left">0.765</td><td style="text-align:left">0.963</td><td style="text-align:left">0.853</td></tr>
+</tbody></table></div>
+<p>Two lessons, and both are the opposite of the obvious guess.</p>
+<p><strong>On the rule lane a floor makes things worse.</strong> Every rule except card and IP reports no score, so a floor at any value above zero removes the email and phone hits that were carrying the lane. Precision falls as well as recall, because the spans that survive are the noisy card matches. Do not put a floor on <code>rules</code>.</p>
+<p><strong>On the model lane a floor barely helps.</strong> Every model span has a score, and the checkpoint is confident about almost all of them. A floor of 0.90 costs 14 spans and 0.005 F1. It does not fix the over-masking that holds precision at 0.765, because the wrong spans are scored high too.</p>
+<p>That is the argument for measuring a floor rather than picking one. To reproduce the table:</p>
+<div class="code"><div class="code-head"><span class="code-lang">python</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgepii</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgepii.eval.corpora</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_docs</span><span class="p">,</span> <span class="n">ensure_file</span><span class="p">,</span> <span class="n">load_spec</span><span class="p">,</span> <span class="n">read_raw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">edgepii.eval.runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">score_docs</span>
+
+<span class="n">spec</span> <span class="o">=</span> <span class="n">load_spec</span><span class="p">(</span><span class="s2">"nemotron-pii"</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">ensure_file</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".cache"</span> <span class="o">/</span> <span class="s2">"edgepii"</span><span class="p">)</span>
+<span class="n">docs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">build_docs</span><span class="p">(</span><span class="n">read_raw</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">spec</span><span class="p">,</span> <span class="nb">set</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+<span class="k">for</span> <span class="n">preset</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"rules"</span><span class="p">,</span> <span class="s2">"en-closed"</span><span class="p">):</span>
+    <span class="n">locator</span> <span class="o">=</span> <span class="n">Locator</span><span class="o">.</span><span class="n">preset</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">score_docs</span><span class="p">(</span><span class="n">locator</span><span class="p">,</span> <span class="n">docs</span><span class="p">[:</span><span class="mi">500</span><span class="p">],</span> <span class="s2">"all"</span><span class="p">,</span> <span class="nb">set</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">min_score</span><span class="o">=</span><span class="n">floor</span><span class="p">)</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">preset</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">report</span><span class="p">[</span><span class="s2">"predicted_spans"</span><span class="p">],</span> <span class="n">report</span><span class="p">[</span><span class="s2">"precision"</span><span class="p">],</span> <span class="n">report</span><span class="p">[</span><span class="s2">"recall"</span><span class="p">])</span>
+</code></pre></div>
+<div class="callout callout-warning"><span class="callout-kind">warning</span><div class="callout-body">A floor is not a safety dial. In both lanes above it lowered F1. The only way to know what it does<br />to your text is to run it on your text.</div></div>
+<h2 id="next">Next</h2>
+<ul class="doc-list"><li>Read the <a href="../evaluation/">full public score</a> with the failure analysis</li><li>Read the <a href="../doc-corpora/">corpora reference</a> for every label fold and every drop</li><li>Read the <a href="../doc-evaluation/">evaluation spec</a> for the metric definition</li></ul></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../guide-masking/"><span>Previous</span>Mask and restore</a><a class="page-nav-link next" href="../doc-index/"><span>Next</span>Reference</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

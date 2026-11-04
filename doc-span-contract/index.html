@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The span contract · edgepii</title>
+<meta name="description" content="edgepii reference: The span contract." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-span-contract/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="The span contract · edgepii" />
+<meta property="og:description" content="edgepii reference: The span contract." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-span-contract/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The span contract · edgepii" />
+<meta name="twitter:description" content="edgepii reference: The span contract." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#job">Job</a></li><li class="toc-l2"><a href="#result">Result</a></li><li class="toc-l2"><a href="#invariants">Invariants</a></li><li class="toc-l2"><a href="#offsets-and-bio">Offsets and BIO</a></li><li class="toc-l2"><a href="#success-and-failure">Success and failure</a></li><li class="toc-l2"><a href="#jobs-that-are-not-this-contract">Jobs that are not this contract</a></li><li class="toc-l2"><a href="#empty-and-bad-input">Empty and bad input</a></li><li class="toc-l2"><a href="#non-goals-for-v1">Non-goals for v1</a></li><li class="toc-l2"><a href="#relation-to-mask-and-restore">Relation to mask and restore</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="span-contract">Span contract</h1>
+<p>This file is the product. Every detector, preset, and test must satisfy it. The five whys explain why the contract has this shape. See <a href="../doc-why/">Five whys</a> and <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0001-locate-spans.md" target="_blank" rel="noopener noreferrer">ADR 0001</a>.</p>
+<h2 id="job">Job</h2>
+<p>Input: one source string, plus an optional subset of taxonomy types.</p>
+<p>Output: a list of spans. Each span names a type, a start offset, an end offset, the slice text, and an optional score.</p>
+<p>The job is location. Redaction is a pure function of those spans. The <a href="../doc-api/">public API</a> specifies redaction. It is not a second product.</p>
+<h2 id="result">Result</h2>
+<div class="code"><div class="code-head"><span class="code-lang">json</span><button type="button" class="code-copy" data-copy-code aria-label="Copy code">Copy</button></div><pre><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"taxonomy_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026.11"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"spans"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EMAIL"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ada@example.com"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.99</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"detector_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rules.email"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"raw_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Field</th><th style="text-align:left">Rule</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>taxonomy_version</code></td><td style="text-align:left">The taxonomy file that mapped labels for this call</td></tr>
+<tr><td style="text-align:left"><code>type</code></td><td style="text-align:left">A name in that taxonomy. Never a raw model label</td></tr>
+<tr><td style="text-align:left"><code>start</code></td><td style="text-align:left">Inclusive index into the source string</td></tr>
+<tr><td style="text-align:left"><code>end</code></td><td style="text-align:left">Exclusive index into the source string</td></tr>
+<tr><td style="text-align:left"><code>text</code></td><td style="text-align:left">Must equal <code>source[start:end]</code></td></tr>
+<tr><td style="text-align:left"><code>score</code></td><td style="text-align:left">A float from 0 to 1, or null when the detector has no score</td><td style="text-align:left"></td><td style="text-align:left"><code>detector_id</code></td><td style="text-align:left">Stable id of the detector that proposed the span</td></tr>
+<tr><td style="text-align:left"><code>raw_label</code></td><td style="text-align:left">The label before the map. For audit. Not a public type</td></tr>
+</tbody></table></div>
+<p>Indexes are Python string indexes. They count Unicode code points. They do not count UTF-8 bytes. A caller that stores bytes must convert before the call and after it.</p>
+<h2 id="invariants">Invariants</h2>
+<p>A result is valid only when all of the lines below hold.</p>
+<ol class="doc-list"><li><code>0 &lt;= start &lt; end &lt;= len(source)</code> for every span.</li><li><code>text == source[start:end]</code> for every span.</li><li><code>type</code> is a member of <code>taxonomy_version</code>.</li><li>The locator did not change the source string before it computed offsets.</li><li>Spans in the public list do not overlap, after the merge step in the <a href="../doc-architecture/">architecture</a>.</li><li>A span whose type the caller excluded is absent from the list.</li><li>Exception text and INFO logs do not contain the source string or <code>text</code>.</li></ol>
+<p>If a detector breaks invariant 1 or 2, the locator drops that span. The locator increments a drop counter. The locator does not repair the offset by searching for <code>text</code> elsewhere in the string. A search can attach the span to the wrong copy.</p>
+<h2 id="offsets-and-bio">Offsets and BIO</h2>
+<p>BIO and BILOU train the head. They are not the public result. A token classifier can use them inside an adapter. The adapter must map tokens back to character offsets before it returns. The Hugging Face pipeline can do that when the tokenizer returns offsets (<a href="https://huggingface.co/docs/transformers/en/tasks/token_classification" target="_blank" rel="noopener noreferrer">token classification</a>).</p>
+<p>The same source string is the only legal target of those offsets. A second string, even a trimmed copy, is a defect.</p>
+<h2 id="success-and-failure">Success and failure</h2>
+<p>Success: every in-scope mention in the golden set has a span with the right type and the same start and end.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Failure</th><th style="text-align:left">What the caller sees</th><th style="text-align:left">Why it matters</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Miss</td><td style="text-align:left">No span on a gold range</td><td style="text-align:left">The characters can leave the trust boundary</td></tr>
+<tr><td style="text-align:left">Wrong type</td><td style="text-align:left">Right range, wrong type</td><td style="text-align:left">The wrong policy runs</td></tr>
+<tr><td style="text-align:left">Shift</td><td style="text-align:left">The range starts or ends on the wrong character</td><td style="text-align:left">A tail leaks, or the mask deletes a neighbor</td></tr>
+<tr><td style="text-align:left">Extra span</td><td style="text-align:left">A span on text that is not in scope</td><td style="text-align:left">The task loses words it needed</td></tr>
+<tr><td style="text-align:left">Overlap</td><td style="text-align:left">Two public spans share a character</td><td style="text-align:left">The mask order is undefined</td></tr>
+<tr><td style="text-align:left">Bad slice</td><td style="text-align:left"><code>text</code> is not <code>source[start:end]</code></td><td style="text-align:left">The audit is false</td></tr>
+</tbody></table></div>
+<p>A miss on a high-severity type is the costly failure. An extra span is a utility cost. The <a href="../doc-evaluation/">evaluation spec</a> scores them apart. It does not fold them into one unlabeled PII score.</p>
+<h2 id="jobs-that-are-not-this-contract">Jobs that are not this contract</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Job</th><th style="text-align:left">Input</th><th style="text-align:left">Output</th><th style="text-align:left">Fits</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">PII span location</td><td style="text-align:left">Source string</td><td style="text-align:left">Span list</td><td style="text-align:left">Yes</td></tr>
+<tr><td style="text-align:left">Document classification</td><td style="text-align:left">Source string</td><td style="text-align:left">has-PII or not</td><td style="text-align:left">No</td></tr>
+<tr><td style="text-align:left">Regex on structured forms</td><td style="text-align:left">Source string</td><td style="text-align:left">Some offsets</td><td style="text-align:left">Partial. Structured types only</td></tr>
+<tr><td style="text-align:left">Chat rewrite</td><td style="text-align:left">Source string</td><td style="text-align:left">New prose</td><td style="text-align:left">No</td></tr>
+<tr><td style="text-align:left">Cloud detect API</td><td style="text-align:left">Source string copied off the host</td><td style="text-align:left">Vendor spans</td><td style="text-align:left">No in v1. The copy already left. See <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0003-local-weights.md" target="_blank" rel="noopener noreferrer">ADR 0003</a></td></tr>
+</tbody></table></div>
+<h2 id="empty-and-bad-input">Empty and bad input</h2>
+<p>An empty string returns an empty span list and the active taxonomy version. That result is success.</p>
+<p><code>None</code> is an invalid call. The library raises <code>TypeError</code>. The message does not echo a value.</p>
+<p>A type name outside the taxonomy is an invalid call. The library raises <code>UnknownType</code>. The call does not run a detector.</p>
+<h2 id="non-goals-for-v1">Non-goals for v1</h2>
+<ul class="doc-list"><li>Image OCR. The caller passes text. A scan stays outside this library.</li><li>A legal opinion that a type is personal data in a given country.</li><li>Training a new checkpoint inside the library.</li><li>A network service. The call stays inside the caller program.</li><li>Fuzzy restore of a model answer. The parent note forbids it (<a href="https://app.notion.com/p/407887c3416481daa9a7e3ce8b346775" target="_blank" rel="noopener noreferrer">Hide names and phones</a>).</li><li>Storage of the source string or of a reverse map. The caller holds both.</li></ul>
+<h2 id="relation-to-mask-and-restore">Relation to mask and restore</h2>
+<p>The parent product is mask, then call, then restore. <code>edgepii</code> owns the first find. A small <code>redact</code> function can replace spans with placeholders and return the map to the caller. The function does not keep the map. Secrets never enter the map. See <a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0004-secrets-irreversible.md" target="_blank" rel="noopener noreferrer">ADR 0004</a>.</p>
+<p>The outbound string is safe only when a second local pass finds no high-severity span left in it. That second pass uses the same locator. It is a product rule in the <a href="../doc-evaluation/">evaluation spec</a>, not a new detector.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-index/"><span>Previous</span>Reference</a><a class="page-nav-link next" href="../doc-first-principles/"><span>Next</span>First principles</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

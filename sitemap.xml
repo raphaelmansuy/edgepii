@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://raphaelmansuy.github.io/edgepii/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/demo/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/guide-examples/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/tour/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/evaluation/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/start/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/concepts/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/guide-masking/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/guide-evaluate/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-index/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-span-contract/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-first-principles/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-api/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-taxonomy/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-evaluation/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-corpora/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-score/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-architecture/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-ai-engineering/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-landscape/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-catalog/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-plan/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-why/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raphaelmansuy.github.io/edgepii/doc-glossary/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>

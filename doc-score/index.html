@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>First public score · edgepii</title>
+<meta name="description" content="edgepii reference: First public score." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-score/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="First public score · edgepii" />
+<meta property="og:description" content="edgepii reference: First public score." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-score/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="First public score · edgepii" />
+<meta name="twitter:description" content="edgepii reference: First public score." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#what-ran">What ran</a></li><li class="toc-l2"><a href="#the-numbers">The numbers</a></li><li class="toc-l2"><a href="#per-type">Per type</a></li><li class="toc-l2"><a href="#what-this-shows">What this shows</a></li><li class="toc-l2"><a href="#what-to-do-next">What to do next</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="first-public-score">First public score</h1>
+<p>This file records the first score of the shipped lanes on a public corpus. It answers one question: does the library find PII, and where does it fail?</p>
+<p>The run date is 4 November 2026. The host is a MacBook with an arm64 CPU and no accelerator. Both corpora are synthetic. Every number here is a measurement on that host, on those bytes. A number is not a ship gate. <a href="../doc-evaluation/#floors">The floors</a> stay open until a sealed freeze exists.</p>
+<h2 id="what-ran">What ran</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Field</th><th style="text-align:left">Value</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Presets</td><td style="text-align:left"><code>rules</code>, <code>en-closed</code></td></tr>
+<tr><td style="text-align:left"><code>en-closed</code> revision</td><td style="text-align:left"><code>3d0f39eceaf0c95fc07943064c58fba3fff60243</code></td></tr>
+<tr><td style="text-align:left">Taxonomy</td><td style="text-align:left"><code>2026.11</code>, eleven public types, <code>quasi</code> classes excluded</td></tr>
+<tr><td style="text-align:left">Corpora</td><td style="text-align:left"><code>nemotron-pii</code> (<code>b70ffaf5</code>), <code>gretel-finance-en</code> (<code>7b844d16</code>)</td></tr>
+<tr><td style="text-align:left">Metric</td><td style="text-align:left">Exact-span F1, computed per document, summed</td></tr>
+<tr><td style="text-align:left">Reports</td><td style="text-align:left"><code>docs/eval/*.json</code></td></tr>
+</tbody></table></div>
+<p><code>nemotron-pii</code> is in domain for <code>en-closed</code>. Its card and its <code>preprocessing.json</code> both name <code>nvidia/Nemotron-PII</code> as the training source. <code>gretel-finance-en</code> is not in that list.</p>
+<h2 id="the-numbers">The numbers</h2>
+<p>Micro average over every slice.</p>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Corpus</th><th style="text-align:left">Preset</th><th style="text-align:left">Docs</th><th style="text-align:left">Gold</th><th style="text-align:left">P</th><th style="text-align:left">R</th><th style="text-align:left">F1</th><th style="text-align:left">F2</th><th style="text-align:left">Leaks</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>nemotron-pii</code></td><td style="text-align:left"><code>rules</code></td><td style="text-align:left">2 000</td><td style="text-align:left">5 890</td><td style="text-align:left">0.653</td><td style="text-align:left">0.266</td><td style="text-align:left">0.378</td><td style="text-align:left">0.301</td><td style="text-align:left">589</td></tr>
+<tr><td style="text-align:left"><code>nemotron-pii</code></td><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">500</td><td style="text-align:left">1 343</td><td style="text-align:left">0.710</td><td style="text-align:left">0.987</td><td style="text-align:left">0.826</td><td style="text-align:left">0.916</td><td style="text-align:left">2</td></tr>
+<tr><td style="text-align:left"><code>gretel-finance-en</code></td><td style="text-align:left"><code>rules</code></td><td style="text-align:left">2 891</td><td style="text-align:left">7 397</td><td style="text-align:left">0.260</td><td style="text-align:left">0.119</td><td style="text-align:left">0.163</td><td style="text-align:left">0.133</td><td style="text-align:left">424</td></tr>
+<tr><td style="text-align:left"><code>gretel-finance-en</code></td><td style="text-align:left"><code>en-closed</code></td><td style="text-align:left">400</td><td style="text-align:left">982</td><td style="text-align:left">0.093</td><td style="text-align:left">0.255</td><td style="text-align:left">0.136</td><td style="text-align:left">0.189</td><td style="text-align:left">38</td></tr>
+</tbody></table></div>
+<p>The <code>rules</code> F1 looks low because two of the eleven types, <code>PERSON</code> and <code>ADDRESS</code>, hold most of the gold spans and the rule lane cannot find either one. The <a href="../doc-index/#limits">limits</a> already say so. The per-type table below is the honest read of that lane.</p>
+<h2 id="per-type">Per type</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Type</th><th style="text-align:left"><code>rules</code>, Nemotron</th><th style="text-align:left"><code>en-closed</code>, Nemotron</th><th style="text-align:left"><code>rules</code>, Gretel</th><th style="text-align:left"><code>en-closed</code>, Gretel</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left"><code>PERSON</code></td><td style="text-align:left">0.000</td><td style="text-align:left"><strong>0.995</strong></td><td style="text-align:left">0.000</td><td style="text-align:left"><strong>0.048</strong></td></tr>
+<tr><td style="text-align:left"><code>ADDRESS</code></td><td style="text-align:left">0.000</td><td style="text-align:left">0.383</td><td style="text-align:left">0.000</td><td style="text-align:left">0.123</td></tr>
+<tr><td style="text-align:left"><code>EMAIL</code></td><td style="text-align:left">0.998</td><td style="text-align:left">0.994</td><td style="text-align:left">0.450</td><td style="text-align:left">0.431</td></tr>
+<tr><td style="text-align:left"><code>PHONE</code></td><td style="text-align:left">0.644</td><td style="text-align:left">0.633</td><td style="text-align:left">0.351</td><td style="text-align:left">0.410</td></tr>
+<tr><td style="text-align:left"><code>PAYMENT</code></td><td style="text-align:left">0.091</td><td style="text-align:left">0.691</td><td style="text-align:left">0.236</td><td style="text-align:left">0.232</td></tr>
+<tr><td style="text-align:left"><code>GOV_ID</code></td><td style="text-align:left">0.000</td><td style="text-align:left"><strong>1.000</strong></td><td style="text-align:left">0.000</td><td style="text-align:left">0.321</td></tr>
+<tr><td style="text-align:left"><code>SECRET</code></td><td style="text-align:left">0.438</td><td style="text-align:left">0.891</td><td style="text-align:left">0.189</td><td style="text-align:left">0.291</td></tr>
+<tr><td style="text-align:left"><code>IP_ADDRESS</code></td><td style="text-align:left">0.817</td><td style="text-align:left">0.737</td><td style="text-align:left">0.886</td><td style="text-align:left">0.813</td></tr>
+<tr><td style="text-align:left"><code>USERNAME</code></td><td style="text-align:left">0.000</td><td style="text-align:left">1.000</td><td style="text-align:left">0.000</td><td style="text-align:left">0.143</td></tr>
+</tbody></table></div>
+<h2 id="what-this-shows">What this shows</h2>
+<p><strong>The domain transfer is the finding, not the average.</strong> <code>PERSON</code> scores 0.995 on the corpus the checkpoint trained on and 0.048 on a finance document. The model did not learn a grammar of names. It learned where a name sits in a synthetic persona note. A card figure of 0.9628 would have hidden that.</p>
+<p><strong>The model carries the structured types that a rule cannot reach.</strong> <code>GOV_ID</code> scores 1.000 on Nemotron where the rule lane scores 0.000, because v1 ships no national id pattern. The two lanes are complementary, and the preset already runs both and merges them.</p>
+<p><strong>Precision is the cost of recall.</strong> <code>en-closed</code> reaches recall 0.987 by masking almost every capitalised token. <code>ADDRESS</code> precision is 0.237 and <code>PHONE</code> precision is 0.472 on Nemotron. The caller pays for that utility, and <code>min_score</code> is the only lever the library offers, because the library ships no floor.</p>
+<p><strong>The rule lane is a floor, not a product.</strong> Its <code>PAYMENT</code> score is 0.091 on Nemotron. Of the 251 false positive span matches in the 2 000 document run, 150 are text that holds no gold label at all. The samples are dates such as <code>2028-07-15</code> and bare account numbers such as <code>5482370169</code>. Both pass <code>_luhn_ok</code>, because ISO/IEC 7812-1 sets the minimum PAN length at 8 digits and a date in ISO 8601 form is 8 digits once the separators are dropped. A further 26 are a real <code>DATE_OF_BIRTH</code> and 56 are a real <code>PHONE</code>, so the card rule is reaching into two other public types. Only 19 are a US SSN.</p>
+<p>The taxonomy rank puts <code>GOV_ID</code> above <code>PAYMENT</code>, so a correct <code>GOV_ID</code> hit wins the merge. It cannot help here, because the rule lane has no SSN rule at all, for the reason the <a href="../doc-index/#every-rule-names-its-source">rule audit</a> gives: no national id pattern ships in v1. The card rule also cannot tell an 8-digit date from a PAN. That is a real gap, and this corpus made it visible.</p>
+<p><strong>Two leak counts matter more than either F1.</strong> <code>en-closed</code> leaks 2 high-severity spans on 500 Nemotron documents and 38 on 400 Gretel documents. The parent product note says a leakage rate above zero blocks a ship. Neither preset is ready to ship on a finance domain, and the number says why.</p>
+<h2 id="what-to-do-next">What to do next</h2>
+<ol class="doc-list"><li>Decide whether an 8-digit PAN is worth keeping. ISO/IEC 7812-1 allows one, but a date in ISO 8601 form is also 8 digits, and 150 of the 251 <code>PAYMENT</code> false positives are exactly that. The rule has a correct source and a bad cost on real text.</li><li>Read twenty <code>PERSON</code> misses on Gretel. The sample is a SWIFT field and a signature block, not prose. That is the shape a Lane G preset should be tested against.</li><li>Add <code>multi-open</code> to the same runs. A span model with a type list at call time is the lane the <a href="../doc-landscape/#escalation-ladder">escalation ladder</a> names after <code>en-closed</code>.</li><li>Keep the two corpora apart. A Nemotron score and a Gretel score are two numbers about two corpora. Do not average them into one.</li></ol>
+<p>None of these steps changes a floor. The floors wait for the sealed freeze.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-corpora/"><span>Previous</span>Public corpora</a><a class="page-nav-link next" href="../doc-architecture/"><span>Next</span>Architecture</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

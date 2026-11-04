@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Implementation plan · edgepii</title>
+<meta name="description" content="edgepii reference: Implementation plan." />
+<link rel="canonical" href="https://raphaelmansuy.github.io/edgepii/doc-plan/" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070d" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="edgepii" />
+<meta property="og:title" content="Implementation plan · edgepii" />
+<meta property="og:description" content="edgepii reference: Implementation plan." />
+<meta property="og:url" content="https://raphaelmansuy.github.io/edgepii/doc-plan/" />
+<meta property="og:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Implementation plan · edgepii" />
+<meta name="twitter:description" content="edgepii reference: Implementation plan." />
+<meta name="twitter:image" content="https://raphaelmansuy.github.io/edgepii/assets/social.svg" />
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="../site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/site.css" />
+<link rel="alternate" type="application/json" href="../assets/examples.json" title="Recorded span output" />
+
+<script src="../assets/site.js" defer></script>
+</head>
+<body class="page-doc">
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<header class="site-head">
+  <a class="brand" href="../">
+    <span class="mark" aria-hidden="true">e<span>·</span>p</span>
+    <span class="brand-text"><strong>edgepii</strong><small>typed character spans</small></span>
+  </a>
+  <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span aria-hidden="true">☰</span><span class="sr">Menu</span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"><a href="../" data-nav="home">Home</a><a href="../start/" data-nav="start">Install</a><a href="../concepts/" data-nav="concepts">How it works</a><a href="../guide-examples/" data-nav="guide-examples">Examples</a><a href="../demo/" data-nav="demo">Live demo</a><a href="../tour/" data-nav="tour">Screenshots</a><a href="../evaluation/" data-nav="evaluation">Score</a><a href="../doc-index/" data-nav="doc-index">Reference</a></nav>
+  <div class="head-meta">
+    <span class="pill" title="Taxonomy version">taxonomy 2026.11</span>
+    <a class="pill ghost-pill" href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-l2"><a href="#phase-0-package-skeleton">Phase 0. Package skeleton</a></li><li class="toc-l2"><a href="#phase-1-contract-types-and-the-scorer">Phase 1. Contract types and the scorer</a></li><li class="toc-l2"><a href="#phase-2-taxonomy-file">Phase 2. Taxonomy file</a></li><li class="toc-l2"><a href="#phase-3-slice-check-merge-redact">Phase 3. Slice check, merge, redact</a></li><li class="toc-l2"><a href="#phase-4-rule-detector-and-the-locator">Phase 4. Rule detector and the locator</a></li><li class="toc-l2"><a href="#phase-5-locator-presets-without-weights">Phase 5. Locator presets without weights</a></li><li class="toc-l2"><a href="#phase-6-closed-encoder-adapter">Phase 6. Closed encoder adapter</a></li><li class="toc-l2"><a href="#phase-7-dev-freeze-and-the-first-real-score">Phase 7. Dev freeze and the first real score</a></li><li class="toc-l2"><a href="#phase-8-open-schema-adapter">Phase 8. Open-schema adapter</a></li><li class="toc-l2"><a href="#phase-9-sealed-freeze-and-preset-promotion">Phase 9. Sealed freeze and preset promotion</a></li><li class="toc-l2"><a href="#phase-10-modelscope-adapter">Phase 10. ModelScope adapter</a></li><li class="toc-l2"><a href="#phase-11-optional-presidio-bridge">Phase 11. Optional Presidio bridge</a></li><li class="toc-l2"><a href="#work-that-stays-out-of-every-phase">Work that stays out of every phase</a></li><li class="toc-l2"><a href="#dependency-rule-during-the-build">Dependency rule during the build</a></li><li class="toc-l2"><a href="#review-checklist">Review checklist</a></li><li class="toc-l2"><a href="#suggested-schedule-shape">Suggested schedule shape</a></li></ul></aside>
+  <main id="main" class="main">
+<article class="prose"><h1 id="implementation-plan">Implementation plan</h1>
+<p>Build the library in the order below. Each phase has a test that fails before the phase and passes after it. Do not start a phase whose prior test is red. The design reasons are in the <a href="../doc-architecture/">architecture</a>. The examples to satisfy are in <a href="../guide-examples/">Examples</a>.</p>
+<p>The order is the DRY and SOLID plan in execution form. Shared code lands before any model adapter. Adapters do not get a private span type. The scorer lands before any default model, as <a href="../doc-ai-engineering/">AI engineering</a> requires.</p>
+<h2 id="phase-0-package-skeleton">Phase 0. Package skeleton</h2>
+<p>Create <code>src/edgepii</code> and <code>tests</code> with no detector. Export nothing that imports torch.</p>
+<p>Acceptance: <code>python -c &quot;import edgepii&quot;</code> works in a virtualenv with no extras. The package declares the install extras in the <a href="../doc-catalog/">catalog</a> and does not import them yet.</p>
+<h2 id="phase-1-contract-types-and-the-scorer">Phase 1. Contract types and the scorer</h2>
+<p>Write <code>Span</code>, <code>LocateResult</code>, and <code>eval/score.py</code>. Exact match means that the type, the start, and the end are the same. Report precision, recall, and F1 overall and per type. Also report miss, wrong type, shift, and extra span as counts. A shift is a gold span whose type matches an overlap that is not exact.</p>
+<p>Acceptance: a hand-built gold list and a hand-built prediction list produce known counts. No model runs. This phase locks principle 1 in the AI engineering note.</p>
+<h2 id="phase-2-taxonomy-file">Phase 2. Taxonomy file</h2>
+<p>Add <code>taxonomies/2026.11.yaml</code> from the <a href="../doc-taxonomy/">taxonomy spec</a>. The loader is the only reader. Unknown public types fail at load time in tests, and at call time for callers.</p>
+<p>Acceptance: the loader returns the eleven types, the ranks, and the label map. A test feeds <code>email</code> and gets <code>EMAIL</code>. A test feeds <code>blood_type</code> and gets no public type.</p>
+<h2 id="phase-3-slice-check-merge-redact">Phase 3. Slice check, merge, redact</h2>
+<p>Implement <code>check.py</code>, <code>merge.py</code>, and <code>redact.py</code> against injected hits. No weights.</p>
+<p>Acceptance, all from the examples file:</p>
+<ul class="doc-list"><li>Example 4, the injected two-person redact.</li><li>Example 5, a bad slice drops.</li><li>Example 9, redact from the right.</li><li>A unit test for each merge tie in the architecture note.</li><li>A secret span becomes <code>&lt;SECRET&gt;</code> and stays out of the vault.</li></ul>
+<h2 id="phase-4-rule-detector-and-the-locator">Phase 4. Rule detector and the locator</h2>
+<p>Implement <code>RuleDetector</code>, <code>windows.py</code>, and <code>Locator.from_detectors</code>. Wire preset <code>rules</code>.</p>
+<p>Acceptance:</p>
+<ul class="doc-list"><li>Example 1, email, phone, and the test PAN.</li><li>Example 7, offsets after a long prefix.</li><li>Example 8, empty string.</li><li><code>Order 48291</code> has no span.</li><li>IBAN and a failed Luhn do not become <code>PAYMENT</code>. Use a known bad PAN in the test, such as <code>4242424242424243</code>.</li></ul>
+<p>Phone checks use the Python port of libphonenumber. Pin the package in this phase. One wrapper function is the only caller.</p>
+<h2 id="phase-5-locator-presets-without-weights">Phase 5. Locator presets without weights</h2>
+<p><code>Locator.preset(&quot;en-closed&quot;)</code> resolves the row and raises <code>DetectorLoadError</code> when the extra is absent. The error names the extra. It does not download.</p>
+<p>Acceptance: on a clean env, preset <code>rules</code> works, and preset <code>en-closed</code> fails with <code>DetectorLoadError</code> before any network call.</p>
+<h2 id="phase-6-closed-encoder-adapter">Phase 6. Closed encoder adapter</h2>
+<p>Implement <code>HfTokenDetector</code> as one class. Presets <code>en-bert</code> and <code>en-closed</code> both use it. The repo id comes from <code>presets.py</code>. BIO tags become hits through tokenizer offsets. The adapter returns <code>Hit</code>, not <code>Span</code>.</p>
+<p>Acceptance:</p>
+<ul class="doc-list"><li>A tiny fixture string with an email yields a hit whose slice equals the email, even if the rule detector is disabled in that test.</li><li>Window shift: set <code>max_chars</code> to 32. A long fake string must still yield offsets into the original source string.</li><li><code>locator.py</code> has no import of <code>transformers</code>. A test can read that file and assert the absence. Or block the module, then import the locator. Prefer an import-linter contract if the repo adds one.</li></ul>
+<p>Pin the revision in <code>presets.py</code> in this phase. Record the sha256 in the preset row.</p>
+<h2 id="phase-7-dev-freeze-and-the-first-real-score">Phase 7. Dev freeze and the first real score</h2>
+<p>Build the dev freeze described in the <a href="../doc-evaluation/">evaluation spec</a>. Run <code>rules</code>, <code>en-bert</code>, and <code>en-closed</code>. Write the report. Do not promote a default in the README of the package until the sealed freeze exists. The spec README can keep the candidate presets. The package docstring says &quot;candidate&quot; until phase 9.</p>
+<p>Acceptance: the report shows per-type recall and a miss table. A human reads ten misses and files a one-line cluster for each. No threshold change happens in the same commit as the first report. Look first. Tune second. That split is principle 4.</p>
+<h2 id="phase-8-open-schema-adapter">Phase 8. Open-schema adapter</h2>
+<p>Implement <code>Gliner2Detector</code> for <code>multi-open</code>. Pass only the raw labels for the caller subset.</p>
+<p>Acceptance: example 3. A call with <code>types=[&quot;EMAIL&quot;]</code> does not return <code>PERSON</code>. The label map drops unknown labels. Pin the revision.</p>
+<p>Add <code>GlinerDetector</code> only if the dev freeze says health types are in scope. Otherwise leave <code>phi-open</code> unwired and say so in the phase note. Do not add the class &quot;for completeness&quot;.</p>
+<h2 id="phase-9-sealed-freeze-and-preset-promotion">Phase 9. Sealed freeze and preset promotion</h2>
+<p>Run the sealed freeze one time. Compare presets. Promote at most one closed preset and one open preset to &quot;default candidate&quot; in the package. Floors are the ones the eval spec states. If a floor still lacks a number, this phase sets the number from the dev freeze and writes it down before the sealed run. The sealed run does not change the number.</p>
+<p>Acceptance: a short record in <code>docs/eval/</code> with the floors, the revisions, and the scores. The record does not contain raw source strings from a real channel. It can contain the fake examples.</p>
+<h2 id="phase-10-modelscope-adapter">Phase 10. ModelScope adapter</h2>
+<p>Implement <code>UieDetector</code> behind extra <code>ms</code>. Schema names come from the taxonomy file, not from a second dict in the detector.</p>
+<p>Acceptance: example 6 for phone and email on the rule lane, with UIE enabled. The person assertion stays model-dependent. If the live card&#x27;s offset fails the slice check on a fixture, drop and count. Do not ship a search-based repair.</p>
+<p>Skip this phase if no Chinese slice exists. The protocol does not change.</p>
+<h2 id="phase-11-optional-presidio-bridge">Phase 11. Optional Presidio bridge</h2>
+<p>A function <code>to_presidio(spans)</code> converts spans to the Presidio dict shape for teams that already mask with Presidio. It lives in <code>edgepii/bridges/presidio.py</code>. The core package does not import Presidio.</p>
+<p>Acceptance: one unit test with injected spans. No network.</p>
+<h2 id="work-that-stays-out-of-every-phase">Work that stays out of every phase</h2>
+<div class="table-wrap"><table class="doc-table">
+<thead><tr><th style="text-align:left">Work</th><th style="text-align:left">Why it waits</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Training a new head</td><td style="text-align:left">The ladder says measure first. Training is a later project</td></tr>
+<tr><td style="text-align:left">A web service</td><td style="text-align:left">The library runs in the caller program</td></tr>
+<tr><td style="text-align:left">Cloud detect adapters</td><td style="text-align:left"><a href="https://github.com/raphaelmansuy/edgepii/blob/main/docs/adr/0003-local-weights.md" target="_blank" rel="noopener noreferrer">ADR 0003</a></td></tr>
+<tr><td style="text-align:left">Fuzzy restore</td><td style="text-align:left">Parent note. Not a normal path</td></tr>
+<tr><td style="text-align:left">A document-level <code>contains_pii</code> API</td><td style="text-align:left">Breaks the contract</td></tr>
+<tr><td style="text-align:left">Logging span text by default</td><td style="text-align:left">Copies PII</td></tr>
+</tbody></table></div>
+<h2 id="dependency-rule-during-the-build">Dependency rule during the build</h2>
+<p>A phase can use only modules from earlier phases. Phase 6 cannot teach <code>merge.py</code> about BIO. Phase 8 cannot add fastino labels outside the YAML. If a phase needs a new fact, add it to the single home named in the architecture note.</p>
+<h2 id="review-checklist">Review checklist</h2>
+<ol class="doc-list"><li>Confirm the change uses <code>Hit</code> until <code>check.py</code>.</li><li>Confirm a new model did not edit <code>merge.py</code>.</li><li>Confirm a new label edited the YAML only.</li><li>Confirm tests use the fake strings from the examples file.</li><li>Confirm the sealed freeze was not used to pick a threshold.</li><li>Confirm INFO logs in the diff do not format <code>source</code> or <code>span.text</code>.</li></ol>
+<h2 id="suggested-schedule-shape">Suggested schedule shape</h2>
+<p>The phases are the schedule. Do not parallelize phase 6 and phase 8 across two public span types. Two people can split phase 6 (<code>en-bert</code> pin) and the rule tests only after phase 4 passes. The protocol is the shared contract that makes that split safe.</p>
+<div class="diagram" data-mermaid><div class="code-head"><span class="code-lang">diagram</span><button type="button" class="code-copy" data-copy-code aria-label="Copy diagram source">Copy</button></div><pre class="diagram-source"><code>flowchart LR
+  P0[&quot;0 skeleton&quot;] --&gt; P1[&quot;1 scorer&quot;]
+  P1 --&gt; P2[&quot;2 taxonomy&quot;]
+  P2 --&gt; P3[&quot;3 check merge redact&quot;]
+  P3 --&gt; P4[&quot;4 rules&quot;]
+  P4 --&gt; P5[&quot;5 preset errors&quot;]
+  P5 --&gt; P6[&quot;6 encoder&quot;]
+  P6 --&gt; P7[&quot;7 dev freeze&quot;]
+  P7 --&gt; P8[&quot;8 open schema&quot;]
+  P8 --&gt; P9[&quot;9 sealed freeze&quot;]
+  P9 --&gt; P10[&quot;10 ModelScope&quot;]
+  P10 --&gt; P11[&quot;11 Presidio bridge&quot;]</code></pre></div>
+<p>Phase 10 and phase 11 can swap. Neither blocks phase 9.</p></article><nav class="page-nav" aria-label="Page"><a class="page-nav-link" href="../doc-catalog/"><span>Previous</span>Model catalog</a><a class="page-nav-link next" href="../doc-why/"><span>Next</span>Five whys</a></nav>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <strong>edgepii</strong>
+      <p>Locate PII as typed character spans on the exact source string. Apache-2.0.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../start/">Install</a>
+      <a href="../demo/">Live demo</a>
+      <a href="../tour/">Screenshots</a>
+      <a href="../evaluation/">Score</a>
+      <a href="../doc-index/">Reference</a>
+      <a href="https://github.com/raphaelmansuy/edgepii" target="_blank" rel="noopener noreferrer">Source</a>
+    </nav>
+  </div>
+  <p class="foot-note">Every example string on this site is fake. Do not paste real personal data into a demo.</p>
+</footer>
+</body>
+</html>

@@ -60,56 +60,104 @@ def main() -> int:
     return 0
 
 
+def _imagemagick() -> str | None:
+    """ImageMagick 7 installs `magick`, version 6 installs `convert`."""
+
+    for name in ("magick", "convert"):
+        if shutil.which(name):
+            return name
+    return None
+
+
 def resize(source: Path, target: Path, width: int) -> bool:
     """Convert to JPEG at `width`, keeping the aspect ratio.
 
-    sips resamples by one side only, so a tall image is fitted by height when
+    `sips` resamples by one side only, so a tall image is fitted by height when
     that would otherwise produce a needlessly long file. Both numbers move
     together, so the image is never squashed.
+
+    `sips` is macOS only. On a Linux runner the work goes to ImageMagick, which
+    the site workflow already installs for the icons. A PNG copy is the last
+    resort, and it is reported, because a copy is not a JPEG.
     """
 
     dimensions = probe(source)
-    args = ["sips", "-s", "format", "jpeg", "-s", "formatOptions", str(QUALITY)]
+    target_width = width
     if dimensions and dimensions[0] > 0:
         source_width, source_height = dimensions
         scaled_height = round(source_height * width / source_width)
         if scaled_height > MAX_PIXEL_HEIGHT:
-            fitted_width = round(source_width * MAX_PIXEL_HEIGHT / source_height)
-            args += ["--resampleWidth", str(fitted_width)]
-        else:
-            args += ["--resampleWidth", str(width)]
-    else:
-        args += ["--resampleWidth", str(width)]
-    args += [str(source), "--out", str(target)]
-    result = subprocess.run(args, capture_output=True, text=True, check=False)  # noqa: S603
-    if result.returncode != 0:
-        # CI runs on Linux, where sips may be absent. Copy the PNG so the build
-        # still works, and the page keeps a readable figure.
-        print(f"note: sips failed for {source.name} ({result.stderr.strip()[:60]}), copying PNG")
-        shutil.copy2(source, OUT / f"{source.stem}-{width}.png")
+            target_width = round(source_width * MAX_PIXEL_HEIGHT / source_height)
+
+    if shutil.which("sips"):
+        args = ["sips", "-s", "format", "jpeg", "-s", "formatOptions", str(QUALITY)]
+        args += ["--resampleWidth", str(target_width)]
+        args += [str(source), "--out", str(target)]
+        result = subprocess.run(args, capture_output=True, text=True, check=False)  # noqa: S603
+        if result.returncode == 0:
+            return True
+
+    imagemagick = _imagemagick()
+    if imagemagick:
+        args = [imagemagick, str(source), "-resize", f"{target_width}x",
+                "-quality", str(QUALITY), str(target)]
+        result = subprocess.run(args, capture_output=True, text=True, check=False)  # noqa: S603
+        if result.returncode == 0:
+            return True
+        print(f"note: {imagemagick} failed for {source.name}: {result.stderr.strip()[:80]}")
+
+    print(f"note: no JPEG tool for {source.name}, copying the PNG")
+    shutil.copy2(source, OUT / f"{source.stem}-{width}.png")
     return True
 
 
 def probe(path: Path) -> tuple[int, int] | None:
-    """Read the pixel size with sips, so a tall image can be fitted not cropped."""
+    """Read the pixel size from the file header.
 
-    result = subprocess.run(  # noqa: S603
-        ["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(path)],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        return None
-    values = {}
-    for line in result.stdout.splitlines():
-        if ":" in line:
-            key, _, value = line.partition(":")
-            values[key.strip()] = value.strip()
+    This used `sips`, which is macOS only, so on a Linux runner the call raised
+    and the whole build stopped. The header is a few bytes, and reading it works
+    on every host.
+    """
+
     try:
-        return int(values["pixelWidth"]), int(values["pixelHeight"])
-    except (KeyError, ValueError):
+        with path.open("rb") as handle:
+            head = handle.read(32)
+    except OSError:
         return None
+
+    if head[:8] == b"\x89PNG\r\n\x1a\n" and len(head) >= 24:
+        return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
+
+    # JPEG: walk the segments to the start-of-frame marker.
+    if head[:2] == b"\xff\xd8":
+        try:
+            with path.open("rb") as handle:
+                handle.seek(2)
+                while True:
+                    marker = handle.read(2)
+                    if len(marker) < 2:
+                        return None
+                    if marker[0] != 0xFF:
+                        return None
+                    kind = marker[1]
+                    if kind in (0xD8, 0xD9) or 0xD0 <= kind <= 0xD7:
+                        continue
+                    length_bytes = handle.read(2)
+                    if len(length_bytes) < 2:
+                        return None
+                    length = int.from_bytes(length_bytes, "big")
+                    # SOF0..SOF15, excluding the DHT/JPG/DAC markers.
+                    if 0xC0 <= kind <= 0xCF and kind not in (0xC4, 0xC8, 0xCC):
+                        body = handle.read(5)
+                        if len(body) < 5:
+                            return None
+                        height = int.from_bytes(body[1:3], "big")
+                        width = int.from_bytes(body[3:5], "big")
+                        return width, height
+                    handle.seek(length - 2, 1)
+        except OSError:
+            return None
+    return None
 
 
 if __name__ == "__main__":

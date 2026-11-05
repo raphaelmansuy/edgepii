@@ -6,6 +6,8 @@ Start with the [5 November research update](15-research-update-2026-11.md) and
 the [grounded improvement plan](16-grounded-improvement-plan.md) for the current
 research, implementation status, and validation evidence. The earlier landscape
 and catalog remain historical inputs; model-card numbers are not release gates.
+Continue with [next-stage AI engineering](17-next-stage-ai-engineering.md) for
+the next priorities, corrected PII-Tracer availability, and additional candidates.
 
 Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the [project README](../README.md) for install and quickstart.
 
@@ -32,6 +34,7 @@ This set records the problem, the research, the public API, and the build plan. 
 15. [Glossary](glossary.md). One name for each concept.
 16. [Research update, 5 November 2026](15-research-update-2026-11.md). Verified papers, current model candidates, and benchmark qualifications.
 17. [Grounded improvement plan](16-grounded-improvement-plan.md). First-principles acceptance criteria and Modal validation.
+18. [Next-stage AI engineering](17-next-stage-ai-engineering.md). Coverage policy, calibration, and the next model experiments.
 
 Decisions:
 

@@ -70,6 +70,7 @@ print('Installed wheel source, mask/restore, and no-torch invariants passed')
               [sys.executable,"site/images.py"],
               [sys.executable,"site/check.py"],
               [sys.executable,"modal/check_evidence.py"],
+              [sys.executable,"scripts/audit_compact_research.py"],
               [sys.executable,"-m","pytest","tests","-o","addopts=","-q","-ra",f"--junitxml={artifacts/'junit.xml'}"]]
     if site_only:
         # Recheck final evidence links after the full-suite report is saved.

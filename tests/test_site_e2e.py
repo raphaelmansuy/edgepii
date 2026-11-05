@@ -96,6 +96,15 @@ def test_research_plan_and_evidence_in_browser(static_site,width,tmp_path):
         artifacts=page.request.get(static_site+"/evidence/eval/releases/edgepii-0.4.0.json")
         assert artifacts.status == 200 and artifacts.json()["state"] == "published"
         assert {f["sha256"] for f in published.json()["files"]} == {f["sha256"] for f in artifacts.json()["artifacts"]}
+        response=page.goto(static_site+"/doc-improvement-research/")
+        assert response.status == 200
+        assert "Improvement research after 0.4.0" in page.locator("h1").inner_text()
+        assert "BIOES" in page.locator("main").inner_text()
+        assert "CC-BY-NC-4.0" in page.locator("main").inner_text()
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+        compact=page.request.get(static_site+"/evidence/research/compact-results-summary-2026-11-05.json")
+        assert compact.status == 200
+        assert compact.json()["report_count"] == 16 and compact.json()["paired_count"] == 4
         assert not errors
         destination=Path(os.environ.get("EDGEPII_TEST_ARTIFACTS",str(tmp_path)))
         destination.mkdir(parents=True,exist_ok=True)

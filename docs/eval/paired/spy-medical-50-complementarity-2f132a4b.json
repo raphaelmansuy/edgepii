@@ -1,0 +1,8175 @@
+{
+  "cases": [
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "gold_characters": 98,
+          "masked_characters": 282
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "gold_characters": 98,
+          "masked_characters": 290
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 66,
+          "gold_characters": 98,
+          "masked_characters": 185
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "gold_characters": 98,
+          "masked_characters": 334
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 306,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 287,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 349,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 298,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 342,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 343,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "gold_characters": 84,
+          "masked_characters": 268
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "gold_characters": 84,
+          "masked_characters": 245
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            false,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 66,
+          "gold_characters": 84,
+          "masked_characters": 149
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "gold_characters": 84,
+          "masked_characters": 274
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 268,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 273,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 297,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 265,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 287,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 292,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 106,
+          "gold_characters": 107,
+          "masked_characters": 304
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "gold_characters": 107,
+          "masked_characters": 316
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 72,
+          "gold_characters": 107,
+          "masked_characters": 157
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "gold_characters": 107,
+          "masked_characters": 367
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 334,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 306,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 387,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 321,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 376,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 373,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 66,
+          "gold_characters": 76,
+          "masked_characters": 289
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "gold_characters": 76,
+          "masked_characters": 343
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 65,
+          "gold_characters": 76,
+          "masked_characters": 206
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "gold_characters": 76,
+          "masked_characters": 339
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "masked_characters": 376,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "masked_characters": 300,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "masked_characters": 377,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "masked_characters": 349,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "masked_characters": 352,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 76,
+          "masked_characters": 348,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 85,
+          "gold_characters": 103,
+          "masked_characters": 343
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "gold_characters": 103,
+          "masked_characters": 360
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 90,
+          "gold_characters": 103,
+          "masked_characters": 179
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 91,
+          "gold_characters": 103,
+          "masked_characters": 373
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 381,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 91,
+          "masked_characters": 350,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 91,
+          "masked_characters": 386,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 382,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 395,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 91,
+          "masked_characters": 381,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "gold_characters": 84,
+          "masked_characters": 296
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "gold_characters": 84,
+          "masked_characters": 357
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 74,
+          "gold_characters": 84,
+          "masked_characters": 191
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "gold_characters": 84,
+          "masked_characters": 361
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 382,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 296,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 380,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 371,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 374,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 84,
+          "masked_characters": 371,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 111,
+          "gold_characters": 112,
+          "masked_characters": 293
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "gold_characters": 112,
+          "masked_characters": 294
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 96,
+          "gold_characters": 112,
+          "masked_characters": 200
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "gold_characters": 112,
+          "masked_characters": 328
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "masked_characters": 320,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "masked_characters": 295,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "masked_characters": 359,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "masked_characters": 302,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "masked_characters": 336,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 112,
+          "masked_characters": 338,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 76,
+          "gold_characters": 77,
+          "masked_characters": 426
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "gold_characters": 77,
+          "masked_characters": 433
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 50,
+          "gold_characters": 77,
+          "masked_characters": 180
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "gold_characters": 77,
+          "masked_characters": 489
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 469,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 76,
+          "masked_characters": 429,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 508,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 448,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 501,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 499,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "gold_characters": 89,
+          "masked_characters": 319
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "gold_characters": 89,
+          "masked_characters": 312
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 63,
+          "gold_characters": 89,
+          "masked_characters": 173
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "gold_characters": 89,
+          "masked_characters": 315
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "masked_characters": 358,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "masked_characters": 328,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "masked_characters": 376,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "masked_characters": 317,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "masked_characters": 342,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 89,
+          "masked_characters": 339,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 123,
+          "gold_characters": 124,
+          "masked_characters": 407
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "gold_characters": 124,
+          "masked_characters": 409
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false
+          ],
+          "covered_characters": 113,
+          "gold_characters": 124,
+          "masked_characters": 226
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "gold_characters": 124,
+          "masked_characters": 410
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "masked_characters": 432,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "masked_characters": 419,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "masked_characters": 439,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "masked_characters": 429,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "masked_characters": 422,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 124,
+          "masked_characters": 434,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 135,
+          "gold_characters": 137,
+          "masked_characters": 296
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "gold_characters": 137,
+          "masked_characters": 295
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 127,
+          "gold_characters": 137,
+          "masked_characters": 212
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "gold_characters": 137,
+          "masked_characters": 294
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "masked_characters": 305,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "masked_characters": 301,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "masked_characters": 314,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "masked_characters": 306,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "masked_characters": 306,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 137,
+          "masked_characters": 313,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "gold_characters": 107,
+          "masked_characters": 273
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "gold_characters": 107,
+          "masked_characters": 299
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 97,
+          "gold_characters": 107,
+          "masked_characters": 171
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 97,
+          "gold_characters": 107,
+          "masked_characters": 275
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 315,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 287,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 319,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 309,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 107,
+          "masked_characters": 316,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 97,
+          "masked_characters": 307,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 105,
+          "gold_characters": 116,
+          "masked_characters": 321
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 116,
+          "gold_characters": 116,
+          "masked_characters": 374
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 85,
+          "gold_characters": 116,
+          "masked_characters": 238
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 116,
+          "gold_characters": 116,
+          "masked_characters": 362
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 116,
+          "masked_characters": 397,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 111,
+          "masked_characters": 347,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 116,
+          "masked_characters": 390,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 116,
+          "masked_characters": 391,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 116,
+          "masked_characters": 386,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 116,
+          "masked_characters": 391,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "gold_characters": 78,
+          "masked_characters": 251
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "gold_characters": 78,
+          "masked_characters": 234
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "gold_characters": 78,
+          "masked_characters": 178
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "gold_characters": 78,
+          "masked_characters": 238
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 257,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 271,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 264,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 257,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 243,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 262,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 70,
+          "gold_characters": 92,
+          "masked_characters": 185
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 92,
+          "gold_characters": 92,
+          "masked_characters": 255
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 72,
+          "gold_characters": 92,
+          "masked_characters": 139
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 92,
+          "gold_characters": 92,
+          "masked_characters": 225
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 92,
+          "masked_characters": 267,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 91,
+          "masked_characters": 219,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 92,
+          "masked_characters": 244,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 92,
+          "masked_characters": 256,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 92,
+          "masked_characters": 265,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 92,
+          "masked_characters": 243,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 96,
+          "gold_characters": 99,
+          "masked_characters": 191
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "gold_characters": 99,
+          "masked_characters": 213
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 98,
+          "gold_characters": 99,
+          "masked_characters": 151
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "gold_characters": 99,
+          "masked_characters": 231
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "masked_characters": 215,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "masked_characters": 197,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "masked_characters": 238,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "masked_characters": 218,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "masked_characters": 237,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 99,
+          "masked_characters": 240,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "gold_characters": 85,
+          "masked_characters": 361
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "gold_characters": 85,
+          "masked_characters": 356
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "gold_characters": 85,
+          "masked_characters": 214
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "gold_characters": 85,
+          "masked_characters": 415
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "masked_characters": 367,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "masked_characters": 365,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "masked_characters": 429,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "masked_characters": 366,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "masked_characters": 423,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 78,
+          "masked_characters": 428,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 116,
+          "gold_characters": 119,
+          "masked_characters": 388
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "gold_characters": 119,
+          "masked_characters": 371
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 96,
+          "gold_characters": 119,
+          "masked_characters": 233
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "gold_characters": 119,
+          "masked_characters": 447
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "masked_characters": 437,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "masked_characters": 399,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "masked_characters": 462,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "masked_characters": 395,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "masked_characters": 455,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 119,
+          "masked_characters": 455,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "gold_characters": 78,
+          "masked_characters": 270
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "gold_characters": 78,
+          "masked_characters": 264
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 73,
+          "gold_characters": 78,
+          "masked_characters": 162
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "gold_characters": 78,
+          "masked_characters": 310
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 286,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 270,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 333,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 272,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 318,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 78,
+          "masked_characters": 317,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 74,
+          "gold_characters": 75,
+          "masked_characters": 274
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "gold_characters": 75,
+          "masked_characters": 336
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 64,
+          "gold_characters": 75,
+          "masked_characters": 186
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "gold_characters": 75,
+          "masked_characters": 350
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "masked_characters": 361,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "masked_characters": 277,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "masked_characters": 390,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "masked_characters": 340,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "masked_characters": 368,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 75,
+          "masked_characters": 356,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "gold_characters": 88,
+          "masked_characters": 269
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "gold_characters": 88,
+          "masked_characters": 272
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            false,
+            true,
+            false
+          ],
+          "covered_characters": 60,
+          "gold_characters": 88,
+          "masked_characters": 153
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "gold_characters": 88,
+          "masked_characters": 282
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "masked_characters": 282,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "masked_characters": 273,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "masked_characters": 297,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "masked_characters": 281,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "masked_characters": 289,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "masked_characters": 290,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 104,
+          "gold_characters": 105,
+          "masked_characters": 385
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "gold_characters": 105,
+          "masked_characters": 364
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 79,
+          "gold_characters": 105,
+          "masked_characters": 257
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "gold_characters": 105,
+          "masked_characters": 396
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "masked_characters": 406,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "masked_characters": 388,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "masked_characters": 429,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "masked_characters": 385,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "masked_characters": 409,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 105,
+          "masked_characters": 407,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 53,
+          "gold_characters": 55,
+          "masked_characters": 266
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "gold_characters": 55,
+          "masked_characters": 320
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 41,
+          "gold_characters": 55,
+          "masked_characters": 175
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "gold_characters": 55,
+          "masked_characters": 322
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "masked_characters": 350,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "masked_characters": 271,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "masked_characters": 367,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "masked_characters": 329,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "masked_characters": 341,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 55,
+          "masked_characters": 342,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "gold_characters": 83,
+          "masked_characters": 223
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "gold_characters": 83,
+          "masked_characters": 249
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "gold_characters": 83,
+          "masked_characters": 130
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "gold_characters": 83,
+          "masked_characters": 260
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "masked_characters": 256,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "masked_characters": 225,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "masked_characters": 269,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "masked_characters": 254,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "masked_characters": 266,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "masked_characters": 265,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            true,
+            false
+          ],
+          "covered_characters": 65,
+          "gold_characters": 77,
+          "masked_characters": 210
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "gold_characters": 77,
+          "masked_characters": 248
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            false,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 62,
+          "gold_characters": 77,
+          "masked_characters": 135
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "gold_characters": 77,
+          "masked_characters": 270
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 266,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 66,
+          "masked_characters": 212,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 282,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 258,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 277,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 77,
+          "masked_characters": 276,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 90,
+          "gold_characters": 95,
+          "masked_characters": 415
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "gold_characters": 95,
+          "masked_characters": 390
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 82,
+          "gold_characters": 95,
+          "masked_characters": 249
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 88,
+          "gold_characters": 95,
+          "masked_characters": 435
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 433,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 90,
+          "masked_characters": 440,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 90,
+          "masked_characters": 463,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 425,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 455,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 88,
+          "masked_characters": 460,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 252
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 234
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 70,
+          "gold_characters": 97,
+          "masked_characters": 130
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 244
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 268,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 275,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 278,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 260,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 250,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 268,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 96,
+          "gold_characters": 109,
+          "masked_characters": 239
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 104,
+          "gold_characters": 109,
+          "masked_characters": 258
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 102,
+          "gold_characters": 109,
+          "masked_characters": 173
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 103,
+          "gold_characters": 109,
+          "masked_characters": 273
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 104,
+          "masked_characters": 270,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 102,
+          "masked_characters": 246,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 103,
+          "masked_characters": 287,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 104,
+          "masked_characters": 263,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 104,
+          "masked_characters": 280,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 103,
+          "masked_characters": 280,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 311
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 297
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 69,
+          "gold_characters": 97,
+          "masked_characters": 166
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 329
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 333,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 316,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 346,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 325,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 337,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 336,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 84,
+          "gold_characters": 106,
+          "masked_characters": 238
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 98,
+          "gold_characters": 106,
+          "masked_characters": 297
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 82,
+          "gold_characters": 106,
+          "masked_characters": 181
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "gold_characters": 106,
+          "masked_characters": 323
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 306,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 251,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "masked_characters": 338,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 98,
+          "masked_characters": 303,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "masked_characters": 336,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "masked_characters": 332,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 147,
+          "gold_characters": 165,
+          "masked_characters": 313
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 165,
+          "gold_characters": 165,
+          "masked_characters": 369
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 117,
+          "gold_characters": 165,
+          "masked_characters": 208
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 140,
+          "gold_characters": 165,
+          "masked_characters": 352
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 165,
+          "masked_characters": 375,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 147,
+          "masked_characters": 315,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 147,
+          "masked_characters": 370,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 165,
+          "masked_characters": 376,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 165,
+          "masked_characters": 385,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 140,
+          "masked_characters": 362,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 99,
+          "gold_characters": 104,
+          "masked_characters": 391
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "gold_characters": 104,
+          "masked_characters": 404
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 94,
+          "gold_characters": 104,
+          "masked_characters": 165
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "gold_characters": 104,
+          "masked_characters": 407
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 420,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 396,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 432,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 407,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 417,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 412,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 88,
+          "gold_characters": 96,
+          "masked_characters": 270
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 96,
+          "gold_characters": 96,
+          "masked_characters": 304
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            false,
+            false,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 76,
+          "gold_characters": 96,
+          "masked_characters": 196
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 90,
+          "gold_characters": 96,
+          "masked_characters": 310
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 96,
+          "masked_characters": 323,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 96,
+          "masked_characters": 278,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 96,
+          "masked_characters": 336,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 96,
+          "masked_characters": 313,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 96,
+          "masked_characters": 323,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 90,
+          "masked_characters": 316,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "gold_characters": 109,
+          "masked_characters": 280
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "gold_characters": 109,
+          "masked_characters": 281
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 91,
+          "gold_characters": 109,
+          "masked_characters": 208
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "gold_characters": 109,
+          "masked_characters": 291
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "masked_characters": 291,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "masked_characters": 280,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "masked_characters": 305,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "masked_characters": 284,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "masked_characters": 297,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 109,
+          "masked_characters": 296,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "gold_characters": 104,
+          "masked_characters": 355
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "gold_characters": 104,
+          "masked_characters": 397
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 90,
+          "gold_characters": 104,
+          "masked_characters": 209
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "gold_characters": 104,
+          "masked_characters": 411
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 417,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 370,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 434,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 423,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 422,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 104,
+          "masked_characters": 434,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 115,
+          "gold_characters": 121,
+          "masked_characters": 225
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "gold_characters": 121,
+          "masked_characters": 266
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            false
+          ],
+          "covered_characters": 102,
+          "gold_characters": 121,
+          "masked_characters": 149
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "gold_characters": 121,
+          "masked_characters": 268
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "masked_characters": 275,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "masked_characters": 232,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "masked_characters": 281,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "masked_characters": 270,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "masked_characters": 275,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 121,
+          "masked_characters": 275,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 96,
+          "gold_characters": 103,
+          "masked_characters": 317
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "gold_characters": 103,
+          "masked_characters": 355
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "gold_characters": 103,
+          "masked_characters": 210
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "gold_characters": 103,
+          "masked_characters": 380
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 374,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 344,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 395,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 358,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 391,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 392,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "gold_characters": 82,
+          "masked_characters": 310
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "gold_characters": 82,
+          "masked_characters": 241
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            false,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 62,
+          "gold_characters": 82,
+          "masked_characters": 198
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "gold_characters": 82,
+          "masked_characters": 288
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "masked_characters": 327,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "masked_characters": 321,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "masked_characters": 345,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "masked_characters": 283,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "masked_characters": 297,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "masked_characters": 298,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 53,
+          "gold_characters": 56,
+          "masked_characters": 207
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 56,
+          "gold_characters": 56,
+          "masked_characters": 242
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 40,
+          "gold_characters": 56,
+          "masked_characters": 154
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 56,
+          "gold_characters": 56,
+          "masked_characters": 272
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 56,
+          "masked_characters": 282,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 53,
+          "masked_characters": 225,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 56,
+          "masked_characters": 291,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 56,
+          "masked_characters": 270,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 56,
+          "masked_characters": 280,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 56,
+          "masked_characters": 279,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 90,
+          "gold_characters": 97,
+          "masked_characters": 464
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 519
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 79,
+          "gold_characters": 97,
+          "masked_characters": 270
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "gold_characters": 97,
+          "masked_characters": 523
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 527,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 474,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 541,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 524,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 538,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 97,
+          "masked_characters": 533,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "gold_characters": 79,
+          "masked_characters": 333
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "gold_characters": 79,
+          "masked_characters": 340
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 60,
+          "gold_characters": 79,
+          "masked_characters": 204
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "gold_characters": 79,
+          "masked_characters": 356
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "masked_characters": 359,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "masked_characters": 346,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "masked_characters": 375,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "masked_characters": 362,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "masked_characters": 366,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "masked_characters": 366,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "gold_characters": 62,
+          "masked_characters": 191
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "gold_characters": 62,
+          "masked_characters": 201
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "gold_characters": 62,
+          "masked_characters": 144
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "gold_characters": 62,
+          "masked_characters": 203
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "masked_characters": 220,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "masked_characters": 191,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "masked_characters": 225,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "masked_characters": 204,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "masked_characters": 210,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 58,
+          "masked_characters": 208,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "gold_characters": 65,
+          "masked_characters": 281
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "gold_characters": 65,
+          "masked_characters": 246
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 60,
+          "gold_characters": 65,
+          "masked_characters": 223
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "gold_characters": 65,
+          "masked_characters": 297
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "masked_characters": 296,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "masked_characters": 282,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "masked_characters": 320,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "masked_characters": 268,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "masked_characters": 303,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 65,
+          "masked_characters": 303,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 189,
+          "gold_characters": 197,
+          "masked_characters": 461
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "gold_characters": 197,
+          "masked_characters": 416
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 175,
+          "gold_characters": 197,
+          "masked_characters": 305
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "gold_characters": 197,
+          "masked_characters": 444
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "masked_characters": 500,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "masked_characters": 486,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "masked_characters": 517,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "masked_characters": 453,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "masked_characters": 470,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 197,
+          "masked_characters": 478,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "gold_characters": 95,
+          "masked_characters": 443
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "gold_characters": 95,
+          "masked_characters": 471
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 83,
+          "gold_characters": 95,
+          "masked_characters": 209
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "gold_characters": 95,
+          "masked_characters": 474
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 478,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 449,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 505,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 481,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 504,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 95,
+          "masked_characters": 504,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "gold_characters": 92,
+          "masked_characters": 259
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "gold_characters": 92,
+          "masked_characters": 257
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 73,
+          "gold_characters": 92,
+          "masked_characters": 136
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "gold_characters": 92,
+          "masked_characters": 294
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "masked_characters": 265,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "masked_characters": 260,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "masked_characters": 306,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "masked_characters": 263,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "masked_characters": 300,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 86,
+          "masked_characters": 301,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 52,
+          "gold_characters": 72,
+          "masked_characters": 205
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "gold_characters": 72,
+          "masked_characters": 261
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "gold_characters": 72,
+          "masked_characters": 170
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "gold_characters": 72,
+          "masked_characters": 258
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "masked_characters": 266,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "masked_characters": 226,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "masked_characters": 271,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "masked_characters": 263,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "masked_characters": 270,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 72,
+          "masked_characters": 264,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 97,
+          "gold_characters": 102,
+          "masked_characters": 230
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "gold_characters": 102,
+          "masked_characters": 229
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "gold_characters": 102,
+          "masked_characters": 168
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "gold_characters": 102,
+          "masked_characters": 243
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "masked_characters": 246,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "masked_characters": 235,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "masked_characters": 252,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "masked_characters": 244,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "masked_characters": 250,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 102,
+          "masked_characters": 249,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 96,
+          "gold_characters": 106,
+          "masked_characters": 285
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 101,
+          "gold_characters": 106,
+          "masked_characters": 334
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 88,
+          "gold_characters": 106,
+          "masked_characters": 157
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "gold_characters": 106,
+          "masked_characters": 366
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 101,
+          "masked_characters": 354,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 96,
+          "masked_characters": 299,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "masked_characters": 387,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "covered_characters": 101,
+          "masked_characters": 340,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "masked_characters": 375,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 106,
+          "masked_characters": 374,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "ettin-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 128,
+          "gold_characters": 135,
+          "masked_characters": 294
+        },
+        "horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 135,
+          "gold_characters": 135,
+          "masked_characters": 382
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 104,
+          "gold_characters": 135,
+          "masked_characters": 173
+        },
+        "tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 129,
+          "gold_characters": 135,
+          "masked_characters": 367
+        }
+      },
+      "pairs": {
+        "ettin-native+horizon-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 135,
+          "masked_characters": 388,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 129,
+          "masked_characters": 320,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "ettin-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 129,
+          "masked_characters": 380,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 135,
+          "masked_characters": 386,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "horizon-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 135,
+          "masked_characters": 392,
+          "native_span_parity": false,
+          "range_parity": false
+        },
+        "masker-mini-native+tracer-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 129,
+          "masked_characters": 382,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    }
+  ],
+  "code": {
+    "dirty": true,
+    "git_revision": "9670e3eaa61c1dc9d0d8b0002ffbba6e17d3a32c"
+  },
+  "corpus": "spy-medical",
+  "cpu_threads": 4,
+  "device": "cuda",
+  "first_principles_verification": {
+    "cases": 5,
+    "contract_passed": true,
+    "model_only_smoke_spans": 3,
+    "scope": "inference and source/masking invariants; not an accuracy guarantee",
+    "valid_original_source_spans": 3
+  },
+  "gpu": "Tesla T4",
+  "helper_sha256": {
+    "compact_candidates.py": "d6d374957bfcbb6a71906c0d5f264844ad864b5139f8e4f5945adad1803147ed",
+    "native_candidates.py": "6d3e31388b8e4a48a2c75e4a402bfd3e7fec4f22b99307180527444ab51cf8b7",
+    "paired_metrics.py": "c80f114e54a4bd579b25d65791bfb1412f9aff429ccce96280a445bbb7c9e752"
+  },
+  "limit_per_slice": 50,
+  "locate_ms": {
+    "ettin-native": [
+      80.59543999999974,
+      32.120166000002115,
+      32.7192779999983,
+      34.912434000002435,
+      36.413187999997376,
+      35.11269700000241,
+      34.87252800000107,
+      39.64586100000034,
+      45.47016300000095,
+      42.87242499999877,
+      38.48627700000051,
+      34.64421299999998,
+      41.392235,
+      34.207937000001465,
+      34.31731499999913,
+      36.43654200000057,
+      40.8090709999982,
+      48.12456900000228,
+      39.589102000000764,
+      37.754322000001395,
+      38.88830900000073,
+      34.71430100000106,
+      38.81380099999987,
+      31.631582999999353,
+      31.617052000001422,
+      39.65580199999863,
+      34.41925200000284,
+      38.24102199999757,
+      30.289644999999865,
+      35.34704399999811,
+      35.392041999998014,
+      43.868605999996646,
+      36.92442299999499,
+      44.338242000002026,
+      35.472077000001434,
+      37.87134499999922,
+      35.717582000003745,
+      37.31276100000258,
+      34.511226000006445,
+      41.40288499999656,
+      42.624015999997766,
+      31.16603499999826,
+      46.04881199999511,
+      66.58201399999797,
+      38.9218299999996,
+      34.716672999998366,
+      39.65645000000251,
+      42.45381500000178,
+      51.03147300000188,
+      51.16502299999581
+    ],
+    "horizon-native": [
+      52.89106200000049,
+      38.97139700000096,
+      36.38731800000272,
+      38.776846999997616,
+      39.432011999998906,
+      38.87056499999986,
+      39.85413499999879,
+      43.65731999999767,
+      47.63053199999945,
+      47.702225000001874,
+      44.055069999998864,
+      38.978554999999915,
+      45.18240099999815,
+      37.14726600000162,
+      39.2772050000012,
+      40.608660000000185,
+      46.25043500000103,
+      52.377354999997294,
+      43.03235800000138,
+      40.815317999999934,
+      44.28497600000014,
+      40.10947000000087,
+      43.32268799999994,
+      35.269281000001484,
+      38.245068999998466,
+      45.34543799999824,
+      38.47213799999949,
+      44.210949,
+      32.9986550000001,
+      39.60035899999781,
+      40.84496800000181,
+      47.234242000001814,
+      40.89197500000097,
+      50.62160800000015,
+      40.300502999997434,
+      41.09226199999938,
+      40.314057999999875,
+      41.129773999998065,
+      37.854693999996414,
+      44.129035000004535,
+      49.02584899999596,
+      34.032240000001934,
+      50.66342399999968,
+      77.18456399999951,
+      41.72842500000229,
+      38.961604000000705,
+      49.374863000004154,
+      48.79096599999855,
+      56.084278000000154,
+      55.341255999998396
+    ],
+    "masker-mini-native": [
+      66.82649999999768,
+      14.971468000002375,
+      15.063005999998325,
+      15.898274000001322,
+      15.596842000000777,
+      14.818563999998702,
+      15.02529600000102,
+      17.905191000000542,
+      19.391272000000015,
+      24.500081999999423,
+      17.14354699999987,
+      16.819606999998626,
+      17.996683999999874,
+      15.19033500000333,
+      16.341202999999638,
+      17.345135999999428,
+      22.3732830000003,
+      23.536506999999318,
+      18.040704000000574,
+      17.273851999998868,
+      17.485016999998493,
+      15.014159999999777,
+      15.698888999999383,
+      14.945373999999845,
+      14.990862999997745,
+      16.912420000000594,
+      14.994910000002193,
+      17.29354400000105,
+      14.862352000001522,
+      15.648038999998448,
+      15.8151510000053,
+      22.204344999998682,
+      16.626468000005445,
+      21.46347699999751,
+      14.938180000001466,
+      16.05422399999412,
+      14.957135999999593,
+      16.012209999999527,
+      15.234767000002591,
+      17.512289000002568,
+      21.610025000001087,
+      15.167772000005186,
+      21.757739000001663,
+      27.88297600000078,
+      17.627861999997663,
+      16.033979999996006,
+      15.313823000006721,
+      17.519106999998257,
+      19.706304999999702,
+      18.65602099999819
+    ],
+    "tracer-native": [
+      130.05272399999868,
+      100.84780300000062,
+      99.93740000000173,
+      111.03382099999948,
+      109.49757699999907,
+      114.95214700000034,
+      114.6422780000016,
+      143.94182400000233,
+      134.95050499999905,
+      151.98697800000005,
+      123.05620799999772,
+      111.07606300000228,
+      134.8951970000023,
+      108.22037100000159,
+      112.30344299999828,
+      120.16584400000241,
+      148.89337800000035,
+      186.96588499999933,
+      129.7491320000006,
+      124.54675100000046,
+      130.62028699999928,
+      112.0576100000008,
+      127.09151299999988,
+      101.43813899999898,
+      101.86952899999824,
+      132.43150399999948,
+      115.73941500000018,
+      131.10422400000132,
+      94.84978200000072,
+      116.75639599999954,
+      118.5147169999965,
+      151.7641860000012,
+      121.7586850000032,
+      163.33910899999893,
+      116.56376700000237,
+      116.70911500000614,
+      114.90776099999778,
+      122.82318500000144,
+      108.96726400000034,
+      144.2632340000003,
+      153.2707180000017,
+      99.84274400000004,
+      199.0279070000014,
+      199.11402299999992,
+      126.76896199999987,
+      111.83955399999945,
+      122.45489400000054,
+      119.58789599999875,
+      151.53896999999716,
+      151.1482919999949
+    ]
+  },
+  "materialization_protocol": "government-id-v2",
+  "mode": "paired-native-range-research",
+  "models": {
+    "ettin-native": {
+      "backend": "transformers-pipeline-fp32",
+      "revision": "84ce02cac78d9cee27a125629ba195f12c75fe5b"
+    },
+    "horizon-native": {
+      "backend": "transformers-pipeline-fp32",
+      "revision": "a20835db9e671267b21a2951f5bf2c76e4901708"
+    },
+    "masker-mini-native": {
+      "backend": "torch-fp32",
+      "revision": "beb7235d454aa4488b6ee1cd47f417caa12a6d15"
+    },
+    "tracer-native": {
+      "backend": "native-pii-tracer",
+      "revision": "d25c16f2e57e321f6d2527715c01df9112f956f5"
+    }
+  },
+  "packages": {
+    "Faker": "40.44.0",
+    "Jinja2": "3.1.6",
+    "MarkupSafe": "3.0.4",
+    "PyYAML": "6.0.3",
+    "Pygments": "2.17.2",
+    "accelerate": "1.15.0",
+    "aiohttp": "3.8.3",
+    "aiosignal": "1.3.1",
+    "aiostream": "0.4.4",
+    "annotated-doc": "0.0.5",
+    "annotated-types": "0.8.0",
+    "anyio": "4.16.0",
+    "asgiref": "3.5.2",
+    "asttokens": "2.4.1",
+    "async-timeout": "4.0.3",
+    "attrs": "23.2.0",
+    "certifi": "2024.2.2",
+    "charset-normalizer": "2.1.1",
+    "click": "8.5.0",
+    "cloudpickle": "2.2.0",
+    "coloredlogs": "15.0.1",
+    "commonmark": "0.9.1",
+    "decorator": "5.1.1",
+    "edgepii": "0.4.0",
+    "executing": "2.0.1",
+    "fastapi": "0.162.0",
+    "fastprogress": "1.0.0",
+    "filelock": "4.2.9",
+    "flatbuffers": "25.12.19",
+    "frozenlist": "1.4.1",
+    "fsspec": "2026.9.0",
+    "gliner2": "2.1.0",
+    "grpclib": "0.4.3",
+    "h11": "0.16.0",
+    "h2": "4.1.0",
+    "hf-xet": "1.8.0",
+    "hpack": "4.0.0",
+    "httpcore2": "2.16.0",
+    "httpx2": "2.16.0",
+    "huggingface_hub": "2.4.0",
+    "humanfriendly": "10.0",
+    "hyperframe": "6.0.1",
+    "idna": "3.20",
+    "importlib-metadata": "4.8.1",
+    "ipython": "8.23.0",
+    "jedi": "0.19.1",
+    "matplotlib-inline": "0.1.6",
+    "mpmath": "1.3.0",
+    "multidict": "6.0.5",
+    "networkx": "3.6.1",
+    "numpy": "1.26.4",
+    "nvidia-cublas-cu12": "12.8.4.1",
+    "nvidia-cuda-cupti-cu12": "12.8.90",
+    "nvidia-cuda-nvrtc-cu12": "12.8.93",
+    "nvidia-cuda-runtime-cu12": "12.8.90",
+    "nvidia-cudnn-cu12": "9.10.2.21",
+    "nvidia-cufft-cu12": "11.3.3.83",
+    "nvidia-cufile-cu12": "1.13.1.3",
+    "nvidia-curand-cu12": "10.3.9.90",
+    "nvidia-cusolver-cu12": "11.7.3.90",
+    "nvidia-cusparse-cu12": "12.5.8.93",
+    "nvidia-cusparselt-cu12": "0.7.1",
+    "nvidia-nccl-cu12": "2.27.3",
+    "nvidia-nvjitlink-cu12": "12.8.93",
+    "nvidia-nvtx-cu12": "12.8.90",
+    "onnxruntime": "1.23.2",
+    "opentelemetry-api": "1.45.2",
+    "opf": "0.1.0",
+    "packaging": "26.3",
+    "parso": "0.8.3",
+    "peft": "0.21.2",
+    "pexpect": "4.9.0",
+    "phonenumbers": "9.0.42",
+    "pip": "24.0",
+    "prompt-toolkit": "3.0.43",
+    "protobuf": "5.26.1",
+    "psutil": "7.2.2",
+    "ptyprocess": "0.7.0",
+    "pure-eval": "0.2.2",
+    "pyarrow": "20.0.0",
+    "pydantic": "2.14.2",
+    "pydantic_core": "2.50.2",
+    "python-multipart": "0.0.9",
+    "regex": "2026.9.29",
+    "requests": "2.34.2",
+    "rich": "12.3.0",
+    "safetensors": "0.8.0",
+    "sentencepiece": "0.2.1",
+    "setuptools": "65.5.0",
+    "six": "1.16.0",
+    "sniffio": "1.3.1",
+    "stack-data": "0.6.3",
+    "starlette": "1.10.0",
+    "sympy": "1.14.0",
+    "tblib": "1.7.0",
+    "tiktoken": "0.14.0",
+    "tokenizers": "0.23.3",
+    "toml": "0.10.2",
+    "torch": "2.8.0",
+    "tqdm": "4.70.1",
+    "traitlets": "5.14.2",
+    "transformers": "5.22.1",
+    "triton": "3.4.0",
+    "truststore": "0.10.5",
+    "typeguard": "4.2.1",
+    "typer": "0.6.1",
+    "types-certifi": "2021.10.8.3",
+    "types-toml": "0.10.4",
+    "typing-inspection": "0.4.5",
+    "typing_extensions": "4.16.0",
+    "urllib3": "2.8.0",
+    "wcwidth": "0.2.13",
+    "wheel": "0.38.4",
+    "yarl": "1.9.4",
+    "zipp": "3.18.1"
+  },
+  "provider": "modal",
+  "quantized": false,
+  "scope": "native range union, no public type projection or irreversible protection plan; public prefix exploration, no trained routing policy",
+  "selection_sha256": "a6fbe20649c5291ea6056f1483304a74aed9edddc5ba33cf93547c5b3be4db39",
+  "single_span_support_counts": {
+    "ettin-native": {
+      "ADDRESS <- street_address -> ADDRESS": 25,
+      "PHONE <- phone_number -> PHONE": 8
+    },
+    "horizon-native": {
+      "ADDRESS <- STREET_ADDRESS -> ADDRESS": 61,
+      "EMAIL <- EMAIL -> EMAIL": 56,
+      "GOV_ID <- MEDICAL_ID -> None": 4,
+      "GOV_ID <- NATIONAL_ID -> GOV_ID": 33,
+      "PERSON <- PERSON -> PERSON": 54,
+      "PHONE <- PHONE -> PHONE": 47,
+      "USERNAME <- USERNAME -> USERNAME": 44
+    },
+    "masker-mini-native": {
+      "EMAIL <- EMAIL -> EMAIL": 36,
+      "GOV_ID <- GOVERNMENT_ID -> GOV_ID": 41,
+      "PHONE <- GOVERNMENT_ID -> GOV_ID": 6,
+      "PHONE <- PHONE -> PHONE": 25,
+      "USERNAME <- GOVERNMENT_ID -> GOV_ID": 1
+    },
+    "tracer-native": {
+      "ADDRESS <- private_address -> None": 61,
+      "EMAIL <- private_email -> None": 56,
+      "GOV_ID <- account_number -> None": 42,
+      "GOV_ID <- private_phone -> None": 1,
+      "PERSON <- private_person -> None": 54,
+      "PHONE <- private_phone -> None": 47,
+      "USERNAME <- other_pii -> None": 38,
+      "USERNAME <- private_person -> None": 1
+    }
+  },
+  "summary": {
+    "documents": 50,
+    "gold_spans": 311,
+    "high_severity_gold": 43,
+    "models": {
+      "ettin-native": {
+        "character_recall": 0.9458520637515325,
+        "contained": 260,
+        "containment": 0.8360128617363344,
+        "covered_characters": 4629,
+        "documents_with_high_severity_miss": 14,
+        "high_severity_misses": 15,
+        "masked_characters": 14959,
+        "masking_precision": 0.3094458185707601
+      },
+      "horizon-native": {
+        "character_recall": 0.9928483857785043,
+        "contained": 305,
+        "containment": 0.9807073954983923,
+        "covered_characters": 4859,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "masked_characters": 15800,
+        "masking_precision": 0.30753164556962026
+      },
+      "masker-mini-native": {
+        "character_recall": 0.8308132407029015,
+        "contained": 202,
+        "containment": 0.6495176848874598,
+        "covered_characters": 4066,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "masked_characters": 9335,
+        "masking_precision": 0.4355650776647027
+      },
+      "tracer-native": {
+        "character_recall": 0.9818144666939109,
+        "contained": 300,
+        "containment": 0.9646302250803859,
+        "covered_characters": 4805,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "masked_characters": 16675,
+        "masking_precision": 0.2881559220389805
+      }
+    },
+    "pairs": {
+      "ettin-native+horizon-native": {
+        "contained": 305,
+        "containment": 0.9807073954983923,
+        "covered_characters": 4859,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "left": "ettin-native",
+        "left_recovers_right_misses": 0,
+        "masked_characters": 16986,
+        "masking_precision": 0.28605910750029434,
+        "native_span_parity_documents": 0,
+        "neither_alone_but_union_covers": 0,
+        "range_parity_documents": 0,
+        "right": "horizon-native",
+        "right_recovers_left_misses": 45
+      },
+      "ettin-native+masker-mini-native": {
+        "contained": 294,
+        "containment": 0.9453376205787781,
+        "covered_characters": 4787,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "left": "ettin-native",
+        "left_recovers_right_misses": 86,
+        "masked_characters": 15442,
+        "masking_precision": 0.30999870483098046,
+        "native_span_parity_documents": 0,
+        "neither_alone_but_union_covers": 6,
+        "range_parity_documents": 0,
+        "right": "masker-mini-native",
+        "right_recovers_left_misses": 28
+      },
+      "ettin-native+tracer-native": {
+        "contained": 302,
+        "containment": 0.9710610932475884,
+        "covered_characters": 4830,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "left": "ettin-native",
+        "left_recovers_right_misses": 2,
+        "masked_characters": 17865,
+        "masking_precision": 0.2703610411418976,
+        "native_span_parity_documents": 0,
+        "neither_alone_but_union_covers": 0,
+        "range_parity_documents": 0,
+        "right": "tracer-native",
+        "right_recovers_left_misses": 42
+      },
+      "horizon-native+masker-mini-native": {
+        "contained": 305,
+        "containment": 0.9807073954983923,
+        "covered_characters": 4859,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "left": "horizon-native",
+        "left_recovers_right_misses": 103,
+        "masked_characters": 16447,
+        "masking_precision": 0.29543381771751687,
+        "native_span_parity_documents": 0,
+        "neither_alone_but_union_covers": 0,
+        "range_parity_documents": 0,
+        "right": "masker-mini-native",
+        "right_recovers_left_misses": 0
+      },
+      "horizon-native+tracer-native": {
+        "contained": 307,
+        "containment": 0.9871382636655949,
+        "covered_characters": 4872,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "left": "horizon-native",
+        "left_recovers_right_misses": 7,
+        "masked_characters": 17349,
+        "masking_precision": 0.28082310219609197,
+        "native_span_parity_documents": 0,
+        "neither_alone_but_union_covers": 0,
+        "range_parity_documents": 0,
+        "right": "tracer-native",
+        "right_recovers_left_misses": 2
+      },
+      "masker-mini-native+tracer-native": {
+        "contained": 300,
+        "containment": 0.9646302250803859,
+        "covered_characters": 4805,
+        "documents_with_high_severity_miss": 0,
+        "high_severity_misses": 0,
+        "left": "masker-mini-native",
+        "left_recovers_right_misses": 0,
+        "masked_characters": 17312,
+        "masking_precision": 0.27755314232902034,
+        "native_span_parity_documents": 0,
+        "neither_alone_but_union_covers": 0,
+        "range_parity_documents": 0,
+        "right": "tracer-native",
+        "right_recovers_left_misses": 98
+      }
+    }
+  },
+  "support_scope": "gold-type <- native-label -> existing global taxonomy mapping; counts qualifying predictions, not unique gold"
+}

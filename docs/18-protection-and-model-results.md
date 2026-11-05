@@ -10,6 +10,10 @@ The protection APIs and fixes are included in **edgepii 0.4.0**. Upgrade with
 for a complete installed-package example and publication verification. Native
 model runners still execute from the repository; the wheel contains no weights.
 
+Follow-up [improvement research](20-improvement-research-2026-11.md) adds 16
+single-model Modal evaluations, four paired experiments, and quantization/license
+findings. Its native-range comparisons use a distinct protocol from typed presets.
+
 ## Implemented behavior
 
 - `Locator.plan()` preserves eligible candidate coverage before typed overlap

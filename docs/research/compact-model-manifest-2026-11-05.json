@@ -1,0 +1,849 @@
+{
+  "collector_sha256": "b721bde1234262a0757b208d693c810ae03222ef0008c1658119cc137d76a174",
+  "cutoff": "2026-11-05",
+  "models": [
+    {
+      "api": {
+        "sha256": "fa8847ef0c95eb5300960bdf1612a6bc7186d3244a1b62e254847955451e396e",
+        "url": "https://huggingface.co/api/models/divergentlabs/masker-mini?blobs=true"
+      },
+      "config": {
+        "config.json": {
+          "architectures": [
+            "BertForTokenClassification"
+          ],
+          "hidden_size": 384,
+          "id2label": {
+            "0": "O",
+            "1": "B-AGE",
+            "10": "I-CITY",
+            "11": "E-CITY",
+            "12": "S-CITY",
+            "13": "B-CREDIT_CARD",
+            "14": "I-CREDIT_CARD",
+            "15": "E-CREDIT_CARD",
+            "16": "S-CREDIT_CARD",
+            "17": "B-DATE",
+            "18": "I-DATE",
+            "19": "E-DATE",
+            "2": "I-AGE",
+            "20": "S-DATE",
+            "21": "B-EMAIL",
+            "22": "I-EMAIL",
+            "23": "E-EMAIL",
+            "24": "S-EMAIL",
+            "25": "B-GIVEN_NAME",
+            "26": "I-GIVEN_NAME",
+            "27": "E-GIVEN_NAME",
+            "28": "S-GIVEN_NAME",
+            "29": "B-GOVERNMENT_ID",
+            "3": "E-AGE",
+            "30": "I-GOVERNMENT_ID",
+            "31": "E-GOVERNMENT_ID",
+            "32": "S-GOVERNMENT_ID",
+            "33": "B-PHONE",
+            "34": "I-PHONE",
+            "35": "E-PHONE",
+            "36": "S-PHONE",
+            "37": "B-STREET_NAME",
+            "38": "I-STREET_NAME",
+            "39": "E-STREET_NAME",
+            "4": "S-AGE",
+            "40": "S-STREET_NAME",
+            "41": "B-SURNAME",
+            "42": "I-SURNAME",
+            "43": "E-SURNAME",
+            "44": "S-SURNAME",
+            "45": "B-ZIP_CODE",
+            "46": "I-ZIP_CODE",
+            "47": "E-ZIP_CODE",
+            "48": "S-ZIP_CODE",
+            "5": "B-BUILDING_NUMBER",
+            "6": "I-BUILDING_NUMBER",
+            "7": "E-BUILDING_NUMBER",
+            "8": "S-BUILDING_NUMBER",
+            "9": "B-CITY"
+          },
+          "max_position_embeddings": 512,
+          "model_type": "bert",
+          "num_hidden_layers": 6
+        },
+        "tokenizer_config.json": {
+          "model_max_length": 1000000000000000019884624838656,
+          "tokenizer_class": "DebertaV2Tokenizer"
+        }
+      },
+      "created_at": "2026-07-05T23:28:07.000Z",
+      "files": [
+        {
+          "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+          "rfilename": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "blobId": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+          "rfilename": "LICENSE",
+          "size": 11358
+        },
+        {
+          "blobId": "0b0bc1d451ef8b9a9ce61757e7ea516f4f6b6468",
+          "rfilename": "NOTICE",
+          "size": 580
+        },
+        {
+          "blobId": "c57ca2eed4909e819878bd35b5342f0fda6e9501",
+          "rfilename": "README.md",
+          "size": 15959
+        },
+        {
+          "blobId": "a0652bf87a063f617b017d7eb15f4077eb6b0a8c",
+          "rfilename": "added_tokens.json",
+          "size": 22
+        },
+        {
+          "blobId": "271d648c3864d2761942dd5d39d0d0183f9cabdd",
+          "rfilename": "config.json",
+          "size": 2849
+        },
+        {
+          "blobId": "1563299af7493762522432332de6e79c429ecf17",
+          "lfs": {
+            "pointerSize": 130,
+            "sha256": "e60f9b0493f51f1928a40f914414d2780601eb3cc556b83c76fedc447086d11e",
+            "size": 71887
+          },
+          "rfilename": "coreml/masker_mini_4bit.mlpackage/Data/com.apple.CoreML/model.mlmodel",
+          "size": 71887
+        },
+        {
+          "blobId": "bef771d02f847aae465b2dd864fcf32dfdce8d4a",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "f0dd5bcae214d144c9df6cf4fe5a47395c89cdbda035d5fa1600ef1ed6fa4636",
+            "size": 17709730
+          },
+          "rfilename": "coreml/masker_mini_4bit.mlpackage/Data/com.apple.CoreML/weights/weight.bin",
+          "size": 17709730
+        },
+        {
+          "blobId": "7a1a9df3b07610ba386e147c57db28dbb15609d1",
+          "rfilename": "coreml/masker_mini_4bit.mlpackage/Manifest.json",
+          "size": 617
+        },
+        {
+          "blobId": "b3cc6ec2e37963d396718b4551230356f69530d6",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "50339213edd2bd9628a38a2e9db2aa518062b9c6acab617b6400c72a5d269bb0",
+            "size": 70811538
+          },
+          "rfilename": "model.safetensors",
+          "size": 70811538
+        },
+        {
+          "blobId": "040994264b34ff375dc2e015a5c5df8a95dcfd58",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "594dada59d570cb2fccc18fc1caa79b9a05c349ddd40e425badc2422b9ff3faf",
+            "size": 70951466
+          },
+          "rfilename": "onnx/model_fp16.onnx",
+          "size": 70951466
+        },
+        {
+          "blobId": "226142d48b53cb291a5a553efa8539158d30bada",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "338b7c2daf15168441a93c175b1fe6b364fef9a6ef7dee65e00c9159a76fdfae",
+            "size": 22344556
+          },
+          "rfilename": "onnx/model_int4.onnx",
+          "size": 22344556
+        },
+        {
+          "blobId": "83fb22de184abab1b193b1f6001e3015e865e50b",
+          "rfilename": "special_tokens_map.json",
+          "size": 970
+        },
+        {
+          "blobId": "590d5cede02f9ae18875a3ddbe1a7050b4228d64",
+          "lfs": {
+            "pointerSize": 132,
+            "sha256": "3f85516c138eb26db0b15c5d54337797838320061a542ca4913fce8bc32d06b0",
+            "size": 1209459
+          },
+          "rfilename": "spm.model",
+          "size": 1209459
+        },
+        {
+          "blobId": "6307229f758aec0fc85457868c344e88f471acdc",
+          "rfilename": "tokenizer.json",
+          "size": 4353134
+        },
+        {
+          "blobId": "4f2c275ff9c3f5a7bab9dc13958e04377b052444",
+          "rfilename": "tokenizer_config.json",
+          "size": 19581
+        }
+      ],
+      "gated": false,
+      "last_modified": "2026-10-02T15:21:02.000Z",
+      "metadata_license": "apache-2.0",
+      "parameters": 35399857,
+      "pipeline_tag": "token-classification",
+      "repo_id": "divergentlabs/masker-mini",
+      "revision": "beb7235d454aa4488b6ee1cd47f417caa12a6d15",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "url": "https://huggingface.co/divergentlabs/masker-mini/resolve/beb7235d454aa4488b6ee1cd47f417caa12a6d15/LICENSE"
+        },
+        "NOTICE": {
+          "bytes": 580,
+          "sha256": "16ad21c93dc0ad95405d32772ce58e2e02930004517f801d79a13e6ec2abb89c",
+          "url": "https://huggingface.co/divergentlabs/masker-mini/resolve/beb7235d454aa4488b6ee1cd47f417caa12a6d15/NOTICE"
+        },
+        "README.md": {
+          "bytes": 15959,
+          "sha256": "cc19d789430f0c3ccfd08f11f00267b6d70f5616745749f3c5ee6cff17957307",
+          "url": "https://huggingface.co/divergentlabs/masker-mini/resolve/beb7235d454aa4488b6ee1cd47f417caa12a6d15/README.md"
+        },
+        "config.json": {
+          "bytes": 2849,
+          "sha256": "d1ec3865c686b5838ff9ffcc631bfc6794b5488d30c21c1a798cd1d4f9f26688",
+          "url": "https://huggingface.co/divergentlabs/masker-mini/resolve/beb7235d454aa4488b6ee1cd47f417caa12a6d15/config.json"
+        },
+        "tokenizer_config.json": {
+          "bytes": 19581,
+          "sha256": "71ae4d604bb97bd3c2fe964f81965dcd1479909e42cbd44f88e4508f8d0267fd",
+          "url": "https://huggingface.co/divergentlabs/masker-mini/resolve/beb7235d454aa4488b6ee1cd47f417caa12a6d15/tokenizer_config.json"
+        }
+      }
+    },
+    {
+      "api": {
+        "sha256": "ad3e45339ed4fc936859684f5ca2aba00a9d0f8bc194f29af3db1af60ed936e4",
+        "url": "https://huggingface.co/api/models/kalyan-ks/ettin-32m-nemotron-pii?blobs=true"
+      },
+      "config": {
+        "config.json": {
+          "architectures": [
+            "ModernBertForTokenClassification"
+          ],
+          "hidden_size": 384,
+          "id2label": {
+            "0": "B-account_number",
+            "1": "B-age",
+            "10": "B-country",
+            "100": "I-tax_id",
+            "101": "I-time",
+            "102": "I-unique_id",
+            "103": "I-url",
+            "104": "I-user_name",
+            "105": "I-vehicle_identifier",
+            "106": "O",
+            "11": "B-county",
+            "12": "B-credit_debit_card",
+            "13": "B-customer_id",
+            "14": "B-cvv",
+            "15": "B-date",
+            "16": "B-date_of_birth",
+            "17": "B-date_time",
+            "18": "B-device_identifier",
+            "19": "B-education_level",
+            "2": "B-api_key",
+            "20": "B-email",
+            "21": "B-employee_id",
+            "22": "B-employment_status",
+            "23": "B-fax_number",
+            "24": "B-first_name",
+            "25": "B-gender",
+            "26": "B-health_plan_beneficiary_number",
+            "27": "B-http_cookie",
+            "28": "B-ipv4",
+            "29": "B-ipv6",
+            "3": "B-bank_routing_number",
+            "30": "B-language",
+            "31": "B-last_name",
+            "32": "B-license_plate",
+            "33": "B-mac_address",
+            "34": "B-medical_record_number",
+            "35": "B-national_id",
+            "36": "B-occupation",
+            "37": "B-password",
+            "38": "B-phone_number",
+            "39": "B-pin",
+            "4": "B-biometric_identifier",
+            "40": "B-political_view",
+            "41": "B-postcode",
+            "42": "B-race_ethnicity",
+            "43": "B-religious_belief",
+            "44": "B-sexuality",
+            "45": "B-ssn",
+            "46": "B-state",
+            "47": "B-street_address",
+            "48": "B-swift_bic",
+            "49": "B-tax_id",
+            "5": "B-blood_type",
+            "50": "B-time",
+            "51": "B-unique_id",
+            "52": "B-url",
+            "53": "B-user_name",
+            "54": "B-vehicle_identifier",
+            "55": "I-account_number",
+            "56": "I-age",
+            "57": "I-api_key",
+            "58": "I-bank_routing_number",
+            "59": "I-biometric_identifier",
+            "6": "B-certificate_license_number",
+            "60": "I-blood_type",
+            "61": "I-certificate_license_number",
+            "62": "I-city",
+            "63": "I-company_name",
+            "64": "I-coordinate",
+            "65": "I-country",
+            "66": "I-county",
+            "67": "I-credit_debit_card",
+            "68": "I-customer_id",
+            "69": "I-date",
+            "7": "B-city",
+            "70": "I-date_of_birth",
+            "71": "I-date_time",
+            "72": "I-device_identifier",
+            "73": "I-education_level",
+            "74": "I-email",
+            "75": "I-employment_status",
+            "76": "I-fax_number",
+            "77": "I-first_name",
+            "78": "I-health_plan_beneficiary_number",
+            "79": "I-http_cookie",
+            "8": "B-company_name",
+            "80": "I-ipv4",
+            "81": "I-ipv6",
+            "82": "I-language",
+            "83": "I-last_name",
+            "84": "I-license_plate",
+            "85": "I-mac_address",
+            "86": "I-medical_record_number",
+            "87": "I-national_id",
+            "88": "I-occupation",
+            "89": "I-password",
+            "9": "B-coordinate",
+            "90": "I-phone_number",
+            "91": "I-pin",
+            "92": "I-political_view",
+            "93": "I-postcode",
+            "94": "I-race_ethnicity",
+            "95": "I-religious_belief",
+            "96": "I-sexuality",
+            "97": "I-state",
+            "98": "I-street_address",
+            "99": "I-swift_bic"
+          },
+          "max_position_embeddings": 7999,
+          "model_type": "modernbert",
+          "num_hidden_layers": 10
+        },
+        "tokenizer_config.json": {
+          "model_max_length": 8192,
+          "tokenizer_class": "TokenizersBackend"
+        }
+      },
+      "created_at": "2026-05-06T08:00:39.000Z",
+      "files": [
+        {
+          "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+          "rfilename": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "blobId": "5c39d6c89ea1e44d45d0f6f5f13d391120813804",
+          "rfilename": "README.md",
+          "size": 12140
+        },
+        {
+          "blobId": "eed08137a7b824dbe82f7433a35a9ba99c76b7a9",
+          "rfilename": "config.json",
+          "size": 7231
+        },
+        {
+          "blobId": "3c0153aa86df5735f38ae60881d58858e32a9622",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "336819139b513d7fe68c226b81d687a018042d72fc100ffbd885fe385120ba32",
+            "size": 64150990
+          },
+          "rfilename": "model.safetensors",
+          "size": 64150990
+        },
+        {
+          "blobId": "83c66980dec20f08d19ff09460b22e83c4034609",
+          "rfilename": "tokenizer.json",
+          "size": 3583327
+        },
+        {
+          "blobId": "ff2afa4ddf56b5ac3412597c20c424f5a4466999",
+          "rfilename": "tokenizer_config.json",
+          "size": 459
+        }
+      ],
+      "gated": false,
+      "last_modified": "2026-11-03T01:50:09.000Z",
+      "metadata_license": "mit",
+      "parameters": 32072171,
+      "pipeline_tag": "token-classification",
+      "repo_id": "kalyan-ks/ettin-32m-nemotron-pii",
+      "revision": "84ce02cac78d9cee27a125629ba195f12c75fe5b",
+      "text_artifacts": {
+        "README.md": {
+          "bytes": 12140,
+          "sha256": "cc016e1d96c01bbfd5ffae7985921f6e24aca4ac1c97c8acb550b3a03e41dd13",
+          "url": "https://huggingface.co/kalyan-ks/ettin-32m-nemotron-pii/resolve/84ce02cac78d9cee27a125629ba195f12c75fe5b/README.md"
+        },
+        "config.json": {
+          "bytes": 7231,
+          "sha256": "467f31e35982b8bdb7c71c1b8a2ce85b474db28f608d34481ee0b80fb5a61d5c",
+          "url": "https://huggingface.co/kalyan-ks/ettin-32m-nemotron-pii/resolve/84ce02cac78d9cee27a125629ba195f12c75fe5b/config.json"
+        },
+        "tokenizer_config.json": {
+          "bytes": 459,
+          "sha256": "41bf10324e96b85f83e4f672f45ad17751e61e93feb575671d3572ea63a39f9c",
+          "url": "https://huggingface.co/kalyan-ks/ettin-32m-nemotron-pii/resolve/84ce02cac78d9cee27a125629ba195f12c75fe5b/tokenizer_config.json"
+        }
+      }
+    },
+    {
+      "api": {
+        "sha256": "0db9cd3758ab6c4feedb1389fe6b3949452e3e6066af1e46c5fb7abb7711c98e",
+        "url": "https://huggingface.co/api/models/ConwayResearch/pii-30M-mlx-4bit-v1.0?blobs=true"
+      },
+      "config": {
+        "config.json": {
+          "architectures": [
+            "BertForTokenClassification"
+          ],
+          "hidden_size": 512,
+          "id2label": {
+            "0": "O",
+            "1": "B-PII",
+            "2": "I-PII"
+          },
+          "max_position_embeddings": 512,
+          "model_type": "bert",
+          "num_hidden_layers": 4
+        },
+        "tokenizer_config.json": {
+          "model_max_length": 1000000000000000019884624838656,
+          "tokenizer_class": "BertTokenizer"
+        }
+      },
+      "created_at": "2026-09-14T13:08:25.000Z",
+      "files": [
+        {
+          "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+          "rfilename": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "blobId": "fe463e0f7888bbf8b82e42d55f5743508ddafb7e",
+          "rfilename": "LICENSE",
+          "size": 19347
+        },
+        {
+          "blobId": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+          "rfilename": "LICENSE-APACHE",
+          "size": 11358
+        },
+        {
+          "blobId": "4cf5d5b1d75b40b24aa8d1f5e94c54ed97fc9556",
+          "rfilename": "README.md",
+          "size": 2545
+        },
+        {
+          "blobId": "7bc005b3fd142466563f2dfdf998c03114440ef4",
+          "rfilename": "bio_decode.py",
+          "size": 913
+        },
+        {
+          "blobId": "a37ad843e2b543af41f86a9973bcc6d2d47c771f",
+          "rfilename": "config.json",
+          "size": 814
+        },
+        {
+          "blobId": "93910a4dda2b8506b065bd9915d0f4fc51ccb787",
+          "rfilename": "graph.json",
+          "size": 101292
+        },
+        {
+          "blobId": "7fa992326f6eeff1eb69745eb8893fed7d20a684",
+          "rfilename": "mlx_graph.py",
+          "size": 10050
+        },
+        {
+          "blobId": "0ef822bd3ecca905263bd1f52b13280360f72a01",
+          "rfilename": "pii.py",
+          "size": 2400
+        },
+        {
+          "blobId": "88267303bdd3c2da9c37a4d2378003021437df2e",
+          "rfilename": "requirements.txt",
+          "size": 75
+        },
+        {
+          "blobId": "9bbecc17cabbcbd3112c14d6982b51403b264bfa",
+          "rfilename": "special_tokens_map.json",
+          "size": 695
+        },
+        {
+          "blobId": "d686ec39be673633b0c6995794a04a6f0f2ddca6",
+          "rfilename": "tokenizer.json",
+          "size": 711495
+        },
+        {
+          "blobId": "cb71a5aadf15fd9115e34e77e464f6cd2f2c0be9",
+          "rfilename": "tokenizer_config.json",
+          "size": 1408
+        },
+        {
+          "blobId": "fb140275c155a9c7c5a3b3e0e77a9e839594a938",
+          "rfilename": "vocab.txt",
+          "size": 231508
+        },
+        {
+          "blobId": "911ae66b93fbec09676c68716813d99c6aaa260e",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "115ab54b65bbcce035eb274ac1f2c0f3536fe894eafadaea30f3bb4796e8a907",
+            "size": 17936327
+          },
+          "rfilename": "weights.safetensors",
+          "size": 17936327
+        }
+      ],
+      "gated": false,
+      "last_modified": "2026-11-05T04:54:28.000Z",
+      "metadata_license": "cc-by-nc-4.0",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "ConwayResearch/pii-30M-mlx-4bit-v1.0",
+      "revision": "8c1d53a68ef27cbac0f1d56e4847fb9184f82b5d",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 19347,
+          "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-mlx-4bit-v1.0/resolve/8c1d53a68ef27cbac0f1d56e4847fb9184f82b5d/LICENSE"
+        },
+        "LICENSE-APACHE": {
+          "bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-mlx-4bit-v1.0/resolve/8c1d53a68ef27cbac0f1d56e4847fb9184f82b5d/LICENSE-APACHE"
+        },
+        "README.md": {
+          "bytes": 2545,
+          "sha256": "fbe6c28f5b272279cd28504101e8da89c60ff0cc8809fcef970629678863ce1a",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-mlx-4bit-v1.0/resolve/8c1d53a68ef27cbac0f1d56e4847fb9184f82b5d/README.md"
+        },
+        "config.json": {
+          "bytes": 814,
+          "sha256": "86faf6b386c90bca19325bb065f8f83baf3118054b6c268e52ab548a1952d5c9",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-mlx-4bit-v1.0/resolve/8c1d53a68ef27cbac0f1d56e4847fb9184f82b5d/config.json"
+        },
+        "pii.py": {
+          "bytes": 2400,
+          "sha256": "6ba1d00f032fdc3baae3c381322c5f560534e535cfd2a277e72cc32f76621a96",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-mlx-4bit-v1.0/resolve/8c1d53a68ef27cbac0f1d56e4847fb9184f82b5d/pii.py"
+        },
+        "tokenizer_config.json": {
+          "bytes": 1408,
+          "sha256": "01a629a4923673b9a7a6d7da214952152c87c7ab3e002aae8e1e025486942163",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-mlx-4bit-v1.0/resolve/8c1d53a68ef27cbac0f1d56e4847fb9184f82b5d/tokenizer_config.json"
+        }
+      }
+    },
+    {
+      "api": {
+        "sha256": "a558227eb822a67f0417ff137062ce1ebb309867eeee003d2fab38f2b8018f99",
+        "url": "https://huggingface.co/api/models/ConwayResearch/pii-30M-coreml-ane-v1.0?blobs=true"
+      },
+      "config": {},
+      "created_at": "2026-11-01T22:33:46.000Z",
+      "files": [
+        {
+          "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+          "rfilename": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "blobId": "fe463e0f7888bbf8b82e42d55f5743508ddafb7e",
+          "rfilename": "LICENSE",
+          "size": 19347
+        },
+        {
+          "blobId": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+          "rfilename": "LICENSE-APACHE",
+          "size": 11358
+        },
+        {
+          "blobId": "60ec7c63fd00ff29a3182a85fe53846be32240f5",
+          "rfilename": "README.md",
+          "size": 3147
+        },
+        {
+          "blobId": "459ebb6b764d86618435276b6ecd8b0339f053fe",
+          "lfs": {
+            "pointerSize": 130,
+            "sha256": "4477dc308dc608549f8d0fc32a4fd557bb7ac8c1f1913881e7f7fdbeb4039fc2",
+            "size": 41600
+          },
+          "rfilename": "pii-30m.mlpackage/Data/com.apple.CoreML/model.mlmodel",
+          "size": 41600
+        },
+        {
+          "blobId": "13b66696872f1dfbb598acd1a81010c63aa06373",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "be917d65201cd2b96ef316f8a1c42d460be06391e323b2cddd6b4e75338e4819",
+            "size": 34167872
+          },
+          "rfilename": "pii-30m.mlpackage/Data/com.apple.CoreML/weights/weight.bin",
+          "size": 34167872
+        },
+        {
+          "blobId": "72caeab28e90326779169ec581cb41f977729bf0",
+          "rfilename": "pii-30m.mlpackage/Manifest.json",
+          "size": 617
+        }
+      ],
+      "gated": false,
+      "last_modified": "2026-11-05T04:54:10.000Z",
+      "metadata_license": "cc-by-nc-4.0",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "ConwayResearch/pii-30M-coreml-ane-v1.0",
+      "revision": "6f2c61bba6f94f6fa689055114ad10fa33b26ed4",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 19347,
+          "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-coreml-ane-v1.0/resolve/6f2c61bba6f94f6fa689055114ad10fa33b26ed4/LICENSE"
+        },
+        "LICENSE-APACHE": {
+          "bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-coreml-ane-v1.0/resolve/6f2c61bba6f94f6fa689055114ad10fa33b26ed4/LICENSE-APACHE"
+        },
+        "README.md": {
+          "bytes": 3147,
+          "sha256": "626cd97942d36943a03998cf2d01b1bf0807166c852b54a7e51cc653bb21133f",
+          "url": "https://huggingface.co/ConwayResearch/pii-30M-coreml-ane-v1.0/resolve/6f2c61bba6f94f6fa689055114ad10fa33b26ed4/README.md"
+        }
+      }
+    },
+    {
+      "api": {
+        "sha256": "2d19ca0520d2530780e1aed7adc36f5feccb0f1ebacdd92631b624358105b4e8",
+        "url": "https://huggingface.co/api/models/knowledgator/gliner-stream-pii-v1.0?blobs=true"
+      },
+      "config": {
+        "tokenizer_config.json": {
+          "model_max_length": 131072,
+          "tokenizer_class": "Qwen2Tokenizer"
+        }
+      },
+      "created_at": "2026-07-23T13:08:50.000Z",
+      "files": [
+        {
+          "blobId": "52373fe24473b1aa44333d318f578ae6bf04b49b",
+          "rfilename": ".gitattributes",
+          "size": 1570
+        },
+        {
+          "blobId": "d17bbd929755b6057a24603c4329c3b3860e4b72",
+          "rfilename": "README.md",
+          "size": 5076
+        },
+        {
+          "blobId": "882cf4d452ea150c980dd3dc96983db429d70182",
+          "rfilename": "assets/gliner-streaming-architecture.svg",
+          "size": 19520
+        },
+        {
+          "blobId": "01be9b307daa2d425f7c168c9fb145a286e0afb4",
+          "rfilename": "chat_template.jinja",
+          "size": 4168
+        },
+        {
+          "blobId": "d99518bd668642ac0120aa51e587ed651e7ff3dd",
+          "rfilename": "gliner_config.json",
+          "size": 3730
+        },
+        {
+          "blobId": "281c6a83d4040de1c46d1b1de6a768b9c55ab0bb",
+          "lfs": {
+            "pointerSize": 135,
+            "sha256": "a7f37c8aa4317954ceaf2c7e83bfa45dd6279d04b589d163f1ecf6f30c3df36f",
+            "size": 2706436847
+          },
+          "rfilename": "pytorch_model.bin",
+          "size": 2706436847
+        },
+        {
+          "blobId": "5cf992f2c14aecefc27c389a2b58cc811eee19bd",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "293208942fa5cad773139afda2d0c2819f2442d5c8fca7f2ce9d22c326b0881b",
+            "size": 11423773
+          },
+          "rfilename": "tokenizer.json",
+          "size": 11423773
+        },
+        {
+          "blobId": "5668a4a01433b0648bb972458de616f22f3e728e",
+          "rfilename": "tokenizer_config.json",
+          "size": 693
+        }
+      ],
+      "gated": false,
+      "last_modified": "2026-08-04T17:05:47.000Z",
+      "metadata_license": "apache-2.0",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "knowledgator/gliner-stream-pii-v1.0",
+      "revision": "e871777dc4b3b688747a0433fff8d94a36fcc7b0",
+      "text_artifacts": {
+        "README.md": {
+          "bytes": 5076,
+          "sha256": "7f7adc5595d6311a40d81e1ccd6dd76ce6fa948978e7b29215113ed4cfcab95e",
+          "url": "https://huggingface.co/knowledgator/gliner-stream-pii-v1.0/resolve/e871777dc4b3b688747a0433fff8d94a36fcc7b0/README.md"
+        },
+        "tokenizer_config.json": {
+          "bytes": 693,
+          "sha256": "2e3bd3cb5055f7a903a54e7062b2fd14d21b70f4174c3ffcd9fc81ec50a25631",
+          "url": "https://huggingface.co/knowledgator/gliner-stream-pii-v1.0/resolve/e871777dc4b3b688747a0433fff8d94a36fcc7b0/tokenizer_config.json"
+        }
+      }
+    },
+    {
+      "api": {
+        "sha256": "65c1048a8d1799e8e1ed674a32b46bf2fa72f134c46cb1d432c1d53221b5a350",
+        "url": "https://huggingface.co/api/models/safetype/blackbar-nano?blobs=true"
+      },
+      "config": {},
+      "created_at": "2026-07-22T04:53:55.000Z",
+      "files": [
+        {
+          "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+          "rfilename": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "blobId": "c58fe6fbc704307b6fbde93579b6767832d7fb7c",
+          "rfilename": "LICENSE",
+          "size": 11338
+        },
+        {
+          "blobId": "c760e97bfd9acad0de62c2eb6942dd5caa625134",
+          "rfilename": "README.md",
+          "size": 16252
+        },
+        {
+          "blobId": "cc7d96e1cb5b88442968a7a2fd4b40d63f1ed9ff",
+          "lfs": {
+            "pointerSize": 134,
+            "sha256": "a0fc620ee822a0e28fe51357c2bd34c3f5c6de747bec4d023176f278bfd24e3e",
+            "size": 605686515
+          },
+          "rfilename": "blackbar_nano_v1.pt",
+          "size": 605686515
+        },
+        {
+          "blobId": "2519fc333b2f25eca37974ca97607c48d2c5dda7",
+          "lfs": {
+            "pointerSize": 134,
+            "sha256": "01ef023d13da84380ca9e5001f4774f7601dd1563f9f339b8cbc0f4855a70560",
+            "size": 300113154
+          },
+          "rfilename": "onnx/blackbar_nano_v1_encoder_fp16.onnx",
+          "size": 300113154
+        },
+        {
+          "blobId": "e0991f136757828173b8ee883cba5d068a60617e",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "5622ec96b57374083a8fcf92c117ce8b7d282ab6503e4d9a902ec0c0be462f0f",
+            "size": 77372104
+          },
+          "rfilename": "onnx/blackbar_nano_v1_encoder_fp16_chunk0.onnx",
+          "size": 77372104
+        },
+        {
+          "blobId": "452059d543970a76ad5a51912dcd2424fbdfa973",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "6349a704cfb1e3478a55eca719cf6a58af6a5b9d3a68007e6ed2b319a2d8e76a",
+            "size": 70901865
+          },
+          "rfilename": "onnx/blackbar_nano_v1_encoder_fp16_chunk1.onnx",
+          "size": 70901865
+        },
+        {
+          "blobId": "8496c485785e9fd56e37c6b8fbb0331e76646a0e",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "224031bd262e8ffdd7c57180086983a7016b8261101205d2434315fc946fa980",
+            "size": 75643817
+          },
+          "rfilename": "onnx/blackbar_nano_v1_encoder_fp16_chunk2.onnx",
+          "size": 75643817
+        },
+        {
+          "blobId": "981d0183775003c7a20cbcf9f3c5139de9e1e7bf",
+          "lfs": {
+            "pointerSize": 133,
+            "sha256": "3c3f425557493d8ef7d4a06638d6eda5b0c533190ee7693ec8931ee825590706",
+            "size": 76185598
+          },
+          "rfilename": "onnx/blackbar_nano_v1_encoder_fp16_chunk3.onnx",
+          "size": 76185598
+        },
+        {
+          "blobId": "67b4592d7b2c24c634e925d8a34b09f98a4f62bf",
+          "rfilename": "onnx/blackbar_nano_v1_encoder_fp16_chunks.json",
+          "size": 1870
+        },
+        {
+          "blobId": "78ab6a09a14ec2846e063a9116f5098f7d8227ff",
+          "lfs": {
+            "pointerSize": 132,
+            "sha256": "7445e42b0e76717447da1470c8d3fb4889f4198ffea7523eb11e987ca9fb7045",
+            "size": 9618976
+          },
+          "rfilename": "onnx/blackbar_nano_v1_head_fp32.onnx",
+          "size": 9618976
+        }
+      ],
+      "gated": false,
+      "last_modified": "2026-07-27T02:56:58.000Z",
+      "metadata_license": "apache-2.0",
+      "parameters": null,
+      "pipeline_tag": null,
+      "repo_id": "safetype/blackbar-nano",
+      "revision": "6f32896054e3690bb693a0e0c6dc8ae1d68c391e",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 11338,
+          "sha256": "f0d3c60a23ea7227e8ecb1e6daa95e69512e17badeebe1475d91a1396a9b62d3",
+          "url": "https://huggingface.co/safetype/blackbar-nano/resolve/6f32896054e3690bb693a0e0c6dc8ae1d68c391e/LICENSE"
+        },
+        "README.md": {
+          "bytes": 16252,
+          "sha256": "f8807e952aface92003a2586bdb048ce16b45088c4073673fc52e3416524caae",
+          "url": "https://huggingface.co/safetype/blackbar-nano/resolve/6f32896054e3690bb693a0e0c6dc8ae1d68c391e/README.md"
+        }
+      }
+    }
+  ],
+  "review_date": "2026-11-05T08:48:32.389436+00:00",
+  "scope": "targeted public artifact inspection; metadata is not measured model quality"
+}

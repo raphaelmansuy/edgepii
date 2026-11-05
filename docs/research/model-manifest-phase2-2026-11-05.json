@@ -1,0 +1,610 @@
+{
+  "cutoff": "2026-11-05",
+  "datasets": [
+    {
+      "gated": false,
+      "hub_split": "train",
+      "metadata_license": "mit",
+      "qualification": "Publisher reports a released subset; not evidence of full multilingual benchmark availability or independence from detector training.",
+      "readme": {
+        "sha256": "3a6109411c691da9107eb785c68974afe147c1b816dfd3b0c45b371c3b866f64",
+        "url": "https://huggingface.co/datasets/perplexity-ai/PII-TRACE/resolve/1c3eb67bbd43e8571b4433a9d3d76271f9970eb9/README.md"
+      },
+      "repo_id": "perplexity-ai/PII-TRACE",
+      "reported_conversations": 500,
+      "reported_empty_controls": 50,
+      "reported_languages": [
+        "en"
+      ],
+      "reported_positive_conversations": 450,
+      "revision": "1c3eb67bbd43e8571b4433a9d3d76271f9970eb9"
+    }
+  ],
+  "models": [
+    {
+      "config": {
+        "config.json": {
+          "architectures": [
+            "PiiMaskingModel"
+          ],
+          "auto_map": {
+            "AutoConfig": "modeling_pii_masking.PiiMaskingConfig",
+            "AutoModel": "modeling_pii_masking.PiiMaskingModel"
+          },
+          "hidden_size": 1024,
+          "max_seq_len": 4096,
+          "model_type": "pii_masking"
+        }
+      },
+      "created_at": "2026-07-16T23:50:59.000Z",
+      "gated": false,
+      "last_modified": "2026-09-22T17:28:05.000Z",
+      "metadata_license": "mit",
+      "parameters": 596090241,
+      "pipeline_tag": "token-classification",
+      "repo_id": "perplexity-ai/PII-Tracer",
+      "revision": "d25c16f2e57e321f6d2527715c01df9112f956f5",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 1076,
+          "sha256": "7fbf88e9c951fe53eb614a46772d0b48ada6d50b351e5e11dcb64b4dc3fb8eb2",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer/resolve/d25c16f2e57e321f6d2527715c01df9112f956f5/LICENSE"
+        },
+        "README.md": {
+          "bytes": 4223,
+          "sha256": "50033f4ce3f20f8fe9ac1b7e80ae50dff6ef47c2d9e99f8f35d64e09e37cdbf2",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer/resolve/d25c16f2e57e321f6d2527715c01df9112f956f5/README.md"
+        },
+        "config.json": {
+          "bytes": 2458,
+          "sha256": "7162c30da7009cfb9c9af6204782177ef6f5d88e2653fd87d6514308d97dcaa7",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer/resolve/d25c16f2e57e321f6d2527715c01df9112f956f5/config.json"
+        },
+        "modeling_pii_masking.py": {
+          "bytes": 16175,
+          "sha256": "c43724b9ac105a9b74d44aea7565e4c43ddc9d203f519324baa342be01269869",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer/resolve/d25c16f2e57e321f6d2527715c01df9112f956f5/modeling_pii_masking.py"
+        }
+      }
+    },
+    {
+      "config": {
+        "config.json": {
+          "architectures": [
+            "Qwen3ForTokenClassification"
+          ],
+          "hidden_size": 1024,
+          "id2label": {
+            "0": "O",
+            "1": "B-private_person",
+            "10": "I-private_phone",
+            "11": "E-private_phone",
+            "12": "S-private_phone",
+            "13": "B-private_address",
+            "14": "I-private_address",
+            "15": "E-private_address",
+            "16": "S-private_address",
+            "17": "B-private_url",
+            "18": "I-private_url",
+            "19": "E-private_url",
+            "2": "I-private_person",
+            "20": "S-private_url",
+            "21": "B-private_date",
+            "22": "I-private_date",
+            "23": "E-private_date",
+            "24": "S-private_date",
+            "25": "B-account_number",
+            "26": "I-account_number",
+            "27": "E-account_number",
+            "28": "S-account_number",
+            "29": "B-secret",
+            "3": "E-private_person",
+            "30": "I-secret",
+            "31": "E-secret",
+            "32": "S-secret",
+            "33": "B-other_pii",
+            "34": "I-other_pii",
+            "35": "E-other_pii",
+            "36": "S-other_pii",
+            "37": "__SEQ_SENSITIVITY__",
+            "4": "S-private_person",
+            "5": "B-private_email",
+            "6": "I-private_email",
+            "7": "E-private_email",
+            "8": "S-private_email",
+            "9": "B-private_phone"
+          },
+          "max_position_embeddings": 32768,
+          "model_type": "qwen3",
+          "num_hidden_layers": 28
+        }
+      },
+      "created_at": "2026-09-13T22:29:36.000Z",
+      "gated": false,
+      "last_modified": "2026-09-22T17:28:07.000Z",
+      "metadata_license": "mit",
+      "parameters": 596088870,
+      "pipeline_tag": "token-classification",
+      "repo_id": "perplexity-ai/PII-Tracer-vLLM",
+      "revision": "9f34cd1f5010a1de5a7b464eaf3c3a39db01b15a",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 1076,
+          "sha256": "7fbf88e9c951fe53eb614a46772d0b48ada6d50b351e5e11dcb64b4dc3fb8eb2",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-vLLM/resolve/9f34cd1f5010a1de5a7b464eaf3c3a39db01b15a/LICENSE"
+        },
+        "README.md": {
+          "bytes": 6179,
+          "sha256": "e7adf610ca01a281ea17b8d46c4264bd5e4c026ab8a8703c8b55edc8db0aa0c6",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-vLLM/resolve/9f34cd1f5010a1de5a7b464eaf3c3a39db01b15a/README.md"
+        },
+        "config.json": {
+          "bytes": 2711,
+          "sha256": "8788a1ec937b42bd1222272fd3c22bee320b360ca0d290826cf4fb2b9c66ec4e",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-vLLM/resolve/9f34cd1f5010a1de5a7b464eaf3c3a39db01b15a/config.json"
+        }
+      }
+    },
+    {
+      "config": {},
+      "created_at": "2026-07-16T23:51:01.000Z",
+      "gated": false,
+      "last_modified": "2026-09-22T17:28:09.000Z",
+      "metadata_license": "mit",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "perplexity-ai/PII-Tracer-GGUF",
+      "revision": "79277a185c6d0a93ab29448e6981ebc722839c2c",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 1076,
+          "sha256": "7fbf88e9c951fe53eb614a46772d0b48ada6d50b351e5e11dcb64b4dc3fb8eb2",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-GGUF/resolve/79277a185c6d0a93ab29448e6981ebc722839c2c/LICENSE"
+        },
+        "README.md": {
+          "bytes": 4512,
+          "sha256": "4109b67a716a4bce07601688831e22d61ff891441c5a5fb2a0ee6fb3c4ce64ad",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-GGUF/resolve/79277a185c6d0a93ab29448e6981ebc722839c2c/README.md"
+        }
+      }
+    },
+    {
+      "config": {
+        "config.json": {
+          "hidden_size": 1024,
+          "max_seq_len": 4096
+        }
+      },
+      "created_at": "2026-07-17T00:03:26.000Z",
+      "gated": false,
+      "last_modified": "2026-09-22T17:28:06.000Z",
+      "metadata_license": "mit",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "perplexity-ai/PII-Tracer-MLX",
+      "revision": "015ceb51ade576a3da77edf1a387a86ce24adb89",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 1076,
+          "sha256": "7fbf88e9c951fe53eb614a46772d0b48ada6d50b351e5e11dcb64b4dc3fb8eb2",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-MLX/resolve/015ceb51ade576a3da77edf1a387a86ce24adb89/LICENSE"
+        },
+        "README.md": {
+          "bytes": 3645,
+          "sha256": "56c570ecdef03d210ee7751860b12ec7bbee590415cab18bfafb9cc44c35a77a",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-MLX/resolve/015ceb51ade576a3da77edf1a387a86ce24adb89/README.md"
+        },
+        "config.json": {
+          "bytes": 2105,
+          "sha256": "1df6d266ff21ddb66264a63c3f39d9656a9b9ce8ff3d2cab1d44eba983af23b5",
+          "url": "https://huggingface.co/perplexity-ai/PII-Tracer-MLX/resolve/015ceb51ade576a3da77edf1a387a86ce24adb89/config.json"
+        }
+      }
+    },
+    {
+      "config": {
+        "config.json": {
+          "architectures": [
+            "BertForTokenClassification"
+          ],
+          "hidden_size": 384,
+          "id2label": {
+            "0": "O",
+            "1": "B-PERSON",
+            "10": "I-FINANCIAL",
+            "11": "B-SECRET",
+            "12": "I-SECRET",
+            "13": "B-NETWORK_ID",
+            "14": "I-NETWORK_ID",
+            "15": "B-RECORD_ID",
+            "16": "I-RECORD_ID",
+            "17": "B-DATE_OF_BIRTH",
+            "18": "I-DATE_OF_BIRTH",
+            "19": "B-DATE",
+            "2": "I-PERSON",
+            "20": "I-DATE",
+            "21": "B-LOCATION",
+            "22": "I-LOCATION",
+            "23": "B-ORGANIZATION",
+            "24": "I-ORGANIZATION",
+            "25": "B-AGE",
+            "26": "I-AGE",
+            "27": "B-DEMOGRAPHIC",
+            "28": "I-DEMOGRAPHIC",
+            "29": "B-OTHER",
+            "3": "B-CONTACT",
+            "30": "I-OTHER",
+            "4": "I-CONTACT",
+            "5": "B-ADDRESS",
+            "6": "I-ADDRESS",
+            "7": "B-GOV_ID",
+            "8": "I-GOV_ID",
+            "9": "B-FINANCIAL"
+          },
+          "max_position_embeddings": 512,
+          "model_type": "bert",
+          "num_hidden_layers": 12
+        }
+      },
+      "created_at": "2026-10-30T14:24:45.000Z",
+      "gated": false,
+      "last_modified": "2026-11-02T13:26:48.000Z",
+      "metadata_license": "bsd-3-clause",
+      "parameters": 117517855,
+      "pipeline_tag": "token-classification",
+      "repo_id": "crp4222/privaite-pii-minilm",
+      "revision": "e5f6a01d465c9a2489a74a95ff1151359b759213",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 1494,
+          "sha256": "b9acb3dc6565c6a4f6471e714686b98a5976f6fb16f31e08c7838795852f9e70",
+          "url": "https://huggingface.co/crp4222/privaite-pii-minilm/resolve/e5f6a01d465c9a2489a74a95ff1151359b759213/LICENSE"
+        },
+        "README.md": {
+          "bytes": 16158,
+          "sha256": "8a24d70b72d9dc6304d56bc7f6b7a938848644d1e5f5721387413f0d2cc357c3",
+          "url": "https://huggingface.co/crp4222/privaite-pii-minilm/resolve/e5f6a01d465c9a2489a74a95ff1151359b759213/README.md"
+        },
+        "config.json": {
+          "bytes": 2144,
+          "sha256": "21cd11839c2ce490d941cb954c797ea757fafd98fa053bdf04d38f57ec33fc3d",
+          "url": "https://huggingface.co/crp4222/privaite-pii-minilm/resolve/e5f6a01d465c9a2489a74a95ff1151359b759213/config.json"
+        }
+      }
+    },
+    {
+      "config": {
+        "config.json": {
+          "architectures": [
+            "MinimoPiiForTokenClassification"
+          ],
+          "id2label": {
+            "0": "O",
+            "1": "account_number",
+            "10": "biometric_identifier",
+            "11": "bitcoinaddress",
+            "12": "buildingnumber",
+            "13": "certificate_license_number",
+            "14": "city",
+            "15": "companyname",
+            "16": "coordinate",
+            "17": "country",
+            "18": "credential",
+            "19": "credit_card",
+            "2": "accountname",
+            "20": "credit_debit_card",
+            "21": "creditcardcvv",
+            "22": "creditcardissuer",
+            "23": "currency",
+            "24": "currencycode",
+            "25": "currencyname",
+            "26": "currencysymbol",
+            "27": "customer_id",
+            "28": "date",
+            "29": "date_of_birth",
+            "3": "accountnumber",
+            "30": "device_identifier",
+            "31": "dob",
+            "32": "education_level",
+            "33": "email",
+            "34": "employee_id",
+            "35": "employment_status",
+            "36": "ethereumaddress",
+            "37": "fax_number",
+            "38": "firstname",
+            "39": "gender",
+            "4": "address",
+            "40": "government_id",
+            "41": "health_plan_beneficiary_number",
+            "42": "http_cookie",
+            "43": "ip_address",
+            "44": "jobtype",
+            "45": "language",
+            "46": "lastname",
+            "47": "litecoinaddress",
+            "48": "mac",
+            "49": "mac_address",
+            "5": "age",
+            "50": "maskednumber",
+            "51": "medical_id",
+            "52": "middlename",
+            "53": "nearbygpscoordinate",
+            "54": "obfuscated_pii",
+            "55": "ordinaldirection",
+            "56": "organization",
+            "57": "person",
+            "58": "personal_attribute",
+            "59": "phone",
+            "6": "amount",
+            "60": "political_view",
+            "61": "postcode",
+            "62": "prefix",
+            "63": "race_ethnicity",
+            "64": "religious_belief",
+            "65": "secondaryaddress",
+            "66": "sexuality",
+            "67": "state",
+            "68": "swift_bic",
+            "69": "time",
+            "7": "bank_routing_number",
+            "70": "title",
+            "71": "unique_id",
+            "72": "unique_identifier",
+            "73": "url",
+            "74": "useragent",
+            "75": "vehicle",
+            "76": "vehicle_identifier",
+            "77": "vehiclevrm",
+            "8": "bic",
+            "9": "biometric"
+          },
+          "max_position_embeddings": 256,
+          "model_type": "bert"
+        }
+      },
+      "created_at": "2026-09-30T21:13:44.000Z",
+      "gated": false,
+      "last_modified": "2026-10-23T12:57:20.000Z",
+      "metadata_license": "cc-by-nc-4.0",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "VidaiUK/stirling-minimo-pii-10m",
+      "revision": "b96a83daca8432af8e80d8c350dbb8f0f8616ce1",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 19347,
+          "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+          "url": "https://huggingface.co/VidaiUK/stirling-minimo-pii-10m/resolve/b96a83daca8432af8e80d8c350dbb8f0f8616ce1/LICENSE"
+        },
+        "README.md": {
+          "bytes": 27063,
+          "sha256": "fdb5bd88dc0b15ffe7e7444966ee80d56f514de1e01e9e303cd5961b674d5148",
+          "url": "https://huggingface.co/VidaiUK/stirling-minimo-pii-10m/resolve/b96a83daca8432af8e80d8c350dbb8f0f8616ce1/README.md"
+        },
+        "config.json": {
+          "bytes": 3587,
+          "sha256": "192fe318113adbde22418987b7a67b3c3720401e02dcee34c280734e0cba1832",
+          "url": "https://huggingface.co/VidaiUK/stirling-minimo-pii-10m/resolve/b96a83daca8432af8e80d8c350dbb8f0f8616ce1/config.json"
+        }
+      }
+    },
+    {
+      "config": {},
+      "created_at": "2026-10-17T22:12:00.000Z",
+      "gated": "auto",
+      "last_modified": "2026-10-22T17:37:19.000Z",
+      "metadata_license": "apache-2.0",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "Deerpark/pii-tagger-edge",
+      "revision": "4dd1a17d41644fd61404fe4be8e4159520673e92",
+      "text_artifacts": {
+        "README.md": {
+          "bytes": 7380,
+          "sha256": "e49cfb68ad545848943aa6fc04246b26441b384be7215b4e7b8652b47fc80829",
+          "url": "https://huggingface.co/Deerpark/pii-tagger-edge/resolve/4dd1a17d41644fd61404fe4be8e4159520673e92/README.md"
+        },
+        "gliner_config.json": {
+          "error": "HTTP Error 401: Unauthorized",
+          "url": "https://huggingface.co/Deerpark/pii-tagger-edge/resolve/4dd1a17d41644fd61404fe4be8e4159520673e92/gliner_config.json"
+        }
+      }
+    },
+    {
+      "config": {
+        "config.json": {
+          "architectures": [
+            "XLMRobertaForTokenClassification"
+          ],
+          "hidden_size": 768,
+          "id2label": {
+            "0": "O",
+            "1": "B-PERSON",
+            "10": "I-DATE_TIME",
+            "2": "I-PERSON",
+            "3": "B-ORGANIZATION",
+            "4": "I-ORGANIZATION",
+            "5": "B-LOCATION",
+            "6": "I-LOCATION",
+            "7": "B-ADDRESS",
+            "8": "I-ADDRESS",
+            "9": "B-DATE_TIME"
+          },
+          "max_position_embeddings": 514,
+          "model_type": "xlm-roberta",
+          "num_hidden_layers": 12
+        }
+      },
+      "created_at": "2026-08-29T17:00:17.000Z",
+      "gated": false,
+      "last_modified": "2026-11-04T07:48:53.000Z",
+      "metadata_license": "other",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "ScienceSoft/scnsoft-pii-encoder",
+      "revision": "2aa868e6228fa27e3a4387858f1f0d2889446194",
+      "text_artifacts": {
+        "README.md": {
+          "bytes": 12659,
+          "sha256": "9435f97a4ce00518813c7c9cde8b408aec80484a2c1b2a8881de25a2ccba59b5",
+          "url": "https://huggingface.co/ScienceSoft/scnsoft-pii-encoder/resolve/2aa868e6228fa27e3a4387858f1f0d2889446194/README.md"
+        },
+        "config.json": {
+          "bytes": 1189,
+          "sha256": "1e840bedc5fac622c796f19c2021c4040641326fcacb9d18ab87c5d2e050e0db",
+          "url": "https://huggingface.co/ScienceSoft/scnsoft-pii-encoder/resolve/2aa868e6228fa27e3a4387858f1f0d2889446194/config.json"
+        }
+      }
+    },
+    {
+      "config": {
+        "gliner_config.json": {
+          "hidden_size": 1024,
+          "model_type": "gliner_streaming_span"
+        }
+      },
+      "created_at": "2026-07-23T13:08:50.000Z",
+      "gated": false,
+      "last_modified": "2026-08-04T17:05:47.000Z",
+      "metadata_license": "apache-2.0",
+      "parameters": null,
+      "pipeline_tag": "token-classification",
+      "repo_id": "knowledgator/gliner-stream-pii-v1.0",
+      "revision": "e871777dc4b3b688747a0433fff8d94a36fcc7b0",
+      "text_artifacts": {
+        "README.md": {
+          "bytes": 5076,
+          "sha256": "7f7adc5595d6311a40d81e1ccd6dd76ce6fa948978e7b29215113ed4cfcab95e",
+          "url": "https://huggingface.co/knowledgator/gliner-stream-pii-v1.0/resolve/e871777dc4b3b688747a0433fff8d94a36fcc7b0/README.md"
+        },
+        "gliner_config.json": {
+          "bytes": 3730,
+          "sha256": "230c4e80da5df0f0fd884b10b9a010a095747cbf58bcd1c22d7333d27437043f",
+          "url": "https://huggingface.co/knowledgator/gliner-stream-pii-v1.0/resolve/e871777dc4b3b688747a0433fff8d94a36fcc7b0/gliner_config.json"
+        }
+      }
+    },
+    {
+      "config": {
+        "config.json": {
+          "architectures": [
+            "ModernBertForTokenClassification"
+          ],
+          "hidden_size": 768,
+          "id2label": {
+            "0": "O",
+            "1": "B-ACCOUNT_ID",
+            "10": "I-CREDIT_CARD",
+            "11": "B-CREDIT_CARD_CVV",
+            "12": "I-CREDIT_CARD_CVV",
+            "13": "B-DATE",
+            "14": "I-DATE",
+            "15": "B-DATE_OF_BIRTH",
+            "16": "I-DATE_OF_BIRTH",
+            "17": "B-DEVICE_ID",
+            "18": "I-DEVICE_ID",
+            "19": "B-DRIVER_LICENSE",
+            "2": "I-ACCOUNT_ID",
+            "20": "I-DRIVER_LICENSE",
+            "21": "B-EMAIL",
+            "22": "I-EMAIL",
+            "23": "B-IP_ADDRESS",
+            "24": "I-IP_ADDRESS",
+            "25": "B-LICENSE_NUMBER",
+            "26": "I-LICENSE_NUMBER",
+            "27": "B-LOCATION",
+            "28": "I-LOCATION",
+            "29": "B-MAC_ADDRESS",
+            "3": "B-AGE",
+            "30": "I-MAC_ADDRESS",
+            "31": "B-MEDICAL_ID",
+            "32": "I-MEDICAL_ID",
+            "33": "B-NATIONAL_ID",
+            "34": "I-NATIONAL_ID",
+            "35": "B-ORGANIZATION",
+            "36": "I-ORGANIZATION",
+            "37": "B-PASSPORT",
+            "38": "I-PASSPORT",
+            "39": "B-PASSWORD",
+            "4": "I-AGE",
+            "40": "I-PASSWORD",
+            "41": "B-PERSON",
+            "42": "I-PERSON",
+            "43": "B-PHONE",
+            "44": "I-PHONE",
+            "45": "B-POSTCODE",
+            "46": "I-POSTCODE",
+            "47": "B-SECRET",
+            "48": "I-SECRET",
+            "49": "B-STREET_ADDRESS",
+            "5": "B-BANK_ACCOUNT",
+            "50": "I-STREET_ADDRESS",
+            "51": "B-TAX_ID",
+            "52": "I-TAX_ID",
+            "53": "B-URL",
+            "54": "I-URL",
+            "55": "B-USERNAME",
+            "56": "I-USERNAME",
+            "57": "B-VEHICLE_ID",
+            "58": "I-VEHICLE_ID",
+            "6": "I-BANK_ACCOUNT",
+            "7": "B-COORDINATE",
+            "8": "I-COORDINATE",
+            "9": "B-CREDIT_CARD"
+          },
+          "max_position_embeddings": 8192,
+          "model_type": "modernbert",
+          "num_hidden_layers": 22
+        }
+      },
+      "created_at": "2026-09-23T19:49:42.000Z",
+      "gated": false,
+      "last_modified": "2026-10-31T10:37:13.000Z",
+      "metadata_license": "apache-2.0",
+      "parameters": 307575611,
+      "pipeline_tag": "token-classification",
+      "repo_id": "Horizon-Labs/pii-redactor-base",
+      "revision": "ef0eff8e63c1711ec0c997c5ca9ea3b78a068684",
+      "text_artifacts": {
+        "LICENSE": {
+          "bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-base/resolve/ef0eff8e63c1711ec0c997c5ca9ea3b78a068684/LICENSE"
+        },
+        "README.md": {
+          "bytes": 12943,
+          "sha256": "0c5cd886e952221b7c1512d039053b747ed770d828e03d88c22936342be65610",
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-base/resolve/ef0eff8e63c1711ec0c997c5ca9ea3b78a068684/README.md"
+        },
+        "config.json": {
+          "bytes": 4759,
+          "sha256": "45b2fbde495ed4232caa73ecf10363dbf324de5927b1cbad693649f8e12fe17d",
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-base/resolve/ef0eff8e63c1711ec0c997c5ca9ea3b78a068684/config.json"
+        }
+      }
+    },
+    {
+      "created_at": "2026-10-13T15:06:50.000Z",
+      "gated": false,
+      "last_modified": "2026-10-13T15:06:54.000Z",
+      "metadata_license": "cc-by-nc-4.0",
+      "parameters": null,
+      "repo_id": "VidaiUK/stirling-minimo-pii-10m-v02",
+      "revision": "a190081e4e3d039725ff7f4b3e0c71fddae252e5",
+      "text_artifacts": {
+        "README.md": {
+          "bytes": 28200,
+          "sha256": "9298b42f6f4e24d9f2269bac93dc059da00f51670447a883f2f912f69508d987",
+          "url": "https://huggingface.co/VidaiUK/stirling-minimo-pii-10m-v02/resolve/a190081e4e3d039725ff7f4b3e0c71fddae252e5/README.md"
+        },
+        "config.json": {
+          "bytes": 4064,
+          "sha256": "52d4e73bad8ebd371160edb4050f08e2ec449ca1b0cf0a32fdc040b7c47f2f7a",
+          "url": "https://huggingface.co/VidaiUK/stirling-minimo-pii-10m-v02/resolve/a190081e4e3d039725ff7f4b3e0c71fddae252e5/config.json"
+        }
+      }
+    }
+  ],
+  "review_date": "2026-11-05",
+  "scope": "Phase-two candidate discovery; metadata and text artifacts inspected, no weights downloaded or model code executed. No new inference measurement."
+}

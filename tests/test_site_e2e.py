@@ -62,6 +62,16 @@ def test_research_plan_and_evidence_in_browser(static_site,width,tmp_path):
         evidence=page.request.get(static_site+"/evidence/research/model-manifest-2026-11-05.json")
         assert evidence.status == 200
         assert len(evidence.json()["models"]) >= 14
+        response=page.goto(static_site+"/doc-next-stage/")
+        assert response.status == 200
+        assert "Next-stage AI engineering" in page.locator("h1").inner_text()
+        assert "PII-Tracer" in page.locator("main").inner_text()
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+        next_models=page.request.get(static_site+"/evidence/research/model-manifest-phase2-2026-11-05.json")
+        assert next_models.status == 200
+        tracer=next(m for m in next_models.json()["models"] if m["repo_id"] == "perplexity-ai/PII-Tracer")
+        assert tracer["revision"] == "d25c16f2e57e321f6d2527715c01df9112f956f5"
+        assert tracer["gated"] is False
         assert not errors
         destination=Path(os.environ.get("EDGEPII_TEST_ARTIFACTS",str(tmp_path)))
         destination.mkdir(parents=True,exist_ok=True)

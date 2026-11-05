@@ -5,6 +5,10 @@ Research cutoff: **5 November 2026**. Evidence:
 [model manifest](research/model-manifest-2026-11-05.json), and
 [historical assessment](14-assessment-2026-11.md).
 
+The [next-stage recommendations](17-next-stage-ai-engineering.md) analyze the
+completed runs, correct PII-Tracer availability, and prioritize remaining
+coverage-policy losses, calibration, and new model experiments.
+
 This plan separates implementable engineering changes from experiments whose
 promotion requires evidence or unavailable deployment data. Status is updated
 only after the corresponding tests and reports exist. A runnable experiment is

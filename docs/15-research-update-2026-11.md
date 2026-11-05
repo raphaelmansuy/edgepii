@@ -7,6 +7,11 @@ Paper results, publisher claims, local reproductions, and proposed experiments
 are distinguished below. New models have not earned production status by
 appearing in this document.
 
+Follow-up correction and next steps:
+[next-stage AI engineering](17-next-stage-ai-engineering.md) verifies the public
+PII-Tracer weights and its public conversation subset, adds recent edge candidates, and analyzes
+the completed results. The initial availability search missed those artifacts.
+
 ## 1. Correct the measurement before replacing the model
 
 The earlier [Modal reports](14-assessment-2026-11.md#measured-modal-result) remain
@@ -70,7 +75,7 @@ peer-reviewed production evidence.
 | R4 | [OpenAI Privacy Filter cross-domain evaluation, v2, 6 Aug 2026](https://arxiv.org/html/2608.02616v2), independent preprint | The revised study covers 32 benchmarks and 14 languages. Domain-adapted XLM-R crosses its zero-shot baseline with hundreds to roughly a thousand labeled examples, depending on domain. | Run a learning curve if audited errors persist. This is evidence for testing adaptation, not a guarantee that 500 EdgePII examples will suffice. Do not mix the earlier 42-benchmark v1 with v2. |
 | R5 | [GLiNER2-PII technical report, v1, 11 May 2026](https://arxiv.org/html/2605.09973v1) | Schema-conditioned extraction supports fine-grained PII labels; the paper's SPY average F1 is 0.471. | Retain the existing PII-specialized baseline. Test canonical model-specific labels instead of sending every alias in a shared cross-model taxonomy. The current card reports 0.477 under its table; preserve the discrepancy. |
 | R6 | [REDACT, v1, 18 Jun 2026](https://arxiv.org/html/2606.19881v1), preprint | Controlled variation includes 25 languages, disclosure form, sensitivity, length, density, and code-switching. On its 1,000-record experiment OPF's partial F1 is 0.512 while exact F1 is 0.171. | Add language and disclosure-form slices. Retain exact typed scoring, but also measure character containment and masking damage. Never compare partial-F1 claims directly to EdgePII exact F1. |
-| R7 | [PII-TRACE, v1](https://arxiv.org/html/2609.22200v1), preprint | Studies repeated identifiers across multi-turn conversations. Its 0.6B PII-Tracer and benchmark are promised upon publication. | Add repeated-mention and cross-turn coverage tests. No public PII-Tracer checkpoint was verified; it cannot be placed in a runnable manifest yet. |
+| R7 | [PII-TRACE, v1](https://arxiv.org/html/2609.22200v1), preprint | Studies repeated identifiers across multi-turn conversations. Follow-up inspection verifies the official [PII-Tracer weights](https://huggingface.co/perplexity-ai/PII-Tracer) and [500-conversation English subset](https://huggingface.co/datasets/perplexity-ai/PII-TRACE); the latter is not the full paper benchmark. | Add conversation coverage evaluation. The MIT checkpoint requires pinned custom code, native BIOES decoding, and checked 4,096-token windows; it has not yet been evaluated in EdgePII. See the [corrected availability record](17-next-stage-ai-engineering.md#3-model-candidates-worth-testing-next). |
 | R8 | [Mind the Gap, v1, 3 Sep 2026](https://arxiv.org/html/2609.03464v1), preprint | Rules, an encoder, and a generative extractor fail differently under distribution shift. This is a robustness study, not a ranking of the newest models. | Add OCR, informal formatting, obfuscation, and domain-shift controls. Measure complementary misses before considering an ensemble. |
 | R9 | [ToolMinimize, v1, 25 Aug 2026](https://arxiv.org/html/2608.24957v1), authors' accepted PST version | Tool arguments can disclose more information than tool functionality needs; syntax-valid arguments do not prove end-task success. | Extend existing mapping support with explicit field-level policy and task-validity tests. A span detector alone cannot decide which city a weather tool needs. |
 | R10 | [SurrogateShield, v1, 28 Jun 2026](https://arxiv.org/html/2606.29567v1), preprint | Reports utility gains for type-consistent replacement under a limited synthetic/adversarial evaluation. | Treat surrogate replacement as a separately evaluated strategy. BERTScore and a small attack trial are not proof of anonymity or task preservation. Secrets stay irreversible. |
@@ -103,7 +108,8 @@ license file. HTTP 401/404 and missing pins are retained rather than hidden.
 
 Keep the current pinned ModernBERT and GLiNER2-PII presets as controls. Do not
 replace them merely because a newer base architecture exists. The Cisco and
-Graehl papers provide methods; PII-Tracer remains availability-dependent.
+Graehl papers provide methods. PII-Tracer is now an available candidate;
+adapter validation and matched evaluation are still outstanding.
 Generative extractors, cloud-only detectors, and document decision models do
 not replace the exact-source span interface without an explicit contract change.
 

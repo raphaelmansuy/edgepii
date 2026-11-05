@@ -89,6 +89,13 @@ def test_research_plan_and_evidence_in_browser(static_site,width,tmp_path):
         assert "edgepii==0.4.0" in page.locator("main").inner_text()
         assert page.locator("a[href='https://pypi.org/project/edgepii/0.4.0/']").count() > 0
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+        published=page.request.get(static_site+"/evidence/eval/validation/pypi-0-4-0/validation.json")
+        assert published.status == 200 and published.json()["passed"] is True
+        assert published.json()["mode"] == "published-pypi"
+        assert published.json()["installed"][0]["version"] == "0.4.0"
+        artifacts=page.request.get(static_site+"/evidence/eval/releases/edgepii-0.4.0.json")
+        assert artifacts.status == 200 and artifacts.json()["state"] == "published"
+        assert {f["sha256"] for f in published.json()["files"]} == {f["sha256"] for f in artifacts.json()["artifacts"]}
         assert not errors
         destination=Path(os.environ.get("EDGEPII_TEST_ARTIFACTS",str(tmp_path)))
         destination.mkdir(parents=True,exist_ok=True)

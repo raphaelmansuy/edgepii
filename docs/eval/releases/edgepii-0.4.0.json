@@ -1,0 +1,72 @@
+{
+  "artifacts": [
+    {
+      "bytes": 76770,
+      "filename": "edgepii-0.4.0-py3-none-any.whl",
+      "sha256": "e5c5aab34ac45f3bba401d634f12cf8300f365122009e02059c9ae67f8d0fb4c"
+    },
+    {
+      "bytes": 330827,
+      "filename": "edgepii-0.4.0.tar.gz",
+      "sha256": "9f337f23546f7bbfea83aef704d1e77868e674b1b1c531fb19df98cc64e5744c"
+    }
+  ],
+  "build_inputs_sha256": {
+    "LICENSE": "b10ca9522f36bffdd0b9064d10228ed40e6d2ce02a3f044d688e379f4038da43",
+    "MANIFEST.in": "5239a92d42c58996785b41760ff7b6734bd7121b7aea878b8d78e0330773ca35",
+    "README.md": "88047424415b456dfa7c8d55db09ec39bac27eb68c3d31b5d9930714e4ec4e56",
+    "pyproject.toml": "d0e36356f9e77b65e8487450baec8653f612569be82de21845cf806bab001122"
+  },
+  "build_tools": {
+    "build": "1.6.1",
+    "setuptools": "84.2.1",
+    "twine": "7.0.0"
+  },
+  "metadata_check": "twine check --strict: passed",
+  "metadata_url": "https://pypi.org/pypi/edgepii/0.4.0/json",
+  "pre_publication_modal": "https://modal.com/apps/raphaelmansuy/main/ap-sDp1pdopdtyt0dsiIz9Gla",
+  "source_commit": "0461161c5b7767ff3691ca583e09982f1eec49f6",
+  "source_sha256": {
+    "src/edgepii/__init__.py": "e7a2425fa8e8db5fcc2e8788f3583f41afb7b598d959743888b29df7d6fd06be",
+    "src/edgepii/_version.py": "7b241462fb3e03abcb015f2d9568f192f8c1c695c298cb4d739dfd9e68774360",
+    "src/edgepii/bridges/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/edgepii/bridges/presidio.py": "ded66f894d24d10c993841e3004df2390452d0bede915b886709422d514d3980",
+    "src/edgepii/check.py": "9e09a6bf05e92aeca26ce3d93f7d9bac1b4e92c46f9e7d8544b0cfe5a4d7f059",
+    "src/edgepii/detectors/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/edgepii/detectors/gliner.py": "37d262559634f743d8725c2e96ed7ee238dfef451593baba7e8ec70ffac0b2c2",
+    "src/edgepii/detectors/gliner2.py": "6c021970266c75603f6a2a55c1583299359283e9a29b8cd7905be53f76c9105b",
+    "src/edgepii/detectors/hf_token.py": "91ee5df32082498a132b8b0effe8c46a75f72b8a98955c8e86c83f82aeff4ab9",
+    "src/edgepii/detectors/rules.py": "9c0355ed9982e2194394f2e8249a9692a47857745347451721d4f289f0847af0",
+    "src/edgepii/detectors/uie.py": "0f993b5d582ac23513a4b74bb7f91e01e432c788e6386dc978ebab88a1af9c04",
+    "src/edgepii/errors.py": "a81373a126c2d59d2e2141bc7d63ef63e0461152627ab21ba10fe495939f3b8d",
+    "src/edgepii/eval/__init__.py": "089fd261020078ab929fb62e5b0752e9c648ce028d78f87b05ac6f0896b337f5",
+    "src/edgepii/eval/cli.py": "3aa84fb607543d0be87ba674710266245723b3906112fe9e4e5b6a3b373d845f",
+    "src/edgepii/eval/corpora.py": "8264ad9451839408a68ec1bd15bd0b5a0fa3f799c3e90c27cd06b2c491a5e5ec",
+    "src/edgepii/eval/corpora.yaml": "cdc7b44db9d3a6d2009ae8b868632b742c25bd9be8279a6e65093441b9c2fc08",
+    "src/edgepii/eval/coverage.py": "affbf6b980aca79f026fc4034f137af962c971c19bb91e7854c86e67269e4970",
+    "src/edgepii/eval/gates.py": "2927c9ff16cbb9daa192f19d9fc58488c26bba8b143cdda7fc62ff64ccf271cf",
+    "src/edgepii/eval/runner.py": "d6f545b52c4ce984bb360002e6695751bf1f14fcdae5d25bfd4e473d2a0bb8cb",
+    "src/edgepii/eval/score.py": "429417ad10a09509e16a729f973e0e6bbec2477413c10ef5e3b5d39b1d5fb71b",
+    "src/edgepii/labelmap.py": "7da0a49b8ac6bf59c2edf6fa946643c346362800491ec4b4780e0da3784e70bc",
+    "src/edgepii/locator.py": "6e1d527db5b87a049fe99d4830e08ad74532aab0757ca634918012bed99945fe",
+    "src/edgepii/merge.py": "b8b1dc408d0029cb2a9a3b9f395c565c45e56795eb8cd1a79c354ca1caf188d7",
+    "src/edgepii/normalize.py": "1d74a2d2604a560cb7780c87f4b5d91d882780f779cb687526c29316b1fafc7c",
+    "src/edgepii/presets.py": "73964decec162edcf36b3c53031c3d2124804174a7e38b49b6e707b4bdc72c52",
+    "src/edgepii/protection.py": "6c62d4a2434ac9e7447eba392e2b3446b415814e0f7e3193e07ccad8920cc5b3",
+    "src/edgepii/protocol.py": "d2458d85c064429596577b4b8dfdf0c2e442e0526f583593458885c80d26a20b",
+    "src/edgepii/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/edgepii/quasi.py": "1f311039d8dcbebff6c3167aa88d144329713b4030c23cd6a8ccf08cbf6542fa",
+    "src/edgepii/redact.py": "154233739a06cb28d6823c70ccbc1d64d151c183dc57a9a801e0d0bb8fb4c84a",
+    "src/edgepii/restore.py": "8b8e4812478ba0c43b6a10b838013f4d3d2b5f7077839a81653cd4c4b922320d",
+    "src/edgepii/span.py": "59afbdf9738d1a383c77bca4ce76876e00f1102bd6b3fbc0acd7c2a2380bce72",
+    "src/edgepii/taxonomies/2026.11.yaml": "335b97e7f19ffc4913b3dc0796942dde246649b32b7d1be07de173bb236d1c4f",
+    "src/edgepii/toolcall.py": "8329b227c66180c3e50167e784b0dba7a24d00896a2c6a95b06a5cf4811f1747",
+    "src/edgepii/windows.py": "ea994509754160cdbb50818877d3f71104b168a0002d28e407b2aa7cf018035d"
+  },
+  "state": "published",
+  "upload_time": {
+    "edgepii-0.4.0-py3-none-any.whl": "2026-11-05T08:29:04.651711Z",
+    "edgepii-0.4.0.tar.gz": "2026-11-05T08:29:06.458692Z"
+  },
+  "version": "0.4.0"
+}

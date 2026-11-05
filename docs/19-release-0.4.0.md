@@ -83,4 +83,22 @@ and checks the installed wheel using that same script:
 .venv/bin/modal run modal/verify_release.py --version 0.4.0
 ```
 
-Publication evidence is recorded after the upload and installation check.
+## Published artifacts and installation evidence
+
+Both artifacts were published on **5 November 2026**. Their SHA-256 values match
+the locally built files, recorded in the
+[release artifact manifest](eval/releases/edgepii-0.4.0.json). The artifact source
+commit is [0461161](https://github.com/raphaelmansuy/edgepii/commit/0461161c5b7767ff3691ca583e09982f1eec49f6);
+subsequent documentation records the publication evidence.
+
+The [post-publication Modal check](eval/validation/pypi-0-4-0/validation.json)
+**passed**: both public file hashes were verified, and the exact PyPI wheel
+was installed from the public index in a fresh environment. All ten installed
+package checks passed, including the new protection APIs and irreversible
+secret policy. [Modal run](https://modal.com/apps/raphaelmansuy/main/ap-olKPUYHPxI6kSEvxHnYKs3).
+This installation check is separate from the complete pre-publication suite
+reported above.
+
+The [final documentation/browser check](eval/validation/2026-11-05-pypi-site-published/validation.json)
+passed **17 tests with no skips** on Modal, including the release page and
+published artifact evidence at desktop and mobile sizes.

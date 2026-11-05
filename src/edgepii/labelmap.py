@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from importlib.resources import files
 
@@ -27,6 +27,7 @@ class Taxonomy:
     labels: dict[str, str]
     schema_zh: dict[str, str]
     excluded_classes: tuple[str, ...]
+    prompt_labels: dict[str, list[str]] = field(default_factory=dict)
 
     def public_type(self, raw_label: str) -> str | None:
         key = _norm(raw_label)
@@ -51,6 +52,12 @@ class Taxonomy:
         names.sort()
         return names
 
+    def prompt_labels_for(self, type_names: list[str], schema: str) -> list[str]:
+        """Canonical model prompts, separate from output-label aliases."""
+        wanted = set(type_names)
+        return [label for label in self.prompt_labels[schema]
+                if self.public_type(label) in wanted]
+
     def require(self, name: str) -> TypeInfo:
         info = self.types.get(name)
         if info is None:
@@ -60,7 +67,7 @@ class Taxonomy:
 
 def _norm(raw_label: str) -> str:
     key = raw_label.strip().casefold().replace(" ", "_")
-    for prefix in ("b-", "i-", "l-", "u-"):
+    for prefix in ("b-", "i-", "l-", "u-", "e-", "s-"):
         if key.startswith(prefix):
             key = key[len(prefix) :]
             break
@@ -91,4 +98,5 @@ def load_taxonomy(version: str = "2026.11") -> Taxonomy:
         labels=labels,
         schema_zh=dict(data["schema_zh"]),
         excluded_classes=tuple(data["default_excluded_classes"]),
+        prompt_labels=dict(data.get("prompt_labels", {})),
     )

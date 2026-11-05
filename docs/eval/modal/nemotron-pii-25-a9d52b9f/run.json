@@ -1,0 +1,44 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "rules",
+      "report": "nemotron-pii__rules-25.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "en-closed",
+      "report": "nemotron-pii__en-closed-25.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-open",
+      "report": "nemotron-pii__multi-open-25.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder",
+      "report": "nemotron-pii__multi-encoder-25.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-boundary",
+      "report": "nemotron-pii__multi-boundary-25.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "opf-native",
+      "report": "nemotron-pii__opf-native-25.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "rules",
+    "en-closed",
+    "multi-open",
+    "multi-encoder",
+    "multi-boundary",
+    "opf-native"
+  ],
+  "state": "complete"
+}

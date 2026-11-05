@@ -17,6 +17,12 @@ That check is the contract. If a detector returns an offset that fails it, the l
 - [Specification](https://github.com/raphaelmansuy/edgepii/blob/main/docs/README.md) · [Span contract](https://github.com/raphaelmansuy/edgepii/blob/main/docs/01-span-contract.md) · [API](https://github.com/raphaelmansuy/edgepii/blob/main/docs/06-library-api.md) · [Examples](https://github.com/raphaelmansuy/edgepii/blob/main/docs/11-examples.md) · [Evaluation](https://github.com/raphaelmansuy/edgepii/blob/main/docs/09-evaluation.md) · [Public corpora](https://github.com/raphaelmansuy/edgepii/blob/main/docs/12-public-corpora.md) · [First score](https://github.com/raphaelmansuy/edgepii/blob/main/docs/13-first-public-score.md)
 - Python 3.11 or newer. Local weights. No cloud PII service.
 
+The [research update through 5 November 2026](docs/15-research-update-2026-11.md)
+and [grounded improvement plan and results](docs/16-grounded-improvement-plan.md)
+cover the current implementation, experimental models, and Modal validation.
+New presets remain experimental; the corrected SPY protocol must not be
+compared directly to earlier materializations.
+
 ## Contents
 
 - [Why this library](#why-this-library)
@@ -34,6 +40,7 @@ That check is the contract. If a detector returns an offset that fails it, the l
 - [Tests](#tests)
 - [Site](#site)
 - [Evaluation](#evaluation)
+- [Modal model runtime](modal/README.md)
 - [Design rules](#design-rules)
 - [Limits](#limits)
 - [License](#license)
@@ -70,6 +77,10 @@ The rule lane needs only `phonenumbers` and `pyyaml`. Model lanes are extras:
 .venv/bin/pip install "edgepii[gliner]"   # gliner: phi-open
 .venv/bin/pip install "edgepii[ms]"       # modelscope: zh-schema
 ```
+
+For GPU model evaluation or private SDK inference on Modal, see the
+[Modal runtime guide](modal/README.md). Cloud execution is explicit; the local
+presets keep their existing behavior.
 
 A missing extra raises `DetectorLoadError` with the extra, the repo id, and the revision. It never includes source text.
 
@@ -171,6 +182,8 @@ A preset is a fixed detector list. `locate` does not branch on the preset name.
 | `rules` | None | `rules` | You need email, phone, IBAN, card, IP, or a password cue with no download |
 | `en-closed` | [antoniogr7/pii-identifier-v0.1](https://huggingface.co/antoniogr7/pii-identifier-v0.1) | `3d0f39e` | English text and a frozen type list. ModernBERT, Apache-2.0 |
 | `multi-open` | [fastino/gliner2-privacy-filter-PII-multi](https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi) | `1cb4166` | The caller must change the type list per call |
+| `multi-encoder` | [Horizon-Labs/pii-redactor-small](https://huggingface.co/Horizon-Labs/pii-redactor-small) | `a20835d` | Experimental multilingual closed encoder; measure on your domain |
+| `multi-boundary` | [fastino/gliner2.5-multi-v1](https://huggingface.co/fastino/gliner2.5-multi-v1) | `cf5593a` | Experimental multilingual boundary extractor; uses the `gliner2` extra |
 | `en-bert` | [ab-ai/pii_model](https://huggingface.co/ab-ai/pii_model) | `bbb5e83` | BERT control. The owner gates this repo, so you need access |
 | `phi-open` | [nvidia/gliner-PII](https://huggingface.co/nvidia/gliner-PII) | `bd23e8e` | Health-adjacent text. Its health labels are outside taxonomy `2026.11` |
 | `zh-schema` | [iic/nlp_structbert_siamese-uie_chinese-base](https://modelscope.cn/models/iic/nlp_structbert_siamese-uie_chinese-base) | `v1.2` | Chinese text through ModelScope schema prompts |

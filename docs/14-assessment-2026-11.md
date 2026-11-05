@@ -1,5 +1,14 @@
 # Assessment, November 2026
 
+**5 November research-audit erratum:** the historical SPY materializer filled
+`ID_NUM` with RIPE organization handles and mapped them to `GOV_ID`. The 37
+high-severity gold spans in the 50-document run all came from that bucket.
+The recorded counts are reproducible, but are not validated government-ID
+leakage measurements. SPY also labels author-associated identifiers rather than
+all identifiers. Read the [research update](15-research-update-2026-11.md) and
+[new plan](16-grounded-improvement-plan.md) for the correction and fresh evidence.
+Historical JSON files are preserved unchanged.
+
 <!-- ste: descriptive -->
 
 This file records the state of `edgepii`, measured against the research
@@ -338,3 +347,103 @@ biggest credibility gap. On the same 100 `spy-legal` documents:
 The cost is real: 80 s to load and about 3x the latency. `en-closed` stays the
 default for a fast first pass, and the file now records both numbers so a caller
 chooses on evidence rather than on a recommendation.
+
+## 9. Engineering follow-up, 5 November 2026
+
+The current assessment is **a useful alpha with a strong output contract and
+substantial domain-dependent detection errors**. Correct offsets prove which
+characters were detected. They do not prove that all sensitive characters were
+detected, or that the remaining context cannot identify a person.
+
+The committed `en-closed` reports illustrate this distinction. Exact-span recall
+is 0.987 on 500 Nemotron documents, with two high-severity leaks, and 0.255 on
+400 Gretel finance documents, with 38 high-severity leaks. These are separate
+corpora and sample sizes, not a paired model experiment. They support a need for
+domain-specific validation, not a universal accuracy claim. Their report files
+are `docs/eval/nemotron-pii__en-closed-500.json` and
+`docs/eval/gretel-finance-en__en-closed-400.json`.
+
+### Changes implemented in this follow-up
+
+- GLiNER2 loads its weights, configuration, and tokenizer from one pinned Hub
+  snapshot. Both GLiNER adapters fail with `DetectorLoadError` rather than retry
+  without a revision when loading raises `TypeError`.
+- Both GLiNER adapters move to the requested device and enter evaluation mode.
+  The Hugging Face adapter preserves device strings, including `cuda:1` and
+  `mps`, instead of converting every non-`cuda` request to CPU.
+- GLiNER adapters carry the model's reported text into the existing slice
+  checker, so an offset/surface disagreement is counted and dropped.
+- The GLiNER2 extra includes its local inference dependencies. The base
+  `gliner2==2.1.0` package alone now provides an SDK without the full ML runtime.
+- An actual Modal run found a Transformers 4 compatibility failure with the
+  pinned ModernBERT tokenizer (`TokenizersBackend`). The runtime now pins
+  Transformers 5.22.1 and PEFT 0.21.2, and the HF extra requires Transformers 5.
+- The evaluation CLI can enforce an exact-span recall floor, high-severity
+  leakage ceiling, and invalid-offset ceiling on every requested slice. It
+  saves failed reports and exits nonzero. Empty slices and unmapped gold labels
+  cannot silently pass.
+- Reports record selected-input and package-source digests, type subset,
+  score floor, normalization policy, package versions, devices, and individual
+  inference-call latency percentiles. Existing report fields remain present.
+- `modal/models.py` provides explicit private SDK inference and a matched-corpus
+  comparison of the rules baseline, ModernBERT, and GLiNER2. It uses a weight
+  cache, one model load per container, scale-to-zero, and a container cap. The
+  manual GitHub workflow retains evaluation reports when gates fail.
+
+The runtime follows Modal's current [weight storage](https://modal.com/docs/guide/model-weights)
+and [lifecycle](https://modal.com/docs/guide/lifecycle-functions) guidance.
+Deterministic outcome graders and explicit acceptance criteria follow the
+evaluation approach described in [Anthropic's January 2026 engineering guidance](https://www.anthropic.com/research/demystifying-evals-for-ai-agents).
+Here, exact source offsets are a direct grader; a generative judge adds no
+useful certainty to that check.
+
+### Remaining work before a production claim
+
+1. Freeze acceptance criteria on development data, then evaluate held-out
+   examples representative of the deployment's languages, entity types, and
+   document lengths. The current deterministic public prefixes are exploratory.
+   Report uncertainty and per-type failures before ranking close model results.
+2. Audit token budgets across all model adapters. Character-count windows do
+   not establish a token-count bound for arbitrary Unicode or dense identifiers.
+   A valid returned offset does not prove the model processed the whole window.
+3. Measure complete request latency and cost, including cold start, data
+   transfer, concurrency, and real production request sizes. The new latency
+   percentiles describe warmed `locate` calls, not a service latency SLO.
+4. Keep cloud inference an explicit data-boundary choice. A Modal call receives
+   the unmasked source. It is not an automatic privacy-preserving replacement
+   for local inference. No public HTTP endpoint or cloud fallback was added.
+
+The default Modal comparison records baseline quality. Its zero recall floor
+and disabled leakage ceiling are **not production acceptance criteria**. See
+the [Modal guide](../modal/README.md) for explicit gate configuration and the
+privacy boundary.
+
+### Measured Modal result
+
+The completed [Modal run](https://modal.com/apps/raphaelmansuy/main/ap-1KV9hXEQfviTU8cmJfYR8Q)
+evaluated 50 SPY legal documents containing 254 in-scope gold spans. Both model
+lanes used a Tesla T4; the rules baseline used four CPU threads. Every run used
+the same materialized inputs and gold: selection SHA-256
+`2a1d0aa44fe3bf8fa022ce3521e6030d7948e45c2f41462696858b9d8812d748`.
+All three package-source and deployment-source fingerprints also match.
+
+- [Rules report](eval/modal/spy-legal__rules-50.json): precision 0.281,
+  recall 0.283, F1 0.282, F2 0.283; 37 high-severity leaks. Warm p95 8.1 ms.
+- [ModernBERT report](eval/modal/spy-legal__en-closed-50.json): precision 0.163,
+  recall 0.606, F1 0.258, F2 0.393; 37 high-severity leaks. Warm p95 96.6 ms.
+- [GLiNER2 report](eval/modal/spy-legal__multi-open-50.json): precision 0.262,
+  recall 0.768, F1 0.391, F2 0.554; 28 high-severity leaks. Warm p95 292.1 ms.
+
+All runs reported zero invalid offsets. GLiNER2 is the stronger recall candidate
+on this sample, with 16.1 percentage points more recall and nine fewer
+high-severity leaks than ModernBERT. Its p95 inference latency is about three
+times higher. Precision remains low for both models. No default model is
+changed on the strength of 50 exploratory documents.
+
+Applying the example release policy of 90% recall and zero high-severity leaks
+to these saved reports correctly rejects all three presets. The default
+integration gates passed because they do not impose those quality targets.
+Local validation completed with **175 tests passed and two skips**: the optional
+Playwright browser module was unavailable, and converted site images were
+absent. The manual GitHub workflow was syntax-checked locally; it has not been
+dispatched in GitHub.

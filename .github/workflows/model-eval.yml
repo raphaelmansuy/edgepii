@@ -1,0 +1,65 @@
+name: model evaluation on Modal
+
+# Explicit runs only: no pull request automatically starts billable GPUs.
+on:
+  workflow_dispatch:
+    inputs:
+      corpus:
+        description: Pinned public evaluation corpus
+        type: choice
+        options: [spy-legal, spy-medical, gretel-finance-en, nemotron-pii]
+        default: spy-legal
+      limit:
+        description: Documents per slice (1 to 10000)
+        default: "200"
+        required: true
+      min_recall:
+        description: Minimum exact-span recall in every slice
+        default: "0.90"
+        required: true
+      max_leaks:
+        description: Maximum high severity leaks per slice
+        default: "0"
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: model-eval-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install client and evaluation tools
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -e '.[eval,modal]'
+      - name: Evaluate model candidates with explicit gates
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          CORPUS: ${{ inputs.corpus }}
+          LIMIT: ${{ inputs.limit }}
+          MIN_RECALL: ${{ inputs.min_recall }}
+          MAX_LEAKS: ${{ inputs.max_leaks }}
+        run: |
+          .venv/bin/modal run modal/models.py --corpus "$CORPUS" --limit "$LIMIT" \
+            --presets en-closed,multi-open --min-recall "$MIN_RECALL" --max-leaks "$MAX_LEAKS" \
+            --out "$RUNNER_TEMP/edgepii-model-eval"
+      - name: Keep evaluation evidence even when a quality gate fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-evaluation
+          path: ${{ runner.temp }}/edgepii-model-eval/**/*.json
+          if-no-files-found: warn
+          retention-days: 14

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from bisect import bisect_left
+
 from edgepii.labelmap import Taxonomy
 from edgepii.span import Span
 
@@ -66,10 +68,9 @@ def merge_spans(
     removes every span that has no score. A caller should only do that after
     measuring what it costs.
 
-    Overlap resolution is a sweep, not a pairwise compare. The list is sorted by
-    start offset, so once a later span starts at or after the current span ends,
-    no later span can overlap it. That bound keeps a long document linear in the
-    number of spans instead of quadratic.
+    Resolve direct conflicts in priority order. Prefix-sum interval indexes
+    keep the complete operation O(n log n), including sorting. A losing bridge
+    never suppresses an otherwise disjoint candidate. See ADR 0005.
     """
 
     kept: list[Span] = []
@@ -97,28 +98,47 @@ def merge_spans(
 
 
 def _resolve_overlaps(ordered: list[Span], taxonomy: Taxonomy) -> list[Span]:
-    """Group transitively overlapping spans, then keep one winner per group.
+    """Greedy direct-conflict resolution with two Fenwick prefix-sum indexes."""
 
-    `ordered` is sorted by start offset. A group is closed as soon as a span
-    starts at or after the furthest end seen so far, because nothing later can
-    reach back into it.
-    """
-
-    winners: list[Span] = []
-    group: list[Span] = []
-    reach = -1
-
-    for span in ordered:
-        if group and span.start >= reach:
-            winners.append(_better_of(group, taxonomy))
-            group = []
-            reach = -1
-        group.append(span)
-        reach = max(reach, span.end)
-
-    if group:
-        winners.append(_better_of(group, taxonomy))
+    coordinates = sorted({point for span in ordered for point in (span.start, span.end)})
+    occupancy = _PrefixIndex(len(coordinates))
+    starts = _PrefixIndex(len(coordinates))
+    winners = []
+    ranked = sorted(ordered, key=lambda span: (
+        -taxonomy.types[span.type].rank, -_prefer_match(span, taxonomy),
+        -(span.end - span.start), -(span.score if span.score is not None else -1.0),
+        span.start, span.type, span.detector_id, span.raw_label,
+    ))
+    for span in ranked:
+        lo = bisect_left(coordinates, span.start)
+        hi = bisect_left(coordinates, span.end)
+        # An accepted interval either covers our start or starts inside us.
+        # Half-open endpoints make adjacent spans non-conflicting.
+        if occupancy.prefix(lo + 1) or starts.prefix(hi) - starts.prefix(lo):
+            continue
+        winners.append(span)
+        occupancy.add(lo, 1)
+        occupancy.add(hi, -1)
+        starts.add(lo, 1)
     return winners
+
+
+class _PrefixIndex:
+    def __init__(self, size: int):
+        self.values = [0] * (size + 1)
+
+    def add(self, index: int, value: int) -> None:
+        index += 1
+        while index < len(self.values):
+            self.values[index] += value
+            index += index & -index
+
+    def prefix(self, end: int) -> int:
+        total = 0
+        while end:
+            total += self.values[end]
+            end -= end & -end
+        return total
 
 
 def _better_of(group: list[Span], taxonomy: Taxonomy) -> Span:

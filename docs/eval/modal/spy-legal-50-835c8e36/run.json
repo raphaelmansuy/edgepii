@@ -1,0 +1,14 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder",
+      "report": "spy-legal__multi-encoder-50.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "multi-encoder"
+  ],
+  "state": "complete"
+}

@@ -11,12 +11,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import sys
 from pathlib import Path
 
 from edgepii.eval.corpora import CorpusError, corpus_keys, load_spec
 from edgepii.eval.runner import score_corpus
+from edgepii.eval.gates import GatePolicy, check_gates
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -30,7 +32,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", default=None, help="report path. default is a name in docs/eval")
     parser.add_argument("--device", default="cpu", help="torch device for a model preset")
     parser.add_argument("--print", action="store_true", dest="show", help="print the table too")
+    parser.add_argument("--min-score", type=float, default=None, help="caller score floor")
+    parser.add_argument("--min-recall", type=float, default=None, help="minimum recall in every slice")
+    parser.add_argument("--max-leaks", type=int, default=None, help="maximum high severity leaks per slice")
+    parser.add_argument("--max-dropped", type=int, default=0, help="maximum invalid offsets per slice")
     args = parser.parse_args(argv)
+    try:
+        policy = GatePolicy(args.min_recall, args.max_leaks, args.max_dropped)
+        if args.limit is not None and args.limit <= 0:
+            raise ValueError("limit must be positive")
+        if args.min_score is not None and not (math.isfinite(args.min_score) and 0 <= args.min_score <= 1):
+            raise ValueError("min_score must be between zero and one")
+    except ValueError as exc:
+        parser.error(str(exc))
 
     from edgepii import DetectorLoadError, Locator
 
@@ -45,19 +59,23 @@ def main(argv: list[str] | None = None) -> int:
             limit=args.limit,
             slices=args.slices,
             types=types,
+            min_score=args.min_score,
         )
     except (CorpusError, DetectorLoadError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
     payload = report.to_dict()
+    payload["gates"] = check_gates(payload, policy)
     out = Path(args.out) if args.out else _default_report(args.preset, args.corpus, args.limit)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if args.show:
         print(table(payload))
     print(f"wrote {out}", file=sys.stderr)
-    return 0
+    for failure in payload["gates"]["failures"]:
+        print(f"gate failed: {failure}", file=sys.stderr)
+    return 0 if payload["gates"]["passed"] else 1
 
 
 def table(payload: dict) -> str:

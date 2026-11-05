@@ -1,0 +1,44 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "rules",
+      "report": "spy-medical__rules-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "en-closed",
+      "report": "spy-medical__en-closed-50.json"
+    },
+    {
+      "gates_passed": false,
+      "preset": "multi-open",
+      "report": "spy-medical__multi-open-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder",
+      "report": "spy-medical__multi-encoder-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-boundary",
+      "report": "spy-medical__multi-boundary-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "opf-native",
+      "report": "spy-medical__opf-native-50.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "rules",
+    "en-closed",
+    "multi-open",
+    "multi-encoder",
+    "multi-boundary",
+    "opf-native"
+  ],
+  "state": "quality-gates-failed"
+}

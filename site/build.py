@@ -56,6 +56,9 @@ REFERENCE_DOCS = [
     ("doc-corpora", "12-public-corpora.md", "Public corpora"),
     ("doc-score", "13-first-public-score.md", "First public score"),
     ("doc-assessment", "14-assessment-2026-11.md", "Assessment, November 2026"),
+    ("doc-research-2026", "15-research-update-2026-11.md", "Latest research, November 2026"),
+    ("doc-improvement-plan", "16-grounded-improvement-plan.md", "Grounded improvement plan"),
+    ("doc-overlap-policy", "adr/0005-overlap-and-coverage.md", "Overlap and coverage policy"),
     ("doc-architecture", "07-architecture.md", "Architecture"),
     ("doc-ai-engineering", "03-ai-engineering.md", "AI engineering"),
     ("doc-landscape", "04-research-landscape.md", "Research landscape"),
@@ -147,6 +150,15 @@ def main() -> int:
 
 
 def write_assets() -> None:
+    # Research and evaluation evidence ships with the site, including nested
+    # run folders. Local links must not depend on an unpushed GitHub file.
+    for section in ("eval", "research"):
+        for source in (DOCS / section).rglob("*"):
+            if not source.is_file() or source.suffix not in {".json", ".xml", ".png"}:
+                continue
+            target = OUT / "evidence" / section / source.relative_to(DOCS / section)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(source.read_bytes())
     css = read(STATIC / "site.css")
     css += "\n" + mdrender.code_css() + "\n"
     (OUT / "assets" / "site.css").write_text(css, encoding="utf-8")

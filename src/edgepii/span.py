@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True, slots=True)
@@ -41,6 +41,9 @@ class LocateResult:
     preset: str
     revision: str
     quasi: tuple = ()
+    unmapped: int = 0
+    # Evaluation-only ranges before overlap and score policy; never serialized.
+    _candidate_ranges: tuple[tuple[str, int, int], ...] | None = field(default=None, repr=False)
 
     def to_dict(self) -> dict:
         """Export the contract. Callers who log this dict copy PII."""
@@ -50,6 +53,7 @@ class LocateResult:
             "preset": self.preset,
             "revision": self.revision,
             "dropped": self.dropped,
+            "unmapped": self.unmapped,
             "spans": [span.to_dict() for span in self.spans],
             "quasi": [row.to_dict() for row in self.quasi],
         }

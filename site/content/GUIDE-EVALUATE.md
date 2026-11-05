@@ -1,5 +1,12 @@
 # Score it yourself
 
+The [5 November research update](15-research-update-2026-11.md) and
+[implementation results](16-grounded-improvement-plan.md#11-completion-record)
+contain the latest pinned Modal experiments. New reports include containment
+and coverage diagnostics. SPY's corrected `government-id-v2` materialization
+has different input values from the historical scores; compare models only
+within a matched selection digest and protocol.
+
 <!-- ste: procedural -->
 
 A card figure is not evidence. This page runs the library against two public PII corpora and shows

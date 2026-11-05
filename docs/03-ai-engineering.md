@@ -1,5 +1,9 @@
 # AI engineering principles
 
+The [grounded improvement plan](16-grounded-improvement-plan.md) applies these
+principles to the current code, including first-principles tests on Modal and
+the [November research audit](15-research-update-2026-11.md).
+
 <!-- ste: descriptive -->
 
 This file applies current AI engineering practice to a closed task. Span location has a right answer a program can check. The team uses that fact. The team does not import habits that exist for open-ended chat.

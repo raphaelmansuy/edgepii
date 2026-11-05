@@ -1,5 +1,9 @@
 # Model catalog
 
+For the current verified shortlist, pins, license qualifications, and decoder
+requirements, read the [5 November 2026 update](15-research-update-2026-11.md).
+This older catalog is retained as a historical research input.
+
 <!-- ste: descriptive -->
 
 As of 4 November 2026. This catalog is a filter list, not a leaderboard. Hard filters come from [AI engineering](03-ai-engineering.md). The checkpoint must emit spans. The license must allow the intended use. V1 must run the weights on the host.

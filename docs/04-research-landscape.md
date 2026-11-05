@@ -1,5 +1,9 @@
 # Research landscape
 
+The [5 November 2026 update](15-research-update-2026-11.md) supersedes this
+snapshot for model selection and research versions. See its model manifest and
+the [implementation plan](16-grounded-improvement-plan.md) before selecting a preset.
+
 <!-- ste: descriptive -->
 
 As of 4 November 2026. This file says which research lane fits the [span contract](01-span-contract.md). It does not rank models by a number we measured. This file marks paper figures and card figures as reported. They stay UNCONFIRMED as ship gates. See [AI engineering](03-ai-engineering.md) and [evaluation](09-evaluation.md).

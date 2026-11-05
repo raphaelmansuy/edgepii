@@ -43,7 +43,7 @@ demo = ["fastapi>=0.115", "uvicorn>=0.30", "httpx>=0.27"]
 e2e = ["pytest-playwright>=0.5", "playwright>=1.44"]
 eval = ["pyarrow>=16", "faker>=30"]
 modal = ["modal==1.4.2"]
-dev = ["pytest>=8", "fastapi>=0.115", "uvicorn>=0.30", "httpx>=0.27"]
+dev = ["pytest>=8", "fastapi>=0.115", "uvicorn>=0.30", "httpx>=0.27", "faker>=30"]
 
 [tool.setuptools.dynamic]
 version = { attr = "edgepii._version.__version__" }

@@ -15,6 +15,8 @@ All notable changes to this project are recorded here. The format follows
 - SPY evaluation now uses versioned `government-id-v2` synthetic values;
   `legacy-v1` preserves the earlier RIPE-handle materialization. Historical
   reports retain their original bytes and carry a documented erratum.
+- The development extra includes Faker so a fresh CI install runs the SPY
+  materialization regression tests.
 
 - GLiNER2 loads a pinned local snapshot, including its tokenizer, and both GLiNER
   adapters honor the requested device and enter evaluation mode. Loader errors

@@ -41,10 +41,11 @@ class NativeEvaluationLocator:
     preset_name = "opf-native"
     revision = OPF_REVISION
 
-    def __init__(self, detector):
+    def __init__(self, detector, preset_name="opf-native", revision=OPF_REVISION):
         from edgepii.labelmap import load_taxonomy
         self.taxonomy = load_taxonomy()
         self.detectors = (detector,)
+        self.preset_name, self.revision = preset_name, revision
 
     def locate(self, source, **kwargs):
         hits = self.detectors[0].locate(source)
@@ -53,11 +54,12 @@ class NativeEvaluationLocator:
         ) for hit in hits])
 
 
-def native_report(detector, corpus, cache, limit):
+def native_report(detector, corpus, cache, limit, preset_name="opf-native", revision=OPF_REVISION):
     from edgepii.eval.runner import score_corpus
-    report = score_corpus(NativeEvaluationLocator(detector), corpus, cache, limit=limit).to_dict()
+    report = score_corpus(NativeEvaluationLocator(detector,preset_name,revision), corpus, cache, limit=limit).to_dict()
     report["evaluation"]["mode"] = "native-label containment; no public taxonomy projection"
-    report["evaluation"]["decoder_source_revision"] = OPF_SOURCE
+    report["evaluation"]["fold"] = "none; native model receives original source"
+    report["evaluation"]["decoder_source_revision"] = OPF_SOURCE if preset_name == "opf-native" else revision
     for row in report["slices"].values():
         for key in ("tp", "fp", "fn", "precision", "recall", "f1", "f2",
                     "miss", "wrong_type", "shift", "extra", "per_type"):

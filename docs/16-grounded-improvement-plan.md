@@ -1,5 +1,7 @@
 # Grounded improvement plan
 
+Latest implementation: [coverage-preserving protection and new model results](18-protection-and-model-results.md).
+
 Research cutoff: **5 November 2026**. Evidence:
 [research update](15-research-update-2026-11.md),
 [model manifest](research/model-manifest-2026-11-05.json), and

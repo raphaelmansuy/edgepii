@@ -119,7 +119,18 @@ class Locator:
             quasi=quasi.find_combinations(source),
             unmapped=unmapped,
             _candidate_ranges=tuple((s.type, s.start, s.end) for s in spans if s.type in allowed),
+            _candidates=tuple(spans),
         )
+
+    def plan(self, source: str, *, types=None, min_score=None, fold="confusables",
+             drop_unscored=False, strict=True):
+        """Opt-in union protection; strict diagnostics do not certify PII recall."""
+        from edgepii.protection import protection_plan
+        result = self.locate(source, types=types, min_score=min_score, fold=fold,
+                             drop_unscored=drop_unscored)
+        return protection_plan(source, result._candidates, taxonomy=self.taxonomy,
+            types=types, min_score=min_score, drop_unscored=drop_unscored,
+            dropped=result.dropped, unmapped=result.unmapped, strict=strict)
 
     def locate_many(
         self,
@@ -162,10 +173,10 @@ def _map_to_source(source: str, spans: list[Span], folded) -> list[Span]:
 
 
 def _build(kind: str, repo_id: str | None, revision: str, extra: str | None, device: str, taxonomy: Taxonomy):
-    if kind == "rules":
+    if kind in {"rules", "rules_us"}:
         from edgepii.detectors.rules import RuleDetector
 
-        return RuleDetector()
+        return RuleDetector(gov_id_country="US" if kind == "rules_us" else None)
     if repo_id is None:
         raise DetectorLoadError(f"extra={extra} repo=none revision={revision}")
     if kind == "hf_token":

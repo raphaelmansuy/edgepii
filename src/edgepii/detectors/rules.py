@@ -60,6 +60,11 @@ _SECRET_SHAPE = re.compile(r"[0-9!-/:-@\[-`{-~]")
 # ISO 3166 regions that the phone rule asks libphonenumber to try.
 PHONE_REGIONS = ("US", "CN", "HK", "GB")
 
+# SSA randomization FAQ: 000/666/900-series areas, group 00, and serial
+# 0000 are not assigned. This is structural recognition, not issuance proof.
+_US_SSN = re.compile(r"(?<![A-Za-z0-9])([0-9]{3})-([0-9]{2})-([0-9]{4})(?![A-Za-z0-9])")
+_US_SSN_CUE = re.compile(r"(?i)\b(?:ssn|social\s+security(?:\s+(?:number|no\.?))?)\s*[:=#-]?\s*$")
+
 
 def _luhn_ok(digits: str) -> bool:
     """ISO/IEC 7812-1 check digit."""
@@ -112,6 +117,11 @@ class RuleDetector:
     overlap_chars = 0
     detector_kind = "rules"
 
+    def __init__(self, *, gov_id_country: str | None = None):
+        if gov_id_country not in {None,"US"}:
+            raise ValueError("unsupported government-ID country profile")
+        self.gov_id_country = gov_id_country
+
     def locate(self, source: str, labels: list[str]) -> tuple[Hit, ...]:
         allowed = {_norm(label) for label in labels}
         hits: list[Hit] = []
@@ -125,6 +135,13 @@ class RuleDetector:
             hits.extend(_ips(source))
         if _wants(allowed, "password", "passcode", "secret", "api_key", "access_token", "secret_key"):
             hits.extend(_secrets(source))
+        if self.gov_id_country == "US" and _wants(allowed,"ssn","government_id","national_id"):
+            for match in _US_SSN.finditer(source):
+                area, group, serial = match.groups()
+                if area in {"000","666"} or area.startswith("9") or group == "00" or serial == "0000":
+                    continue
+                if _US_SSN_CUE.search(source[max(0,match.start()-64):match.start()]):
+                    hits.append(Hit("ssn",match.start(),match.end(),None,"rules.us_ssn"))
         return tuple(hits)
 
 

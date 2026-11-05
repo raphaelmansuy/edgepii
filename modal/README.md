@@ -1,5 +1,12 @@
 # EdgePII models on Modal
 
+The [latest implementation results](../docs/18-protection-and-model-results.md)
+add `multi-encoder-base`, `multi-encoder-us`, `rules-us`, `tracer-native`, and
+`minilm-native`. Native experiments retain their label namespaces and use
+containment metrics. Reports for typed lanes also evaluate actual output from
+the opt-in protection plan without repeating inference. Locate latency excludes
+that protection/scoring work. Peak GPU allocation is recorded separately.
+
 `models.py` runs the existing pinned encoder models on Modal. It supports
 `rules`, `en-closed` (ModernBERT), `multi-open` (GLiNER2), `multi-encoder`
 (Horizon mmBERT), and `multi-boundary` (GLiNER2.5). These new presets are

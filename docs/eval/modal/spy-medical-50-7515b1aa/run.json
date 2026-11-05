@@ -1,0 +1,44 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "en-closed",
+      "report": "spy-medical__en-closed-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder",
+      "report": "spy-medical__multi-encoder-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder-us",
+      "report": "spy-medical__multi-encoder-us-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder-base",
+      "report": "spy-medical__multi-encoder-base-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "tracer-native",
+      "report": "spy-medical__tracer-native-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "minilm-native",
+      "report": "spy-medical__minilm-native-50.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "en-closed",
+    "multi-encoder",
+    "multi-encoder-us",
+    "multi-encoder-base",
+    "tracer-native",
+    "minilm-native"
+  ],
+  "state": "complete"
+}

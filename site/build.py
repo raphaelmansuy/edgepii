@@ -59,6 +59,8 @@ REFERENCE_DOCS = [
     ("doc-research-2026", "15-research-update-2026-11.md", "Latest research, November 2026"),
     ("doc-improvement-plan", "16-grounded-improvement-plan.md", "Grounded improvement plan"),
     ("doc-next-stage", "17-next-stage-ai-engineering.md", "Next-stage AI engineering"),
+    ("doc-protection-results", "18-protection-and-model-results.md", "Protection and new model results"),
+    ("doc-protection-policy", "adr/0006-protection-plan.md", "Protection policy"),
     ("doc-overlap-policy", "adr/0005-overlap-and-coverage.md", "Overlap and coverage policy"),
     ("doc-architecture", "07-architecture.md", "Architecture"),
     ("doc-ai-engineering", "03-ai-engineering.md", "AI engineering"),

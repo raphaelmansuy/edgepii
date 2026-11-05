@@ -7,6 +7,8 @@ from edgepii.quasi import Combination, find_combinations, has_combination
 from edgepii.redact import redact
 from edgepii.restore import RestoreResult, restore
 from edgepii.span import LocateResult, Span
+from edgepii.protection import (IncompleteDetectionError, ProtectionPlan, ProtectionSegment,
+                                protection_plan, protect_mapping, redact_protected)
 from edgepii.toolcall import (
     FieldHit,
     MaskedMapping,
@@ -26,6 +28,12 @@ __all__ = [
     "RestoreResult",
     "RestoredMapping",
     "Span",
+    "IncompleteDetectionError",
+    "ProtectionPlan",
+    "ProtectionSegment",
+    "protection_plan",
+    "protect_mapping",
+    "redact_protected",
     "UnknownType",
     "__version__",
     "find_combinations",

@@ -25,6 +25,11 @@ compared directly to earlier materializations.
 
 ## Contents
 
+Unreleased repository-main additions: [coverage-preserving protection and new model results](docs/18-protection-and-model-results.md)
+document `Locator.plan`, `redact_protected`, explicit field policies, Horizon
+Base, and the native PII-Tracer/MiniLM experiments. These APIs require a
+repository installation until the next package release.
+
 - [Why this library](#why-this-library)
 - [Install](#install)
 - [Quickstart](#quickstart)

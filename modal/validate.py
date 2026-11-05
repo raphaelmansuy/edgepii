@@ -46,6 +46,12 @@ assert all(source[s.start:s.end] == s.text for s in result.spans)
 masked, vault = redact(source, result.spans)
 assert '4242424242424242' not in masked and 'ada@example.com' not in masked
 assert restore(masked, vault).text == source
+from edgepii import redact_protected, protect_mapping
+plan = Locator.preset('rules').plan(source)
+protected, protection_vault = redact_protected(source, plan)
+assert restore(protected, protection_vault).text == source
+tree = protect_mapping({'a':'hunter2','b':'hunter2'}, Locator.preset('rules'), field_types={('a',):'SECRET'})
+assert 'hunter2' not in str(tree.value) and not tree.vault
 assert 'torch' not in sys.modules
 print('Installed wheel source, mask/restore, and no-torch invariants passed')
 '''

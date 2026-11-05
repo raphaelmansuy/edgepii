@@ -48,10 +48,13 @@ span.raw_label     # "EMAIL" or "email"
 | Name | Detector | Extra |
 | --- | --- | --- |
 | `rules` | Rules only | none |
+| `rules-us` | Explicit US, cue-required SSN profile plus rules | none |
 | `en-bert` | BERT-base control plus rules | `hf` |
 | `en-closed` | ModernBERT plus rules | `hf` |
 | `multi-open` | GLiNER2 plus rules | `gliner2` |
 | `multi-encoder` | Horizon Small multilingual encoder plus rules; experimental | `hf` |
+| `multi-encoder-base` | Horizon Base plus rules; experimental | `hf` |
+| `multi-encoder-us` | Horizon Small plus explicit US rule profile; experimental | `hf` |
 | `multi-boundary` | GLiNER2.5 boundary extractor plus rules; experimental | `gliner2` |
 | `phi-open` | NVIDIA GLiNER-PII plus rules | `gliner` |
 | `zh-schema` | Siamese-UIE plus rules | `ms` |
@@ -65,6 +68,16 @@ locator = Locator.preset("multi-open", device="cpu")
 `device` is `cpu` or `cuda`. The default is `cpu`. The library does not pick a device from a global config file.
 
 ## Redact
+
+For the opt-in repository-main API, `locator.plan(source)` and
+`redact_protected(source, plan)` retain candidate protection independently of
+typed overlap selection. Plans reject dropped/unmapped diagnostics by default;
+this does not certify recall. A secret taints its entire overlap component,
+and exact known-secret repeats are irreversible. See the
+[API, policies, and measurements](18-protection-and-model-results.md).
+`protect_mapping(..., field_types={("password",): "SECRET"})` can protect
+declared string fields directly and propagates known secrets across leaves.
+These additions are unreleased; use a repository install until publication.
 
 ```python
 from edgepii import redact

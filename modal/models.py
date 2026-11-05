@@ -36,12 +36,16 @@ image = (
     .add_local_file(ROOT / "README.md", "/opt/edgepii/README.md", copy=True)
     .add_local_file(ROOT / "LICENSE", "/opt/edgepii/LICENSE", copy=True)
     .add_local_file(ROOT / "modal" / "native_opf.py", "/root/native_opf.py", copy=True)
+    .add_local_file(ROOT / "modal" / "native_candidates.py", "/root/native_candidates.py", copy=True)
     .run_commands("pip install --no-deps /opt/edgepii")
 )
 # Public checkpoints need no token. A gated model can use an explicitly supplied
 # HF_TOKEN without making authentication a requirement for the public lanes.
 secrets = [modal.Secret.from_local_environ(["HF_TOKEN"])] if os.getenv("HF_TOKEN") else []
-SUPPORTED = {"rules", "en-closed", "multi-open", "multi-encoder", "multi-boundary", "opf-native"}
+SUPPORTED = {"rules", "en-closed", "multi-open", "multi-encoder", "multi-boundary", "opf-native",
+             "multi-encoder-base", "tracer-native", "minilm-native", "rules-us", "multi-encoder-us"}
+NATIVE = {"opf-native", "tracer-native", "minilm-native"}
+RULES = {"rules", "rules-us"}
 
 
 @app.cls(image=image, cpu=4, memory=16384, volumes={"/cache": cache},
@@ -62,9 +66,13 @@ class Model:
         torch.set_num_threads(4)
         print(f"Loading preset={self.preset} device={self.device}", flush=True)
         started = time.perf_counter()
-        if self.preset == "opf-native":
-            from native_opf import NativeOpf
-            self.native = NativeOpf(self.device)
+        if self.preset in NATIVE:
+            if self.preset == "opf-native":
+                from native_opf import NativeOpf
+                self.native = NativeOpf(self.device)
+            else:
+                from native_candidates import NativeTracer, NativeMiniLM
+                self.native = (NativeTracer if self.preset == "tracer-native" else NativeMiniLM)(self.device)
             self.native.locate("Contact Ada Lovelace at ada@example.com.")
         else:
             self.locator = Locator.preset(self.preset, device=self.device)
@@ -79,7 +87,7 @@ class Model:
         """SDK-only method. Source and span text cross the Modal boundary."""
         if not isinstance(source, str) or len(source) > 100_000:
             raise ValueError("source must be a string of at most 100000 characters")
-        if self.preset == "opf-native":
+        if self.preset in NATIVE:
             raise ValueError("native OPF is an evaluation experiment, not a typed SDK preset")
         return self.locator.locate(source, types=types).to_dict()
 
@@ -95,7 +103,7 @@ class Model:
         spans = 0
         model_spans = 0
         for index, source in enumerate(cases):
-            if self.preset == "opf-native":
+            if self.preset in NATIVE:
                 hits = self.native.locate(source)
                 spans += len(hits)
                 model_spans += len(hits)
@@ -103,16 +111,23 @@ class Model:
             result = self.locator.locate(source)
             assert result.dropped == 0, "model returned invalid offsets"
             assert all(source[s.start:s.end] == s.text for s in result.spans)
+            from edgepii import protection_plan, redact_protected
+            plan = protection_plan(source, result._candidates, strict=False,
+                                   dropped=result.dropped, unmapped=result.unmapped)
+            protected, protection_vault = redact_protected(source, plan)
+            assert "hunter2" not in str(protection_vault)
+            if not any(s.irreversible for s in plan.segments):
+                assert restore(protected,protection_vault).text == source
             masked, vault = redact(source, result.spans)
             assert "hunter2" not in str(vault)
             answer = restore(masked, vault)
             if not any(s.type == "SECRET" for s in result.spans):
                 assert answer.text == source, "reversible spans did not round trip"
             spans += len(result.spans)
-            if self.preset != "rules" and index == 0:
+            if self.preset not in RULES and index == 0:
                 direct = Locator.from_detectors([self.locator.detectors[-1]]).locate(source)
                 model_spans += len(direct.spans)
-        if self.preset != "rules":
+        if self.preset not in RULES:
             assert model_spans > 0, "rule-disabled model smoke returned no spans"
         return {"cases":len(cases),"valid_original_source_spans":spans,
                 "model_only_smoke_spans":model_spans,"contract_passed":True,
@@ -128,12 +143,17 @@ class Model:
         if not 1 <= limit <= 10_000:
             raise ValueError("limit must be between 1 and 10000")
         print(f"Evaluating preset={self.preset} corpus={corpus} limit={limit}", flush=True)
-        if self.preset == "opf-native":
+        if self.device.startswith("cuda"):
+            torch.cuda.reset_peak_memory_stats()
+        if self.preset in NATIVE:
             from native_opf import native_report
-            payload = native_report(self.native, corpus, Path("/cache/corpora"), limit)
+            native_revision = getattr(self.native,"revision",None)
+            payload = (native_report(self.native, corpus, Path("/cache/corpora"), limit,
+                                     self.preset, native_revision) if native_revision else
+                       native_report(self.native, corpus, Path("/cache/corpora"), limit))
         else:
             payload = score_corpus(self.locator, corpus, Path("/cache/corpora"), limit=limit).to_dict()
-            if self.preset != "rules":
+            if self.preset not in RULES:
                 from edgepii import Locator
                 isolated = Locator.from_detectors([self.locator.detectors[-1]])
                 ablation = score_corpus(isolated, corpus, Path("/cache/corpora"), limit=limit).to_dict()
@@ -144,6 +164,8 @@ class Model:
             "provider": "modal", "device": self.device,
             "deployment_source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "gpu": torch.cuda.get_device_name(0) if self.device.startswith("cuda") else None,
+            "peak_gpu_allocated_bytes": torch.cuda.max_memory_allocated() if self.device.startswith("cuda") else None,
+            "native_helper_sha256": hashlib.sha256(Path("/root/native_candidates.py").read_bytes()).hexdigest(),
             "model_load_seconds": self.load_seconds,
             "model_load_scope": "download, initialization, and one warmup; excludes container startup",
             "warmup": "one synthetic document before timing",
@@ -172,7 +194,7 @@ def main(corpus: str = "spy-legal", limit: int = 200,
         raise ValueError("limit must be between 1 and 10000")
     policy = GatePolicy(min_recall=min_recall,
                         max_leaks=None if max_leaks == -1 else max_leaks)
-    if "opf-native" in names and min_recall > 0:
+    if set(names) & NATIVE and min_recall > 0:
         raise ValueError("native OPF uses containment metrics, not a typed recall floor")
     from uuid import uuid4
     destination = Path(out) / f"{corpus}-{limit}-{uuid4().hex[:8]}"
@@ -187,7 +209,7 @@ def main(corpus: str = "spy-legal", limit: int = 200,
         manifest_path.write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
     save_manifest()
     for name in names:
-        use_gpu = name != "rules" and gpu != "cpu"
+        use_gpu = name not in RULES and gpu != "cpu"
         options = {"gpu": gpu} if use_gpu else {}
         print(f"Starting preset={name} hardware={gpu if use_gpu else 'cpu'}", flush=True)
         model = Model.with_options(**options)(preset=name, device="cuda" if use_gpu else "cpu")
@@ -201,7 +223,7 @@ def main(corpus: str = "spy-legal", limit: int = 200,
             save_manifest()
             raise
         payload["code"] = {"git_revision": revision, "dirty": dirty}
-        native = name == "opf-native"
+        native = name in NATIVE
         payload["gates"] = check_gates(payload, GatePolicy(max_leaks=policy.max_leaks)) if native else check_gates(payload, policy)
         digest = payload["evaluation"]["selection_sha256"]
         if selection is not None and selection != digest:

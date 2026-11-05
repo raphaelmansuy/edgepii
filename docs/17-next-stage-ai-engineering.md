@@ -1,5 +1,10 @@
 # Next-stage AI engineering: coverage, calibration, and model selection
 
+Implementation follow-up: [protection API and measured model results](18-protection-and-model-results.md).
+Core protection and the three reference adapters now have Modal tests and
+matched public measurements. The private viewer, deployment annotations,
+calibration, training, and optimized-runtime stages remain outstanding.
+
 Reviewed **5 November 2026**, after the [implemented first-stage plan](16-grounded-improvement-plan.md).
 This is a prioritized proposal. New candidate metadata and source files were
 inspected; no new weights were downloaded, custom model code executed, or

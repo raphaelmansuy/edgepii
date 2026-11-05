@@ -10,6 +10,8 @@ Continue with [next-stage AI engineering](17-next-stage-ai-engineering.md) for
 the next priorities, corrected PII-Tracer availability, and additional candidates.
 The [protection implementation and new measurements](18-protection-and-model-results.md)
 record the subsequent code and Modal experiments.
+The [0.4.0 release guide](19-release-0.4.0.md) covers PyPI installation and
+verification of the protection APIs from the distributed package.
 
 Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the [project README](../README.md) for install and quickstart.
 
@@ -38,6 +40,7 @@ This set records the problem, the research, the public API, and the build plan. 
 17. [Grounded improvement plan](16-grounded-improvement-plan.md). First-principles acceptance criteria and Modal validation.
 18. [Next-stage AI engineering](17-next-stage-ai-engineering.md). Coverage policy, calibration, and the next model experiments.
 19. [Protection and model results](18-protection-and-model-results.md). Opt-in protection API and measured new candidates.
+20. [Release 0.4.0](19-release-0.4.0.md). PyPI installation, upgrade, and artifact verification.
 
 Decisions:
 
@@ -63,8 +66,8 @@ Rules for email, phone, IBAN, and payment cards run beside the model. They do no
 
 ## Assessment, November 2026
 
-The version module declares 0.3.1, with further improvements in the working
-tree. It locates spans, masks them, and restores them, and the
+The current release is **0.4.0**. It locates spans, masks them, restores
+reversible values, and offers opt-in coverage-preserving protection. The
 span contract holds. The [assessment](14-assessment-2026-11.md) records what is
 measured, three defects that a reader can reproduce, and where the field moved
 ahead of the library: the tool-call plane, surrogate replacement, and

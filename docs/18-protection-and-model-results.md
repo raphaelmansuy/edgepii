@@ -5,6 +5,11 @@ the [next-stage roadmap](17-next-stage-ai-engineering.md). Protection, country
 profiles, and Horizon Base remain opt-in; PII-Tracer and MiniLM are native-label
 Modal experiments. The existing typed span contract and defaults are unchanged.
 
+The protection APIs and fixes are included in **edgepii 0.4.0**. Upgrade with
+`pip install --upgrade edgepii==0.4.0`. See the [release guide](19-release-0.4.0.md)
+for a complete installed-package example and publication verification. Native
+model runners still execute from the repository; the wheel contains no weights.
+
 ## Implemented behavior
 
 - `Locator.plan()` preserves eligible candidate coverage before typed overlap

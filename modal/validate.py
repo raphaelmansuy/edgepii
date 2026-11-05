@@ -31,7 +31,7 @@ def validate(site_only: bool=False) -> dict:
     artifacts=Path("/tmp/edgepii-validation")
     artifacts.mkdir(parents=True,exist_ok=True)
     env=dict(os.environ,PYTHONPATH="/workspace/src",EDGEPII_TEST_ARTIFACTS=str(artifacts))
-    source_files = sorted(path for folder in ("src", "tests", "site", "modal", "docs")
+    source_files = sorted(path for folder in ("src", "tests", "site", "modal", "docs", "scripts")
                           for path in Path(folder).rglob("*")
                           if path.is_file() and path.suffix in {".py", ".md", ".yaml", ".css", ".js", ".html"}
                           and "dist" not in path.parts and not str(path).startswith("docs/eval/"))
@@ -62,6 +62,7 @@ print('Installed wheel source, mask/restore, and no-torch invariants passed')
               ["/tmp/edgepii-wheel/bin/python","-c",
                "import pathlib,subprocess,sys; wheels=list(pathlib.Path('/tmp/edgepii-validation').glob('*.whl')); assert len(wheels)==1; subprocess.check_call([sys.executable,'-m','pip','install','--no-index','--no-deps','--force-reinstall',str(wheels[0])])"],
               ["/tmp/edgepii-wheel/bin/python","-I","-c",wheel_smoke],
+              ["/tmp/edgepii-wheel/bin/python","-I","scripts/verify_install.py"],
               [sys.executable,"site/gen_data.py"],
               [sys.executable,"site/icons.py"],
               [sys.executable,"site/social.py"],

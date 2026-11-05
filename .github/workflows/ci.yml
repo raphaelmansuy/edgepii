@@ -92,6 +92,7 @@ jobs:
           assert "torch" not in sys.modules, "the rules lane must not import torch"
           print("wheel ok", edgepii.__version__)
           PY
+          /tmp/wheel-test/bin/python -I scripts/verify_install.py
 
       - name: install the sdist, which must compile from source
         run: |

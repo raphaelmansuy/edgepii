@@ -60,6 +60,7 @@ REFERENCE_DOCS = [
     ("doc-improvement-plan", "16-grounded-improvement-plan.md", "Grounded improvement plan"),
     ("doc-next-stage", "17-next-stage-ai-engineering.md", "Next-stage AI engineering"),
     ("doc-protection-results", "18-protection-and-model-results.md", "Protection and new model results"),
+    ("doc-release", "19-release-0.4.0.md", "Release 0.4.0"),
     ("doc-protection-policy", "adr/0006-protection-plan.md", "Protection policy"),
     ("doc-overlap-policy", "adr/0005-overlap-and-coverage.md", "Overlap and coverage policy"),
     ("doc-architecture", "07-architecture.md", "Architecture"),

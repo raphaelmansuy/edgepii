@@ -12,6 +12,8 @@ The [protection implementation and new measurements](18-protection-and-model-res
 record the subsequent code and Modal experiments.
 The [0.4.0 release guide](19-release-0.4.0.md) covers PyPI installation and
 verification of the protection APIs from the distributed package.
+Continue with [improvement research after 0.4.0](20-improvement-research-2026-11.md)
+for compact models, measured int4 parity, paired coverage, and revised priorities.
 
 Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the [project README](../README.md) for install and quickstart.
 
@@ -41,6 +43,7 @@ This set records the problem, the research, the public API, and the build plan. 
 18. [Next-stage AI engineering](17-next-stage-ai-engineering.md). Coverage policy, calibration, and the next model experiments.
 19. [Protection and model results](18-protection-and-model-results.md). Opt-in protection API and measured new candidates.
 20. [Release 0.4.0](19-release-0.4.0.md). PyPI installation, upgrade, and artifact verification.
+21. [Improvement research after 0.4.0](20-improvement-research-2026-11.md). Actual Modal compact-model and complementary-coverage experiments.
 
 Decisions:
 

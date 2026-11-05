@@ -13,6 +13,12 @@ virtual environment, checks PyPI artifact hashes, and exercises the installed
 protection APIs without loading models. See the
 [release guide](../docs/19-release-0.4.0.md).
 
+The [post-release improvement research](../docs/20-improvement-research-2026-11.md)
+adds evaluation-only `masker-mini-native`, `masker-int4-native`, `ettin-native`,
+and `horizon-native`. Use `--gpu cpu` for int4. `--paired` compares per-case native
+coverage; `--paired --quantized --gpu cpu` checks float/int4 parity. These modes
+do not expose typed SDK inference or change library presets.
+
 `models.py` runs the existing pinned encoder models on Modal. It supports
 `rules`, `en-closed` (ModernBERT), `multi-open` (GLiNER2), `multi-encoder`
 (Horizon mmBERT), and `multi-boundary` (GLiNER2.5). These new presets are

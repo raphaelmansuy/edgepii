@@ -29,6 +29,8 @@ Version **0.4.0** adds `Locator.plan`, `redact_protected`, and `protect_mapping`
 with explicit field policies. See [coverage-preserving protection and model results](https://raphaelmansuy.github.io/edgepii/doc-protection-results/)
 for examples, Horizon Base measurements, and the repository-based native
 PII-Tracer/MiniLM experiments.
+The [follow-up improvement research](https://raphaelmansuy.github.io/edgepii/doc-improvement-research/)
+compares compact models, CPU/int4 behavior, and complementary coverage on Modal.
 
 - [Why this library](#why-this-library)
 - [Install](#install)

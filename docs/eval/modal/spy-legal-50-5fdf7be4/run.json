@@ -1,0 +1,32 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "masker-mini-native",
+      "report": "spy-legal__masker-mini-native-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "ettin-native",
+      "report": "spy-legal__ettin-native-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "horizon-native",
+      "report": "spy-legal__horizon-native-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "tracer-native",
+      "report": "spy-legal__tracer-native-50.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "masker-mini-native",
+    "ettin-native",
+    "horizon-native",
+    "tracer-native"
+  ],
+  "state": "complete"
+}

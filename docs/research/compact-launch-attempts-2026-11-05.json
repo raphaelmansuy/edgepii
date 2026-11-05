@@ -1,0 +1,47 @@
+{
+  "attempts": [
+    {
+      "app_url": "https://modal.com/apps/raphaelmansuy/main/ap-7Vy6FM8jCUBX4KLkvMJB65",
+      "state": "launch-failed-before-inference",
+      "error_type": "AttributeError",
+      "source_text_exported": false
+    },
+    {
+      "app_url": "https://modal.com/apps/raphaelmansuy/main/ap-4mARXpwtuVlBeRT3AA9SZM",
+      "state": "launch-failed-before-inference",
+      "error_type": "AttributeError",
+      "source_text_exported": false
+    },
+    {
+      "app_url": "https://modal.com/apps/raphaelmansuy/main/ap-LtOyMzgpTkVj9Xr7DTBD4E",
+      "state": "launch-failed-before-inference",
+      "error_type": "ModuleNotFoundError",
+      "source_text_exported": false
+    },
+    {
+      "app_url": "https://modal.com/apps/raphaelmansuy/main/ap-RE2vuOuSt9dv3VMXea4nRK",
+      "state": "launch-failed-before-inference",
+      "error_type": "ModuleNotFoundError",
+      "source_text_exported": false
+    },
+    {
+      "app_url": "https://modal.com/apps/raphaelmansuy/main/ap-d7V7jimGykICQNHZIhHOk3",
+      "state": "launch-failed-before-inference",
+      "error_type": "ModuleNotFoundError",
+      "source_text_exported": false
+    },
+    {
+      "app_url": "https://modal.com/apps/raphaelmansuy/main/ap-hRG3fKShAzyVmwvWN3kSJr",
+      "state": "launch-failed-before-inference",
+      "error_type": "ModuleNotFoundError",
+      "source_text_exported": false
+    },
+    {
+      "app_url": "https://modal.com/apps/raphaelmansuy/main/ap-je6rtPXwZZl2hdKqXhs3eR",
+      "state": "launch-failed-before-inference",
+      "error_type": "ExecutionError",
+      "source_text_exported": false
+    }
+  ],
+  "resolution": "Use the established Model class with a pure paired worker; do not reconstruct resources conditionally."
+}

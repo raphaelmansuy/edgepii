@@ -25,6 +25,7 @@ image = (
     )
     # Modal's base includes FastAPI; keep it compatible with GLiNER2's Pydantic.
     .pip_install("fastapi==0.162.0")
+    .pip_install("onnxruntime==1.23.2")
     .pip_install("https://github.com/openai/privacy-filter/archive/f7f00ca7fb869683eb732c010299d901457f19c3.zip")
     .run_commands("python -c 'import numpy; import pyarrow.parquet; print(\"Parquet import preflight passed\", numpy.__version__)'",
                   "python -m pip check")
@@ -37,6 +38,9 @@ image = (
     .add_local_file(ROOT / "LICENSE", "/opt/edgepii/LICENSE", copy=True)
     .add_local_file(ROOT / "modal" / "native_opf.py", "/root/native_opf.py", copy=True)
     .add_local_file(ROOT / "modal" / "native_candidates.py", "/root/native_candidates.py", copy=True)
+    .add_local_file(ROOT / "modal" / "compact_candidates.py", "/root/compact_candidates.py", copy=True)
+    .add_local_file(ROOT / "modal" / "paired_research.py", "/root/paired_worker.py", copy=True)
+    .add_local_file(ROOT / "modal" / "paired_metrics.py", "/root/paired_metrics.py", copy=True)
     .run_commands("pip install --no-deps /opt/edgepii")
 )
 # Public checkpoints need no token. A gated model can use an explicitly supplied
@@ -44,7 +48,9 @@ image = (
 secrets = [modal.Secret.from_local_environ(["HF_TOKEN"])] if os.getenv("HF_TOKEN") else []
 SUPPORTED = {"rules", "en-closed", "multi-open", "multi-encoder", "multi-boundary", "opf-native",
              "multi-encoder-base", "tracer-native", "minilm-native", "rules-us", "multi-encoder-us"}
-NATIVE = {"opf-native", "tracer-native", "minilm-native"}
+COMPACT = {"masker-mini-native", "masker-int4-native", "ettin-native", "horizon-native"}
+SUPPORTED |= COMPACT
+NATIVE = {"opf-native", "tracer-native", "minilm-native"} | COMPACT
 RULES = {"rules", "rules-us"}
 
 
@@ -67,7 +73,10 @@ class Model:
         print(f"Loading preset={self.preset} device={self.device}", flush=True)
         started = time.perf_counter()
         if self.preset in NATIVE:
-            if self.preset == "opf-native":
+            if self.preset in COMPACT:
+                from compact_candidates import build_compact
+                self.native = build_compact(self.preset, self.device)
+            elif self.preset == "opf-native":
                 from native_opf import NativeOpf
                 self.native = NativeOpf(self.device)
             else:
@@ -134,9 +143,29 @@ class Model:
                 "scope":"inference and source/masking invariants; not an accuracy guarantee"}
 
     @modal.method()
+    def describe(self) -> dict:
+        import importlib.metadata
+        model = getattr(self.native,"model",None)
+        if model is None:
+            model = self.native.detector._pipe.model
+        return {"preset":self.preset,"revision":self.native.revision,"device":self.device,
+                "actual_parameter_dtype":str(model.dtype),
+                "parameters":sum(p.numel() for p in model.parameters()),
+                "backend":getattr(self.native,"backend",None),
+                "packages":{name:importlib.metadata.version(name) for name in ("torch","transformers")}}
+
+    @modal.method()
+    def paired(self, corpus: str, limit: int, quantized: bool) -> dict:
+        from paired_worker import run_experiment
+        result = run_experiment(corpus,limit,quantized)
+        cache.commit()
+        return result
+
+    @modal.method()
     def evaluate(self, corpus: str, limit: int = 200) -> dict:
         import hashlib
         import importlib.metadata
+        import resource
         import torch
         from edgepii.eval.runner import score_corpus
 
@@ -166,6 +195,12 @@ class Model:
             "gpu": torch.cuda.get_device_name(0) if self.device.startswith("cuda") else None,
             "peak_gpu_allocated_bytes": torch.cuda.max_memory_allocated() if self.device.startswith("cuda") else None,
             "native_helper_sha256": hashlib.sha256(Path("/root/native_candidates.py").read_bytes()).hexdigest(),
+            "compact_helper_sha256": hashlib.sha256(Path("/root/compact_candidates.py").read_bytes()).hexdigest(),
+            "native_backend": getattr(getattr(self,"native",None),"backend",None),
+            "native_decoder": getattr(getattr(self,"native",None),"decoder",None),
+            "cpu_threads": torch.get_num_threads(),
+            "process_peak_rss_bytes": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
+            "process_peak_rss_scope": "Linux process lifetime including imports, model loading, warmup and evaluation",
             "model_load_seconds": self.load_seconds,
             "model_load_scope": "download, initialization, and one warmup; excludes container startup",
             "warmup": "one synthetic document before timing",
@@ -182,16 +217,61 @@ class Model:
 def main(corpus: str = "spy-legal", limit: int = 200,
          presets: str = "rules,en-closed,multi-open", gpu: str = "L4",
          out: str = "docs/eval/modal", min_recall: float = 0.0,
-         max_leaks: int = -1):
+         max_leaks: int = -1, paired: bool = False, quantized: bool = False,
+         inspect_only: bool = False):
     from edgepii.eval.corpora import load_spec
     from edgepii.eval.gates import GatePolicy, check_gates
 
     load_spec(corpus)  # validate before allocating compute
+    if inspect_only:
+        names=list(dict.fromkeys(name.strip() for name in presets.split(",")))
+        if not names or set(names)-{"ettin-native","horizon-native","masker-mini-native"}:
+            raise ValueError("runtime inspection supports the three float compact research controls")
+        destination=Path(out)
+        if destination.suffix != ".json":
+            raise ValueError("runtime inspection requires --out ending in .json")
+        rows=[]
+        for name in names:
+            options={} if gpu=="cpu" else {"gpu":gpu}
+            model=Model.with_options(**options)(preset=name,device="cpu" if gpu=="cpu" else "cuda")
+            rows.append(model.describe.remote())
+        destination.parent.mkdir(parents=True,exist_ok=True)
+        with destination.open("x") as stream:
+            stream.write(json.dumps({"provider":"modal","mode":"runtime-inspection","models":rows},indent=2,sort_keys=True)+"\n")
+        print(json.dumps(rows,indent=2))
+        return
+    if paired:
+        if not 1 <= limit <= 1000:
+            raise ValueError("paired limit must be between 1 and 1000")
+        if quantized and gpu != "cpu":
+            raise ValueError("paired quantization requires --gpu cpu")
+        if not quantized and gpu == "cpu":
+            raise ValueError("reference complementarity requires a GPU")
+        from uuid import uuid4
+        options = {} if quantized else {"gpu":gpu}
+        model = Model.with_options(**options)(preset="masker-mini-native",device="cpu" if quantized else "cuda")
+        verification = model.verify.remote()
+        payload = model.paired.remote(corpus,limit,quantized)
+        payload["first_principles_verification"] = verification
+        payload["code"] = {"git_revision":subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),
+                           "dirty":bool(subprocess.check_output(["git","status","--porcelain"],cwd=ROOT,text=True))}
+        destination = (Path("docs/eval/paired") if out == "docs/eval/modal" else Path(out))
+        destination.mkdir(parents=True,exist_ok=True)
+        path = destination / f"{corpus}-{limit}-{'quantized' if quantized else 'complementarity'}-{uuid4().hex[:8]}.json"
+        with path.open("x") as stream:
+            stream.write(json.dumps(payload,indent=2,sort_keys=True)+"\n")
+        print(json.dumps(payload["summary"],indent=2))
+        print("Saved",path)
+        return
+    if quantized:
+        raise ValueError("--quantized requires --paired")
     names = list(dict.fromkeys(name.strip() for name in presets.split(",")))
     if not names or set(names) - SUPPORTED:
         raise ValueError(f"presets must be chosen from {sorted(SUPPORTED)}")
     if not 1 <= limit <= 10_000:
         raise ValueError("limit must be between 1 and 10000")
+    if "masker-int4-native" in names and gpu != "cpu":
+        raise ValueError("masker-int4-native requires --gpu cpu for a matched CPU experiment")
     policy = GatePolicy(min_recall=min_recall,
                         max_leaks=None if max_leaks == -1 else max_leaks)
     if set(names) & NATIVE and min_recall > 0:

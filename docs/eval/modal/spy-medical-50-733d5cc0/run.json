@@ -1,0 +1,32 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "masker-mini-native",
+      "report": "spy-medical__masker-mini-native-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "masker-int4-native",
+      "report": "spy-medical__masker-int4-native-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "ettin-native",
+      "report": "spy-medical__ettin-native-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "horizon-native",
+      "report": "spy-medical__horizon-native-50.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "masker-mini-native",
+    "masker-int4-native",
+    "ettin-native",
+    "horizon-native"
+  ],
+  "state": "complete"
+}

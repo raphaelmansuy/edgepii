@@ -1,0 +1,2394 @@
+{
+  "cases": [
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 7
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 5
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 7,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true
+          ],
+          "covered_characters": 29,
+          "gold_characters": 30,
+          "masked_characters": 31
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true
+          ],
+          "covered_characters": 29,
+          "gold_characters": 30,
+          "masked_characters": 31
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true
+          ],
+          "covered_characters": 29,
+          "masked_characters": 31,
+          "native_span_parity": false,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 59,
+          "gold_characters": 61,
+          "masked_characters": 65
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 59,
+          "gold_characters": 61,
+          "masked_characters": 65
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 59,
+          "masked_characters": 65,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 51,
+          "gold_characters": 58,
+          "masked_characters": 112
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 51,
+          "gold_characters": 58,
+          "masked_characters": 114
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 51,
+          "masked_characters": 114,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 33,
+          "gold_characters": 33,
+          "masked_characters": 46
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 33,
+          "gold_characters": 33,
+          "masked_characters": 46
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 33,
+          "masked_characters": 46,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 50,
+          "gold_characters": 89,
+          "masked_characters": 111
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 50,
+          "gold_characters": 89,
+          "masked_characters": 97
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 50,
+          "masked_characters": 111,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 63,
+          "gold_characters": 67,
+          "masked_characters": 98
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 63,
+          "gold_characters": 67,
+          "masked_characters": 98
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 63,
+          "masked_characters": 98,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 24,
+          "gold_characters": 81,
+          "masked_characters": 29
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 32,
+          "gold_characters": 81,
+          "masked_characters": 38
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 32,
+          "masked_characters": 38,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "gold_characters": 107,
+          "masked_characters": 134
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "gold_characters": 107,
+          "masked_characters": 134
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 103,
+          "masked_characters": 134,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 70,
+          "gold_characters": 71,
+          "masked_characters": 118
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 70,
+          "gold_characters": 71,
+          "masked_characters": 118
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 70,
+          "masked_characters": 118,
+          "native_span_parity": false,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 20,
+          "gold_characters": 45,
+          "masked_characters": 40
+        },
+        "masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 20,
+          "gold_characters": 45,
+          "masked_characters": 49
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 20,
+          "masked_characters": 49,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 39,
+          "gold_characters": 39,
+          "masked_characters": 90
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 39,
+          "gold_characters": 39,
+          "masked_characters": 90
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 39,
+          "masked_characters": 90,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 67,
+          "gold_characters": 97,
+          "masked_characters": 68
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 71,
+          "gold_characters": 97,
+          "masked_characters": 76
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 71,
+          "masked_characters": 76,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 81,
+          "gold_characters": 91,
+          "masked_characters": 97
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 81,
+          "gold_characters": 91,
+          "masked_characters": 97
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 81,
+          "masked_characters": 97,
+          "native_span_parity": false,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 50,
+          "gold_characters": 50,
+          "masked_characters": 69
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 50,
+          "gold_characters": 50,
+          "masked_characters": 69
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 50,
+          "masked_characters": 69,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "gold_characters": 22,
+          "masked_characters": 52
+        },
+        "masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "gold_characters": 22,
+          "masked_characters": 57
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "masked_characters": 57,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        true,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "covered_characters": 39,
+          "gold_characters": 66,
+          "masked_characters": 39
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 54,
+          "gold_characters": 66,
+          "masked_characters": 54
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            false,
+            false
+          ],
+          "covered_characters": 54,
+          "masked_characters": 54,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false
+          ],
+          "covered_characters": 32,
+          "gold_characters": 40,
+          "masked_characters": 34
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false
+          ],
+          "covered_characters": 32,
+          "gold_characters": 40,
+          "masked_characters": 34
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false
+          ],
+          "covered_characters": 32,
+          "masked_characters": 34,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 154,
+          "gold_characters": 175,
+          "masked_characters": 275
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 154,
+          "gold_characters": 175,
+          "masked_characters": 284
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 154,
+          "masked_characters": 284,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            false
+          ],
+          "covered_characters": 27,
+          "gold_characters": 54,
+          "masked_characters": 45
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            false
+          ],
+          "covered_characters": 27,
+          "gold_characters": 54,
+          "masked_characters": 57
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            false
+          ],
+          "covered_characters": 27,
+          "masked_characters": 57,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 45,
+          "gold_characters": 95,
+          "masked_characters": 65
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 45,
+          "gold_characters": 95,
+          "masked_characters": 65
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 45,
+          "masked_characters": 65,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "gold_characters": 89,
+          "masked_characters": 102
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "gold_characters": 89,
+          "masked_characters": 102
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 88,
+          "masked_characters": 102,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 128,
+          "gold_characters": 190,
+          "masked_characters": 170
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 128,
+          "gold_characters": 190,
+          "masked_characters": 170
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 128,
+          "masked_characters": 170,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 179,
+          "gold_characters": 198,
+          "masked_characters": 213
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 179,
+          "gold_characters": 198,
+          "masked_characters": 212
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 179,
+          "masked_characters": 213,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "gold_characters": 13,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "gold_characters": 13,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "gold_characters": 88,
+          "masked_characters": 140
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 82,
+          "gold_characters": 88,
+          "masked_characters": 139
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 83,
+          "masked_characters": 140,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            false,
+            true,
+            false,
+            true
+          ],
+          "covered_characters": 44,
+          "gold_characters": 74,
+          "masked_characters": 47
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 49,
+          "gold_characters": 74,
+          "masked_characters": 53
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 49,
+          "masked_characters": 53,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true
+          ],
+          "covered_characters": 11,
+          "gold_characters": 11,
+          "masked_characters": 29
+        },
+        "masker-mini-native": {
+          "covered": [
+            true
+          ],
+          "covered_characters": 11,
+          "gold_characters": 11,
+          "masked_characters": 29
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true
+          ],
+          "covered_characters": 11,
+          "masked_characters": 29,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 43,
+          "gold_characters": 43,
+          "masked_characters": 44
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 43,
+          "gold_characters": 43,
+          "masked_characters": 44
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 43,
+          "masked_characters": 44,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 51,
+          "gold_characters": 68,
+          "masked_characters": 53
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 54,
+          "gold_characters": 68,
+          "masked_characters": 56
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 54,
+          "masked_characters": 56,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true
+          ],
+          "covered_characters": 20,
+          "gold_characters": 42,
+          "masked_characters": 212
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true
+          ],
+          "covered_characters": 23,
+          "gold_characters": 42,
+          "masked_characters": 219
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true
+          ],
+          "covered_characters": 23,
+          "masked_characters": 220,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 161,
+          "gold_characters": 169,
+          "masked_characters": 275
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 161,
+          "gold_characters": 169,
+          "masked_characters": 275
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 161,
+          "masked_characters": 275,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 24,
+          "gold_characters": 24,
+          "masked_characters": 74
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 24,
+          "gold_characters": 24,
+          "masked_characters": 74
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 24,
+          "masked_characters": 74,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 43,
+          "gold_characters": 62,
+          "masked_characters": 63
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 46,
+          "gold_characters": 62,
+          "masked_characters": 66
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 46,
+          "masked_characters": 66,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "gold_characters": 79,
+          "masked_characters": 92
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "gold_characters": 79,
+          "masked_characters": 92
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 79,
+          "masked_characters": 92,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 93,
+          "gold_characters": 94,
+          "masked_characters": 97
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 93,
+          "gold_characters": 94,
+          "masked_characters": 97
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "covered_characters": 93,
+          "masked_characters": 97,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 38,
+          "gold_characters": 40,
+          "masked_characters": 75
+        },
+        "masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 38,
+          "gold_characters": 40,
+          "masked_characters": 75
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 38,
+          "masked_characters": 75,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "gold_characters": 10,
+          "masked_characters": 54
+        },
+        "masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "gold_characters": 10,
+          "masked_characters": 54
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false
+          ],
+          "covered_characters": 0,
+          "masked_characters": 54,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [],
+      "models": {
+        "masker-int4-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        },
+        "masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "gold_characters": 0,
+          "masked_characters": 0
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [],
+          "covered_characters": 0,
+          "masked_characters": 0,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 18,
+          "gold_characters": 52,
+          "masked_characters": 65
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 18,
+          "gold_characters": 52,
+          "masked_characters": 72
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            true,
+            true
+          ],
+          "covered_characters": 18,
+          "masked_characters": 72,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 33,
+          "gold_characters": 33,
+          "masked_characters": 83
+        },
+        "masker-mini-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 33,
+          "gold_characters": 33,
+          "masked_characters": 83
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            true,
+            true
+          ],
+          "covered_characters": 33,
+          "masked_characters": 83,
+          "native_span_parity": true,
+          "range_parity": true
+        }
+      }
+    },
+    {
+      "high_severity_gold": [
+        false,
+        false,
+        false
+      ],
+      "models": {
+        "masker-int4-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 34,
+          "gold_characters": 83,
+          "masked_characters": 35
+        },
+        "masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 38,
+          "gold_characters": 83,
+          "masked_characters": 39
+        }
+      },
+      "pairs": {
+        "masker-int4-native+masker-mini-native": {
+          "covered": [
+            false,
+            false,
+            true
+          ],
+          "covered_characters": 38,
+          "masked_characters": 39,
+          "native_span_parity": false,
+          "range_parity": false
+        }
+      }
+    }
+  ],
+  "code": {
+    "dirty": true,
+    "git_revision": "9670e3eaa61c1dc9d0d8b0002ffbba6e17d3a32c"
+  },
+  "corpus": "gretel-finance-en",
+  "cpu_threads": 4,
+  "device": "cpu",
+  "first_principles_verification": {
+    "cases": 5,
+    "contract_passed": true,
+    "model_only_smoke_spans": 3,
+    "scope": "inference and source/masking invariants; not an accuracy guarantee",
+    "valid_original_source_spans": 3
+  },
+  "gpu": null,
+  "helper_sha256": {
+    "compact_candidates.py": "d6d374957bfcbb6a71906c0d5f264844ad864b5139f8e4f5945adad1803147ed",
+    "native_candidates.py": "6d3e31388b8e4a48a2c75e4a402bfd3e7fec4f22b99307180527444ab51cf8b7",
+    "paired_metrics.py": "c80f114e54a4bd579b25d65791bfb1412f9aff429ccce96280a445bbb7c9e752"
+  },
+  "limit_per_slice": 50,
+  "locate_ms": {
+    "masker-int4-native": [
+      51.8777539999995,
+      88.61575700000124,
+      87.42989000000101,
+      67.653301,
+      34.93021199999902,
+      38.14657900000107,
+      22.94670299999879,
+      45.92847400000011,
+      94.08330299999967,
+      73.52678300000015,
+      83.3067389999993,
+      60.53398599999937,
+      78.50049400000003,
+      59.089816000000184,
+      47.46273599999995,
+      53.48974400000017,
+      78.38798700000105,
+      18.73448799999977,
+      43.47710699999929,
+      29.54462499999977,
+      60.42991500000028,
+      60.90168899999959,
+      33.52401900000146,
+      69.74589899999906,
+      58.181072,
+      44.25203100000097,
+      39.705359999999246,
+      52.37203300000104,
+      38.17302399999889,
+      41.141856999999504,
+      56.13217299999995,
+      67.43374400000057,
+      55.62529800000071,
+      84.83837900000069,
+      86.53745599999851,
+      44.40158699999941,
+      50.3213219999985,
+      50.445102000001185,
+      38.72765799999911,
+      64.61794700000212,
+      65.75815200000079,
+      53.36214599999778,
+      61.41018299999956,
+      31.066168999998922,
+      82.21314200000052,
+      69.92413800000108,
+      24.894965000001434,
+      32.72018900000262,
+      38.13395599999936,
+      52.47764700000346
+    ],
+    "masker-mini-native": [
+      74.9367809999999,
+      133.32490300000012,
+      125.01170800000061,
+      91.71659200000093,
+      45.980836000000025,
+      51.11562600000141,
+      40.160172000000216,
+      70.17717799999978,
+      90.86428200000007,
+      119.42407699999968,
+      104.3192700000013,
+      79.06185700000101,
+      99.21600899999916,
+      70.36010400000059,
+      64.09990600000093,
+      62.73552400000071,
+      122.5805969999989,
+      29.99176299999995,
+      58.60155000000056,
+      40.110750000000195,
+      97.26738300000015,
+      81.03556600000061,
+      47.26743400000011,
+      78.50950500000131,
+      78.08507400000053,
+      54.38614499999872,
+      57.94264200000043,
+      69.95756000000064,
+      50.20545899999895,
+      47.44225499999999,
+      69.29159000000062,
+      86.24920099999933,
+      75.40634899999965,
+      112.14543600000049,
+      106.99042999999975,
+      57.57872999999947,
+      67.65138600000142,
+      62.790890999998794,
+      52.42510300000092,
+      84.39323099999996,
+      79.7442100000012,
+      62.52085799999918,
+      70.52692800000315,
+      42.397065999999484,
+      109.61865600000209,
+      89.63844200000182,
+      35.52062600000028,
+      48.39839199999929,
+      50.437698999999725,
+      58.64779499999884
+    ]
+  },
+  "materialization_protocol": "source-v1",
+  "mode": "paired-native-range-research",
+  "models": {
+    "masker-int4-native": {
+      "backend": "onnx-int4",
+      "revision": "beb7235d454aa4488b6ee1cd47f417caa12a6d15"
+    },
+    "masker-mini-native": {
+      "backend": "torch-fp32",
+      "revision": "beb7235d454aa4488b6ee1cd47f417caa12a6d15"
+    }
+  },
+  "packages": {
+    "Faker": "40.44.0",
+    "Jinja2": "3.1.6",
+    "MarkupSafe": "3.0.4",
+    "PyYAML": "6.0.3",
+    "Pygments": "2.17.2",
+    "accelerate": "1.15.0",
+    "aiohttp": "3.8.3",
+    "aiosignal": "1.3.1",
+    "aiostream": "0.4.4",
+    "annotated-doc": "0.0.5",
+    "annotated-types": "0.8.0",
+    "anyio": "4.16.0",
+    "asgiref": "3.5.2",
+    "asttokens": "2.4.1",
+    "async-timeout": "4.0.3",
+    "attrs": "23.2.0",
+    "certifi": "2024.2.2",
+    "charset-normalizer": "2.1.1",
+    "click": "8.5.0",
+    "cloudpickle": "2.2.0",
+    "coloredlogs": "15.0.1",
+    "commonmark": "0.9.1",
+    "decorator": "5.1.1",
+    "edgepii": "0.4.0",
+    "executing": "2.0.1",
+    "fastapi": "0.162.0",
+    "fastprogress": "1.0.0",
+    "filelock": "4.2.9",
+    "flatbuffers": "25.12.19",
+    "frozenlist": "1.4.1",
+    "fsspec": "2026.9.0",
+    "gliner2": "2.1.0",
+    "grpclib": "0.4.3",
+    "h11": "0.16.0",
+    "h2": "4.1.0",
+    "hf-xet": "1.8.0",
+    "hpack": "4.0.0",
+    "httpcore2": "2.16.0",
+    "httpx2": "2.16.0",
+    "huggingface_hub": "2.4.0",
+    "humanfriendly": "10.0",
+    "hyperframe": "6.0.1",
+    "idna": "3.20",
+    "importlib-metadata": "4.8.1",
+    "ipython": "8.23.0",
+    "jedi": "0.19.1",
+    "matplotlib-inline": "0.1.6",
+    "mpmath": "1.3.0",
+    "multidict": "6.0.5",
+    "networkx": "3.6.1",
+    "numpy": "1.26.4",
+    "nvidia-cublas-cu12": "12.8.4.1",
+    "nvidia-cuda-cupti-cu12": "12.8.90",
+    "nvidia-cuda-nvrtc-cu12": "12.8.93",
+    "nvidia-cuda-runtime-cu12": "12.8.90",
+    "nvidia-cudnn-cu12": "9.10.2.21",
+    "nvidia-cufft-cu12": "11.3.3.83",
+    "nvidia-cufile-cu12": "1.13.1.3",
+    "nvidia-curand-cu12": "10.3.9.90",
+    "nvidia-cusolver-cu12": "11.7.3.90",
+    "nvidia-cusparse-cu12": "12.5.8.93",
+    "nvidia-cusparselt-cu12": "0.7.1",
+    "nvidia-nccl-cu12": "2.27.3",
+    "nvidia-nvjitlink-cu12": "12.8.93",
+    "nvidia-nvtx-cu12": "12.8.90",
+    "onnxruntime": "1.23.2",
+    "opentelemetry-api": "1.45.2",
+    "opf": "0.1.0",
+    "packaging": "26.3",
+    "parso": "0.8.3",
+    "peft": "0.21.2",
+    "pexpect": "4.9.0",
+    "phonenumbers": "9.0.42",
+    "pip": "24.0",
+    "prompt-toolkit": "3.0.43",
+    "protobuf": "5.26.1",
+    "psutil": "7.2.2",
+    "ptyprocess": "0.7.0",
+    "pure-eval": "0.2.2",
+    "pyarrow": "20.0.0",
+    "pydantic": "2.14.2",
+    "pydantic_core": "2.50.2",
+    "python-multipart": "0.0.9",
+    "regex": "2026.9.29",
+    "requests": "2.34.2",
+    "rich": "12.3.0",
+    "safetensors": "0.8.0",
+    "sentencepiece": "0.2.1",
+    "setuptools": "65.5.0",
+    "six": "1.16.0",
+    "sniffio": "1.3.1",
+    "stack-data": "0.6.3",
+    "starlette": "1.10.0",
+    "sympy": "1.14.0",
+    "tblib": "1.7.0",
+    "tiktoken": "0.14.0",
+    "tokenizers": "0.23.3",
+    "toml": "0.10.2",
+    "torch": "2.8.0",
+    "tqdm": "4.70.1",
+    "traitlets": "5.14.2",
+    "transformers": "5.22.1",
+    "triton": "3.4.0",
+    "truststore": "0.10.5",
+    "typeguard": "4.2.1",
+    "typer": "0.6.1",
+    "types-certifi": "2021.10.8.3",
+    "types-toml": "0.10.4",
+    "typing-inspection": "0.4.5",
+    "typing_extensions": "4.16.0",
+    "urllib3": "2.8.0",
+    "wcwidth": "0.2.13",
+    "wheel": "0.38.4",
+    "yarl": "1.9.4",
+    "zipp": "3.18.1"
+  },
+  "provider": "modal",
+  "quantized": true,
+  "scope": "native range union, no public type projection or irreversible protection plan; public prefix exploration, no trained routing policy",
+  "selection_sha256": "e0c16f7df0a7e0a3c8f1c7154f80c15d2f520aec4c5fe14db6439a67d426f8ae",
+  "single_span_support_counts": {
+    "masker-int4-native": {
+      "GOV_ID <- GOVERNMENT_ID -> GOV_ID": 4,
+      "IP_ADDRESS <- PHONE -> PHONE": 1,
+      "PAYMENT <- PHONE -> PHONE": 1,
+      "PERSON <- GIVEN_NAME -> None": 3,
+      "PERSON <- SURNAME -> None": 2,
+      "PHONE <- PHONE -> PHONE": 14,
+      "USERNAME <- EMAIL -> EMAIL": 1
+    },
+    "masker-mini-native": {
+      "GOV_ID <- GOVERNMENT_ID -> GOV_ID": 5,
+      "IP_ADDRESS <- PHONE -> PHONE": 1,
+      "PAYMENT <- PHONE -> PHONE": 2,
+      "PERSON <- GIVEN_NAME -> None": 3,
+      "PERSON <- SURNAME -> None": 4,
+      "PHONE <- PHONE -> PHONE": 14,
+      "USERNAME <- EMAIL -> EMAIL": 1
+    }
+  },
+  "summary": {
+    "documents": 50,
+    "gold_spans": 151,
+    "high_severity_gold": 11,
+    "models": {
+      "masker-int4-native": {
+        "character_recall": 0.7786798446876103,
+        "contained": 91,
+        "containment": 0.6026490066225165,
+        "covered_characters": 2206,
+        "documents_with_high_severity_miss": 4,
+        "high_severity_misses": 5,
+        "masked_characters": 3548,
+        "masking_precision": 0.6217587373167982
+      },
+      "masker-mini-native": {
+        "character_recall": 0.7942110836569009,
+        "contained": 93,
+        "containment": 0.6158940397350994,
+        "covered_characters": 2250,
+        "documents_with_high_severity_miss": 4,
+        "high_severity_misses": 4,
+        "masked_characters": 3629,
+        "masking_precision": 0.6200055111600992
+      }
+    },
+    "pairs": {
+      "masker-int4-native+masker-mini-native": {
+        "contained": 93,
+        "containment": 0.6158940397350994,
+        "covered_characters": 2251,
+        "documents_with_high_severity_miss": 4,
+        "high_severity_misses": 4,
+        "left": "masker-int4-native",
+        "left_recovers_right_misses": 0,
+        "masked_characters": 3648,
+        "masking_precision": 0.6170504385964912,
+        "native_span_parity_documents": 29,
+        "neither_alone_but_union_covers": 0,
+        "range_parity_documents": 32,
+        "right": "masker-mini-native",
+        "right_recovers_left_misses": 2
+      }
+    }
+  },
+  "support_scope": "gold-type <- native-label -> existing global taxonomy mapping; counts qualifying predictions, not unique gold"
+}

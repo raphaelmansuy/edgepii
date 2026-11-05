@@ -113,6 +113,9 @@ def test_research_plan_and_evidence_in_browser(static_site,width,tmp_path):
         readiness=page.request.get(static_site+"/evidence/research/protection-readiness-summary-2026-11-05.json")
         assert readiness.status == 200 and readiness.json()["stage_audit_count"] == 3
         assert readiness.json()["readiness_gate"]["expected_rejection"] is True
+        pypi050=page.request.get(static_site+"/evidence/eval/validation/pypi-0-5-0/validation.json")
+        assert pypi050.status == 200 and pypi050.json()["passed"] is True
+        assert pypi050.json()["installed"][0]["version"] == "0.5.0"
         assert not errors
         destination=Path(os.environ.get("EDGEPII_TEST_ARTIFACTS",str(tmp_path)))
         destination.mkdir(parents=True,exist_ok=True)

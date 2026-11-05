@@ -183,4 +183,16 @@ and tested desktop/mobile browsers.
 [JUnit](eval/validation/2026-11-05-protection-gates-050/junit.xml),
 [Modal run](https://modal.com/apps/raphaelmansuy/main/ap-mvvKSv7MImgEn89p1lIeas).
 The real-inference quality-gate rejection above is separate from this passing
-regression suite. Published artifact and clean-install evidence follow upload.
+regression suite.
+
+Both distributions are published on PyPI. Their hashes match the committed
+source build in the [artifact manifest](eval/releases/edgepii-0.5.0.json).
+The [fresh PyPI installation on Modal](eval/validation/pypi-0-5-0/validation.json)
+passed **all 12 installed-package checks**, including selected-versus-protected
+gating and rejection of unmapped output. Both published files were downloaded
+and hash-checked. [Modal run](https://modal.com/apps/raphaelmansuy/main/ap-5LIGWDGxgVObgRLnSosFAI).
+The artifact source commit is recorded in the manifest; subsequent changes
+record this publication evidence.
+The [final site/browser verification](eval/validation/2026-11-05-gates-050-published-site/validation.json)
+passed **17 tests with no skips** on Modal, including the publication evidence
+and readiness guide at desktop and mobile sizes.

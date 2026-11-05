@@ -31,6 +31,8 @@ DOC_ROUTES: dict[str, str] = {
     "15-research-update-2026-11.md": "doc-research-2026",
     "16-grounded-improvement-plan.md": "doc-improvement-plan",
     "17-next-stage-ai-engineering.md": "doc-next-stage",
+    "18-protection-and-model-results.md": "doc-protection-results",
+    "0006-protection-plan.md": "doc-protection-policy",
     "0005-overlap-and-coverage.md": "doc-overlap-policy",
     "glossary.md": "doc-glossary",
     # Pages that live outside docs/ but get a route of their own.

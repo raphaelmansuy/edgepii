@@ -73,6 +73,14 @@ class SliceScore:
     candidate_gold: int = 0
     candidate_fully_contained: int = 0
     candidate_high_severity_leaks: int = 0
+    protection_docs: int = 0
+    protection_gold: int = 0
+    protection_gold_chars: int = 0
+    protection_masked_chars: int = 0
+    protection_covered_chars: int = 0
+    protection_contained: int = 0
+    protection_leaks: int = 0
+    protection_irreversible_chars: int = 0
 
     def finish(self) -> None:
         """Turn the accumulated counts into the four ratios, once per type."""
@@ -101,6 +109,20 @@ class SliceScore:
             "high_severity_leaks": self.leaks,
             "dropped_offsets": self.dropped,
             "unmapped_predictions": self.unmapped,
+            "protection_plan": {
+                "documents": self.protection_docs,
+                "gold_spans": self.protection_gold,
+                "fully_contained_gold_spans": self.protection_contained,
+                "span_recall": self.protection_contained / self.protection_gold if self.protection_gold else None,
+                "high_severity_leaks": self.protection_leaks if self.protection_docs else None,
+                "gold_characters": self.protection_gold_chars,
+                "masked_characters": self.protection_masked_chars,
+                "covered_characters": self.protection_covered_chars,
+                "character_recall": self.protection_covered_chars / self.protection_gold_chars if self.protection_gold_chars else None,
+                "masking_precision": self.protection_covered_chars / self.protection_masked_chars if self.protection_masked_chars else None,
+                "irreversible_characters": self.protection_irreversible_chars,
+                "scope": "opt-in eligible candidate union; secret-tainted components irreversible; unavailable for native-label experiments",
+            },
             "pre_policy_candidates": {
                 "documents": self.candidate_documents,
                 "gold_spans": self.candidate_gold,
@@ -240,8 +262,9 @@ def score_corpus(
         result = locator.locate(doc.text, types=sorted(allowed), min_score=min_score)
         durations.append((time.perf_counter() - tick) * 1000)
         pred = [(span.type, span.start, span.end) for span in result.spans]
+        protected = _protection_outcome(locator, doc, result, sorted(allowed), min_score)
         for name in selected[index]:
-            _accumulate(report_slices[name], locator, doc, pred, result.dropped, getattr(result, "unmapped", 0), getattr(result, "_candidate_ranges", None))
+            _accumulate(report_slices[name], locator, doc, pred, result.dropped, getattr(result, "unmapped", 0), getattr(result, "_candidate_ranges", None), protected)
     for row in report_slices.values():
         row.finish()
     seconds = time.perf_counter() - started
@@ -314,7 +337,8 @@ def score_docs(
     for doc in docs:
         result = locator.locate(doc.text, types=ordered, min_score=min_score)
         pred = [(span.type, span.start, span.end) for span in result.spans]
-        _accumulate(out, locator, doc, pred, result.dropped, getattr(result, "unmapped", 0), getattr(result, "_candidate_ranges", None))
+        protected = _protection_outcome(locator, doc, result, ordered, min_score)
+        _accumulate(out, locator, doc, pred, result.dropped, getattr(result, "unmapped", 0), getattr(result, "_candidate_ranges", None), protected)
     out.finish()
     return out
 
@@ -332,7 +356,23 @@ def _slice_membership(spec, names: list[str], docs) -> dict[int, list[str]]:
     return membership
 
 
-def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]], dropped: int, unmapped: int = 0, candidates=None) -> None:
+def _protection_outcome(locator, doc, result, allowed, min_score):
+    candidates = getattr(result, "_candidates", None)
+    if candidates is None:
+        return None
+    from edgepii import protection_plan, redact_protected, restore
+    plan = protection_plan(doc.text, candidates, taxonomy=locator.taxonomy, types=allowed,
+        min_score=min_score, dropped=result.dropped, unmapped=getattr(result,"unmapped",0), strict=False)
+    masked, vault = redact_protected(doc.text, plan)
+    if not any(s.irreversible for s in plan.segments):
+        assert restore(masked, vault).text == doc.text, "protection round trip failed"
+    for a,b in plan._secret_ranges:
+        assert not any(doc.text[a:b] in value for value in vault.values()), "secret entered protection vault"
+    return ([("",s.start,s.end) for s in plan.segments],
+            sum(s.end-s.start for s in plan.segments if s.irreversible))
+
+
+def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]], dropped: int, unmapped: int = 0, candidates=None, protection=None) -> None:
     out.dropped += dropped
     out.unmapped += unmapped
     out.docs += 1
@@ -348,6 +388,18 @@ def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]],
     out.shift += shift
     out.extra += extra
     high = {row[0] for row in doc.spans if _class_of(locator, row[0]) in HIGH_SEVERITY}
+    if protection is not None:
+        protected, irreversible_chars = protection
+        protection_masks = union_ranges((row[1], row[2]) for row in protected)
+        gc, mc, cc = character_counts(doc.spans, protected)
+        out.protection_docs += 1
+        out.protection_gold += len(doc.spans)
+        out.protection_gold_chars += gc
+        out.protection_masked_chars += mc
+        out.protection_covered_chars += cc
+        out.protection_contained += sum(covered(row[1], row[2], protection_masks) for row in doc.spans)
+        out.protection_irreversible_chars += irreversible_chars
+        out.protection_leaks += leakage_count(gold=[r for r in doc.spans if r[0] in high], predicted=protected, high_types=high)
     if candidates is not None:
         candidate_masks = union_ranges((row[1], row[2]) for row in candidates)
         out.candidate_documents += 1

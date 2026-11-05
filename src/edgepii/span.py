@@ -44,6 +44,7 @@ class LocateResult:
     unmapped: int = 0
     # Evaluation-only ranges before overlap and score policy; never serialized.
     _candidate_ranges: tuple[tuple[str, int, int], ...] | None = field(default=None, repr=False)
+    _candidates: tuple[Span, ...] | None = field(default=None, repr=False)
 
     def to_dict(self) -> dict:
         """Export the contract. Callers who log this dict copy PII."""

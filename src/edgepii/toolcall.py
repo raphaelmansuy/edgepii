@@ -51,10 +51,11 @@ class MaskedMapping:
     vault: dict[str, str] = field(default_factory=dict)
     hits: tuple[FieldHit, ...] = ()
     dropped: int = 0
+    unmapped: int = 0
 
     @property
     def changed(self) -> bool:
-        return bool(self.vault)
+        return bool(self.hits)
 
     def to_dict(self) -> dict:
         """Export the journal. `value` holds the masked tree, never the original."""
@@ -63,6 +64,7 @@ class MaskedMapping:
             "value": self.value,
             "hits": [hit.to_dict() for hit in self.hits],
             "dropped": self.dropped,
+            "unmapped": self.unmapped,
             "changed": self.changed,
         }
 
@@ -114,11 +116,14 @@ def mask_mapping(
     hits: list[FieldHit] = []
     vault: dict[str, str] = {}
     dropped = 0
+    unmapped = 0
 
     def walk(node, path: str):
-        nonlocal dropped
+        nonlocal dropped, unmapped
         if isinstance(node, str):
             result = locator.locate(node, types=types)
+            dropped += result.dropped
+            unmapped += getattr(result, "unmapped", 0)
             if not result.spans:
                 return node
             masked, local = redact(node, result.spans)
@@ -130,12 +135,11 @@ def mask_mapping(
                 scoped = _scope(token, len(vault))
                 masked = masked.replace(token, scoped)
                 vault[scoped] = original
-            dropped += result.dropped
             hits.append(FieldHit(path=path, types=tuple(sorted({s.type for s in result.spans}))))
             return masked
         if isinstance(node, dict):
             return {
-                str(key): walk(item, f"{path}.{key}" if path else str(key))
+                key: walk(item, f"{path}.{key}" if path else str(key))
                 for key, item in node.items()
             }
         if isinstance(node, (list, tuple)):
@@ -147,7 +151,7 @@ def mask_mapping(
         return node
 
     masked_value = walk(value, "")
-    return MaskedMapping(value=masked_value, vault=vault, hits=tuple(hits), dropped=dropped)
+    return MaskedMapping(value=masked_value, vault=vault, hits=tuple(hits), dropped=dropped, unmapped=unmapped)
 
 
 def restore_mapping(
@@ -180,7 +184,7 @@ def restore_mapping(
             unknown.extend(result.unknown)
             return result.text
         if isinstance(node, dict):
-            return {str(key): walk(item) for key, item in node.items()}
+            return {key: walk(item) for key, item in node.items()}
         if isinstance(node, (list, tuple)):
             items = [walk(item) for item in node]
             return items if isinstance(node, list) else tuple(items)

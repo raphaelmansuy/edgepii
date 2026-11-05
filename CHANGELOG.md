@@ -29,6 +29,13 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Opt-in coverage-preserving protection plans, source-bound masking, irreversible
+  secret-tainted components, known-secret propagation across mapping leaves,
+  and explicit tuple-path field policies that bypass detector inference.
+- Experimental Horizon Base, a cue-required US SSN profile, and pinned native
+  PII-Tracer/MiniLM experiments with source-verified custom code and Modal tests.
+- Actual protection-output metrics alongside typed scores and peak GPU memory.
+
 - Pinned experimental Horizon Small and GLiNER2.5 presets, plus a separate
   native-label OPF/Viterbi experiment on Modal.
 - Character and complete-span containment, repeated-value coverage,

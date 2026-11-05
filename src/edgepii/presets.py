@@ -16,6 +16,15 @@ class Preset:
 
 PRESETS: dict[str, Preset] = {
     "rules": Preset("rules", None, ("rules",), None, "rules"),
+    "rules-us": Preset("rules-us", None, ("rules_us",), None, "rules-us-ssn-v1"),
+    "multi-encoder-us": Preset(
+        "multi-encoder-us", "hf", ("rules_us", "hf_token"),
+        "Horizon-Labs/pii-redactor-small", "a20835db9e671267b21a2951f5bf2c76e4901708",
+    ),
+    "multi-encoder-base": Preset(
+        "multi-encoder-base", "hf", ("rules", "hf_token"),
+        "Horizon-Labs/pii-redactor-base", "ef0eff8e63c1711ec0c997c5ca9ea3b78a068684",
+    ),
     "multi-encoder": Preset(
         "multi-encoder", "hf", ("rules", "hf_token"),
         "Horizon-Labs/pii-redactor-small", "a20835db9e671267b21a2951f5bf2c76e4901708",

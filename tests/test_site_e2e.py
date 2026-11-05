@@ -72,6 +72,17 @@ def test_research_plan_and_evidence_in_browser(static_site,width,tmp_path):
         tracer=next(m for m in next_models.json()["models"] if m["repo_id"] == "perplexity-ai/PII-Tracer")
         assert tracer["revision"] == "d25c16f2e57e321f6d2527715c01df9112f956f5"
         assert tracer["gated"] is False
+        response=page.goto(static_site+"/doc-protection-results/")
+        assert response.status == 200
+        assert "Protection and model results" in page.locator("h1").inner_text()
+        assert "redact_protected" in page.locator("main").inner_text()
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+        measured=page.request.get(static_site+"/evidence/eval/modal/spy-legal-50-9cbb4e97/spy-legal__en-closed-50.json")
+        assert measured.status == 200
+        assert measured.json()["slices"]["all"]["protection_plan"]["high_severity_leaks"] == 4
+        release=page.request.get(static_site+"/evidence/eval/validation/2026-11-05-protection-release/validation.json")
+        assert release.status == 200 and release.json()["passed"] is True
+        assert release.json()["pytest"]["tests"] == "245"
         assert not errors
         destination=Path(os.environ.get("EDGEPII_TEST_ARTIFACTS",str(tmp_path)))
         destination.mkdir(parents=True,exist_ok=True)

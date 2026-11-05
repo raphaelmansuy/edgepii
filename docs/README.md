@@ -8,6 +8,8 @@ research, implementation status, and validation evidence. The earlier landscape
 and catalog remain historical inputs; model-card numbers are not release gates.
 Continue with [next-stage AI engineering](17-next-stage-ai-engineering.md) for
 the next priorities, corrected PII-Tracer availability, and additional candidates.
+The [protection implementation and new measurements](18-protection-and-model-results.md)
+record the subsequent code and Modal experiments.
 
 Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the [project README](../README.md) for install and quickstart.
 
@@ -35,6 +37,7 @@ This set records the problem, the research, the public API, and the build plan. 
 16. [Research update, 5 November 2026](15-research-update-2026-11.md). Verified papers, current model candidates, and benchmark qualifications.
 17. [Grounded improvement plan](16-grounded-improvement-plan.md). First-principles acceptance criteria and Modal validation.
 18. [Next-stage AI engineering](17-next-stage-ai-engineering.md). Coverage policy, calibration, and the next model experiments.
+19. [Protection and model results](18-protection-and-model-results.md). Opt-in protection API and measured new candidates.
 
 Decisions:
 
@@ -43,6 +46,7 @@ Decisions:
 - [ADR 0003, local weights in v1](adr/0003-local-weights.md)
 - [ADR 0004, secrets stay irreversible](adr/0004-secrets-irreversible.md)
 - [ADR 0005, direct overlap conflicts](adr/0005-overlap-and-coverage.md)
+- [ADR 0006, protection plan](adr/0006-protection-plan.md)
 
 ## Decision in one page
 

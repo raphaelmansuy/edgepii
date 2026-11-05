@@ -77,8 +77,8 @@ and exact known-secret repeats are irreversible. See the
 [API, policies, and measurements](18-protection-and-model-results.md).
 `protect_mapping(..., field_types={("password",): "SECRET"})` can protect
 declared string fields directly and propagates known secrets across leaves.
-Install or upgrade with `pip install --upgrade edgepii==0.4.0`; see the
-[release guide](19-release-0.4.0.md).
+Install or upgrade with `pip install --upgrade edgepii==0.5.0`; see the
+[release and protection gate guide](21-protection-readiness.md).
 
 ```python
 from edgepii import redact

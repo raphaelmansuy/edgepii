@@ -41,6 +41,7 @@ image = (
     .add_local_file(ROOT / "modal" / "compact_candidates.py", "/root/compact_candidates.py", copy=True)
     .add_local_file(ROOT / "modal" / "paired_research.py", "/root/paired_worker.py", copy=True)
     .add_local_file(ROOT / "modal" / "paired_metrics.py", "/root/paired_metrics.py", copy=True)
+    .add_local_file(ROOT / "modal" / "stage_audit.py", "/root/stage_audit.py", copy=True)
     .run_commands("pip install --no-deps /opt/edgepii")
 )
 # Public checkpoints need no token. A gated model can use an explicitly supplied
@@ -143,6 +144,15 @@ class Model:
                 "scope":"inference and source/masking invariants; not an accuracy guarantee"}
 
     @modal.method()
+    def audit_stages(self,corpus: str,limit: int) -> dict:
+        from stage_audit import run_audit
+        if self.preset not in {"multi-encoder","en-closed"}:
+            raise ValueError("stage audit currently requires a checked HF typed preset")
+        result=run_audit(self.locator,corpus,limit)
+        cache.commit()
+        return result
+
+    @modal.method()
     def describe(self) -> dict:
         import importlib.metadata
         model = getattr(self.native,"model",None)
@@ -218,11 +228,31 @@ def main(corpus: str = "spy-legal", limit: int = 200,
          presets: str = "rules,en-closed,multi-open", gpu: str = "L4",
          out: str = "docs/eval/modal", min_recall: float = 0.0,
          max_leaks: int = -1, paired: bool = False, quantized: bool = False,
-         inspect_only: bool = False):
+         inspect_only: bool = False, stage_audit: bool = False,
+         gate_output: str = "selected", min_containment: float = -1.0,
+         min_masking_precision: float = -1.0, max_unmapped: int = -1,
+         max_leaking_documents: int = -1):
     from edgepii.eval.corpora import load_spec
     from edgepii.eval.gates import GatePolicy, check_gates
 
     load_spec(corpus)  # validate before allocating compute
+    if stage_audit:
+        names=list(dict.fromkeys(name.strip() for name in presets.split(",")))
+        if not names or set(names)-{"multi-encoder","en-closed"} or not 1 <= limit <= 1000:
+            raise ValueError("stage audit requires HF typed presets and a limit between 1 and 1000")
+        from uuid import uuid4
+        destination=Path("docs/eval/stages") if out=="docs/eval/modal" else Path(out)
+        destination.mkdir(parents=True,exist_ok=True)
+        for name in names:
+            model=Model.with_options(**({} if gpu=="cpu" else {"gpu":gpu}))(preset=name,device="cpu" if gpu=="cpu" else "cuda")
+            verification=model.verify.remote()
+            payload=model.audit_stages.remote(corpus,limit)
+            payload["first_principles_verification"]=verification
+            path=destination/f"{corpus}-{name}-{limit}-{uuid4().hex[:8]}.json"
+            with path.open("x") as stream:stream.write(json.dumps(payload,indent=2,sort_keys=True)+"\n")
+            print(json.dumps(payload["summary"],indent=2))
+            print("Saved",path)
+        return
     if inspect_only:
         names=list(dict.fromkeys(name.strip() for name in presets.split(",")))
         if not names or set(names)-{"ettin-native","horizon-native","masker-mini-native"}:
@@ -272,10 +302,15 @@ def main(corpus: str = "spy-legal", limit: int = 200,
         raise ValueError("limit must be between 1 and 10000")
     if "masker-int4-native" in names and gpu != "cpu":
         raise ValueError("masker-int4-native requires --gpu cpu for a matched CPU experiment")
-    policy = GatePolicy(min_recall=min_recall,
-                        max_leaks=None if max_leaks == -1 else max_leaks)
+    policy = GatePolicy(min_recall=min_recall,max_leaks=None if max_leaks == -1 else max_leaks,
+        output=gate_output,min_containment=None if min_containment == -1 else min_containment,
+        min_masking_precision=None if min_masking_precision == -1 else min_masking_precision,
+        max_unmapped=None if max_unmapped == -1 else max_unmapped,
+        max_leaking_documents=None if max_leaking_documents == -1 else max_leaking_documents)
     if set(names) & NATIVE and min_recall > 0:
         raise ValueError("native OPF uses containment metrics, not a typed recall floor")
+    if set(names) & NATIVE and gate_output == "protection":
+        raise ValueError("native experiments have no public protection output to gate")
     from uuid import uuid4
     destination = Path(out) / f"{corpus}-{limit}-{uuid4().hex[:8]}"
     destination.mkdir(parents=True, exist_ok=False)
@@ -304,7 +339,8 @@ def main(corpus: str = "spy-legal", limit: int = 200,
             raise
         payload["code"] = {"git_revision": revision, "dirty": dirty}
         native = name in NATIVE
-        payload["gates"] = check_gates(payload, GatePolicy(max_leaks=policy.max_leaks)) if native else check_gates(payload, policy)
+        from dataclasses import replace
+        payload["gates"] = check_gates(payload,replace(policy,min_recall=None) if native else policy)
         digest = payload["evaluation"]["selection_sha256"]
         if selection is not None and selection != digest:
             raise RuntimeError("models were evaluated on different documents")

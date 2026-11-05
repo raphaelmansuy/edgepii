@@ -228,6 +228,6 @@ Model/code pins and artifact hashes are in the
 state that these models receive original source without confusable folding.
 Permissive integration gates are not deployment risk floors.
 
-The existing CLI leakage gate applies to selected typed/native predictions.
-`protection_plan.high_severity_leaks` is a separate outcome diagnostic;
-deployment policy must explicitly gate the path it actually sends upstream.
+In the 0.4.0 runs above, the CLI leakage gate applied to selected typed/native
+predictions. Version 0.5.0 adds explicit [protection-output gates](21-protection-readiness.md).
+Deployment policy must select the path it actually sends upstream.

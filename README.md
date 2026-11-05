@@ -25,12 +25,13 @@ compared directly to earlier materializations.
 
 ## Contents
 
-Version **0.4.0** adds `Locator.plan`, `redact_protected`, and `protect_mapping`
+Since **0.4.0**, `Locator.plan`, `redact_protected`, and `protect_mapping` work
 with explicit field policies. See [coverage-preserving protection and model results](https://raphaelmansuy.github.io/edgepii/doc-protection-results/)
 for examples, Horizon Base measurements, and the repository-based native
 PII-Tracer/MiniLM experiments.
 The [follow-up improvement research](https://raphaelmansuy.github.io/edgepii/doc-improvement-research/)
 compares compact models, CPU/int4 behavior, and complementary coverage on Modal.
+Version **0.5.0** adds [protection-output gates and measured stage audits](https://raphaelmansuy.github.io/edgepii/doc-protection-readiness/).
 
 - [Why this library](#why-this-library)
 - [Install](#install)
@@ -76,11 +77,11 @@ python3.11 -m venv .venv
 To upgrade an existing environment to this release:
 
 ```bash
-.venv/bin/pip install --upgrade edgepii==0.4.0
+.venv/bin/pip install --upgrade edgepii==0.5.0
 ```
 
-See the [0.4.0 release guide](https://raphaelmansuy.github.io/edgepii/doc-release/)
-for the new API example and artifact verification.
+See the [0.5.0 release and protection gate guide](https://raphaelmansuy.github.io/edgepii/doc-protection-readiness/)
+for usage and verification.
 
 To work from a checkout instead, use `pip install -e .` in place of
 `pip install edgepii`.

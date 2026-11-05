@@ -1,0 +1,75 @@
+{
+  "files": [
+    {
+      "filename": "edgepii-0.5.0-py3-none-any.whl",
+      "sha256": "b5b261a8117ef5a154903e6ed1db07073309131c1edfea4e5a7daee3ed4e53ec",
+      "url": "https://files.pythonhosted.org/packages/6c/70/d51aa1c61023de9b94089c6598687ff50cfda100f7cf803d75c4a5dd42b5/edgepii-0.5.0-py3-none-any.whl",
+      "yanked": false
+    },
+    {
+      "filename": "edgepii-0.5.0.tar.gz",
+      "sha256": "e267107290ca5ffa3a72f7cddb897dd3d987ef7e68d4fb1307229f5fe0a301a4",
+      "url": "https://files.pythonhosted.org/packages/f7/59/dcebed6a7b4bec8916828f7d084a04c85eb6aed5388ae035e43a90013fef/edgepii-0.5.0.tar.gz",
+      "yanked": false
+    }
+  ],
+  "installed": [
+    {
+      "archive_info": {
+        "hash": "sha256=b5b261a8117ef5a154903e6ed1db07073309131c1edfea4e5a7daee3ed4e53ec",
+        "hashes": {
+          "sha256": "b5b261a8117ef5a154903e6ed1db07073309131c1edfea4e5a7daee3ed4e53ec"
+        }
+      },
+      "url": "https://files.pythonhosted.org/packages/6c/70/d51aa1c61023de9b94089c6598687ff50cfda100f7cf803d75c4a5dd42b5/edgepii-0.5.0-py3-none-any.whl",
+      "version": "0.5.0"
+    }
+  ],
+  "metadata_url": "https://pypi.org/pypi/edgepii/0.5.0/json",
+  "mode": "published-pypi",
+  "passed": true,
+  "provider": "modal",
+  "python": "3.11.18 (main, Oct 28 2026, 02:05:49) [GCC 12.2.0]",
+  "smoke_sha256": "9f984bc13186a9962470960fdde86441662101fb8e4ee01511c18bdf478de533",
+  "steps": [
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "venv",
+        "/tmp/edgepii-pypi"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "/tmp/edgepii-pypi/bin/python",
+        "-m",
+        "pip",
+        "--isolated",
+        "install",
+        "--index-url",
+        "https://pypi.org/simple",
+        "--no-cache-dir",
+        "--report",
+        "/tmp/edgepii-pypi-install.json",
+        "edgepii==0.5.0"
+      ],
+      "exit_code": 0,
+      "output": "Collecting edgepii==0.5.0\n  Downloading edgepii-0.5.0-py3-none-any.whl.metadata (35 kB)\nCollecting phonenumbers>=8.13 (from edgepii==0.5.0)\n  Downloading phonenumbers-9.0.42-py2.py3-none-any.whl.metadata (10 kB)\nCollecting pyyaml>=6 (from edgepii==0.5.0)\n  Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)\nDownloading edgepii-0.5.0-py3-none-any.whl (78 kB)\n   \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 78.1/78.1 kB 21.0 MB/s eta 0:00:00\nDownloading phonenumbers-9.0.42-py2.py3-none-any.whl (2.6 MB)\n   \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 2.6/2.6 MB 156.2 MB/s eta 0:00:00\nDownloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)\n   \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 806.6/806.6 kB 242.4 MB/s eta 0:00:00\nInstalling collected packages: pyyaml, phonenumbers, edgepii\nSuccessfully installed edgepii-0.5.0 phonenumbers-9.0.42 pyyaml-6.0.3\n\n[notice] A new release of pip is available: 24.0 -> 26.3\n[notice] To update, run: python -m pip install --upgrade pip\n"
+    },
+    {
+      "command": [
+        "/tmp/edgepii-pypi/bin/python",
+        "-I",
+        "/verify_install.py",
+        "--version",
+        "0.5.0"
+      ],
+      "exit_code": 0,
+      "output": "{\"checks\": [\"installed distribution\", \"public exports\", \"Unicode source offsets\", \"mask/restore round trip\", \"source binding\", \"strict diagnostics\", \"explicit field policy\", \"cross-leaf secret irreversibility\", \"country profile opt-in\", \"no Torch import\", \"emitted protection gate path\", \"unmapped protection readiness rejection\"], \"passed\": true, \"version\": \"0.5.0\"}\n"
+    }
+  ],
+  "version": "0.5.0"
+}

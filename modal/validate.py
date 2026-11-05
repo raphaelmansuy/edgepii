@@ -71,11 +71,12 @@ print('Installed wheel source, mask/restore, and no-torch invariants passed')
               [sys.executable,"site/check.py"],
               [sys.executable,"modal/check_evidence.py"],
               [sys.executable,"scripts/audit_compact_research.py"],
+              [sys.executable,"scripts/audit_protection_readiness.py"],
               [sys.executable,"-m","pytest","tests","-o","addopts=","-q","-ra",f"--junitxml={artifacts/'junit.xml'}"]]
     if site_only:
         # Recheck final evidence links after the full-suite report is saved.
         # This mode is explicitly labeled and never substitutes for that run.
-        site_commands = [c for c in commands if c[1].startswith(("site/", "modal/check_evidence.py", "scripts/audit_compact_research.py"))]
+        site_commands = [c for c in commands if c[1].startswith(("site/", "modal/check_evidence.py", "scripts/audit_compact_research.py", "scripts/audit_protection_readiness.py"))]
         commands = [commands[0], *site_commands,
                     [sys.executable,"-m","pytest","tests/test_site.py","tests/test_site_e2e.py",
                      "-o","addopts=","-q","-ra",f"--junitxml={artifacts/'junit.xml'}"]]

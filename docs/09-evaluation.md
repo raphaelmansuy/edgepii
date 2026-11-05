@@ -61,6 +61,24 @@ A high-severity leakage rate above zero on the freeze means that the team must n
 
 The downstream task owns its utility floors. This spec leaves those floors open.
 
+## Gate the emitted output
+
+Starting in 0.5.0, `--gate-output protection` applies `--max-leaks`,
+`--max-leaking-documents`, `--min-containment`, and `--min-masking-precision`
+to `protection_plan`. `--gate-output selected` retains the previous default.
+`--min-recall` always gates exact typed recall; containment has its own floor.
+Protection gates reject missing or partial output and require zero unmapped
+predictions unless `--max-unmapped` explicitly changes that budget. Invalid
+offsets remain limited by `--max-dropped`, which defaults to zero.
+
+Reports include `high_severity_documents` and
+`high_severity_leaking_documents`; the latter is also recorded for protection.
+The document leakage rate uses documents with in-scope high-severity gold as
+its applicable denominator. Native-label experiments have no public protection
+projection and cannot pass that output's readiness gate. All gates apply to
+every requested slice, and failed reports are saved before the CLI exits 1.
+See [actual stage audits and gate behavior](21-protection-readiness.md).
+
 ## Sets
 
 | Set | Who can read it | Use |

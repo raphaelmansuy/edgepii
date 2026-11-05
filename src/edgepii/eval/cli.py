@@ -36,9 +36,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--min-recall", type=float, default=None, help="minimum recall in every slice")
     parser.add_argument("--max-leaks", type=int, default=None, help="maximum high severity leaks per slice")
     parser.add_argument("--max-dropped", type=int, default=0, help="maximum invalid offsets per slice")
+    parser.add_argument("--gate-output", choices=("selected","protection"), default="selected",
+                        help="output whose leakage/containment/precision is gated")
+    parser.add_argument("--min-containment",type=float,default=None,help="minimum complete-span containment per slice")
+    parser.add_argument("--min-masking-precision",type=float,default=None,help="minimum covered-gold/masked character ratio")
+    parser.add_argument("--max-unmapped",type=int,default=None,help="maximum unmapped predictions; protection defaults to zero")
+    parser.add_argument("--max-leaking-documents",type=int,default=None,help="maximum documents with a high-severity miss per slice")
     args = parser.parse_args(argv)
     try:
-        policy = GatePolicy(args.min_recall, args.max_leaks, args.max_dropped)
+        policy = GatePolicy(args.min_recall,args.max_leaks,args.max_dropped,output=args.gate_output,
+            min_containment=args.min_containment,min_masking_precision=args.min_masking_precision,
+            max_unmapped=args.max_unmapped,max_leaking_documents=args.max_leaking_documents)
         if args.limit is not None and args.limit <= 0:
             raise ValueError("limit must be positive")
         if args.min_score is not None and not (math.isfinite(args.min_score) and 0 <= args.min_score <= 1):
@@ -86,6 +94,8 @@ def table(payload: dict) -> str:
     ]
     header = f"{'slice':13} {'docs':>6} {'gold':>6} {'pred':>6} {'tp':>6} {'fp':>5} {'fn':>5} {'P':>6} {'R':>6} {'F1':>6} {'F2':>6} {'leak':>4}"
     lines.append(header)
+    if payload.get("gates",{}).get("policy",{}).get("output")=="protection":
+        lines.insert(1,"gate output=protection; table below shows selected typed spans")
     for name, row in payload["slices"].items():
         lines.append(
             f"{name:13} {row['documents']:6d} {row['gold_spans']:6d} {row['predicted_spans']:6d} "

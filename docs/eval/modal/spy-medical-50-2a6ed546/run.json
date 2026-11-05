@@ -1,0 +1,14 @@
+{
+  "completed": [
+    {
+      "gates_passed": false,
+      "preset": "multi-encoder",
+      "report": "spy-medical__multi-encoder-50.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "multi-encoder"
+  ],
+  "state": "quality-gates-failed"
+}

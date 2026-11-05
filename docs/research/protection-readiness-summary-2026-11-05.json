@@ -1,0 +1,401 @@
+{
+  "historical_counterfactual": {
+    "path": "docs/eval/modal/spy-legal-50-9cbb4e97/spy-legal__multi-encoder-50.json",
+    "protection_readiness_policy": {
+      "failures": [
+        "all: unmapped predictions exceed 0",
+        "legal: unmapped predictions exceed 0"
+      ],
+      "passed": false,
+      "policy": {
+        "max_dropped": 0,
+        "max_leaks": 0,
+        "min_recall": null,
+        "output": "protection"
+      }
+    },
+    "scope": "re-gating saved measurements, no new inference or edited historical report",
+    "selected_policy": {
+      "failures": [],
+      "passed": true,
+      "policy": {
+        "max_dropped": 0,
+        "max_leaks": 0,
+        "min_recall": null
+      }
+    },
+    "sha256": "ee0d39ad6f4b154956b608d5814b1ecf45d69ea38536635678b787901ab06341"
+  },
+  "readiness_gate": {
+    "expected_rejection": true,
+    "gates": {
+      "failures": [
+        "all: high severity leaks exceed 0",
+        "all: unmapped predictions exceed 0",
+        "all: high severity leaking documents exceed 0",
+        "medical: high severity leaks exceed 0",
+        "medical: unmapped predictions exceed 0",
+        "medical: high severity leaking documents exceed 0"
+      ],
+      "passed": false,
+      "policy": {
+        "max_dropped": 0,
+        "max_leaking_documents": 0,
+        "max_leaks": 0,
+        "min_containment": 0.9,
+        "min_recall": 0.0,
+        "output": "protection"
+      }
+    },
+    "path": "docs/eval/modal/spy-medical-50-2a6ed546/spy-medical__multi-encoder-50.json",
+    "protected_leaking_documents": 10,
+    "sha256": "c11103894feb7ad14441c3ac200f235b7153593c856f993d9c37dd8cff00ec53"
+  },
+  "stage_audit_count": 3,
+  "stage_audits": [
+    {
+      "corpus": "spy-medical",
+      "path": "docs/eval/stages/spy-medical-multi-encoder-50-0bea79b7.json",
+      "preset": "multi-encoder",
+      "selection_sha256": "a6fbe20649c5291ea6056f1483304a74aed9edddc5ba33cf93547c5b3be4db39",
+      "sha256": "35e68b3f26f51e9b905e467cd85eb7f9a29773d5385edfb3aad56d49ed5ab19a",
+      "summary": {
+        "branches": {
+          "folded": {
+            "stages": {
+              "eligible_candidates": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10393
+              },
+              "mapped_public": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10393
+              },
+              "protected": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10399
+              },
+              "raw_native": {
+                "contained_gold": 305,
+                "covered_characters": 4859,
+                "high_severity_misses": 0,
+                "masked_characters": 15800
+              },
+              "selected": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10393
+              },
+              "trimmed_native": {
+                "contained_gold": 305,
+                "covered_characters": 4859,
+                "high_severity_misses": 0,
+                "masked_characters": 15149
+              }
+            },
+            "unmapped_labels": {
+              "ACCOUNT_ID": 6,
+              "AGE": 3,
+              "DATE": 1,
+              "LOCATION": 95,
+              "MEDICAL_ID": 17,
+              "URL": 112
+            },
+            "unmapped_predictions": 234
+          },
+          "original": {
+            "stages": {
+              "eligible_candidates": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10393
+              },
+              "mapped_public": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10393
+              },
+              "protected": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10399
+              },
+              "raw_native": {
+                "contained_gold": 305,
+                "covered_characters": 4859,
+                "high_severity_misses": 0,
+                "masked_characters": 15800
+              },
+              "selected": {
+                "contained_gold": 295,
+                "covered_characters": 4781,
+                "high_severity_misses": 10,
+                "masked_characters": 10393
+              },
+              "trimmed_native": {
+                "contained_gold": 305,
+                "covered_characters": 4859,
+                "high_severity_misses": 0,
+                "masked_characters": 15149
+              }
+            },
+            "unmapped_labels": {
+              "ACCOUNT_ID": 6,
+              "AGE": 3,
+              "DATE": 1,
+              "LOCATION": 95,
+              "MEDICAL_ID": 17,
+              "URL": 112
+            },
+            "unmapped_predictions": 234
+          }
+        },
+        "documents": 50,
+        "gold_spans": 311,
+        "high_severity_gold": 43
+      }
+    },
+    {
+      "corpus": "spy-legal",
+      "path": "docs/eval/stages/spy-legal-multi-encoder-50-a6d83bcf.json",
+      "preset": "multi-encoder",
+      "selection_sha256": "8923318576cb7efaa919b3e04a121401f7cc36387f66ce6c564d38ed86bc866c",
+      "sha256": "f20d9294a7ea6331b80bf1e6ad63a367d238a593e146a9fe845dabadd2ea8677",
+      "summary": {
+        "branches": {
+          "folded": {
+            "stages": {
+              "eligible_candidates": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10410
+              },
+              "mapped_public": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10657
+              },
+              "protected": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10411
+              },
+              "raw_native": {
+                "contained_gold": 247,
+                "covered_characters": 4088,
+                "high_severity_misses": 0,
+                "masked_characters": 15908
+              },
+              "selected": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10410
+              },
+              "trimmed_native": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 15250
+              }
+            },
+            "unmapped_labels": {
+              "ACCOUNT_ID": 7,
+              "DATE": 2,
+              "DEVICE_ID": 1,
+              "LOCATION": 90,
+              "URL": 118
+            },
+            "unmapped_predictions": 218
+          },
+          "original": {
+            "stages": {
+              "eligible_candidates": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10410
+              },
+              "mapped_public": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10657
+              },
+              "protected": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10411
+              },
+              "raw_native": {
+                "contained_gold": 247,
+                "covered_characters": 4088,
+                "high_severity_misses": 0,
+                "masked_characters": 15908
+              },
+              "selected": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 10410
+              },
+              "trimmed_native": {
+                "contained_gold": 247,
+                "covered_characters": 4087,
+                "high_severity_misses": 0,
+                "masked_characters": 15250
+              }
+            },
+            "unmapped_labels": {
+              "ACCOUNT_ID": 7,
+              "DATE": 2,
+              "DEVICE_ID": 1,
+              "LOCATION": 90,
+              "URL": 118
+            },
+            "unmapped_predictions": 218
+          }
+        },
+        "documents": 50,
+        "gold_spans": 254,
+        "high_severity_gold": 37
+      }
+    },
+    {
+      "corpus": "spy-legal",
+      "path": "docs/eval/stages/spy-legal-en-closed-50-66c2f279.json",
+      "preset": "en-closed",
+      "selection_sha256": "8923318576cb7efaa919b3e04a121401f7cc36387f66ce6c564d38ed86bc866c",
+      "sha256": "44cad74150b07131812c95213c64442133b294c1ba8a5cecf33f3b6e52fbe924",
+      "summary": {
+        "branches": {
+          "folded": {
+            "stages": {
+              "eligible_candidates": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 9991
+              },
+              "mapped_public": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 10262
+              },
+              "protected": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 9991
+              },
+              "raw_native": {
+                "contained_gold": 220,
+                "covered_characters": 3710,
+                "high_severity_misses": 4,
+                "masked_characters": 16304
+              },
+              "selected": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 9991
+              },
+              "trimmed_native": {
+                "contained_gold": 176,
+                "covered_characters": 3660,
+                "high_severity_misses": 4,
+                "masked_characters": 15194
+              }
+            },
+            "unmapped_labels": {
+              "certificate_license_number": 3,
+              "customer_id": 2,
+              "device_identifier": 1,
+              "employee_id": 3,
+              "employment_status": 3,
+              "fax_number": 15,
+              "health_plan_beneficiary_number": 2,
+              "occupation": 49,
+              "time": 6,
+              "unique_id": 8,
+              "url": 118
+            },
+            "unmapped_predictions": 210
+          },
+          "original": {
+            "stages": {
+              "eligible_candidates": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 9991
+              },
+              "mapped_public": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 10262
+              },
+              "protected": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 9991
+              },
+              "raw_native": {
+                "contained_gold": 220,
+                "covered_characters": 3710,
+                "high_severity_misses": 4,
+                "masked_characters": 16304
+              },
+              "selected": {
+                "contained_gold": 173,
+                "covered_characters": 3608,
+                "high_severity_misses": 6,
+                "masked_characters": 9991
+              },
+              "trimmed_native": {
+                "contained_gold": 176,
+                "covered_characters": 3660,
+                "high_severity_misses": 4,
+                "masked_characters": 15194
+              }
+            },
+            "unmapped_labels": {
+              "certificate_license_number": 3,
+              "customer_id": 2,
+              "device_identifier": 1,
+              "employee_id": 3,
+              "employment_status": 3,
+              "fax_number": 15,
+              "health_plan_beneficiary_number": 2,
+              "occupation": 49,
+              "time": 6,
+              "unique_id": 8,
+              "url": 118
+            },
+            "unmapped_predictions": 210
+          }
+        },
+        "documents": 50,
+        "gold_spans": 254,
+        "high_severity_gold": 37
+      }
+    }
+  ]
+}

@@ -1090,5 +1090,91 @@
       "sha256": "c6cbf2e2327b4d8b7188553b34bbb1712fab802efc5415c2d83a2f0725f65eab"
     }
   ],
+  "runtime_precision": [
+    {
+      "models": [
+        {
+          "actual_parameter_dtype": "torch.bfloat16",
+          "backend": "transformers-pipeline-torch.bfloat16",
+          "device": "cuda",
+          "packages": {
+            "torch": "2.8.0",
+            "transformers": "5.22.1"
+          },
+          "parameters": 32072171,
+          "preset": "ettin-native",
+          "revision": "84ce02cac78d9cee27a125629ba195f12c75fe5b"
+        },
+        {
+          "actual_parameter_dtype": "torch.float32",
+          "backend": "transformers-pipeline-torch.float32",
+          "device": "cuda",
+          "packages": {
+            "torch": "2.8.0",
+            "transformers": "5.22.1"
+          },
+          "parameters": 140664251,
+          "preset": "horizon-native",
+          "revision": "a20835db9e671267b21a2951f5bf2c76e4901708"
+        },
+        {
+          "actual_parameter_dtype": "torch.float32",
+          "backend": "torch-fp32",
+          "device": "cuda",
+          "packages": {
+            "torch": "2.8.0",
+            "transformers": "5.22.1"
+          },
+          "parameters": 35399857,
+          "preset": "masker-mini-native",
+          "revision": "beb7235d454aa4488b6ee1cd47f417caa12a6d15"
+        }
+      ],
+      "path": "docs/research/compact-runtime-precision-2026-11-05.json",
+      "sha256": "33b7b88bbb1f4171dee16e141cd8b69768619fef0298b7548ef85cf01524e41f"
+    },
+    {
+      "models": [
+        {
+          "actual_parameter_dtype": "torch.bfloat16",
+          "backend": "transformers-pipeline-torch.bfloat16",
+          "device": "cpu",
+          "packages": {
+            "torch": "2.8.0",
+            "transformers": "5.22.1"
+          },
+          "parameters": 32072171,
+          "preset": "ettin-native",
+          "revision": "84ce02cac78d9cee27a125629ba195f12c75fe5b"
+        },
+        {
+          "actual_parameter_dtype": "torch.float32",
+          "backend": "transformers-pipeline-torch.float32",
+          "device": "cpu",
+          "packages": {
+            "torch": "2.8.0",
+            "transformers": "5.22.1"
+          },
+          "parameters": 140664251,
+          "preset": "horizon-native",
+          "revision": "a20835db9e671267b21a2951f5bf2c76e4901708"
+        },
+        {
+          "actual_parameter_dtype": "torch.float32",
+          "backend": "torch-fp32",
+          "device": "cpu",
+          "packages": {
+            "torch": "2.8.0",
+            "transformers": "5.22.1"
+          },
+          "parameters": 35399857,
+          "preset": "masker-mini-native",
+          "revision": "beb7235d454aa4488b6ee1cd47f417caa12a6d15"
+        }
+      ],
+      "path": "docs/research/compact-runtime-precision-cpu-2026-11-05.json",
+      "sha256": "7e32c0dd1a23fa33c02c75c8f2ceb173db7152f7b4f0fa0f01a6ad373a2ca0cd"
+    }
+  ],
   "scope": "exploratory native containment; integration passes are not zero-leak promotion"
 }

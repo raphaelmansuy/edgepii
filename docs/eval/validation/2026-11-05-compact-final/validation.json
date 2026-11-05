@@ -1,0 +1,364 @@
+{
+  "mode": "full",
+  "passed": true,
+  "pytest": {
+    "errors": "0",
+    "failures": "0",
+    "hostname": "modal",
+    "name": "pytest",
+    "skipped": "1",
+    "tests": "258",
+    "time": "46.241",
+    "timestamp": "2026-11-05T09:16:16.229875+00:00"
+  },
+  "runtime": {
+    "packages": {
+      "Faker": "40.44.0",
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "aiohttp": "3.9.1",
+      "aiosignal": "1.4.0",
+      "aiostream": "0.4.4",
+      "annotated-doc": "0.0.5",
+      "annotated-types": "0.8.0",
+      "anyio": "4.16.0",
+      "asgiref": "3.5.2",
+      "asttokens": "3.0.2",
+      "attrs": "26.1.0",
+      "certifi": "2026.10.23",
+      "click": "8.5.0",
+      "cloudpickle": "2.2.0",
+      "commonmark": "0.9.2",
+      "edgepii": "0.4.0",
+      "executing": "2.3.0",
+      "fastapi": "0.162.0",
+      "fastprogress": "1.0.0",
+      "frozenlist": "1.8.0",
+      "greenlet": "3.5.6",
+      "grpclib": "0.4.7",
+      "h11": "0.16.0",
+      "h2": "4.4.1",
+      "hpack": "4.2.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "hyperframe": "6.1.0",
+      "idna": "3.20",
+      "importlib-metadata": "4.8.1",
+      "iniconfig": "2.3.1",
+      "ipython": "9.18.1",
+      "ipython_pygments_lexers": "1.1.1",
+      "jedi": "0.20.1",
+      "matplotlib-inline": "0.2.2",
+      "multidict": "6.9.1",
+      "numpy": "2.4.6",
+      "opentelemetry-api": "1.45.2",
+      "packaging": "26.3",
+      "parso": "0.8.7",
+      "pexpect": "4.9.0",
+      "phonenumbers": "9.0.42",
+      "pip": "26.3",
+      "playwright": "1.56.0",
+      "pluggy": "1.7.0",
+      "prompt_toolkit": "3.0.53",
+      "propcache": "0.5.4",
+      "protobuf": "7.36.2",
+      "psutil": "7.2.2",
+      "ptyprocess": "0.7.0",
+      "pure_eval": "0.2.4",
+      "pyarrow": "26.0.1",
+      "pydantic": "2.14.2",
+      "pydantic_core": "2.50.2",
+      "pyee": "13.0.1",
+      "pytest": "9.2.0",
+      "python-multipart": "0.0.33",
+      "rich": "12.3.0",
+      "setuptools": "80.9.0",
+      "stack-data": "0.6.3",
+      "starlette": "1.10.0",
+      "tblib": "1.7.0",
+      "toml": "0.10.2",
+      "traitlets": "5.16.1",
+      "typeguard": "4.6.0",
+      "typer": "0.6.1",
+      "types-certifi": "2021.10.8.3",
+      "types-toml": "0.10.4",
+      "typing-inspection": "0.4.5",
+      "typing_extensions": "4.16.0",
+      "uvicorn": "0.54.0",
+      "wcwidth": "0.9.4",
+      "wheel": "0.46.3",
+      "yarl": "1.25.1",
+      "zipp": "4.1.2"
+    },
+    "python": "3.11.18 (main, Oct 28 2026, 02:05:49) [GCC 12.2.0]"
+  },
+  "source_sha256": {
+    "docs/00-five-whys.md": "856130de16565d6191c1f5ab79f2aea774ff65d99f0d27ddca96651bb6194f11",
+    "docs/01-span-contract.md": "defc74470bb9d462d3c6c76ebf0c84c3e7c80d640e6f27b2559f017f2cedff91",
+    "docs/02-first-principles.md": "414c4ce147c659c074d0e5b50f5888a97f841d68c7a6db0fd990ff8850a2eec8",
+    "docs/03-ai-engineering.md": "e78b5270cbe2a7b7a473c83924ccad59375d73cc847fc7759dd67920f304e432",
+    "docs/04-research-landscape.md": "7fc62d6403881b70bca64158862c72be0d00f00e4eedce81e43527db54a33c4b",
+    "docs/05-model-catalog.md": "6976dc5452a27a9700c70c19ebff92907ed686a66d084f4a96e86bee0d9ce521",
+    "docs/06-library-api.md": "19ae09922d6a0d104a5d14b5edd23e59e0acff1461e5d426e28e1c7c03803ce3",
+    "docs/07-architecture.md": "715baa37b76f246100baa0e3003c42a7708b546033c10161045eec0f3cf62b03",
+    "docs/08-implementation-plan.md": "8ef08b3fa4d33eb49ecb8b2ec00a36ec4126010fa965f5ac56bdab1b2ffdcd05",
+    "docs/09-evaluation.md": "f7cd6222e77663a0d7bf166c9d8f3841e7628aefcc9280aa1c0323191de4ae8e",
+    "docs/10-taxonomy.md": "e9dc5b22e79abbd3d792ce75e6f758f8d8a69b3ff3aa749de19c7daedca75feb",
+    "docs/11-examples.md": "d00d05e952cf291303e892ca5fd49606cad9a954219d38f80677a4b0292ebe8b",
+    "docs/12-public-corpora.md": "acecb3bc527a621afff29de25504f0e70c1289f7c2ac33939ac6146cc8b2eb7d",
+    "docs/13-first-public-score.md": "fb9f85966e2e60b6c30fc35012347502492c8618aaa9af7ac2ac3e2e24f2a572",
+    "docs/14-assessment-2026-11.md": "4a11ce102cf12ee29be90a39dcab7848dfc9ecc617362472d5fbab3843db8d4f",
+    "docs/15-research-update-2026-11.md": "873002007364eec1b5d3a3a63d7cce9cab55e98731a72b5357e26608b749b16d",
+    "docs/16-grounded-improvement-plan.md": "7211a5aabb94be7c3a0106bdf694032ebb289c926702e3f4da4034c92a519d21",
+    "docs/17-next-stage-ai-engineering.md": "03dd9d80d6537dae2b93de4e4dfc08c85ce36f704363dec5bb00fea4fc7e8db4",
+    "docs/18-protection-and-model-results.md": "f9546a0777765c7e2bd84ff3a5f69fb28e8278eb6bdb03488f99a1cb293edb15",
+    "docs/19-release-0.4.0.md": "ba09bb29166bcb8b7d9e08ed927578e601665ed1d70800e831269cc3a9604012",
+    "docs/20-improvement-research-2026-11.md": "1c5ede762f86386e56aa545b7e42c4066c48c3c6d109d7545e132c5f4db0fb4c",
+    "docs/README.md": "ed99f78a5e61b28869751bcea29bd07f8312659ddcdeb1d06805f54173143e0c",
+    "docs/adr/0001-locate-spans.md": "fa4ff578b3134a9e9668a1b69b655b8ab58f1d1e82b196e51e30e63f3dd82242",
+    "docs/adr/0002-two-default-lanes.md": "a8186f142e5cbe9150a3f4d7236b153ed87e4c2d6915bde4ac5fb0aac149064b",
+    "docs/adr/0003-local-weights.md": "f46c2b8328a2ff10cdcdb9033b4548f53a5b85ca90c1c761851cf0dea9f5d1c6",
+    "docs/adr/0004-secrets-irreversible.md": "81ba947ddfccece1aff5bf7bc623499e912a7667a6f689f742b5e17f807aa084",
+    "docs/adr/0005-overlap-and-coverage.md": "e6fd1a034a7aa7a7f875df87eea5a7894a69574b783901bb8fb1ad4ba349b3c5",
+    "docs/adr/0006-protection-plan.md": "418ed509895a5a068c51828e2c647a654c12dfc8770d1d82ce3c20f8d94e1137",
+    "docs/e2e/README.md": "330b12f9af824b9e682de476a4423a76743c12395e14c549fda0cc29a9dbc003",
+    "docs/glossary.md": "cdb6a33ffd42084c286afb9fa4415517368509970112d2354ad946aa5f7e18d9",
+    "modal/README.md": "965882c00091c3e4892cf2677b9317cd5656b6f087a319a49210eab77a9f2d54",
+    "modal/check_evidence.py": "3b761029922893303ff23b5b164cb71d557b25ae36d37ca463157298ffb34add",
+    "modal/compact_candidates.py": "a390cfaa12af780eb320002b287ab5287616bf21b18f9c60d4b67fb6402067a2",
+    "modal/e2e_models.py": "41984bb96c26881c01b09f6d4b024fd2efe79f6c7985eb58d5937f68f4cefcbc",
+    "modal/models.py": "88be4088a0d02ba1e315fbe73e19717ad32c63f5e7b031792251bb1a728f3ff2",
+    "modal/native_candidates.py": "6d3e31388b8e4a48a2c75e4a402bfd3e7fec4f22b99307180527444ab51cf8b7",
+    "modal/native_opf.py": "787a45b28e5ade32ef39662f8c5f059b0b3dd7adcd997720c623b2f08246fc9d",
+    "modal/paired_metrics.py": "c80f114e54a4bd579b25d65791bfb1412f9aff429ccce96280a445bbb7c9e752",
+    "modal/paired_research.py": "01e6e6ec1e0bb7efa8c1b847286c099f49c350057c80798defb58e49b16f9157",
+    "modal/validate.py": "60c7b57af7aa4944b45435abd5faddab82c788bd5aacfff4ef3da8136c99dfb2",
+    "modal/verify_release.py": "18ceff8beb3907b6765a45a03596832f5c410afdb3011ec4d9da5ce358c86138",
+    "scripts/audit_compact_research.py": "3c6572d0ca4aaca0875682aec45e411e40c0f8c1c6a553b80fc5fdb9348b53ef",
+    "scripts/research_snapshot.py": "b721bde1234262a0757b208d693c810ae03222ef0008c1658119cc137d76a174",
+    "scripts/verify_install.py": "a5ec381fc7b7f41b8fc4537a93720835d102f2e097a98f1231c29302d679b3aa",
+    "site/README.md": "3c3cfdc235d963d4600dfca69c6474d11588a254ab00192d2a6b6a0e992b1e85",
+    "site/author.py": "9437a4249bfe1ef1c73984aa42c0a0b2744f918510db1b853f2f5359ac51cd75",
+    "site/build.py": "e2abfd028a9c9889594820181d5988fde5aac24f85a52324d73634e45eb66c39",
+    "site/check.py": "af5fbb4255ed72d846dcefe6876f51b7df315e37ed008825607ad1364e500a6f",
+    "site/content/CONCEPTS.md": "1712bf248b3ca1239d7dea3385de00affddb3c29be69afae9166d5bc80ee6442",
+    "site/content/GUIDE-EVALUATE.md": "6d8e09ea1caed95ea31b13f49d3b34f5158ac4e45ea274b772c8e8f27229d0a7",
+    "site/content/GUIDE-MASKING.md": "043c7367a816cd14682990e15cd2fe7c4fb7bfc90fe53049211d28a7b1bee8de",
+    "site/content/START.md": "8a343c5950bd1eb2707b59597f2e6a14f2eddcb65493b485c364f9b93bd614fa",
+    "site/examples_page.py": "18af07615e57a6a44acd8decb5a1dffa9ae242dc6413cb074b39dd3b129e809b",
+    "site/gen_data.py": "ebdc112515815e5c91fdcfd8a8b197d7a853aca51bf1466f8281bce7d46952c2",
+    "site/icons.py": "3916b4d575f804bb0c8bb606196ee59736489dfc0a9dd46c85d1f37e51b42ed9",
+    "site/images.py": "da55d27331e004d33a373ebaedfdf4113346ec1aa4752e754c0db1679358a35b",
+    "site/links.py": "6709f80a80e9bc1f8c825ca7733fe144541b3bafeb7daeb0297e5c70fe742787",
+    "site/mdrender.py": "22df403acbff6a2211fe1efe0d5dc1cff3e79617d3b4d8520ebdf3ebe5c5a3bd",
+    "site/shots_site.py": "734f4bbf39ddffdbfe07c509175d53206689161d140eedcfa92f533684ede0ce",
+    "site/social.py": "006dca6d83f649a5d5ed9af4f6739935bcb4acb62c66ea6bd909e6a08db379b8",
+    "site/static/site.css": "c3cea1a83193177127596dea950d15e3037cfda4c1163732c14ee8700e12717d",
+    "site/static/site.js": "2b57b218041f9174588dc51118c9535590493e2137d99e48d847a78f978bf0ad",
+    "site/verify_claims.py": "2761a70a07a2612dcad3f92102ca0d55df28a74b60a4276b0868d9b159157fc5",
+    "src/edgepii/__init__.py": "e7a2425fa8e8db5fcc2e8788f3583f41afb7b598d959743888b29df7d6fd06be",
+    "src/edgepii/_version.py": "7b241462fb3e03abcb015f2d9568f192f8c1c695c298cb4d739dfd9e68774360",
+    "src/edgepii/bridges/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/edgepii/bridges/presidio.py": "ded66f894d24d10c993841e3004df2390452d0bede915b886709422d514d3980",
+    "src/edgepii/check.py": "9e09a6bf05e92aeca26ce3d93f7d9bac1b4e92c46f9e7d8544b0cfe5a4d7f059",
+    "src/edgepii/detectors/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/edgepii/detectors/gliner.py": "37d262559634f743d8725c2e96ed7ee238dfef451593baba7e8ec70ffac0b2c2",
+    "src/edgepii/detectors/gliner2.py": "6c021970266c75603f6a2a55c1583299359283e9a29b8cd7905be53f76c9105b",
+    "src/edgepii/detectors/hf_token.py": "91ee5df32082498a132b8b0effe8c46a75f72b8a98955c8e86c83f82aeff4ab9",
+    "src/edgepii/detectors/rules.py": "9c0355ed9982e2194394f2e8249a9692a47857745347451721d4f289f0847af0",
+    "src/edgepii/detectors/uie.py": "0f993b5d582ac23513a4b74bb7f91e01e432c788e6386dc978ebab88a1af9c04",
+    "src/edgepii/errors.py": "a81373a126c2d59d2e2141bc7d63ef63e0461152627ab21ba10fe495939f3b8d",
+    "src/edgepii/eval/__init__.py": "089fd261020078ab929fb62e5b0752e9c648ce028d78f87b05ac6f0896b337f5",
+    "src/edgepii/eval/cli.py": "3aa84fb607543d0be87ba674710266245723b3906112fe9e4e5b6a3b373d845f",
+    "src/edgepii/eval/corpora.py": "8264ad9451839408a68ec1bd15bd0b5a0fa3f799c3e90c27cd06b2c491a5e5ec",
+    "src/edgepii/eval/corpora.yaml": "cdc7b44db9d3a6d2009ae8b868632b742c25bd9be8279a6e65093441b9c2fc08",
+    "src/edgepii/eval/coverage.py": "affbf6b980aca79f026fc4034f137af962c971c19bb91e7854c86e67269e4970",
+    "src/edgepii/eval/gates.py": "2927c9ff16cbb9daa192f19d9fc58488c26bba8b143cdda7fc62ff64ccf271cf",
+    "src/edgepii/eval/runner.py": "d6f545b52c4ce984bb360002e6695751bf1f14fcdae5d25bfd4e473d2a0bb8cb",
+    "src/edgepii/eval/score.py": "429417ad10a09509e16a729f973e0e6bbec2477413c10ef5e3b5d39b1d5fb71b",
+    "src/edgepii/labelmap.py": "7da0a49b8ac6bf59c2edf6fa946643c346362800491ec4b4780e0da3784e70bc",
+    "src/edgepii/locator.py": "6e1d527db5b87a049fe99d4830e08ad74532aab0757ca634918012bed99945fe",
+    "src/edgepii/merge.py": "b8b1dc408d0029cb2a9a3b9f395c565c45e56795eb8cd1a79c354ca1caf188d7",
+    "src/edgepii/normalize.py": "1d74a2d2604a560cb7780c87f4b5d91d882780f779cb687526c29316b1fafc7c",
+    "src/edgepii/presets.py": "73964decec162edcf36b3c53031c3d2124804174a7e38b49b6e707b4bdc72c52",
+    "src/edgepii/protection.py": "6c62d4a2434ac9e7447eba392e2b3446b415814e0f7e3193e07ccad8920cc5b3",
+    "src/edgepii/protocol.py": "d2458d85c064429596577b4b8dfdf0c2e442e0526f583593458885c80d26a20b",
+    "src/edgepii/quasi.py": "1f311039d8dcbebff6c3167aa88d144329713b4030c23cd6a8ccf08cbf6542fa",
+    "src/edgepii/redact.py": "154233739a06cb28d6823c70ccbc1d64d151c183dc57a9a801e0d0bb8fb4c84a",
+    "src/edgepii/restore.py": "8b8e4812478ba0c43b6a10b838013f4d3d2b5f7077839a81653cd4c4b922320d",
+    "src/edgepii/span.py": "59afbdf9738d1a383c77bca4ce76876e00f1102bd6b3fbc0acd7c2a2380bce72",
+    "src/edgepii/taxonomies/2026.11.yaml": "335b97e7f19ffc4913b3dc0796942dde246649b32b7d1be07de173bb236d1c4f",
+    "src/edgepii/toolcall.py": "8329b227c66180c3e50167e784b0dba7a24d00896a2c6a95b06a5cf4811f1747",
+    "src/edgepii/windows.py": "ea994509754160cdbb50818877d3f71104b168a0002d28e407b2aa7cf018035d",
+    "tests/test_acceptance.py": "c38c41ffdf5b860b51aeec4fa801821aade5cd5edf69ba53b241917dcfc8cf5b",
+    "tests/test_compact_candidates.py": "1e25cb5e26984b8ab463f299bac6481100df157698b6f833f317765f16f68974",
+    "tests/test_country_profile.py": "41c177ebc9a386352ce4db8f5e65d7c552b0de1fb16b5bb4eecdbafa44792e4a",
+    "tests/test_demo_api.py": "666322789377a112e5a9d9cbc19d65ab09f674ce70335fda49264d0cf00984dc",
+    "tests/test_demo_e2e.py": "cb491ac65d28e1d662b064157dbf8aa8c30e2cf92461f17bc7810bb7696963dd",
+    "tests/test_eval_corpora.py": "a6710af5d1518682e3370d2b7fd68de81d84c7317c2d51788cdc4d61dfcb9a30",
+    "tests/test_eval_gates.py": "d5ee8d93f5a18587e1f58de6ea680f3023bf97b24647373216f309875a67a8c2",
+    "tests/test_first_principles.py": "d057aae71c52820595c68b501f57c652a9e5833fbb95ef19d32d5e45e11a352f",
+    "tests/test_hardening.py": "0920df6e544b4230ebec3cedcfdf98970fdb1335a6b433d53542c5d14f72df01",
+    "tests/test_model_runtime.py": "5618743d900052f7f91c70bc4d018dcefc2a63e0b17292d2df4ad6a4e6e2c935",
+    "tests/test_native_candidates.py": "8ce77c048d14b31f6ff4a48da58b2fc8fff763d8187162f8c8804a691b6223d6",
+    "tests/test_paired_research.py": "58d2ebaa009953337d0db7422ba604d1bda0de2b36baf58e98d522c2d8a231df",
+    "tests/test_principles.py": "050c17e0d113f2cf096072230f73cf32ddec4a61c032e41772d997e19c309554",
+    "tests/test_protection.py": "714686e4619dd63f315367c834055ded5d8847a1c8121cadbda98e3b4a06e3b9",
+    "tests/test_quasi.py": "3192f7457964573f514343d678c4a7e54a4e8023d0e3dfd41d609aa0f140b8fd",
+    "tests/test_restore.py": "45d7404de948b4fca08c73536b9e205d7682a554db50b8181153822acfe1e5a5",
+    "tests/test_site.py": "32a50399897bbe0dd707cf6b3a9bbc2878ef87dcf6841ef51734e655cb0ee8a0",
+    "tests/test_site_e2e.py": "93345b703433437f39694d9deb6d6b0b2077574700d284a1d6a1114242c08eca"
+  },
+  "steps": [
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "--no-build-isolation",
+        "-e",
+        "."
+      ],
+      "exit_code": 0,
+      "output": "Obtaining file:///workspace\n  Checking if build backend supports build_editable: started\n  Checking if build backend supports build_editable: finished with status 'done'\n  Preparing editable metadata (pyproject.toml): started\n  Preparing editable metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: edgepii\n  Building editable for edgepii (pyproject.toml): started\n  Building editable for edgepii (pyproject.toml): finished with status 'done'\n  Created wheel for edgepii: filename=edgepii-0.4.0-0.editable-py3-none-any.whl size=18217 sha256=384883ba5be5a09de6d0e732eb9dfaea559f6ed37a3c129def39cfa49d6c0ed5\n  Stored in directory: /tmp/pip-ephem-wheel-cache-zoj1l7sq/wheels/e2/2c/68/4c4a53c0aec7bc75cfaa7bb42a2542d1390caa1e3199ccef70\nSuccessfully built edgepii\nInstalling collected packages: edgepii\nSuccessfully installed edgepii-0.4.0\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "pip",
+        "wheel",
+        "--no-deps",
+        "--no-build-isolation",
+        ".",
+        "--wheel-dir",
+        "/tmp/edgepii-validation"
+      ],
+      "exit_code": 0,
+      "output": "Processing ./.\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: edgepii\n  Building wheel for edgepii (pyproject.toml): started\n  Building wheel for edgepii (pyproject.toml): finished with status 'done'\n  Created wheel for edgepii: filename=edgepii-0.4.0-py3-none-any.whl size=76822 sha256=3857d5782986079e40fe6784bc55d584b4227662527a14f198ce2d49a476894c\n  Stored in directory: /tmp/pip-ephem-wheel-cache-gkpg9fxk/wheels/e2/2c/68/4c4a53c0aec7bc75cfaa7bb42a2542d1390caa1e3199ccef70\nSuccessfully built edgepii\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "venv",
+        "--system-site-packages",
+        "/tmp/edgepii-wheel"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "/tmp/edgepii-wheel/bin/python",
+        "-c",
+        "import pathlib,subprocess,sys; wheels=list(pathlib.Path('/tmp/edgepii-validation').glob('*.whl')); assert len(wheels)==1; subprocess.check_call([sys.executable,'-m','pip','install','--no-index','--no-deps','--force-reinstall',str(wheels[0])])"
+      ],
+      "exit_code": 0,
+      "output": "Processing /tmp/edgepii-validation/edgepii-0.4.0-py3-none-any.whl\nInstalling collected packages: edgepii\n  Attempting uninstall: edgepii\n    Found existing installation: edgepii 0.4.0\n    Not uninstalling edgepii at /workspace/src, outside environment /tmp/edgepii-wheel\n    Can't uninstall 'edgepii'. No files were found to uninstall.\nSuccessfully installed edgepii-0.4.0\n"
+    },
+    {
+      "command": [
+        "/tmp/edgepii-wheel/bin/python",
+        "-I",
+        "-c",
+        "import sys, pathlib\nfrom edgepii import Locator, redact, restore\nimport edgepii\nassert not pathlib.Path(edgepii.__file__).is_relative_to('/workspace')\nsource = 'Card 4242424242424242 and email ada@example.com.'\nresult = Locator.preset('rules').locate(source)\nassert all(source[s.start:s.end] == s.text for s in result.spans)\nmasked, vault = redact(source, result.spans)\nassert '4242424242424242' not in masked and 'ada@example.com' not in masked\nassert restore(masked, vault).text == source\nfrom edgepii import redact_protected, protect_mapping\nplan = Locator.preset('rules').plan(source)\nprotected, protection_vault = redact_protected(source, plan)\nassert restore(protected, protection_vault).text == source\ntree = protect_mapping({'a':'hunter2','b':'hunter2'}, Locator.preset('rules'), field_types={('a',):'SECRET'})\nassert 'hunter2' not in str(tree.value) and not tree.vault\nassert 'torch' not in sys.modules\nprint('Installed wheel source, mask/restore, and no-torch invariants passed')\n"
+      ],
+      "exit_code": 0,
+      "output": "Installed wheel source, mask/restore, and no-torch invariants passed\n"
+    },
+    {
+      "command": [
+        "/tmp/edgepii-wheel/bin/python",
+        "-I",
+        "scripts/verify_install.py"
+      ],
+      "exit_code": 0,
+      "output": "{\"checks\": [\"installed distribution\", \"public exports\", \"Unicode source offsets\", \"mask/restore round trip\", \"source binding\", \"strict diagnostics\", \"explicit field policy\", \"cross-leaf secret irreversibility\", \"country profile opt-in\", \"no Torch import\"], \"passed\": true, \"version\": \"0.4.0\"}\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/gen_data.py"
+      ],
+      "exit_code": 0,
+      "output": "wrote /workspace/site/data/examples.json with 14 examples and lanes ['rules', 'en-closed']\nnote: kept the recorded ['en-closed'] lane from the previous run\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/icons.py"
+      ],
+      "exit_code": 0,
+      "output": "icons: 7 files, 71.0 KB\n  static/icons/apple-touch-icon.png 5.9 KB\n  static/icons/icon-192.png 6.4 KB\n  static/icons/icon-512.png 22.8 KB\n  static/icons/icon-maskable-192.png 3.8 KB\n  static/icons/icon-maskable-512.png 16.1 KB\n  static/icons/favicon.ico 14.7 KB\n  static/favicon.svg 1.3 KB\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/social.py"
+      ],
+      "exit_code": 0,
+      "output": "social: static/social.png 357.2 KB, fonts ['Inter 500', 'Inter 600', 'Inter 700', 'JetBrains Mono 400']\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/build.py"
+      ],
+      "exit_code": 0,
+      "output": "built 34 pages into /workspace/site/dist\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/images.py"
+      ],
+      "exit_code": 0,
+      "output": "images: 26 converted, 2.4 MB of JPEG output\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/check.py"
+      ],
+      "exit_code": 0,
+      "output": "ok: 35 pages, 0 warning(s), no broken links or markup errors\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "modal/check_evidence.py"
+      ],
+      "exit_code": 0,
+      "output": "{\n  \"completed_runs\": [\n    \"gretel-finance-en-50-86e9aa29\",\n    \"gretel-finance-en-50-9418dddc\",\n    \"gretel-finance-en-50-eceb01f7\",\n    \"nemotron-pii-25-a9d52b9f\",\n    \"spy-legal-50-0e100240\",\n    \"spy-legal-50-5fdf7be4\",\n    \"spy-legal-50-835c8e36\",\n    \"spy-legal-50-9cbb4e97\",\n    \"spy-medical-50-55290bac\",\n    \"spy-medical-50-733d5cc0\",\n    \"spy-medical-50-7515b1aa\",\n    \"spy-medical-50-e42b5910\"\n  ],\n  \"failed_runs\": [\n    {\n      \"run\": \"gretel-finance-en-50-a1c0ba80\",\n      \"state\": \"failed\"\n    },\n    {\n      \"run\": \"spy-legal-50-e29f487e\",\n      \"state\": \"failed\"\n    }\n  ],\n  \"integration_gate_failures\": [\n    {\n      \"failures\": [\n        \"all: dropped offsets exceed 0\",\n        \"legal: dropped offsets exceed 0\"\n      ],\n      \"report\": \"docs/eval/modal/spy-legal-50-0e100240/spy-legal__multi-boundary-50.json\"\n    },\n    {\n      \"failures\": [\n        \"all: dropped offsets exceed 0\",\n        \"medical: dropped offsets exceed 0\"\n      ],\n      \"report\": \"docs/eval/modal/spy-medical-50-e42b5910/spy-medical__multi-open-50.json\"\n    }\n  ],\n  \"reports_checked\": 57,\n  \"reports_failing_zero_leak_policy\": 36\n}\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "scripts/audit_compact_research.py"
+      ],
+      "exit_code": 0,
+      "output": "Verified 16 matched reports and 4 recomputed paired experiments\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "pytest",
+        "tests",
+        "-o",
+        "addopts=",
+        "-q",
+        "-ra",
+        "--junitxml=/tmp/edgepii-validation/junit.xml"
+      ],
+      "exit_code": 0,
+      "output": "...................................................................s.... [ 27%]\n........................................................................ [ 55%]\n........................................................................ [ 83%]\n..........................................                               [100%]\n=============================== warnings summary ===============================\n../usr/local/lib/python3.11/site-packages/fastapi/testclient.py:1\n  /usr/local/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nSKIPPED [1] tests/test_demo_e2e.py:281: the hf extra is not installed in this environment\n257 passed, 1 skipped, 1 warning in 46.23s\n"
+    }
+  ],
+  "wheel_sha256": {
+    "edgepii-0.4.0-py3-none-any.whl": "3857d5782986079e40fe6784bc55d584b4227662527a14f198ce2d49a476894c"
+  }
+}

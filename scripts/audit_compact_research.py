@@ -12,6 +12,10 @@ paired=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(paired)
 FOLDERS=["spy-legal-50-5fdf7be4","spy-medical-50-55290bac",
          "gretel-finance-en-50-9418dddc","spy-medical-50-733d5cc0"]
+PAIRED_FILES=["spy-medical-50-complementarity-2f132a4b.json",
+              "gretel-finance-en-50-complementarity-bcd3f281.json",
+              "spy-medical-50-quantized-f59f4ca4.json",
+              "gretel-finance-en-50-quantized-449da1bc.json"]
 
 
 def audit():
@@ -42,7 +46,8 @@ def audit():
                 "containment":row["containment"],"p95_ms":report["latency_ms"]["p95"],
                 "gpu_allocated_bytes":report["runtime"]["peak_gpu_allocated_bytes"],
                 "process_peak_rss_bytes":report["runtime"]["process_peak_rss_bytes"]})
-    for path in sorted((ROOT/"docs/eval/paired").glob("*.json")):
+    # A later reproduction adds files; it must not change this dated audit set.
+    for path in (ROOT/"docs/eval/paired"/name for name in sorted(PAIRED_FILES)):
         raw=path.read_bytes()
         report=json.loads(raw)
         assert report["provider"]=="modal" and report["first_principles_verification"]["contract_passed"]
@@ -62,6 +67,17 @@ def audit():
             "summary":report["summary"],"single_span_support_counts":report["single_span_support_counts"]})
     result["report_count"]=len(result["reports"])
     result["paired_count"]=len(result["paired"])
+    result["runtime_precision"]=[]
+    for filename in ("compact-runtime-precision-2026-11-05.json",
+                     "compact-runtime-precision-cpu-2026-11-05.json"):
+        path=ROOT/"docs/research"/filename
+        probe=json.loads(path.read_text())
+        assert probe["provider"]=="modal" and probe["mode"]=="runtime-inspection"
+        actual={r["preset"]:r["actual_parameter_dtype"] for r in probe["models"]}
+        assert actual=={"ettin-native":"torch.bfloat16","horizon-native":"torch.float32",
+                        "masker-mini-native":"torch.float32"}
+        result["runtime_precision"].append({"path":str(path.relative_to(ROOT)),
+            "sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"models":probe["models"]})
     assert result["report_count"]==16 and result["paired_count"]==4
     return result
 

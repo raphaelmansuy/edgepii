@@ -155,6 +155,22 @@ Modal: [medical](https://modal.com/apps/raphaelmansuy/main/ap-53DJaZP6y3bWlihQSt
 Exact range parity compares canonical masked interval unions; native-span parity
 also requires labels and boundaries to agree. These are not token-agreement metrics.
 
+### Precision metadata correction
+
+Direct Modal probes of [GPU parameters](research/compact-runtime-precision-2026-11-05.json)
+and [CPU parameters](research/compact-runtime-precision-cpu-2026-11-05.json)
+verified the actual loaded precision under the same Torch 2.8.0 / Transformers
+5.22.1 pins: **Ettin uses bfloat16; Horizon and Masker use float32**, on both devices.
+The original Ettin reports' `native_backend` string ending in `fp32` was an
+unverified annotation and is incorrect. Historical reports retain their bytes;
+their measured containment/latency values are unchanged. The adapter now records
+the loaded dtype instead of assuming it. The tables' float references mean
+non-int4 inference, not a uniform precision across model families.
+An Ettin fp32 ablation has not been run; the observed rows compare the loader
+behavior of the released candidates and cannot isolate architecture from precision.
+Probe runs: [GPU](https://modal.com/apps/raphaelmansuy/main/ap-RBV4gSkSmhf2LcoBDf3bK7),
+[CPU](https://modal.com/apps/raphaelmansuy/main/ap-aZMRbVMM9Fz2xNMi5Y3Kn0).
+
 **Decision:** retain int4 as an experiment. It adds a finance high-severity miss,
 so smaller storage does not justify promoting it as an equivalent runtime.
 See [ONNX Runtime's quantization guidance](https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html)
@@ -229,6 +245,8 @@ tests, with empirical attacks distinguished from formal privacy guarantees.
   --presets masker-mini-native,masker-int4-native,ettin-native,horizon-native
 .venv/bin/modal run modal/models.py --corpus spy-medical --limit 50 --gpu T4 --paired
 .venv/bin/modal run modal/models.py --corpus gretel-finance-en --limit 50 --gpu cpu --paired --quantized
+.venv/bin/modal run modal/models.py --inspect-only --gpu T4 \
+  --presets ettin-native,horizon-native,masker-mini-native --out /tmp/compact-runtime-probe.json
 .venv/bin/python scripts/audit_compact_research.py
 .venv/bin/modal run modal/validate.py
 ```
@@ -247,11 +265,16 @@ Those failed starts are not counted among the completed experiments.
 
 ## Validation record
 
-The [full Modal verification](eval/validation/2026-11-05-compact-research/validation.json)
+The [final full Modal verification](eval/validation/2026-11-05-compact-final/validation.json)
 passed **257 tests, with one optional weight-dependent demo test skipped**.
 It built and exercised the installed wheel, audited all completed model reports,
 recomputed the paired evidence, rebuilt the site, and checked desktop/mobile
-browsers. [JUnit](eval/validation/2026-11-05-compact-research/junit.xml),
-[Modal run](https://modal.com/apps/raphaelmansuy/main/ap-APKH1SZg4cwL8ZkVlWk2gk).
+browsers. [JUnit](eval/validation/2026-11-05-compact-final/junit.xml),
+[Modal run](https://modal.com/apps/raphaelmansuy/main/ap-AC3Y0UUGm1Woox8tUTIgCL).
+The [earlier full run](eval/validation/2026-11-05-compact-research/validation.json)
+is retained with its own source hashes.
 The new regression examples cover BIOES boundaries, Unicode/source offsets,
 invalid token schemas, complementary partial masks, and range-versus-label parity.
+The [final documentation and audit check](eval/validation/2026-11-05-compact-site-final/validation.json)
+passed **17 tests with no skips** on Modal, after the precision correction and
+publication evidence were added.

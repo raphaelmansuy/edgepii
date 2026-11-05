@@ -143,6 +143,18 @@ class Model:
                 "scope":"inference and source/masking invariants; not an accuracy guarantee"}
 
     @modal.method()
+    def describe(self) -> dict:
+        import importlib.metadata
+        model = getattr(self.native,"model",None)
+        if model is None:
+            model = self.native.detector._pipe.model
+        return {"preset":self.preset,"revision":self.native.revision,"device":self.device,
+                "actual_parameter_dtype":str(model.dtype),
+                "parameters":sum(p.numel() for p in model.parameters()),
+                "backend":getattr(self.native,"backend",None),
+                "packages":{name:importlib.metadata.version(name) for name in ("torch","transformers")}}
+
+    @modal.method()
     def paired(self, corpus: str, limit: int, quantized: bool) -> dict:
         from paired_worker import run_experiment
         result = run_experiment(corpus,limit,quantized)
@@ -205,11 +217,29 @@ class Model:
 def main(corpus: str = "spy-legal", limit: int = 200,
          presets: str = "rules,en-closed,multi-open", gpu: str = "L4",
          out: str = "docs/eval/modal", min_recall: float = 0.0,
-         max_leaks: int = -1, paired: bool = False, quantized: bool = False):
+         max_leaks: int = -1, paired: bool = False, quantized: bool = False,
+         inspect_only: bool = False):
     from edgepii.eval.corpora import load_spec
     from edgepii.eval.gates import GatePolicy, check_gates
 
     load_spec(corpus)  # validate before allocating compute
+    if inspect_only:
+        names=list(dict.fromkeys(name.strip() for name in presets.split(",")))
+        if not names or set(names)-{"ettin-native","horizon-native","masker-mini-native"}:
+            raise ValueError("runtime inspection supports the three float compact research controls")
+        destination=Path(out)
+        if destination.suffix != ".json":
+            raise ValueError("runtime inspection requires --out ending in .json")
+        rows=[]
+        for name in names:
+            options={} if gpu=="cpu" else {"gpu":gpu}
+            model=Model.with_options(**options)(preset=name,device="cpu" if gpu=="cpu" else "cuda")
+            rows.append(model.describe.remote())
+        destination.parent.mkdir(parents=True,exist_ok=True)
+        with destination.open("x") as stream:
+            stream.write(json.dumps({"provider":"modal","mode":"runtime-inspection","models":rows},indent=2,sort_keys=True)+"\n")
+        print(json.dumps(rows,indent=2))
+        return
     if paired:
         if not 1 <= limit <= 1000:
             raise ValueError("paired limit must be between 1 and 1000")

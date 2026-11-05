@@ -1,0 +1,42 @@
+{
+  "mode": "runtime-inspection",
+  "models": [
+    {
+      "actual_parameter_dtype": "torch.bfloat16",
+      "backend": "transformers-pipeline-torch.bfloat16",
+      "device": "cpu",
+      "packages": {
+        "torch": "2.8.0",
+        "transformers": "5.22.1"
+      },
+      "parameters": 32072171,
+      "preset": "ettin-native",
+      "revision": "84ce02cac78d9cee27a125629ba195f12c75fe5b"
+    },
+    {
+      "actual_parameter_dtype": "torch.float32",
+      "backend": "transformers-pipeline-torch.float32",
+      "device": "cpu",
+      "packages": {
+        "torch": "2.8.0",
+        "transformers": "5.22.1"
+      },
+      "parameters": 140664251,
+      "preset": "horizon-native",
+      "revision": "a20835db9e671267b21a2951f5bf2c76e4901708"
+    },
+    {
+      "actual_parameter_dtype": "torch.float32",
+      "backend": "torch-fp32",
+      "device": "cpu",
+      "packages": {
+        "torch": "2.8.0",
+        "transformers": "5.22.1"
+      },
+      "parameters": 35399857,
+      "preset": "masker-mini-native",
+      "revision": "beb7235d454aa4488b6ee1cd47f417caa12a6d15"
+    }
+  ],
+  "provider": "modal"
+}

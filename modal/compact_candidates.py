@@ -128,6 +128,6 @@ def build_compact(name, device):
     }[name]
     detector = NativeMiniLM(device, detector=HfTokenDetector(repo, revision, device))
     detector.revision, detector.preset_name = revision, name
-    detector.backend = "transformers-pipeline-fp32"
+    detector.backend = "transformers-pipeline-" + str(detector.detector._pipe.model.dtype)
     detector.decoder = "Transformers aggregation_strategy=simple; native labels"
     return detector

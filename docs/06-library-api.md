@@ -69,7 +69,7 @@ locator = Locator.preset("multi-open", device="cpu")
 
 ## Redact
 
-For the opt-in repository-main API, `locator.plan(source)` and
+Starting in **edgepii 0.4.0**, the opt-in `locator.plan(source)` and
 `redact_protected(source, plan)` retain candidate protection independently of
 typed overlap selection. Plans reject dropped/unmapped diagnostics by default;
 this does not certify recall. A secret taints its entire overlap component,
@@ -77,7 +77,8 @@ and exact known-secret repeats are irreversible. See the
 [API, policies, and measurements](18-protection-and-model-results.md).
 `protect_mapping(..., field_types={("password",): "SECRET"})` can protect
 declared string fields directly and propagates known secrets across leaves.
-These additions are unreleased; use a repository install until publication.
+Install or upgrade with `pip install --upgrade edgepii==0.4.0`; see the
+[release guide](19-release-0.4.0.md).
 
 ```python
 from edgepii import redact

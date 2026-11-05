@@ -32,6 +32,7 @@ DOC_ROUTES: dict[str, str] = {
     "16-grounded-improvement-plan.md": "doc-improvement-plan",
     "17-next-stage-ai-engineering.md": "doc-next-stage",
     "18-protection-and-model-results.md": "doc-protection-results",
+    "19-release-0.4.0.md": "doc-release",
     "0006-protection-plan.md": "doc-protection-policy",
     "0005-overlap-and-coverage.md": "doc-overlap-policy",
     "glossary.md": "doc-glossary",

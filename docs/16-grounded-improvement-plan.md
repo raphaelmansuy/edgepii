@@ -464,5 +464,6 @@ Repository documentation and all new site routes/evidence assets are updated.
 The static site is built and browser-tested. The existing Pages workflow
 publishes changes after merge to `main`; its
 [deployment runs](https://github.com/raphaelmansuy/edgepii/actions/workflows/site.yml)
-record the actual publication status. No package release, production default
-change, fine-tuning run, or public inference endpoint is implied.
+record the actual publication status. These initial implementation runs preceded
+the subsequent [0.4.0 package release](19-release-0.4.0.md). The research runs do
+not imply a production default change, fine-tuning run, or public inference endpoint.

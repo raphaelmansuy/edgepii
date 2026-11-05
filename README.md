@@ -17,18 +17,18 @@ That check is the contract. If a detector returns an offset that fails it, the l
 - [Specification](https://github.com/raphaelmansuy/edgepii/blob/main/docs/README.md) · [Span contract](https://github.com/raphaelmansuy/edgepii/blob/main/docs/01-span-contract.md) · [API](https://github.com/raphaelmansuy/edgepii/blob/main/docs/06-library-api.md) · [Examples](https://github.com/raphaelmansuy/edgepii/blob/main/docs/11-examples.md) · [Evaluation](https://github.com/raphaelmansuy/edgepii/blob/main/docs/09-evaluation.md) · [Public corpora](https://github.com/raphaelmansuy/edgepii/blob/main/docs/12-public-corpora.md) · [First score](https://github.com/raphaelmansuy/edgepii/blob/main/docs/13-first-public-score.md)
 - Python 3.11 or newer. Local weights. No cloud PII service.
 
-The [research update through 5 November 2026](docs/15-research-update-2026-11.md)
-and [grounded improvement plan and results](docs/16-grounded-improvement-plan.md)
+The [research update through 5 November 2026](https://raphaelmansuy.github.io/edgepii/doc-research-2026/)
+and [grounded improvement plan and results](https://raphaelmansuy.github.io/edgepii/doc-improvement-plan/)
 cover the current implementation, experimental models, and Modal validation.
 New presets remain experimental; the corrected SPY protocol must not be
 compared directly to earlier materializations.
 
 ## Contents
 
-Unreleased repository-main additions: [coverage-preserving protection and new model results](docs/18-protection-and-model-results.md)
-document `Locator.plan`, `redact_protected`, explicit field policies, Horizon
-Base, and the native PII-Tracer/MiniLM experiments. These APIs require a
-repository installation until the next package release.
+Version **0.4.0** adds `Locator.plan`, `redact_protected`, and `protect_mapping`
+with explicit field policies. See [coverage-preserving protection and model results](https://raphaelmansuy.github.io/edgepii/doc-protection-results/)
+for examples, Horizon Base measurements, and the repository-based native
+PII-Tracer/MiniLM experiments.
 
 - [Why this library](#why-this-library)
 - [Install](#install)
@@ -70,6 +70,15 @@ Most PII tools answer one question: is this document sensitive? That answer is t
 python3.11 -m venv .venv
 .venv/bin/pip install edgepii
 ```
+
+To upgrade an existing environment to this release:
+
+```bash
+.venv/bin/pip install --upgrade edgepii==0.4.0
+```
+
+See the [0.4.0 release guide](https://raphaelmansuy.github.io/edgepii/doc-release/)
+for the new API example and artifact verification.
 
 To work from a checkout instead, use `pip install -e .` in place of
 `pip install edgepii`.

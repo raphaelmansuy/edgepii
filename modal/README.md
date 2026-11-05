@@ -7,6 +7,12 @@ containment metrics. Reports for typed lanes also evaluate actual output from
 the opt-in protection plan without repeating inference. Locate latency excludes
 that protection/scoring work. Peak GPU allocation is recorded separately.
 
+For published-package verification, run
+`.venv/bin/modal run modal/verify_release.py --version 0.4.0`. This uses a fresh
+virtual environment, checks PyPI artifact hashes, and exercises the installed
+protection APIs without loading models. See the
+[release guide](../docs/19-release-0.4.0.md).
+
 `models.py` runs the existing pinned encoder models on Modal. It supports
 `rules`, `en-closed` (ModernBERT), `multi-open` (GLiNER2), `multi-encoder`
 (Horizon mmBERT), and `multi-boundary` (GLiNER2.5). These new presets are

@@ -6,6 +6,12 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-05
+
+Adds opt-in coverage-preserving protection and explicit field policies. Install
+with `pip install --upgrade edgepii==0.4.0`. Native PII-Tracer/MiniLM runners
+remain repository-based Modal experiments; their weights are not bundled.
+
 ### Fixed
 
 - Overlap resolution keeps disjoint winners behind a losing bridge, with

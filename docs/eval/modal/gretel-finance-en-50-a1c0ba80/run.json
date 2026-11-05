@@ -1,0 +1,18 @@
+{
+  "completed": [],
+  "failures": [
+    {
+      "error_type": "CorpusError",
+      "preset": "rules"
+    }
+  ],
+  "requested_presets": [
+    "rules",
+    "en-closed",
+    "multi-open",
+    "multi-encoder",
+    "multi-boundary",
+    "opf-native"
+  ],
+  "state": "failed"
+}

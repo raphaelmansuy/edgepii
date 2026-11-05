@@ -1,0 +1,149 @@
+{
+  "passed": true,
+  "pytest": {
+    "errors": "0",
+    "failures": "0",
+    "hostname": "modal",
+    "name": "pytest",
+    "skipped": "1",
+    "tests": "202",
+    "time": "52.730",
+    "timestamp": "2026-11-05T03:51:55.012179+00:00"
+  },
+  "runtime": {
+    "packages": {
+      "Faker": "40.44.0",
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "aiohttp": "3.9.1",
+      "aiosignal": "1.4.0",
+      "aiostream": "0.4.4",
+      "annotated-doc": "0.0.5",
+      "annotated-types": "0.8.0",
+      "anyio": "4.16.0",
+      "asgiref": "3.5.2",
+      "asttokens": "3.0.2",
+      "attrs": "26.1.0",
+      "certifi": "2026.10.23",
+      "click": "8.5.0",
+      "cloudpickle": "2.2.0",
+      "commonmark": "0.9.2",
+      "edgepii": "0.3.1",
+      "executing": "2.3.0",
+      "fastapi": "0.162.0",
+      "fastprogress": "1.0.0",
+      "frozenlist": "1.8.0",
+      "greenlet": "3.5.6",
+      "grpclib": "0.4.7",
+      "h11": "0.16.0",
+      "h2": "4.4.1",
+      "hpack": "4.2.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "hyperframe": "6.1.0",
+      "idna": "3.20",
+      "importlib-metadata": "4.8.1",
+      "iniconfig": "2.3.1",
+      "ipython": "9.18.1",
+      "ipython_pygments_lexers": "1.1.1",
+      "jedi": "0.20.1",
+      "matplotlib-inline": "0.2.2",
+      "multidict": "6.9.1",
+      "numpy": "2.4.6",
+      "opentelemetry-api": "1.45.2",
+      "packaging": "26.3",
+      "parso": "0.8.7",
+      "pexpect": "4.9.0",
+      "phonenumbers": "9.0.42",
+      "pip": "26.3",
+      "playwright": "1.56.0",
+      "pluggy": "1.7.0",
+      "prompt_toolkit": "3.0.53",
+      "propcache": "0.5.4",
+      "protobuf": "7.36.2",
+      "psutil": "7.2.2",
+      "ptyprocess": "0.7.0",
+      "pure_eval": "0.2.4",
+      "pyarrow": "26.0.1",
+      "pydantic": "2.14.2",
+      "pydantic_core": "2.50.2",
+      "pyee": "13.0.1",
+      "pytest": "9.2.0",
+      "python-multipart": "0.0.33",
+      "rich": "12.3.0",
+      "setuptools": "80.9.0",
+      "stack-data": "0.6.3",
+      "starlette": "1.10.0",
+      "tblib": "1.7.0",
+      "toml": "0.10.2",
+      "traitlets": "5.16.1",
+      "typeguard": "4.6.0",
+      "typer": "0.6.1",
+      "types-certifi": "2021.10.8.3",
+      "types-toml": "0.10.4",
+      "typing-inspection": "0.4.5",
+      "typing_extensions": "4.16.0",
+      "uvicorn": "0.54.0",
+      "wcwidth": "0.9.4",
+      "wheel": "0.46.3",
+      "yarl": "1.25.1",
+      "zipp": "4.1.2"
+    },
+    "python": "3.11.18 (main, Oct 28 2026, 02:05:49) [GCC 12.2.0]"
+  },
+  "steps": [
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "--no-build-isolation",
+        "-e",
+        "."
+      ],
+      "exit_code": 0,
+      "output": "Obtaining file:///workspace\n  Checking if build backend supports build_editable: started\n  Checking if build backend supports build_editable: finished with status 'done'\n  Preparing editable metadata (pyproject.toml): started\n  Preparing editable metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: edgepii\n  Building editable for edgepii (pyproject.toml): started\n  Building editable for edgepii (pyproject.toml): finished with status 'done'\n  Created wheel for edgepii: filename=edgepii-0.3.1-0.editable-py3-none-any.whl size=17808 sha256=54ba1a988166b086d8027d5a19564e7bedbbff6cd53927d10cd1b9b2fb947f16\n  Stored in directory: /tmp/pip-ephem-wheel-cache-hjt4gpjp/wheels/e2/2c/68/4c4a53c0aec7bc75cfaa7bb42a2542d1390caa1e3199ccef70\nSuccessfully built edgepii\nInstalling collected packages: edgepii\nSuccessfully installed edgepii-0.3.1\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/build.py"
+      ],
+      "exit_code": 0,
+      "output": "built 29 pages into /workspace/site/dist\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/images.py"
+      ],
+      "exit_code": 0,
+      "output": "images: 26 converted, 2.4 MB of JPEG output\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "site/check.py"
+      ],
+      "exit_code": 0,
+      "output": "ok: 30 pages, 0 warning(s), no broken links or markup errors\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "pytest",
+        "tests",
+        "-o",
+        "addopts=",
+        "-q",
+        "-ra",
+        "--junitxml=/tmp/edgepii-validation/junit.xml"
+      ],
+      "exit_code": 0,
+      "output": ".............................................s.......................... [ 35%]\n........................................................................ [ 71%]\n..........................................................               [100%]\n=============================== warnings summary ===============================\n../usr/local/lib/python3.11/site-packages/fastapi/testclient.py:1\n  /usr/local/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nSKIPPED [1] tests/test_demo_e2e.py:281: the hf extra is not installed in this environment\n201 passed, 1 skipped, 1 warning in 52.72s\n"
+    }
+  ]
+}

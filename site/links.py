@@ -28,6 +28,9 @@ DOC_ROUTES: dict[str, str] = {
     "12-public-corpora.md": "doc-corpora",
     "13-first-public-score.md": "doc-score",
     "14-assessment-2026-11.md": "doc-assessment",
+    "15-research-update-2026-11.md": "doc-research-2026",
+    "16-grounded-improvement-plan.md": "doc-improvement-plan",
+    "0005-overlap-and-coverage.md": "doc-overlap-policy",
     "glossary.md": "doc-glossary",
     # Pages that live outside docs/ but get a route of their own.
     "START.md": "start",
@@ -76,9 +79,11 @@ def rewrite(markdown: str, depth: int = 1) -> str:
             return f"]({prefix}{DOC_ROUTES[name]}/{suffix})"
         if path.startswith("docs/e2e/screenshots/"):
             return f"]({prefix}shots/{path.rsplit('/', 1)[-1]})"
+        if path.startswith(("eval/", "research/")) and path.endswith((".json", ".xml", ".png")):
+            return f"]({prefix}evidence/{path}{suffix})"
         # An ADR, the corpora YAML, or any other repo file. Send the reader to
         # the source, because the site does not carry it.
-        if path.startswith(("adr/", "src/", "../src/", "modal/", "demo/", "tests/")):
+        if path.startswith(("adr/", "src/", "../src/", "modal/", "../modal/", "demo/", "tests/", "eval/", "research/")):
             clean = path.lstrip("./")
             if clean.startswith("src/") or clean.startswith("modal/") or clean.startswith("demo/") or clean.startswith("tests/"):
                 target = clean

@@ -96,10 +96,14 @@ class Locator:
 
         spans: list[Span] = []
         dropped = 0
+        unmapped = 0
         for detector in self._detectors:
-            found, failed = _run_detector(detector, scan_source, labels, loaded)
+            schema = getattr(detector, "label_schema", None)
+            detector_labels = labels if schema is None else loaded.prompt_labels_for(allowed, schema)
+            found, failed, unknown = _run_detector(detector, scan_source, detector_labels, loaded)
             spans.extend(found)
             dropped += failed
+            unmapped += unknown
         if folded is not None and folded.changed:
             spans = _map_to_source(source, spans, folded)
         merged = merge_spans(
@@ -113,6 +117,8 @@ class Locator:
             preset=self.preset_name,
             revision=self.revision,
             quasi=quasi.find_combinations(source),
+            unmapped=unmapped,
+            _candidate_ranges=tuple((s.type, s.start, s.end) for s in spans if s.type in allowed),
         )
 
     def locate_many(
@@ -181,11 +187,12 @@ def _build(kind: str, repo_id: str | None, revision: str, extra: str | None, dev
     raise DetectorLoadError(f"extra={extra} repo={repo_id} revision={revision}")
 
 
-def _run_detector(detector, source: str, labels: list[str], taxonomy: Taxonomy) -> tuple[list[Span], int]:
+def _run_detector(detector, source: str, labels: list[str], taxonomy: Taxonomy) -> tuple[list[Span], int, int]:
     max_chars = int(getattr(detector, "max_chars", 1_000_000))
     overlap = int(getattr(detector, "overlap_chars", 64))
     spans: list[Span] = []
     dropped = 0
+    unmapped = 0
     for start, end in split_windows(source, max_chars, overlap):
         chunk = source[start:end]
         raw_rows = detector.locate(chunk, labels)
@@ -201,6 +208,7 @@ def _run_detector(detector, source: str, labels: list[str], taxonomy: Taxonomy) 
                 continue
             public = taxonomy.public_type(hit.raw_label)
             if public is None:
+                unmapped += 1
                 continue
             spans.append(
                 Span(
@@ -213,7 +221,7 @@ def _run_detector(detector, source: str, labels: list[str], taxonomy: Taxonomy) 
                     raw_label=hit.raw_label,
                 )
             )
-    return spans, dropped
+    return spans, dropped, unmapped
 
 
 def _trim_edges(source: str, hit: Hit, text: str) -> tuple[str | None, Hit]:

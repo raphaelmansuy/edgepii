@@ -29,8 +29,8 @@ class GlinerDetector:
             ) from exc
         try:
             self._model = GLiNER.from_pretrained(repo_id, revision=revision)
-        except TypeError:
-            self._model = GLiNER.from_pretrained(repo_id)
+            self._model.to(device)
+            self._model.eval()
         except Exception as exc:
             raise DetectorLoadError(
                 f"extra=gliner repo={repo_id} revision={revision}"
@@ -53,6 +53,7 @@ class GlinerDetector:
                     end=int(row["end"]),
                     score=None if row.get("score") is None else float(row["score"]),
                     detector_id=f"gliner.{self.repo_id}",
+                    claimed_text=row.get("text"),
                 )
             )
         return tuple(hits)

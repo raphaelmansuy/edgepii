@@ -1,4 +1,4 @@
-.PHONY: help install install-demo install-e2e install-all test test-core test-principles test-eval test-site test-demo e2e demo demo-open examples eval eval-rules eval-model site site-serve site-data modal-e2e clean shots
+.PHONY: help install install-demo install-e2e install-all test test-core test-principles test-eval test-site test-demo e2e demo demo-open examples eval eval-rules eval-model site site-serve site-data modal-e2e modal-eval modal-validate clean shots
 
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
@@ -30,13 +30,14 @@ install-e2e: install-demo ## Add Playwright and the Chromium build
 install-all: install-e2e ## Add every model extra
 	$(PIP) install -q -e ".[hf,gliner2,gliner,ms]"
 
-test: test-core test-demo test-principles test-eval test-site ## Run every test that needs no browser
+test: ## Run the complete suite; optional browser tests run when installed
+	$(PY) -m pytest tests -q
 
 test-core: ## Library contract tests
 	$(PY) -m pytest tests/test_acceptance.py -q
 
 test-principles: ## Rule sources and invariants
-	$(PY) -m pytest tests/test_principles.py -q
+	$(PY) -m pytest tests/test_principles.py tests/test_first_principles.py -q
 
 test-eval: ## Corpus pin, label map, and per-document scorer
 	$(PY) -m pytest tests/test_eval_corpora.py -q
@@ -85,6 +86,12 @@ site-data: ## Re-record the span output. Needs the hf extra for the model lane
 
 modal-e2e: ## Run the model lanes on Modal
 	modal run modal/e2e_models.py
+
+modal-eval: ## Compare rules and both model lanes on the same public documents
+	.venv/bin/modal run modal/models.py --corpus $(CORPUS) --limit $(LIMIT)
+
+modal-validate: ## Run the full suite, browser tests, and site checks on Modal
+	.venv/bin/modal run modal/validate.py
 
 shots: e2e ## Rebuild docs/e2e/screenshots
 	@ls -1 docs/e2e/screenshots

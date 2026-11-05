@@ -2,6 +2,11 @@
 
 <!-- ste: descriptive -->
 
+Start with the [5 November research update](15-research-update-2026-11.md) and
+the [grounded improvement plan](16-grounded-improvement-plan.md) for the current
+research, implementation status, and validation evidence. The earlier landscape
+and catalog remain historical inputs; model-card numbers are not release gates.
+
 Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the [project README](../README.md) for install and quickstart.
 
 `edgepii` is a Python library that locates personally identifiable information (PII) in text. The library returns typed character spans on the same string the caller passed. The library does not decide that a whole document is sensitive.
@@ -25,6 +30,8 @@ This set records the problem, the research, the public API, and the build plan. 
 13. [Implementation plan](08-implementation-plan.md). Build order and acceptance tests.
 14. [Evaluation](09-evaluation.md). Exact-span F1, slices, and ship gates.
 15. [Glossary](glossary.md). One name for each concept.
+16. [Research update, 5 November 2026](15-research-update-2026-11.md). Verified papers, current model candidates, and benchmark qualifications.
+17. [Grounded improvement plan](16-grounded-improvement-plan.md). First-principles acceptance criteria and Modal validation.
 
 Decisions:
 
@@ -32,6 +39,7 @@ Decisions:
 - [ADR 0002, two default lanes](adr/0002-two-default-lanes.md)
 - [ADR 0003, local weights in v1](adr/0003-local-weights.md)
 - [ADR 0004, secrets stay irreversible](adr/0004-secrets-irreversible.md)
+- [ADR 0005, direct overlap conflicts](adr/0005-overlap-and-coverage.md)
 
 ## Decision in one page
 
@@ -48,11 +56,14 @@ Rules for email, phone, IBAN, and payment cards run beside the model. They do no
 
 ## Assessment, November 2026
 
-The library is at 0.2.0. It locates spans, masks them, and restores them, and the
+The version module declares 0.3.1, with further improvements in the working
+tree. It locates spans, masks them, and restores them, and the
 span contract holds. The [assessment](14-assessment-2026-11.md) records what is
 measured, three defects that a reader can reproduce, and where the field moved
 ahead of the library: the tool-call plane, surrogate replacement, and
-quasi-identifier combinations.
+quasi-identifier combinations. The latest research audit qualifies the SPY
+government-ID and author-only evaluation semantics; read that erratum before
+interpreting the older scores as deployment measurements.
 
 ## What v1 will not do
 

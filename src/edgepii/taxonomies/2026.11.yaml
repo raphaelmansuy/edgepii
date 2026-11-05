@@ -75,6 +75,7 @@ labels:
   postcode: ADDRESS
   country: ADDRESS
   creditcardnumber: PAYMENT
+  credit_card: PAYMENT
   credit_debit_card: PAYMENT
   card_number: PAYMENT
   payment_card: PAYMENT
@@ -84,6 +85,13 @@ labels:
   national_id: GOV_ID
   national_id_number: GOV_ID
   passport_number: GOV_ID
+  passport: GOV_ID
+  driver_license: GOV_ID
+  drivers_license_number: GOV_ID
+  government_id: GOV_ID
+  middle_name: PERSON
+  postal_code: ADDRESS
+  state_or_region: ADDRESS
   tax_id: GOV_ID
   password: SECRET
   secret: SECRET
@@ -111,3 +119,6 @@ schema_zh:
   GOV_ID: 身份证号
   PAYMENT: 银行卡号
   ADDRESS: 详细地址
+
+prompt_labels:
+  pii: [person, address, email, phone_number, government_id, national_id_number, passport_number, drivers_license_number, tax_id, card_number, iban, bank_account, username, ip_address, password, api_key, access_token, date_of_birth, organization]

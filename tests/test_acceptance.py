@@ -360,7 +360,7 @@ def test_merge_stays_linear_in_span_count():
         return time.perf_counter() - start
 
     timed(200)  # warm up, so import and cache cost stay out of the ratio
-    small = max(timed(500), 1e-6)
-    large = max(timed(4000), 1e-6)
+    small = max(min(timed(500) for _ in range(5)), 1e-6)
+    large = max(min(timed(4000) for _ in range(5)), 1e-6)
     # 8x the spans. A quadratic merge costs about 64x; the sweep costs about 8x.
     assert large / small < 20, f"merge looks super-linear: {small:.4f}s -> {large:.4f}s"

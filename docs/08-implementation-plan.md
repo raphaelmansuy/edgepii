@@ -1,5 +1,8 @@
 # Implementation plan
 
+This is the original library build sequence. The current development work is
+tracked in the [grounded improvement plan](16-grounded-improvement-plan.md).
+
 <!-- ste: descriptive -->
 
 Build the library in the order below. Each phase has a test that fails before the phase and passes after it. Do not start a phase whose prior test is red. The design reasons are in the [architecture](07-architecture.md). The examples to satisfy are in [Examples](11-examples.md).

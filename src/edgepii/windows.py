@@ -8,6 +8,30 @@ no fixed "second half" rule, because that rule has no source.
 
 from __future__ import annotations
 
+from collections.abc import Callable, Iterator
+
+
+def checked_windows(source: str, encoded_length: Callable[[str], int],
+                    token_budget: int, overlap_chars: int = 64) -> Iterator[tuple[int, int]]:
+    """Yield original-source windows after checking the actual encoded input.
+
+    The counter includes special tokens and any schema. It must not truncate.
+    Shrinking is conservative; no monotonic token-count assumption is needed.
+    """
+    if token_budget <= 0 or encoded_length("") > token_budget:
+        raise ValueError("model schema exceeds its token budget")
+    start = 0
+    while start < len(source):
+        end = min(len(source), start + token_budget * 4)
+        while encoded_length(source[start:end]) > token_budget:
+            if end - start <= 1:
+                raise ValueError("one source character exceeds the model token budget")
+            end = start + max(1, (end - start) // 2)
+        yield start, end
+        if end == len(source):
+            break
+        overlap = min(max(0, overlap_chars), (end - start) // 2)
+        start = end - overlap
 
 def split_windows(
     source: str,

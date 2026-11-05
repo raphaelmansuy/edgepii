@@ -12,6 +12,10 @@ from __future__ import annotations
 
 import platform
 import time
+import hashlib
+import json
+import math
+from importlib.metadata import PackageNotFoundError, version
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -26,8 +30,10 @@ from edgepii.eval.corpora import (
 
 # The official SPY loader seeds Faker. A fixed seed makes a rerun identical.
 SPY_SEED = 42
+SPY_PROTOCOL = "government-id-v2"
 
 from edgepii.eval.score import TypeScore, leakage_count
+from edgepii.eval.coverage import character_counts, covered, union_ranges
 
 # A gold span in one of these classes must not survive redact. See ADR 0004 and
 # docs/09-evaluation.md.
@@ -49,7 +55,24 @@ class SliceScore:
     extra: int = 0
     leaks: int = 0
     dropped: int = 0
+    unmapped: int = 0
     per_type: dict[str, TypeScore] = field(default_factory=dict)
+    gold_characters: int = 0
+    masked_characters: int = 0
+    covered_characters: int = 0
+    fully_contained: int = 0
+    high_severity_gold: int = 0
+    zero_gold_documents: int = 0
+    zero_gold_masked_documents: int = 0
+    repeated_identifiers: int = 0
+    fully_contained_repeated: int = 0
+    source_characters: int = 0
+    zero_gold_characters: int = 0
+    zero_gold_masked_characters: int = 0
+    candidate_documents: int = 0
+    candidate_gold: int = 0
+    candidate_fully_contained: int = 0
+    candidate_high_severity_leaks: int = 0
 
     def finish(self) -> None:
         """Turn the accumulated counts into the four ratios, once per type."""
@@ -77,6 +100,36 @@ class SliceScore:
             "extra": self.extra,
             "high_severity_leaks": self.leaks,
             "dropped_offsets": self.dropped,
+            "unmapped_predictions": self.unmapped,
+            "pre_policy_candidates": {
+                "documents": self.candidate_documents,
+                "gold_spans": self.candidate_gold,
+                "fully_contained_gold_spans": self.candidate_fully_contained,
+                "high_severity_leaks": self.candidate_high_severity_leaks,
+                "span_recall": self.candidate_fully_contained / self.candidate_gold if self.candidate_gold else None,
+                "scope": "mapped requested-type candidates before overlap and score policy; null when unavailable",
+            },
+            "containment": {
+                "source_characters": self.source_characters,
+                "gold_characters": self.gold_characters,
+                "masked_characters": self.masked_characters,
+                "covered_characters": self.covered_characters,
+                "character_recall": self.covered_characters / self.gold_characters if self.gold_characters else None,
+                "masking_precision": self.covered_characters / self.masked_characters if self.masked_characters else None,
+                "masked_character_fraction": self.masked_characters / self.source_characters if self.source_characters else None,
+                "fully_contained_gold_spans": self.fully_contained,
+                "span_recall": self.fully_contained / self.gold if self.gold else None,
+                "high_severity_gold_spans": self.high_severity_gold,
+                "zero_gold_documents": self.zero_gold_documents,
+                "zero_gold_masked_documents": self.zero_gold_masked_documents,
+                "zero_gold_document_mask_rate": self.zero_gold_masked_documents / self.zero_gold_documents if self.zero_gold_documents else None,
+                "zero_gold_characters": self.zero_gold_characters,
+                "zero_gold_masked_characters": self.zero_gold_masked_characters,
+                "zero_gold_masked_character_fraction": self.zero_gold_masked_characters / self.zero_gold_characters if self.zero_gold_characters else None,
+                "repeated_identifiers": self.repeated_identifiers,
+                "fully_contained_repeated_identifiers": self.fully_contained_repeated,
+                "scope": "declared gold policy; zero gold does not establish PII-free text",
+            },
             "per_type": {
                 name: _type_dict(row) for name, row in sorted(self.per_type.items())
             },
@@ -97,6 +150,8 @@ class RunReport:
     slices: dict[str, SliceScore]
     seconds: float
     environment: dict
+    evaluation: dict = field(default_factory=dict)
+    latency: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return {
@@ -113,6 +168,8 @@ class RunReport:
             "corpus_diagnostics_scope": "whole file, not the limited run",
             "seconds": round(self.seconds, 3),
             "environment": self.environment,
+            "evaluation": self.evaluation,
+            "latency_ms": self.latency,
             "slices": {name: row.to_dict() for name, row in sorted(self.slices.items())},
         }
 
@@ -124,6 +181,7 @@ def score_corpus(
     limit: int | None = None,
     slices: list[str] | None = None,
     types: list[str] | None = None,
+    min_score: float | None = None,
 ) -> RunReport:
     """Score one corpus. `limit` is a prefix per slice, not per corpus.
 
@@ -132,12 +190,18 @@ def score_corpus(
     and report an empty `intl` slice.
     """
 
+    if limit is not None and limit <= 0:
+        raise ValueError("limit must be positive")
+    if min_score is not None and not (math.isfinite(min_score) and 0 <= min_score <= 1):
+        raise ValueError("min_score must be between zero and one")
     spec = load_spec(corpus)
     known = set(locator.taxonomy.types)
     problems = label_audit(spec, known)
     if problems:
         raise RuntimeError(f"label map for {corpus} is not valid: {problems}")
     requested = list(types) if types is not None else locator.taxonomy.default_types()
+    if not requested:
+        raise ValueError("evaluation requires at least one type")
     for name in requested:
         locator.taxonomy.require(name)
     allowed = set(requested)
@@ -151,7 +215,7 @@ def score_corpus(
     # A corpus of templates needs one materialisation step before scoring. The
     # seed is fixed, so a rerun reads the same values.
     if spec.spans_encoding == "bio":
-        records = materialize_spy(records, seed=SPY_SEED)
+        records = materialize_spy(records, seed=SPY_SEED, protocol=SPY_PROTOCOL)
     docs, diagnostics = build_docs(records, spec, allowed)
 
     # One pass over the documents. Each document feeds every slice it belongs to,
@@ -159,14 +223,25 @@ def score_corpus(
     report_slices: dict[str, SliceScore] = {name: SliceScore(name=name) for name in names}
     membership = _slice_membership(spec, names, docs)
     selected = _selected_docs(membership, limit)
+    selection_hash = hashlib.sha256()
+    durations: list[float] = []
     started = time.perf_counter()
     for index, doc in enumerate(docs):
         if index not in selected:
             continue
-        result = locator.locate(doc.text, types=sorted(allowed))
+        # Hash the actual selected inputs and gold, including slice membership.
+        # The digest proves two model runs used the same examples without
+        # copying source text or document identifiers into their reports.
+        selection_hash.update(json.dumps(
+            [index, doc.doc_id, doc.text, doc.spans, sorted(selected[index])],
+            ensure_ascii=False, separators=(",", ":"),
+        ).encode("utf-8"))
+        tick = time.perf_counter()
+        result = locator.locate(doc.text, types=sorted(allowed), min_score=min_score)
+        durations.append((time.perf_counter() - tick) * 1000)
         pred = [(span.type, span.start, span.end) for span in result.spans]
         for name in selected[index]:
-            _accumulate(report_slices[name], locator, doc, pred, result.dropped)
+            _accumulate(report_slices[name], locator, doc, pred, result.dropped, getattr(result, "unmapped", 0), getattr(result, "_candidate_ranges", None))
     for row in report_slices.values():
         row.finish()
     seconds = time.perf_counter() - started
@@ -184,6 +259,18 @@ def score_corpus(
         slices=report_slices,
         seconds=seconds,
         environment=_environment(locator),
+        evaluation={
+            "types": sorted(allowed),
+            "min_score": min_score,
+            "fold": "confusables",
+            "selection": "prefix_per_slice",
+            "selection_sha256": selection_hash.hexdigest(),
+            "unique_documents": len(selected),
+            "spy_seed": SPY_SEED if spec.spans_encoding == "bio" else None,
+            "materialization_protocol": SPY_PROTOCOL if spec.spans_encoding == "bio" else "source-v1",
+            "annotation_policy": "author-associated; synthetic US ID shapes" if spec.spans_encoding == "bio" else "source corpus policy",
+        },
+        latency=_latency_summary(durations),
     )
 
 
@@ -227,7 +314,7 @@ def score_docs(
     for doc in docs:
         result = locator.locate(doc.text, types=ordered, min_score=min_score)
         pred = [(span.type, span.start, span.end) for span in result.spans]
-        _accumulate(out, locator, doc, pred, result.dropped)
+        _accumulate(out, locator, doc, pred, result.dropped, getattr(result, "unmapped", 0), getattr(result, "_candidate_ranges", None))
     out.finish()
     return out
 
@@ -245,9 +332,11 @@ def _slice_membership(spec, names: list[str], docs) -> dict[int, list[str]]:
     return membership
 
 
-def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]], dropped: int) -> None:
+def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]], dropped: int, unmapped: int = 0, candidates=None) -> None:
     out.dropped += dropped
+    out.unmapped += unmapped
     out.docs += 1
+    out.source_characters += len(doc.text)
     out.gold += len(doc.spans)
     out.pred += len(pred)
     tp, fp, fn, miss, wrong_type, shift, extra = _confusion(doc.spans, pred)
@@ -259,6 +348,32 @@ def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]],
     out.shift += shift
     out.extra += extra
     high = {row[0] for row in doc.spans if _class_of(locator, row[0]) in HIGH_SEVERITY}
+    if candidates is not None:
+        candidate_masks = union_ranges((row[1], row[2]) for row in candidates)
+        out.candidate_documents += 1
+        out.candidate_gold += len(doc.spans)
+        out.candidate_fully_contained += sum(covered(row[1], row[2], candidate_masks) for row in doc.spans)
+        out.candidate_high_severity_leaks += leakage_count(
+            gold=[row for row in doc.spans if row[0] in high], predicted=candidates, high_types=high)
+    masks = union_ranges((row[1], row[2]) for row in pred)
+    gold_chars, masked_chars, covered_chars = character_counts(doc.spans, pred)
+    out.gold_characters += gold_chars
+    out.masked_characters += masked_chars
+    out.covered_characters += covered_chars
+    out.fully_contained += sum(covered(row[1], row[2], masks) for row in doc.spans)
+    out.high_severity_gold += sum(row[0] in high for row in doc.spans)
+    if not doc.spans:
+        out.zero_gold_documents += 1
+        out.zero_gold_masked_documents += bool(pred)
+        out.zero_gold_characters += len(doc.text)
+        out.zero_gold_masked_characters += masked_chars
+    repeated = {}
+    for kind, start, end in doc.spans:
+        repeated.setdefault((kind, doc.text[start:end]), []).append((start, end))
+    for ranges in repeated.values():
+        if len(ranges) > 1:
+            out.repeated_identifiers += 1
+            out.fully_contained_repeated += all(covered(a, b, masks) for a, b in ranges)
     if high:
         out.leaks += leakage_count(
             gold=[row for row in doc.spans if row[0] in high],
@@ -359,10 +474,44 @@ def _type_dict(row: TypeScore) -> dict:
 def _environment(locator) -> dict:
     import sys
 
+    packages = {}
+    for name in ("edgepii", "torch", "transformers", "gliner2", "gliner", "tokenizers",
+                 "huggingface-hub", "phonenumbers", "pyyaml", "pyarrow", "faker", "peft"):
+        try:
+            packages[name] = version(name)
+        except PackageNotFoundError:
+            pass
+    source_hash = hashlib.sha256()
+    package = Path(__file__).resolve().parents[1]
+    for path in sorted(package.rglob("*")):
+        if path.suffix in {".py", ".yaml"}:
+            source_hash.update(path.relative_to(package).as_posix().encode())
+            source_hash.update(b"\0")
+            source_hash.update(path.read_bytes())
+            source_hash.update(b"\0")
     return {
         "python": platform.python_version(),
         "platform": platform.platform(),
         "machine": platform.machine(),
         "executable": sys.executable,
         "detectors": [type(detector).__name__ for detector in locator.detectors],
+        "devices": [getattr(detector, "device", "cpu") for detector in locator.detectors],
+        "packages": packages,
+        "source_sha256": source_hash.hexdigest(),
+    }
+
+
+def _latency_summary(durations: list[float]) -> dict:
+    """Nearest-rank percentiles of locate calls; excludes loading and scoring."""
+
+    if not durations:
+        return {"calls": 0}
+    ordered = sorted(durations)
+    return {
+        "calls": len(ordered),
+        "mean": sum(ordered) / len(ordered),
+        "p50": ordered[math.ceil(len(ordered) * 0.50) - 1],
+        "p95": ordered[math.ceil(len(ordered) * 0.95) - 1],
+        "max": ordered[-1],
+        "scope": "locate only; excludes model loading and scoring",
     }

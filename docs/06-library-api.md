@@ -24,6 +24,11 @@ result = locator.locate(source, types=["PERSON", "EMAIL", "PHONE"])
 
 `result.taxonomy_version` is a string. `result.spans` is a tuple of `Span`. `result.dropped` is a count of hits that failed the slice check. `result.preset` is the preset name. `result.revision` is the pinned weight revision, or `rules` for the rule preset. `result.quasi` is a tuple of `Combination` for any re-identification risk the text carries.
 
+`result.unmapped` counts valid model hits whose labels have no public taxonomy
+mapping. The JSON export contains this count, without copying unknown labels.
+It is separate from invalid offsets: a valid range can still have an
+unsupported category. Neither count establishes that all PII was found.
+
 Offsets always index `source`, never the folded text. Folding is the reason a value written with a Cyrillic `а` or a fullwidth `＠` is found at all, and the span still satisfies `source[start:end] == text`.
 
 ```python
@@ -46,6 +51,8 @@ span.raw_label     # "EMAIL" or "email"
 | `en-bert` | BERT-base control plus rules | `hf` |
 | `en-closed` | ModernBERT plus rules | `hf` |
 | `multi-open` | GLiNER2 plus rules | `gliner2` |
+| `multi-encoder` | Horizon Small multilingual encoder plus rules; experimental | `hf` |
+| `multi-boundary` | GLiNER2.5 boundary extractor plus rules; experimental | `gliner2` |
 | `phi-open` | NVIDIA GLiNER-PII plus rules | `gliner` |
 | `zh-schema` | Siamese-UIE plus rules | `ms` |
 
@@ -169,6 +176,14 @@ results = locator.locate_many(sources, types=["EMAIL"])
 ## Windowing
 
 Callers pass the full source string. The locator can split it inside the model adapter when the string exceeds `max_chars` for that detector. Public offsets still refer to the original source string. The split rule is in the [architecture](07-architecture.md). Callers do not pass windows.
+
+The HF and GLiNER2 adapters additionally check the actual tokenizer input
+against the model context, including special tokens and GLiNER2's schema.
+Each checked window advances and the windows cover the source. If even the
+schema or one source character cannot fit, inference raises a source-free
+`ValueError`. Processing every character does not guarantee recognition of an
+entity longer than the window overlap. The optional legacy GLiNER and
+ModelScope adapters have not earned the same token-coverage admission.
 
 ## What the API refuses
 

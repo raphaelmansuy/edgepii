@@ -1,0 +1,1319 @@
+{
+  "retrieved_at_utc": "2026-11-05T03:21:17.771004+00:00",
+  "cutoff": "Available through 5 November 2026; no later November claims",
+  "scope": "Public metadata and small text artifacts only; no weights downloaded, license metadata is not legal approval",
+  "models": [
+    {
+      "repo_id": "openai/privacy-filter",
+      "api_url": "https://huggingface.co/api/models/openai/privacy-filter",
+      "revision": "7ffa9a043d54d1be65afb281eddf0ffbe629385b",
+      "revision_date": "2026-04-22T16:50:17.000Z",
+      "created_at": "2026-04-17T21:38:35.000Z",
+      "head_last_modified": "2026-04-22T16:50:17.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": null,
+        "base_model": null,
+        "datasets": null
+      },
+      "parameters": 1399486865,
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/openai/privacy-filter/resolve/7ffa9a043d54d1be65afb281eddf0ffbe629385b/README.md",
+          "sha256": "48318ff48819858192dbb59f106dd709c3017e447bcc540807df66840a03a695",
+          "bytes": 11057
+        },
+        "config.json": {
+          "url": "https://huggingface.co/openai/privacy-filter/resolve/7ffa9a043d54d1be65afb281eddf0ffbe629385b/config.json",
+          "sha256": "b2b26a4a4a000639ad30b0c264adbefe365bdb567fbd7bb27303b8c438375bd1",
+          "bytes": 3039,
+          "selected_fields": {
+            "model_type": "openai_privacy_filter",
+            "architectures": [
+              "OpenAIPrivacyFilterForTokenClassification"
+            ],
+            "max_position_embeddings": 131072,
+            "id2label": {
+              "0": "O",
+              "1": "B-account_number",
+              "2": "I-account_number",
+              "3": "E-account_number",
+              "4": "S-account_number",
+              "5": "B-private_address",
+              "6": "I-private_address",
+              "7": "E-private_address",
+              "8": "S-private_address",
+              "9": "B-private_date",
+              "10": "I-private_date",
+              "11": "E-private_date",
+              "12": "S-private_date",
+              "13": "B-private_email",
+              "14": "I-private_email",
+              "15": "E-private_email",
+              "16": "S-private_email",
+              "17": "B-private_person",
+              "18": "I-private_person",
+              "19": "E-private_person",
+              "20": "S-private_person",
+              "21": "B-private_phone",
+              "22": "I-private_phone",
+              "23": "E-private_phone",
+              "24": "S-private_phone",
+              "25": "B-private_url",
+              "26": "I-private_url",
+              "27": "E-private_url",
+              "28": "S-private_url",
+              "29": "B-secret",
+              "30": "I-secret",
+              "31": "E-secret",
+              "32": "S-secret"
+            },
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/openai/privacy-filter/resolve/7ffa9a043d54d1be65afb281eddf0ffbe629385b/LICENSE",
+          "http_status": 404
+        }
+      }
+    },
+    {
+      "repo_id": "fastino/gliner2-privacy-filter-PII-multi",
+      "api_url": "https://huggingface.co/api/models/fastino/gliner2-privacy-filter-PII-multi",
+      "revision": "1cb4166094dc58fa8d836429f060d6c95f62b495",
+      "revision_date": "2026-09-28T00:55:39.000Z",
+      "created_at": "2026-05-10T23:59:32.000Z",
+      "head_last_modified": "2026-09-28T00:55:39.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "en",
+          "fr",
+          "es",
+          "de",
+          "it",
+          "pt",
+          "nl"
+        ],
+        "base_model": null,
+        "datasets": [
+          "synthetic"
+        ]
+      },
+      "parameters": 307098645,
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi/resolve/1cb4166094dc58fa8d836429f060d6c95f62b495/README.md",
+          "sha256": "e932bd007f5b386ecf88f28058c6a96ef001c4fc8ba8175f10671db2539f51a1",
+          "bytes": 9076
+        },
+        "config.json": {
+          "url": "https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi/resolve/1cb4166094dc58fa8d836429f060d6c95f62b495/config.json",
+          "sha256": "164f17362bcf9d114067d3465e7374bfdd79ce6b605acb745de5a49dabb9595c",
+          "bytes": 252,
+          "selected_fields": {
+            "model_type": "extractor",
+            "architectures": null,
+            "max_position_embeddings": null,
+            "id2label": null,
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi/resolve/1cb4166094dc58fa8d836429f060d6c95f62b495/LICENSE",
+          "http_status": 404
+        }
+      }
+    },
+    {
+      "repo_id": "LiquidAI/LFM2.5-Encoder-350M-PII-Detector",
+      "api_url": "https://huggingface.co/api/models/LiquidAI/LFM2.5-Encoder-350M-PII-Detector",
+      "revision": "b8c9cf3d2d6ae52501b35a27ba46f271449c9ce2",
+      "revision_date": "2026-07-28T14:00:37.000Z",
+      "created_at": "2026-06-12T15:10:49.000Z",
+      "head_last_modified": "2026-07-28T14:00:37.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "card_metadata": {
+        "license": "other",
+        "language": [
+          "en",
+          "de",
+          "fr",
+          "es",
+          "pt",
+          "it",
+          "pl",
+          "ru",
+          "zh",
+          "ja",
+          "ko",
+          "ar",
+          "hi",
+          "id",
+          "vi",
+          "th"
+        ],
+        "base_model": [
+          "LiquidAI/LFM2.5-Encoder-350M"
+        ],
+        "datasets": null
+      },
+      "parameters": 354649154,
+      "python_files": [
+        "context_cued.py",
+        "modeling_phase2_tc.py",
+        "pii_hybrid_decode.py"
+      ],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/LiquidAI/LFM2.5-Encoder-350M-PII-Detector/resolve/b8c9cf3d2d6ae52501b35a27ba46f271449c9ce2/README.md",
+          "sha256": "0cd2091188db3b35b05d224b84a47cf1ac7334602f91d8974b2d9df6322e9947",
+          "bytes": 5769
+        },
+        "config.json": {
+          "url": "https://huggingface.co/LiquidAI/LFM2.5-Encoder-350M-PII-Detector/resolve/b8c9cf3d2d6ae52501b35a27ba46f271449c9ce2/config.json",
+          "sha256": "ced1b2917ec78c766b309233a38dd3351b6bd1cb4ba22c18363ce47c190679ac",
+          "bytes": 12497,
+          "selected_fields": {
+            "model_type": "lfm2",
+            "architectures": [
+              "Lfm2BidirP2ForTokenClassification"
+            ],
+            "max_position_embeddings": 128000,
+            "id2label": {
+              "0": "O",
+              "1": "B-contact.address",
+              "2": "I-contact.address",
+              "3": "E-contact.address",
+              "4": "S-contact.address",
+              "5": "B-contact.email",
+              "6": "I-contact.email",
+              "7": "E-contact.email",
+              "8": "S-contact.email",
+              "9": "B-contact.ip_address",
+              "10": "I-contact.ip_address",
+              "11": "E-contact.ip_address",
+              "12": "S-contact.ip_address",
+              "13": "B-contact.phone",
+              "14": "I-contact.phone",
+              "15": "E-contact.phone",
+              "16": "S-contact.phone",
+              "17": "B-contact.postal_code",
+              "18": "I-contact.postal_code",
+              "19": "E-contact.postal_code",
+              "20": "S-contact.postal_code",
+              "21": "B-credential.api_key",
+              "22": "I-credential.api_key",
+              "23": "E-credential.api_key",
+              "24": "S-credential.api_key",
+              "25": "B-credential.connection_string",
+              "26": "I-credential.connection_string",
+              "27": "E-credential.connection_string",
+              "28": "S-credential.connection_string",
+              "29": "B-credential.jwt",
+              "30": "I-credential.jwt",
+              "31": "E-credential.jwt",
+              "32": "S-credential.jwt",
+              "33": "B-credential.password",
+              "34": "I-credential.password",
+              "35": "E-credential.password",
+              "36": "S-credential.password",
+              "37": "B-credential.private_key",
+              "38": "I-credential.private_key",
+              "39": "E-credential.private_key",
+              "40": "S-credential.private_key",
+              "41": "B-developer.device_id",
+              "42": "I-developer.device_id",
+              "43": "E-developer.device_id",
+              "44": "S-developer.device_id",
+              "45": "B-developer.login_credentials",
+              "46": "I-developer.login_credentials",
+              "47": "E-developer.login_credentials",
+              "48": "S-developer.login_credentials",
+              "49": "B-device.imei",
+              "50": "I-device.imei",
+              "51": "E-device.imei",
+              "52": "S-device.imei",
+              "53": "B-device.mac_address",
+              "54": "I-device.mac_address",
+              "55": "E-device.mac_address",
+              "56": "S-device.mac_address",
+              "57": "B-financial.amount",
+              "58": "I-financial.amount",
+              "59": "E-financial.amount",
+              "60": "S-financial.amount",
+              "61": "B-financial.bank_account",
+              "62": "I-financial.bank_account",
+              "63": "E-financial.bank_account",
+              "64": "S-financial.bank_account",
+              "65": "B-financial.credit_card",
+              "66": "I-financial.credit_card",
+              "67": "E-financial.credit_card",
+              "68": "S-financial.credit_card",
+              "69": "B-financial.crypto_wallet",
+              "70": "I-financial.crypto_wallet",
+              "71": "E-financial.crypto_wallet",
+              "72": "S-financial.crypto_wallet",
+              "73": "B-financial.iban",
+              "74": "I-financial.iban",
+              "75": "E-financial.iban",
+              "76": "S-financial.iban",
+              "77": "B-financial.swift_bic",
+              "78": "I-financial.swift_bic",
+              "79": "E-financial.swift_bic",
+              "80": "S-financial.swift_bic",
+              "81": "B-healthcare.condition",
+              "82": "I-healthcare.condition",
+              "83": "E-healthcare.condition",
+              "84": "S-healthcare.condition",
+              "85": "B-healthcare.health_plan_id",
+              "86": "I-healthcare.health_plan_id",
+              "87": "E-healthcare.health_plan_id",
+              "88": "S-healthcare.health_plan_id",
+              "89": "B-healthcare.medical_record",
+              "90": "I-healthcare.medical_record",
+              "91": "E-healthcare.medical_record",
+              "92": "S-healthcare.medical_record",
+              "93": "B-healthcare.medication",
+              "94": "I-healthcare.medication",
+              "95": "E-healthcare.medication",
+              "96": "S-healthcare.medication",
+              "97": "B-identity.date_of_birth",
+              "98": "I-identity.date_of_birth",
+              "99": "E-identity.date_of_birth",
+              "100": "S-identity.date_of_birth",
+              "101": "B-identity.drivers_license",
+              "102": "I-identity.drivers_license",
+              "103": "E-identity.drivers_license",
+              "104": "S-identity.drivers_license",
+              "105": "B-identity.national_id",
+              "106": "I-identity.national_id",
+              "107": "E-identity.national_id",
+              "108": "S-identity.national_id",
+              "109": "B-identity.passport",
+              "110": "I-identity.passport",
+              "111": "E-identity.passport",
+              "112": "S-identity.passport",
+              "113": "B-identity.person_name",
+              "114": "I-identity.person_name",
+              "115": "E-identity.person_name",
+              "116": "S-identity.person_name",
+              "117": "B-identity.ssn",
+              "118": "I-identity.ssn",
+              "119": "E-identity.ssn",
+              "120": "S-identity.ssn",
+              "121": "B-identity.tax_id",
+              "122": "I-identity.tax_id",
+              "123": "E-identity.tax_id",
+              "124": "S-identity.tax_id",
+              "125": "B-legal.case_number",
+              "126": "I-legal.case_number",
+              "127": "E-legal.case_number",
+              "128": "S-legal.case_number",
+              "129": "B-location.gps_coordinates",
+              "130": "I-location.gps_coordinates",
+              "131": "E-location.gps_coordinates",
+              "132": "S-location.gps_coordinates",
+              "133": "B-online.url",
+              "134": "I-online.url",
+              "135": "E-online.url",
+              "136": "S-online.url",
+              "137": "B-online.username",
+              "138": "I-online.username",
+              "139": "E-online.username",
+              "140": "S-online.username",
+              "141": "B-org.company_name",
+              "142": "I-org.company_name",
+              "143": "E-org.company_name",
+              "144": "S-org.company_name",
+              "145": "B-special.health_status",
+              "146": "I-special.health_status",
+              "147": "E-special.health_status",
+              "148": "S-special.health_status",
+              "149": "B-special.orientation",
+              "150": "I-special.orientation",
+              "151": "E-special.orientation",
+              "152": "S-special.orientation",
+              "153": "B-special.political",
+              "154": "I-special.political",
+              "155": "E-special.political",
+              "156": "S-special.political",
+              "157": "B-special.religion",
+              "158": "I-special.religion",
+              "159": "E-special.religion",
+              "160": "S-special.religion"
+            },
+            "auto_map": {
+              "AutoModel": "modeling_phase2_tc.Lfm2BidirectionalModel_theirs",
+              "AutoModelForTokenClassification": "modeling_phase2_tc.Lfm2BidirP2ForTokenClassification"
+            }
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/LiquidAI/LFM2.5-Encoder-350M-PII-Detector/resolve/b8c9cf3d2d6ae52501b35a27ba46f271449c9ce2/LICENSE",
+          "sha256": "30adf9d6478191fb87f2424f63ba0728598335aaf99cd2848ef17e8e545fe94b",
+          "bytes": 10574
+        }
+      }
+    },
+    {
+      "repo_id": "knowledgator/gliner-pii-edge-v1.0",
+      "api_url": "https://huggingface.co/api/models/knowledgator/gliner-pii-edge-v1.0",
+      "revision": "9b7f39b0a2da971a5beea78d35f1539d4009c891",
+      "revision_date": "2026-03-26T10:02:47.000Z",
+      "created_at": "2025-09-24T13:38:29.000Z",
+      "head_last_modified": "2026-03-26T10:02:47.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "en"
+        ],
+        "base_model": null,
+        "datasets": null
+      },
+      "parameters": null,
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/knowledgator/gliner-pii-edge-v1.0/resolve/9b7f39b0a2da971a5beea78d35f1539d4009c891/README.md",
+          "sha256": "88f7fb463e7ab0b256caeb5da30af9262ba1b223598576dc12e599d257e91c23",
+          "bytes": 15896
+        },
+        "config.json": {
+          "url": "https://huggingface.co/knowledgator/gliner-pii-edge-v1.0/resolve/9b7f39b0a2da971a5beea78d35f1539d4009c891/config.json",
+          "http_status": 404
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/knowledgator/gliner-pii-edge-v1.0/resolve/9b7f39b0a2da971a5beea78d35f1539d4009c891/LICENSE",
+          "http_status": 404
+        }
+      }
+    },
+    {
+      "repo_id": "Horizon-Labs/pii-redactor-small",
+      "api_url": "https://huggingface.co/api/models/Horizon-Labs/pii-redactor-small",
+      "revision": "a20835db9e671267b21a2951f5bf2c76e4901708",
+      "revision_date": "2026-10-31T10:37:03.000Z",
+      "created_at": "2026-09-23T19:49:18.000Z",
+      "head_last_modified": "2026-10-31T10:37:03.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "multilingual",
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it",
+          "nl",
+          "pt",
+          "pl",
+          "cs",
+          "sk",
+          "sl",
+          "hr",
+          "sr",
+          "bg",
+          "ro",
+          "hu",
+          "el",
+          "da",
+          "sv",
+          "fi",
+          "et",
+          "lv",
+          "lt",
+          "ru",
+          "uk",
+          "tr",
+          "ar",
+          "hi",
+          "zh",
+          "ja",
+          "ko",
+          "vi",
+          "id",
+          "ms",
+          "tl",
+          "th"
+        ],
+        "base_model": "jhu-clsp/mmBERT-small",
+        "datasets": [
+          "ai4privacy/pii-masking-openpii-1.5m",
+          "nvidia/Nemotron-PII",
+          "gretelai/gretel-pii-masking-en-v1"
+        ]
+      },
+      "parameters": 140664251,
+      "python_files": [
+        "code/pii/build_pii_v0.py",
+        "code/pii/build_pii_v1.py",
+        "code/pii/build_pii_v3.py",
+        "code/pii/evaluate_pii.py",
+        "code/pii/export_onnx_tok.py",
+        "code/pii/gen_pii.py",
+        "code/pii/train_tok.py",
+        "llm_guard_conf.py",
+        "redact.py"
+      ],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-small/resolve/a20835db9e671267b21a2951f5bf2c76e4901708/README.md",
+          "sha256": "df8517b3145591dac44199cfaa70c5f1c1dd40e5d7e53a8e3ac683a597784bd1",
+          "bytes": 13642
+        },
+        "config.json": {
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-small/resolve/a20835db9e671267b21a2951f5bf2c76e4901708/config.json",
+          "sha256": "9dcc63e7feee779caf79932f9e400b22aab11dcbd4d173453071a139b2603a62",
+          "bytes": 4758,
+          "selected_fields": {
+            "model_type": "modernbert",
+            "architectures": [
+              "ModernBertForTokenClassification"
+            ],
+            "max_position_embeddings": 8192,
+            "id2label": {
+              "0": "O",
+              "1": "B-ACCOUNT_ID",
+              "2": "I-ACCOUNT_ID",
+              "3": "B-AGE",
+              "4": "I-AGE",
+              "5": "B-BANK_ACCOUNT",
+              "6": "I-BANK_ACCOUNT",
+              "7": "B-COORDINATE",
+              "8": "I-COORDINATE",
+              "9": "B-CREDIT_CARD",
+              "10": "I-CREDIT_CARD",
+              "11": "B-CREDIT_CARD_CVV",
+              "12": "I-CREDIT_CARD_CVV",
+              "13": "B-DATE",
+              "14": "I-DATE",
+              "15": "B-DATE_OF_BIRTH",
+              "16": "I-DATE_OF_BIRTH",
+              "17": "B-DEVICE_ID",
+              "18": "I-DEVICE_ID",
+              "19": "B-DRIVER_LICENSE",
+              "20": "I-DRIVER_LICENSE",
+              "21": "B-EMAIL",
+              "22": "I-EMAIL",
+              "23": "B-IP_ADDRESS",
+              "24": "I-IP_ADDRESS",
+              "25": "B-LICENSE_NUMBER",
+              "26": "I-LICENSE_NUMBER",
+              "27": "B-LOCATION",
+              "28": "I-LOCATION",
+              "29": "B-MAC_ADDRESS",
+              "30": "I-MAC_ADDRESS",
+              "31": "B-MEDICAL_ID",
+              "32": "I-MEDICAL_ID",
+              "33": "B-NATIONAL_ID",
+              "34": "I-NATIONAL_ID",
+              "35": "B-ORGANIZATION",
+              "36": "I-ORGANIZATION",
+              "37": "B-PASSPORT",
+              "38": "I-PASSPORT",
+              "39": "B-PASSWORD",
+              "40": "I-PASSWORD",
+              "41": "B-PERSON",
+              "42": "I-PERSON",
+              "43": "B-PHONE",
+              "44": "I-PHONE",
+              "45": "B-POSTCODE",
+              "46": "I-POSTCODE",
+              "47": "B-SECRET",
+              "48": "I-SECRET",
+              "49": "B-STREET_ADDRESS",
+              "50": "I-STREET_ADDRESS",
+              "51": "B-TAX_ID",
+              "52": "I-TAX_ID",
+              "53": "B-URL",
+              "54": "I-URL",
+              "55": "B-USERNAME",
+              "56": "I-USERNAME",
+              "57": "B-VEHICLE_ID",
+              "58": "I-VEHICLE_ID"
+            },
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-small/resolve/a20835db9e671267b21a2951f5bf2c76e4901708/LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "bytes": 11358
+        }
+      }
+    },
+    {
+      "repo_id": "innovius/shinrai-pii-m-v1.3",
+      "error": "HTTPError: HTTP Error 401: Unauthorized"
+    },
+    {
+      "repo_id": "OpenMed/privacy-filter-nemotron",
+      "api_url": "https://huggingface.co/api/models/OpenMed/privacy-filter-nemotron",
+      "revision": "f6f3a633dc6fc96a644d20218633a98ac43f6c71",
+      "revision_date": "2026-04-28T08:01:07.000Z",
+      "created_at": "2026-04-24T11:31:59.000Z",
+      "head_last_modified": "2026-04-28T08:01:07.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "en"
+        ],
+        "base_model": "openai/privacy-filter",
+        "datasets": [
+          "nvidia/Nemotron-PII"
+        ]
+      },
+      "parameters": 1399607373,
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/OpenMed/privacy-filter-nemotron/resolve/f6f3a633dc6fc96a644d20218633a98ac43f6c71/README.md",
+          "sha256": "ae23c316c60907c0f2146b6c4ae8b4e9c2ba9a49def39cfd9212f7bd07546fc9",
+          "bytes": 12671
+        },
+        "config.json": {
+          "url": "https://huggingface.co/OpenMed/privacy-filter-nemotron/resolve/f6f3a633dc6fc96a644d20218633a98ac43f6c71/config.json",
+          "sha256": "f331f12762118fa98fa35d13821e938e367807f8c919b5727d4bcead04c07c06",
+          "bytes": 19134,
+          "selected_fields": {
+            "model_type": "openai_privacy_filter",
+            "architectures": [
+              "OpenAIPrivacyFilterForTokenClassification"
+            ],
+            "max_position_embeddings": 131072,
+            "id2label": {
+              "0": "O",
+              "1": "B-account_number",
+              "2": "I-account_number",
+              "3": "E-account_number",
+              "4": "S-account_number",
+              "5": "B-age",
+              "6": "I-age",
+              "7": "E-age",
+              "8": "S-age",
+              "9": "B-api_key",
+              "10": "I-api_key",
+              "11": "E-api_key",
+              "12": "S-api_key",
+              "13": "B-bank_routing_number",
+              "14": "I-bank_routing_number",
+              "15": "E-bank_routing_number",
+              "16": "S-bank_routing_number",
+              "17": "B-biometric_identifier",
+              "18": "I-biometric_identifier",
+              "19": "E-biometric_identifier",
+              "20": "S-biometric_identifier",
+              "21": "B-blood_type",
+              "22": "I-blood_type",
+              "23": "E-blood_type",
+              "24": "S-blood_type",
+              "25": "B-certificate_license_number",
+              "26": "I-certificate_license_number",
+              "27": "E-certificate_license_number",
+              "28": "S-certificate_license_number",
+              "29": "B-city",
+              "30": "I-city",
+              "31": "E-city",
+              "32": "S-city",
+              "33": "B-company_name",
+              "34": "I-company_name",
+              "35": "E-company_name",
+              "36": "S-company_name",
+              "37": "B-coordinate",
+              "38": "I-coordinate",
+              "39": "E-coordinate",
+              "40": "S-coordinate",
+              "41": "B-country",
+              "42": "I-country",
+              "43": "E-country",
+              "44": "S-country",
+              "45": "B-county",
+              "46": "I-county",
+              "47": "E-county",
+              "48": "S-county",
+              "49": "B-credit_debit_card",
+              "50": "I-credit_debit_card",
+              "51": "E-credit_debit_card",
+              "52": "S-credit_debit_card",
+              "53": "B-customer_id",
+              "54": "I-customer_id",
+              "55": "E-customer_id",
+              "56": "S-customer_id",
+              "57": "B-cvv",
+              "58": "I-cvv",
+              "59": "E-cvv",
+              "60": "S-cvv",
+              "61": "B-date",
+              "62": "I-date",
+              "63": "E-date",
+              "64": "S-date",
+              "65": "B-date_of_birth",
+              "66": "I-date_of_birth",
+              "67": "E-date_of_birth",
+              "68": "S-date_of_birth",
+              "69": "B-date_time",
+              "70": "I-date_time",
+              "71": "E-date_time",
+              "72": "S-date_time",
+              "73": "B-device_identifier",
+              "74": "I-device_identifier",
+              "75": "E-device_identifier",
+              "76": "S-device_identifier",
+              "77": "B-education_level",
+              "78": "I-education_level",
+              "79": "E-education_level",
+              "80": "S-education_level",
+              "81": "B-email",
+              "82": "I-email",
+              "83": "E-email",
+              "84": "S-email",
+              "85": "B-employee_id",
+              "86": "I-employee_id",
+              "87": "E-employee_id",
+              "88": "S-employee_id",
+              "89": "B-employment_status",
+              "90": "I-employment_status",
+              "91": "E-employment_status",
+              "92": "S-employment_status",
+              "93": "B-fax_number",
+              "94": "I-fax_number",
+              "95": "E-fax_number",
+              "96": "S-fax_number",
+              "97": "B-first_name",
+              "98": "I-first_name",
+              "99": "E-first_name",
+              "100": "S-first_name",
+              "101": "B-gender",
+              "102": "I-gender",
+              "103": "E-gender",
+              "104": "S-gender",
+              "105": "B-health_plan_beneficiary_number",
+              "106": "I-health_plan_beneficiary_number",
+              "107": "E-health_plan_beneficiary_number",
+              "108": "S-health_plan_beneficiary_number",
+              "109": "B-http_cookie",
+              "110": "I-http_cookie",
+              "111": "E-http_cookie",
+              "112": "S-http_cookie",
+              "113": "B-ipv4",
+              "114": "I-ipv4",
+              "115": "E-ipv4",
+              "116": "S-ipv4",
+              "117": "B-ipv6",
+              "118": "I-ipv6",
+              "119": "E-ipv6",
+              "120": "S-ipv6",
+              "121": "B-language",
+              "122": "I-language",
+              "123": "E-language",
+              "124": "S-language",
+              "125": "B-last_name",
+              "126": "I-last_name",
+              "127": "E-last_name",
+              "128": "S-last_name",
+              "129": "B-license_plate",
+              "130": "I-license_plate",
+              "131": "E-license_plate",
+              "132": "S-license_plate",
+              "133": "B-mac_address",
+              "134": "I-mac_address",
+              "135": "E-mac_address",
+              "136": "S-mac_address",
+              "137": "B-medical_record_number",
+              "138": "I-medical_record_number",
+              "139": "E-medical_record_number",
+              "140": "S-medical_record_number",
+              "141": "B-national_id",
+              "142": "I-national_id",
+              "143": "E-national_id",
+              "144": "S-national_id",
+              "145": "B-occupation",
+              "146": "I-occupation",
+              "147": "E-occupation",
+              "148": "S-occupation",
+              "149": "B-password",
+              "150": "I-password",
+              "151": "E-password",
+              "152": "S-password",
+              "153": "B-phone_number",
+              "154": "I-phone_number",
+              "155": "E-phone_number",
+              "156": "S-phone_number",
+              "157": "B-pin",
+              "158": "I-pin",
+              "159": "E-pin",
+              "160": "S-pin",
+              "161": "B-political_view",
+              "162": "I-political_view",
+              "163": "E-political_view",
+              "164": "S-political_view",
+              "165": "B-postcode",
+              "166": "I-postcode",
+              "167": "E-postcode",
+              "168": "S-postcode",
+              "169": "B-race_ethnicity",
+              "170": "I-race_ethnicity",
+              "171": "E-race_ethnicity",
+              "172": "S-race_ethnicity",
+              "173": "B-religious_belief",
+              "174": "I-religious_belief",
+              "175": "E-religious_belief",
+              "176": "S-religious_belief",
+              "177": "B-sexuality",
+              "178": "I-sexuality",
+              "179": "E-sexuality",
+              "180": "S-sexuality",
+              "181": "B-ssn",
+              "182": "I-ssn",
+              "183": "E-ssn",
+              "184": "S-ssn",
+              "185": "B-state",
+              "186": "I-state",
+              "187": "E-state",
+              "188": "S-state",
+              "189": "B-street_address",
+              "190": "I-street_address",
+              "191": "E-street_address",
+              "192": "S-street_address",
+              "193": "B-swift_bic",
+              "194": "I-swift_bic",
+              "195": "E-swift_bic",
+              "196": "S-swift_bic",
+              "197": "B-tax_id",
+              "198": "I-tax_id",
+              "199": "E-tax_id",
+              "200": "S-tax_id",
+              "201": "B-time",
+              "202": "I-time",
+              "203": "E-time",
+              "204": "S-time",
+              "205": "B-unique_id",
+              "206": "I-unique_id",
+              "207": "E-unique_id",
+              "208": "S-unique_id",
+              "209": "B-url",
+              "210": "I-url",
+              "211": "E-url",
+              "212": "S-url",
+              "213": "B-user_name",
+              "214": "I-user_name",
+              "215": "E-user_name",
+              "216": "S-user_name",
+              "217": "B-vehicle_identifier",
+              "218": "I-vehicle_identifier",
+              "219": "E-vehicle_identifier",
+              "220": "S-vehicle_identifier"
+            },
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/OpenMed/privacy-filter-nemotron/resolve/f6f3a633dc6fc96a644d20218633a98ac43f6c71/LICENSE",
+          "http_status": 404
+        }
+      }
+    },
+    {
+      "repo_id": "DataikuNLP/kiji-pii-model",
+      "api_url": "https://huggingface.co/api/models/DataikuNLP/kiji-pii-model",
+      "revision": "888b53081aa1f37e1a562d793fbbe76f2dd806cb",
+      "revision_date": "2026-05-07T03:31:08.000Z",
+      "created_at": "2026-02-16T08:59:12.000Z",
+      "head_last_modified": "2026-05-07T03:31:08.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "da",
+          "de",
+          "en",
+          "es",
+          "fr",
+          "nl"
+        ],
+        "base_model": "microsoft/deberta-v3-small",
+        "datasets": null
+      },
+      "parameters": 184150168,
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/DataikuNLP/kiji-pii-model/resolve/888b53081aa1f37e1a562d793fbbe76f2dd806cb/README.md",
+          "sha256": "5f5eaf0357351dcdf5a90923207c902d27de5ea1e617f4abe979e7d066ec8e20",
+          "bytes": 4348
+        },
+        "config.json": {
+          "url": "https://huggingface.co/DataikuNLP/kiji-pii-model/resolve/888b53081aa1f37e1a562d793fbbe76f2dd806cb/config.json",
+          "sha256": "08da16ed5b6ce46b77c019c6422d2114b205bce9359b18897b530df7466d812a",
+          "bytes": 823,
+          "selected_fields": {
+            "model_type": "deberta-v2",
+            "architectures": null,
+            "max_position_embeddings": 512,
+            "id2label": null,
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/DataikuNLP/kiji-pii-model/resolve/888b53081aa1f37e1a562d793fbbe76f2dd806cb/LICENSE",
+          "http_status": 404
+        }
+      }
+    },
+    {
+      "repo_id": "fastino/gliner2.5-multi-v1",
+      "api_url": "https://huggingface.co/api/models/fastino/gliner2.5-multi-v1",
+      "revision": "cf5593a5d45e3bbf204b9df621b13b1c0cf25ee3",
+      "revision_date": "2026-10-08T18:52:15.000Z",
+      "created_at": "2026-08-14T14:28:43.000Z",
+      "head_last_modified": "2026-10-08T18:52:15.000Z",
+      "gated": false,
+      "pipeline_tag": null,
+      "parameters": 287355159,
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "multilingual",
+          "en"
+        ],
+        "base_model": null,
+        "datasets": null
+      },
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/fastino/gliner2.5-multi-v1/resolve/cf5593a5d45e3bbf204b9df621b13b1c0cf25ee3/README.md",
+          "sha256": "bf5b8862eeebc0110a9f627219f3975ab5c8b90af199392adda87358b1c2027d",
+          "bytes": 21990
+        },
+        "config.json": {
+          "url": "https://huggingface.co/fastino/gliner2.5-multi-v1/resolve/cf5593a5d45e3bbf204b9df621b13b1c0cf25ee3/config.json",
+          "sha256": "3e4a96bf01da1094180f2d8998411c1a9fd6e2ae4b5b3e4bc6950318cee95bb7",
+          "bytes": 4104,
+          "selected_fields": {
+            "model_type": "gliner2",
+            "architectures": [
+              "Gliner2ForSchemaExtraction"
+            ],
+            "architecture": "boundary",
+            "max_position_embeddings": null,
+            "id2label": null,
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/fastino/gliner2.5-multi-v1/resolve/cf5593a5d45e3bbf204b9df621b13b1c0cf25ee3/LICENSE",
+          "http_status": 404
+        }
+      }
+    },
+    {
+      "repo_id": "fastino/gliner2.5-small-v1",
+      "api_url": "https://huggingface.co/api/models/fastino/gliner2.5-small-v1",
+      "revision": "df5910e44bc4ffdb0d95399a83b0ca4516349aa5",
+      "revision_date": "2026-10-08T18:52:08.000Z",
+      "created_at": "2026-08-18T21:46:44.000Z",
+      "head_last_modified": "2026-10-08T18:52:08.000Z",
+      "gated": false,
+      "pipeline_tag": null,
+      "parameters": 73881879,
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "en"
+        ],
+        "base_model": null,
+        "datasets": null
+      },
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/fastino/gliner2.5-small-v1/resolve/df5910e44bc4ffdb0d95399a83b0ca4516349aa5/README.md",
+          "sha256": "5864ae49b797e06b99398c8eb557954f87c903d1ca4a87f0965c268d27bb4f48",
+          "bytes": 21915
+        },
+        "config.json": {
+          "url": "https://huggingface.co/fastino/gliner2.5-small-v1/resolve/df5910e44bc4ffdb0d95399a83b0ca4516349aa5/config.json",
+          "sha256": "1b4e63ac964dc4204165bd1420735cd4c2e4bce97394d0b69fa3f7ea192a8e97",
+          "bytes": 4104,
+          "selected_fields": {
+            "model_type": "gliner2",
+            "architectures": [
+              "Gliner2ForSchemaExtraction"
+            ],
+            "architecture": "boundary",
+            "max_position_embeddings": null,
+            "id2label": null,
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/fastino/gliner2.5-small-v1/resolve/df5910e44bc4ffdb0d95399a83b0ca4516349aa5/LICENSE",
+          "http_status": 404
+        }
+      }
+    },
+    {
+      "repo_id": "Horizon-Labs/pii-redactor-base",
+      "api_url": "https://huggingface.co/api/models/Horizon-Labs/pii-redactor-base",
+      "revision": "ef0eff8e63c1711ec0c997c5ca9ea3b78a068684",
+      "revision_date": "2026-10-31T10:37:13.000Z",
+      "created_at": "2026-09-23T19:49:42.000Z",
+      "head_last_modified": "2026-10-31T10:37:13.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "parameters": 307575611,
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "multilingual",
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it",
+          "nl",
+          "pt",
+          "pl",
+          "cs",
+          "sk",
+          "sl",
+          "hr",
+          "sr",
+          "bg",
+          "ro",
+          "hu",
+          "el",
+          "da",
+          "sv",
+          "fi",
+          "et",
+          "lv",
+          "lt",
+          "ru",
+          "uk",
+          "tr",
+          "ar",
+          "hi",
+          "zh",
+          "ja",
+          "ko",
+          "vi",
+          "id",
+          "ms",
+          "tl",
+          "th"
+        ],
+        "base_model": "jhu-clsp/mmBERT-base",
+        "datasets": [
+          "ai4privacy/pii-masking-openpii-1.5m",
+          "nvidia/Nemotron-PII",
+          "gretelai/gretel-pii-masking-en-v1"
+        ]
+      },
+      "python_files": [
+        "code/pii/build_pii_v0.py",
+        "code/pii/build_pii_v1.py",
+        "code/pii/evaluate_pii.py",
+        "code/pii/export_onnx_tok.py",
+        "code/pii/gen_pii.py",
+        "code/pii/train_tok.py",
+        "llm_guard_conf.py",
+        "redact.py"
+      ],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-base/resolve/ef0eff8e63c1711ec0c997c5ca9ea3b78a068684/README.md",
+          "sha256": "0c5cd886e952221b7c1512d039053b747ed770d828e03d88c22936342be65610",
+          "bytes": 12943
+        },
+        "config.json": {
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-base/resolve/ef0eff8e63c1711ec0c997c5ca9ea3b78a068684/config.json",
+          "sha256": "45b2fbde495ed4232caa73ecf10363dbf324de5927b1cbad693649f8e12fe17d",
+          "bytes": 4759,
+          "selected_fields": {
+            "model_type": "modernbert",
+            "architectures": [
+              "ModernBertForTokenClassification"
+            ],
+            "architecture": null,
+            "max_position_embeddings": 8192,
+            "id2label": {
+              "0": "O",
+              "1": "B-ACCOUNT_ID",
+              "2": "I-ACCOUNT_ID",
+              "3": "B-AGE",
+              "4": "I-AGE",
+              "5": "B-BANK_ACCOUNT",
+              "6": "I-BANK_ACCOUNT",
+              "7": "B-COORDINATE",
+              "8": "I-COORDINATE",
+              "9": "B-CREDIT_CARD",
+              "10": "I-CREDIT_CARD",
+              "11": "B-CREDIT_CARD_CVV",
+              "12": "I-CREDIT_CARD_CVV",
+              "13": "B-DATE",
+              "14": "I-DATE",
+              "15": "B-DATE_OF_BIRTH",
+              "16": "I-DATE_OF_BIRTH",
+              "17": "B-DEVICE_ID",
+              "18": "I-DEVICE_ID",
+              "19": "B-DRIVER_LICENSE",
+              "20": "I-DRIVER_LICENSE",
+              "21": "B-EMAIL",
+              "22": "I-EMAIL",
+              "23": "B-IP_ADDRESS",
+              "24": "I-IP_ADDRESS",
+              "25": "B-LICENSE_NUMBER",
+              "26": "I-LICENSE_NUMBER",
+              "27": "B-LOCATION",
+              "28": "I-LOCATION",
+              "29": "B-MAC_ADDRESS",
+              "30": "I-MAC_ADDRESS",
+              "31": "B-MEDICAL_ID",
+              "32": "I-MEDICAL_ID",
+              "33": "B-NATIONAL_ID",
+              "34": "I-NATIONAL_ID",
+              "35": "B-ORGANIZATION",
+              "36": "I-ORGANIZATION",
+              "37": "B-PASSPORT",
+              "38": "I-PASSPORT",
+              "39": "B-PASSWORD",
+              "40": "I-PASSWORD",
+              "41": "B-PERSON",
+              "42": "I-PERSON",
+              "43": "B-PHONE",
+              "44": "I-PHONE",
+              "45": "B-POSTCODE",
+              "46": "I-POSTCODE",
+              "47": "B-SECRET",
+              "48": "I-SECRET",
+              "49": "B-STREET_ADDRESS",
+              "50": "I-STREET_ADDRESS",
+              "51": "B-TAX_ID",
+              "52": "I-TAX_ID",
+              "53": "B-URL",
+              "54": "I-URL",
+              "55": "B-USERNAME",
+              "56": "I-USERNAME",
+              "57": "B-VEHICLE_ID",
+              "58": "I-VEHICLE_ID"
+            },
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/Horizon-Labs/pii-redactor-base/resolve/ef0eff8e63c1711ec0c997c5ca9ea3b78a068684/LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "bytes": 11358
+        }
+      }
+    },
+    {
+      "repo_id": "Protegrity/protegrity-pii",
+      "api_url": "https://huggingface.co/api/models/Protegrity/protegrity-pii",
+      "revision": "eaf0cc200d3e0a289cbffeef27dd38ba54ad0bce",
+      "revision_date": "2026-11-04T18:47:58.000Z",
+      "created_at": "2026-10-27T19:14:22.000Z",
+      "head_last_modified": "2026-11-04T18:47:58.000Z",
+      "gated": "auto",
+      "pipeline_tag": "token-classification",
+      "parameters": 277559947,
+      "card_metadata": {
+        "license": "other",
+        "language": [
+          "en",
+          "es",
+          "pt",
+          "de",
+          "fr",
+          "it",
+          "nl"
+        ],
+        "base_model": "FacebookAI/xlm-roberta-base",
+        "datasets": null
+      },
+      "python_files": [
+        "inference.py"
+      ],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/Protegrity/protegrity-pii/resolve/eaf0cc200d3e0a289cbffeef27dd38ba54ad0bce/README.md",
+          "sha256": "08cec74730e8e46a36b859fc018320b180e42c3defc0af28ab0b552bb952bfee",
+          "bytes": 5367
+        },
+        "config.json": {
+          "url": "https://huggingface.co/Protegrity/protegrity-pii/resolve/eaf0cc200d3e0a289cbffeef27dd38ba54ad0bce/config.json",
+          "http_status": 401
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/Protegrity/protegrity-pii/resolve/eaf0cc200d3e0a289cbffeef27dd38ba54ad0bce/LICENSE",
+          "sha256": "25b310ee0fabd9da5f58d687a0157fccdf99edbe6aa88297e39eb211f2b5ded3",
+          "bytes": 11731
+        }
+      },
+      "commit_history_http_status": 401
+    },
+    {
+      "repo_id": "nationaldesignstudio/rampart",
+      "api_url": "https://huggingface.co/api/models/nationaldesignstudio/rampart",
+      "revision": "b1993e4e68b082835b80ffc65acc03325ea2e501",
+      "revision_date": "2026-06-30T19:45:17.000Z",
+      "created_at": "2026-06-28T23:58:17.000Z",
+      "head_last_modified": "2026-06-30T19:45:17.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "parameters": null,
+      "card_metadata": {
+        "license": "cc-by-4.0",
+        "language": [
+          "en",
+          "es",
+          "fr",
+          "de",
+          "it",
+          "pt",
+          "nl"
+        ],
+        "base_model": "nreimers/MiniLM-L6-H384-uncased",
+        "datasets": [
+          "ai4privacy/pii-masking-openpii-1.5m"
+        ]
+      },
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/nationaldesignstudio/rampart/resolve/b1993e4e68b082835b80ffc65acc03325ea2e501/README.md",
+          "sha256": "4149222b3e79f28df9cb1497fa77d449a32e37b33f43bdcc14cf543086ed1b35",
+          "bytes": 28686
+        },
+        "config.json": {
+          "url": "https://huggingface.co/nationaldesignstudio/rampart/resolve/b1993e4e68b082835b80ffc65acc03325ea2e501/config.json",
+          "sha256": "003b84bbcd489f5e782fe5cad8f3249c3653ec880089abb1ccc398a0d895e3e6",
+          "bytes": 2328,
+          "selected_fields": {
+            "model_type": "bert",
+            "architectures": [
+              "BertForTokenClassification"
+            ],
+            "architecture": null,
+            "max_position_embeddings": 512,
+            "id2label": {
+              "0": "O",
+              "1": "B-GIVEN_NAME",
+              "2": "I-GIVEN_NAME",
+              "3": "B-SURNAME",
+              "4": "I-SURNAME",
+              "5": "B-EMAIL",
+              "6": "I-EMAIL",
+              "7": "B-PHONE",
+              "8": "I-PHONE",
+              "9": "B-URL",
+              "10": "I-URL",
+              "11": "B-TAX_ID",
+              "12": "I-TAX_ID",
+              "13": "B-BANK_ACCOUNT",
+              "14": "I-BANK_ACCOUNT",
+              "15": "B-ROUTING_NUMBER",
+              "16": "I-ROUTING_NUMBER",
+              "17": "B-GOVERNMENT_ID",
+              "18": "I-GOVERNMENT_ID",
+              "19": "B-PASSPORT",
+              "20": "I-PASSPORT",
+              "21": "B-DRIVERS_LICENSE",
+              "22": "I-DRIVERS_LICENSE",
+              "23": "B-BUILDING_NUMBER",
+              "24": "I-BUILDING_NUMBER",
+              "25": "B-STREET_NAME",
+              "26": "I-STREET_NAME",
+              "27": "B-SECONDARY_ADDRESS",
+              "28": "I-SECONDARY_ADDRESS",
+              "29": "B-CITY",
+              "30": "I-CITY",
+              "31": "B-STATE",
+              "32": "I-STATE",
+              "33": "B-ZIP_CODE",
+              "34": "I-ZIP_CODE"
+            },
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/nationaldesignstudio/rampart/resolve/b1993e4e68b082835b80ffc65acc03325ea2e501/LICENSE",
+          "sha256": "57fec6ca5de5e18ced1a10b36c87c0988fdc170f03f73e8ae2f20f5de42a884e",
+          "bytes": 18897
+        }
+      }
+    },
+    {
+      "repo_id": "fastino/GLiNER2-Guardrails-PII-Multi",
+      "api_url": "https://huggingface.co/api/models/fastino/GLiNER2-Guardrails-PII-Multi",
+      "revision": "aad696b2f6815e3dfc2d95908129eea5ed598562",
+      "revision_date": "2026-09-28T00:55:44.000Z",
+      "created_at": "2026-06-22T15:48:46.000Z",
+      "head_last_modified": "2026-09-28T00:55:44.000Z",
+      "gated": false,
+      "pipeline_tag": "token-classification",
+      "parameters": 307098645,
+      "card_metadata": {
+        "license": "apache-2.0",
+        "language": [
+          "en",
+          "fr",
+          "es",
+          "de",
+          "it",
+          "pt",
+          "nl"
+        ],
+        "base_model": [
+          "fastino/gliner2-base-v1"
+        ],
+        "datasets": [
+          "synthetic"
+        ]
+      },
+      "python_files": [],
+      "artifacts": {
+        "README.md": {
+          "url": "https://huggingface.co/fastino/GLiNER2-Guardrails-PII-Multi/resolve/aad696b2f6815e3dfc2d95908129eea5ed598562/README.md",
+          "sha256": "53edfb748ebd44b350982f2460de224200719562e5064e0384126d848dd5a578",
+          "bytes": 14354
+        },
+        "config.json": {
+          "url": "https://huggingface.co/fastino/GLiNER2-Guardrails-PII-Multi/resolve/aad696b2f6815e3dfc2d95908129eea5ed598562/config.json",
+          "sha256": "164f17362bcf9d114067d3465e7374bfdd79ce6b605acb745de5a49dabb9595c",
+          "bytes": 252,
+          "selected_fields": {
+            "model_type": "extractor",
+            "architectures": null,
+            "architecture": null,
+            "max_position_embeddings": null,
+            "id2label": null,
+            "auto_map": null
+          }
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/fastino/GLiNER2-Guardrails-PII-Multi/resolve/aad696b2f6815e3dfc2d95908129eea5ed598562/LICENSE",
+          "http_status": 404
+        }
+      }
+    }
+  ],
+  "additional_retrieval_at_utc": "2026-11-05T03:23:28.039160+00:00"
+}

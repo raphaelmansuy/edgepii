@@ -1,0 +1,44 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "rules",
+      "report": "gretel-finance-en__rules-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "en-closed",
+      "report": "gretel-finance-en__en-closed-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-open",
+      "report": "gretel-finance-en__multi-open-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder",
+      "report": "gretel-finance-en__multi-encoder-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-boundary",
+      "report": "gretel-finance-en__multi-boundary-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "opf-native",
+      "report": "gretel-finance-en__opf-native-50.json"
+    }
+  ],
+  "failures": [],
+  "requested_presets": [
+    "rules",
+    "en-closed",
+    "multi-open",
+    "multi-encoder",
+    "multi-boundary",
+    "opf-native"
+  ],
+  "state": "complete"
+}

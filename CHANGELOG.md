@@ -4,6 +4,52 @@ All notable changes to this project are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Overlap resolution keeps disjoint winners behind a losing bridge, with
+  deterministic priority and O(n log n) interval indexing.
+- HF and GLiNER2 inference checks actual token budgets, including schema
+  overhead, instead of relying on character counts to avoid truncation.
+- SPY evaluation now uses versioned `government-id-v2` synthetic values;
+  `legacy-v1` preserves the earlier RIPE-handle materialization. Historical
+  reports retain their original bytes and carry a documented erratum.
+- The development extra includes Faker so a fresh CI install runs the SPY
+  materialization regression tests.
+
+- GLiNER2 loads a pinned local snapshot, including its tokenizer, and both GLiNER
+  adapters honor the requested device and enter evaluation mode. Loader errors
+  no longer silently retry with unpinned weights.
+- The Hugging Face adapter preserves devices such as `cuda:1` and `mps`.
+- GLiNER adapters validate reported surface text against source offsets.
+- The GLiNER2 install extra now includes its local inference dependencies.
+- The HF extra requires the tested Transformers 5 runtime: the pinned English
+  checkpoint's `TokenizersBackend` tokenizer cannot load with Transformers 4.
+
+### Added
+
+- Pinned experimental Horizon Small and GLiNER2.5 presets, plus a separate
+  native-label OPF/Viterbi experiment on Modal.
+- Character and complete-span containment, repeated-value coverage,
+  pre-policy candidate coverage, negative-document masking diagnostics, and
+  counts of unsupported model labels.
+- A research review through 5 November 2026, implementation plan, overlap ADR,
+  responsive site pages, and reproducible Modal/browser validation evidence.
+
+- A private Modal model runtime with cached weights, GPU execution, reusable
+  model instances, and matched-corpus evaluation (`modal/models.py`).
+- Evaluation input and source fingerprints, dependency/device metadata, warm
+  latency percentiles, and explicit recall, leakage, and invalid-offset gates.
+- A manual Modal evaluation workflow that retains evidence when quality gates
+  fail. Existing offline CI tests exercise the new runtime and gate regressions.
+
+### Changed
+
+- The evaluation CLI exits nonzero on configured gate failures and still writes
+  the report. Empty slices, unknown gold labels, and invalid offsets fail by
+  default; recall and leakage targets remain explicit caller policy.
+
 ## [0.3.1] - 2026-11-04
 
 Infrastructure only. The library code and the public API are unchanged from

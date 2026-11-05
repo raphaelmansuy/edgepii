@@ -13,7 +13,8 @@ Two lanes are recorded per example where the weights are present:
 The browser can then filter the recorded spans by type and by score floor. That
 filter is faithful, because the library applies the same two rules: drop a span
 whose type is not allowed, and drop a span whose score is below the caller
-floor. A span with `score = None` cannot meet a floor, so a floor drops it.
+floor. A span with `score = None` survives by default because a grammar match
+has no measured probability; dropping it would leave the value unmasked.
 
 Regenerate with `make site-data`. The output is committed, so CI stays light.
 """

@@ -1,0 +1,45 @@
+{
+  "completed": [
+    {
+      "gates_passed": true,
+      "preset": "rules",
+      "report": "spy-legal__rules-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "en-closed",
+      "report": "spy-legal__en-closed-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-open",
+      "report": "spy-legal__multi-open-50.json"
+    },
+    {
+      "gates_passed": true,
+      "preset": "multi-encoder",
+      "report": "spy-legal__multi-encoder-50.json"
+    },
+    {
+      "gates_passed": false,
+      "preset": "multi-boundary",
+      "report": "spy-legal__multi-boundary-50.json"
+    }
+  ],
+  "failures": [
+    {
+      "error_type": "ValueError",
+      "preset": "opf-native",
+      "reason": "Native runtime given Transformers root checkpoint; original/ directory required. Aborted repeated container startup after observing failure."
+    }
+  ],
+  "requested_presets": [
+    "rules",
+    "en-closed",
+    "multi-open",
+    "multi-encoder",
+    "multi-boundary",
+    "opf-native"
+  ],
+  "state": "failed"
+}

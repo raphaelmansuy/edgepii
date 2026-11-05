@@ -35,14 +35,15 @@ Issues = "https://github.com/raphaelmansuy/edgepii/issues"
 Changelog = "https://github.com/raphaelmansuy/edgepii/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
-hf = ["transformers>=4.46", "torch>=2.2"]
-gliner2 = ["gliner2==2.1.0", "torch>=2.2"]
+hf = ["transformers>=5.22.1,<6", "torch>=2.6"]
+gliner2 = ["gliner2[local]==2.1.0", "torch>=2.2"]
 gliner = ["gliner>=0.2.16", "torch>=2.2"]
 ms = ["modelscope>=1.20", "torch>=2.2"]
 demo = ["fastapi>=0.115", "uvicorn>=0.30", "httpx>=0.27"]
 e2e = ["pytest-playwright>=0.5", "playwright>=1.44"]
 eval = ["pyarrow>=16", "faker>=30"]
-dev = ["pytest>=8", "fastapi>=0.115", "uvicorn>=0.30", "httpx>=0.27"]
+modal = ["modal==1.4.2"]
+dev = ["pytest>=8", "fastapi>=0.115", "uvicorn>=0.30", "httpx>=0.27", "faker>=30"]
 
 [tool.setuptools.dynamic]
 version = { attr = "edgepii._version.__version__" }

@@ -17,6 +17,7 @@ from __future__ import annotations
 import ast
 import hashlib
 import json
+import random
 import urllib.request
 from dataclasses import dataclass, field
 from functools import lru_cache
@@ -353,13 +354,13 @@ def record_text(raw: dict, spec: CorpusSpec) -> str:
     raise CorpusError(f"corpus {spec.key} row has no text in {spec.text_column}")
 
 
-def materialize_spy(records: list[dict], seed: int) -> list[dict]:
+def materialize_spy(records: list[dict], seed: int, protocol: str = "government-id-v2") -> list[dict]:
     """Replace SPY's placeholders with seeded fake values.
 
     SPY ships templates such as `<NAME>` rather than real strings, so a score
-    needs a materialisation step. The official loader calls `Faker.seed(seed)`
-    and fills each `B-` entity with a generated value of the same type. This
-    function does the same, in the same order, so a run replays exactly.
+    needs a materialisation step. government-id-v2 uses local seeded generators
+    and government-ID-shaped ID_NUM values. legacy-v1 retains the previous
+    first-generator behavior. Different protocols are different evaluations.
 
     A materialised corpus is derived data, not the pinned bytes. The pin still
     covers the template file, and the seed is recorded in the report.
@@ -372,8 +373,11 @@ def materialize_spy(records: list[dict], seed: int) -> list[dict]:
             'SPY needs faker to fill its templates: pip install "edgepii[eval]"'
         ) from exc
 
+    if protocol not in {"government-id-v2", "legacy-v1"}:
+        raise CorpusError("unknown SPY materialization protocol")
     fake = Faker()
-    Faker.seed(seed)
+    fake.seed_instance(seed)
+    choices = random.Random(seed)
 
     generators = {
         "EMAIL": [fake.ascii_email, fake.ascii_free_email],
@@ -391,6 +395,11 @@ def materialize_spy(records: list[dict], seed: int) -> list[dict]:
         "ADDRESS": [fake.street_address],
         "USERNAME": [fake.user_name],
     }
+    if protocol == "government-id-v2":
+        # Our public GOV_ID mapping requires a government identifier, not a
+        # RIPE organization handle or a financial account. This derived track
+        # uses synthetic US SSN-shaped identifiers, not a locale-validity claim.
+        generators["ID_NUM"] = [fake.ssn]
 
     out: list[dict] = []
     for record in records:
@@ -419,7 +428,8 @@ def materialize_spy(records: list[dict], seed: int) -> list[dict]:
                 new_spaces.append(bool(space))
                 continue
 
-            words = str(pool[0]()).split()
+            generator = pool[0] if protocol == "legacy-v1" else choices.choice(pool)
+            words = str(generator()).split()
             if not words:
                 words = ["x"]
             for index, word in enumerate(words):

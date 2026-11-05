@@ -1,5 +1,13 @@
 # Evaluation
 
+The [current implementation plan](16-grounded-improvement-plan.md) adds
+untyped complete containment, interval-union character recall, masking precision,
+zero-gold masking rate, repeated-identifier coverage, pre-policy candidate
+coverage, and unmapped prediction
+counts beside exact typed metrics. A zero-gold row is not automatically audited
+PII-free text. The [SPY protocol audit](15-research-update-2026-11.md) qualifies
+historical scores; new materializations are separately versioned.
+
 <!-- ste: descriptive -->
 
 The scorer exists before the adapters. See phase 1 of the [implementation plan](08-implementation-plan.md) and principle 1 in [AI engineering](03-ai-engineering.md).
@@ -26,9 +34,28 @@ F2 (beta = 2) is a second column for high-severity types. Presidio's own guidanc
 
 ## Leakage
 
-Leakage is a product metric on the string a later step would send. For a gold span, the span leaks when `span.text` still occurs in the masked string at the gold offsets. The check uses offsets, not a global search, so a repeated token elsewhere is not a false leak.
+Leakage is a product metric on the masking ranges. A gold span leaks when the
+union of predicted intervals fails to cover every character in its original
+range, regardless of predicted type. A partial mask still leaks. The scorer
+uses original offsets, avoiding both shifted masked-string indices and global
+text searches that confuse repeated mentions. The union matches the ranges
+that `redact` removes; separate contract tests exercise actual mask/restore.
+High-severity classes are `secret`, `gov_id`, and `payment`.
 
-`edgepii` can compute this because `redact` is pure. The eval harness runs `locate`, then `redact`, then the leakage check. High-severity classes for this check are `secret`, `gov_id`, and `payment`.
+Reports keep exact typed scores alongside `containment`: union character
+recall, masking precision, complete-span coverage, and all-mentions coverage
+for repeated identical values within a document. `pre_policy_candidates`
+measures mapped requested-type candidates before overlap and score filtering.
+It has an explicit unavailable denominator for adapters that do not expose
+candidates. A decline between candidate and final coverage points to policy
+loss; it does not establish which discarded category was correct.
+
+`zero_gold_document_mask_rate` measures masking on documents with no in-scope
+gold. It becomes a PII-free false-positive measure only on audited negative
+fixtures; incomplete source annotations cannot establish that condition.
+`zero_gold_masked_character_fraction` reports the fraction of those source
+characters masked; `masked_character_fraction` gives the whole-slice fraction.
+Reports never store the repeated values or source strings.
 
 A high-severity leakage rate above zero on the freeze means that the team must not ship. This spec keeps that gate for the masked string on the sealed freeze. It does not claim a model has no misses. If the model misses and the rule lane also misses, the preset does not ship. The mitigation is a better detector or a refusal to send, not a softer score.
 

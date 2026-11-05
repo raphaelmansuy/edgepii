@@ -1,5 +1,6 @@
 """Model-lane examples. Run with: modal run modal/e2e_models.py"""
 
+import os
 import modal
 
 app = modal.App("edgepii-model-e2e")
@@ -10,8 +11,8 @@ image = (
     .pip_install(
         "phonenumbers>=8.13",
         "pyyaml>=6",
-        "transformers>=4.46",
-        "gliner2==2.1.0",
+        "transformers>=5.22.1,<6",
+        "gliner2[local]==2.1.0",
     )
     .add_local_dir("src/edgepii", remote_path="/root/edgepii", copy=True)
 )
@@ -22,7 +23,7 @@ image = (
     timeout=1800,
     cpu=4,
     memory=16384,
-    secrets=[modal.Secret.from_local_environ(["HF_TOKEN"])],
+    secrets=[modal.Secret.from_local_environ(["HF_TOKEN"])] if os.getenv("HF_TOKEN") else [],
 )
 def run_model_examples() -> dict:
     import gc

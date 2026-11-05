@@ -19,8 +19,8 @@ python3.11 -m venv .venv
 ```
 
 For the protection and field-policy APIs, use version **0.4.0** or newer.
-Upgrade an existing environment with `.venv/bin/pip install --upgrade edgepii==0.4.0`.
-See the [0.4.0 release guide](19-release-0.4.0.md) for an example.
+Upgrade an existing environment with `.venv/bin/pip install --upgrade edgepii==0.5.0`.
+See the [current release guide](21-protection-readiness.md) for an example.
 
 If you work from source, install the working copy instead:
 

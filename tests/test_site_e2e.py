@@ -105,6 +105,14 @@ def test_research_plan_and_evidence_in_browser(static_site,width,tmp_path):
         compact=page.request.get(static_site+"/evidence/research/compact-results-summary-2026-11-05.json")
         assert compact.status == 200
         assert compact.json()["report_count"] == 16 and compact.json()["paired_count"] == 4
+        response=page.goto(static_site+"/doc-protection-readiness/")
+        assert response.status == 200
+        assert "Protection readiness and release 0.5.0" in page.locator("h1").inner_text()
+        assert "Expected result: exit 1" in page.locator("main").inner_text()
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1")
+        readiness=page.request.get(static_site+"/evidence/research/protection-readiness-summary-2026-11-05.json")
+        assert readiness.status == 200 and readiness.json()["stage_audit_count"] == 3
+        assert readiness.json()["readiness_gate"]["expected_rejection"] is True
         assert not errors
         destination=Path(os.environ.get("EDGEPII_TEST_ARTIFACTS",str(tmp_path)))
         destination.mkdir(parents=True,exist_ok=True)

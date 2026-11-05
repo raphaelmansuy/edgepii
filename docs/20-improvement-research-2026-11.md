@@ -11,6 +11,10 @@ tests. The published [0.4.0 package](19-release-0.4.0.md) and public presets ret
 their release behavior. No training, calibrated router, streaming service,
 production promotion, or new package publication occurred in this research.
 
+Follow-up implementation: [protection readiness and release 0.5.0](21-protection-readiness.md)
+adds output gates and a counterfactual stage audit. It explains all ten observed
+medical coverage losses at taxonomy projection without redefining the public types.
+
 ## Evidence and experiment design
 
 - [Six-model artifact manifest](research/compact-model-manifest-2026-11-05.json):

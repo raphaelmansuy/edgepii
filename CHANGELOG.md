@@ -6,6 +6,28 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-05
+
+### Added
+
+- Explicit selected/protection output gates, containment and masking-precision
+  floors, unmapped-prediction limits, and leaking-document limits in the
+  evaluation API, CLI, and Modal runner. Protection gates require a complete
+  measured output and default to zero unmapped predictions.
+- Document-level high-severity leakage counts for both output paths.
+- A source-free Modal stage audit that reuses original/folded inference to
+  isolate trimming, taxonomy projection, eligibility, selection, and protection.
+- Three actual stage audits and a retained real-inference readiness rejection.
+
+### Fixed
+
+- Gate count limits reject NaN, fractional values, and booleans. Missing or
+  incomplete protection measurements cannot pass as a clean output.
+- Historical default policy serialization remains compatible with stored evidence.
+
+Research adapters remain experimental. This release does not change detector
+weights, public type mappings, or default inference behavior.
+
 ## [0.4.0] - 2026-11-05
 
 Adds opt-in coverage-preserving protection and explicit field policies. Install

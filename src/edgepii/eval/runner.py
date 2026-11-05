@@ -62,6 +62,8 @@ class SliceScore:
     covered_characters: int = 0
     fully_contained: int = 0
     high_severity_gold: int = 0
+    high_severity_documents: int = 0
+    leaking_documents: int = 0
     zero_gold_documents: int = 0
     zero_gold_masked_documents: int = 0
     repeated_identifiers: int = 0
@@ -80,6 +82,7 @@ class SliceScore:
     protection_covered_chars: int = 0
     protection_contained: int = 0
     protection_leaks: int = 0
+    protection_leaking_documents: int = 0
     protection_irreversible_chars: int = 0
 
     def finish(self) -> None:
@@ -107,6 +110,8 @@ class SliceScore:
             "shift": self.shift,
             "extra": self.extra,
             "high_severity_leaks": self.leaks,
+            "high_severity_documents": self.high_severity_documents,
+            "high_severity_leaking_documents": self.leaking_documents,
             "dropped_offsets": self.dropped,
             "unmapped_predictions": self.unmapped,
             "protection_plan": {
@@ -115,6 +120,7 @@ class SliceScore:
                 "fully_contained_gold_spans": self.protection_contained,
                 "span_recall": self.protection_contained / self.protection_gold if self.protection_gold else None,
                 "high_severity_leaks": self.protection_leaks if self.protection_docs else None,
+                "high_severity_leaking_documents": self.protection_leaking_documents if self.protection_docs else None,
                 "gold_characters": self.protection_gold_chars,
                 "masked_characters": self.protection_masked_chars,
                 "covered_characters": self.protection_covered_chars,
@@ -399,7 +405,9 @@ def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]],
         out.protection_covered_chars += cc
         out.protection_contained += sum(covered(row[1], row[2], protection_masks) for row in doc.spans)
         out.protection_irreversible_chars += irreversible_chars
-        out.protection_leaks += leakage_count(gold=[r for r in doc.spans if r[0] in high], predicted=protected, high_types=high)
+        protection_leaks=leakage_count(gold=[r for r in doc.spans if r[0] in high], predicted=protected, high_types=high)
+        out.protection_leaks += protection_leaks
+        out.protection_leaking_documents += bool(protection_leaks)
     if candidates is not None:
         candidate_masks = union_ranges((row[1], row[2]) for row in candidates)
         out.candidate_documents += 1
@@ -427,11 +435,14 @@ def _accumulate(out: SliceScore, locator, doc, pred: list[tuple[str, int, int]],
             out.repeated_identifiers += 1
             out.fully_contained_repeated += all(covered(a, b, masks) for a, b in ranges)
     if high:
-        out.leaks += leakage_count(
+        out.high_severity_documents += 1
+        leaks = leakage_count(
             gold=[row for row in doc.spans if row[0] in high],
             predicted=pred,
             high_types=high,
         )
+        out.leaks += leaks
+        out.leaking_documents += bool(leaks)
     per_type = out.per_type
     for type_name, row in _per_type_rows(doc.spans, pred).items():
         total = per_type.setdefault(type_name, TypeScore())

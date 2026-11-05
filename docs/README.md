@@ -14,6 +14,8 @@ The [0.4.0 release guide](19-release-0.4.0.md) covers PyPI installation and
 verification of the protection APIs from the distributed package.
 Continue with [improvement research after 0.4.0](20-improvement-research-2026-11.md)
 for compact models, measured int4 parity, paired coverage, and revised priorities.
+The [0.5.0 protection readiness update](21-protection-readiness.md) implements
+output-path gates and traces the observed projection losses on Modal.
 
 Status: implemented. This set records the problem, the research, the public API, and the build plan. The library, the tests, and the demo now follow this set. See the [project README](../README.md) for install and quickstart.
 
@@ -44,6 +46,7 @@ This set records the problem, the research, the public API, and the build plan. 
 19. [Protection and model results](18-protection-and-model-results.md). Opt-in protection API and measured new candidates.
 20. [Release 0.4.0](19-release-0.4.0.md). PyPI installation, upgrade, and artifact verification.
 21. [Improvement research after 0.4.0](20-improvement-research-2026-11.md). Actual Modal compact-model and complementary-coverage experiments.
+22. [Protection readiness and 0.5.0](21-protection-readiness.md). Emitted-output gates, stage attribution, and release verification.
 
 Decisions:
 
@@ -69,7 +72,7 @@ Rules for email, phone, IBAN, and payment cards run beside the model. They do no
 
 ## Assessment, November 2026
 
-The current release is **0.4.0**. It locates spans, masks them, restores
+The current release is **0.5.0**. It locates spans, masks them, restores
 reversible values, and offers opt-in coverage-preserving protection. The
 span contract holds. The [assessment](14-assessment-2026-11.md) records what is
 measured, three defects that a reader can reproduce, and where the field moved

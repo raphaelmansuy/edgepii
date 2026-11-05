@@ -19,6 +19,13 @@ and `horizon-native`. Use `--gpu cpu` for int4. `--paired` compares per-case nat
 coverage; `--paired --quantized --gpu cpu` checks float/int4 parity. These modes
 do not expose typed SDK inference or change library presets.
 
+Version 0.5.0 adds `--gate-output protection`, `--min-containment`,
+`--min-masking-precision`, `--max-unmapped`, and `--max-leaking-documents`.
+Use `--stage-audit --presets multi-encoder --gpu T4` for source-free attribution
+of model-only coverage through each processing stage. See the
+[readiness guide](../docs/21-protection-readiness.md); expected quality-gate
+failures retain their reports and exit nonzero.
+
 `models.py` runs the existing pinned encoder models on Modal. It supports
 `rules`, `en-closed` (ModernBERT), `multi-open` (GLiNER2), `multi-encoder`
 (Horizon mmBERT), and `multi-boundary` (GLiNER2.5). These new presets are

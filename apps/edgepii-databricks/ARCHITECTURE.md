@@ -398,3 +398,31 @@ deployment.
 The endpoint handles 8,000 characters per call and the app refuses longer input
 with a message rather than truncating it. Truncation would silently drop spans,
 which is worse than refusing.
+
+### An observed false positive
+
+Honest documentation means naming the errors this lane makes. On the sample
+
+> `Ada Lovelace opened ticket 48291 from +852 5555 0101 …`
+
+the served model labels the ticket number `48291` as `GOV_ID` with score 0.922,
+so the masked string becomes `<PERSON_1> opened ticket <GOV_ID_1> …`. That is a
+false positive: an order id is not a government id.
+
+Three things follow from it, and none of them is "raise the threshold".
+
+- **A false positive over-masks, which is the safe direction.** The alternative
+  error leaves a value in the clear. The demo shows the mask widening rather than
+  hiding it.
+- **The rule lane would not make this mistake.** It requires an SSN shape and a
+  cue. This is the trade the `hybrid` lane cannot resolve by itself: a model can
+  over-label what a grammar would reject.
+- **`GOV_ID` is `prefer: rule` in the taxonomy.** Merge does not drop the model
+  span, because the rule lane found nothing to displace it. Preference decides
+  between two spans on the same characters, not whether one exists.
+
+A caller who needs to suppress this has three options, in increasing cost: raise
+`EDGEPII_ML_THRESHOLD`, narrow the label list in `ml/serve_gliner.py`, or add a
+policy gate that drops a span whose type has no structural validator. The demo
+does none of them, because hiding the error would defeat the point of showing a
+classifier's real output.

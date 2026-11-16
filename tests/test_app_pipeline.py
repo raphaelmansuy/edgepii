@@ -140,7 +140,14 @@ def test_an_empty_answer_is_reported_not_shown(monkeypatch):
 
 
 def test_a_missing_profile_says_how_to_log_in(monkeypatch):
-    """The README promises an action, so the message must carry one."""
+    """The README promises an action, so the message must carry one.
+
+    Skipped when the SDK is absent, because the message about a missing profile
+    only exists once the SDK can be imported. The suite must still pass in the
+    library's `dev` extra, which does not ship the Databricks SDK.
+    """
+
+    pytest.importorskip("databricks.sdk", reason="needs databricks-sdk")
 
     monkeypatch.delenv("DATABRICKS_CLIENT_ID", raising=False)
     monkeypatch.setenv("DATABRICKS_CONFIG_FILE", "/tmp/edgepii-no-such-config")
@@ -156,6 +163,8 @@ def test_a_missing_profile_says_how_to_log_in(monkeypatch):
 
 def test_a_403_names_the_endpoint_grant(monkeypatch):
     """A bare HTTP error does not say which of the two fixes applies."""
+
+    pytest.importorskip("databricks.sdk", reason="needs databricks-sdk")
 
     class Denied:
         status_code = 403

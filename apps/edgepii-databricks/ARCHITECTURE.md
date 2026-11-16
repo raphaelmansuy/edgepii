@@ -141,7 +141,6 @@ cannot know the caller intended it. The pipeline narrows that: it computes
 failure while behaving exactly right.
 
 ## 5. Why the server picks the highlighted ranges
-
 The UI marks restored values in the answer. The obvious approach — search the
 answer for each vault value — breaks.
 
@@ -174,15 +173,56 @@ answer.
 | --- | --- | --- |
 | `app.py` | Routes, request model, samples, static mount | Detection, masking, model calls |
 | `pipeline.py` | The four stages, the gate, timing, segments | HTTP routing, HTML |
-| `static/app.js` | Rendering, pickers, copy | Any decision about what is PII |
-| `static/index.html` | Structure | Content |
+| `tutorial.py` | The six tutorial steps, with output from the library | HTTP routing, rendering |
+| `static/app.js` | Demo rendering, pickers, copy | Any decision about what is PII |
+| `static/tutorial.js` | Tutorial rendering | The examples, which come from `tutorial.py` |
+| `static/index.html` | Demo structure | Content |
+| `static/tutorial.html` | Tutorial structure | Content |
 | `static/styles.css` | One dark surface, per-class colours | Behaviour |
 | `app.yaml` | Start command, `EDGEPII_MODELS` | Code |
 | `requirements.txt` | Pinned `edgepii`, FastAPI, uvicorn, SDK | Source |
 
-`pipeline.py` imports no FastAPI, so `tests/test_app_pipeline.py` exercises all
-four stages with the model call stubbed. The suite needs no network and no
-serving endpoint.
+`pipeline.py` and `tutorial.py` import no FastAPI, so `tests/test_app_pipeline.py`
+and `tests/test_app_tutorial.py` exercise both with no network and no serving
+endpoint.
+
+### 6.1 Why the tutorial generates its own examples
+
+The tutorial is the one page where a stale string is actively harmful: a reader
+copies the code, runs it, and gets different output than the page promised. So
+no output on that page is typed by hand.
+
+```mermaid
+flowchart LR
+  Q["/api/tutorial"] --> T["tutorial.py<br/>payload()"]
+  T --> L["STEPS built at import:<br/>each step calls edgepii"]
+  L --> R["output strings are<br/>library return values"]
+  R --> P["JSON to the browser"]
+  P --> U["static/tutorial.js renders<br/>no transformation"]
+
+  TEST["tests/test_app_tutorial.py"] -. "re-derives every<br/>output from edgepii" .-> R
+
+  classDef gen fill:#12332b,stroke:#35e0b6,color:#c9fff0
+  class R,L gen
+```
+
+Three properties follow:
+
+- **Offline.** The rule lane needs no weights, so the page builds in
+  milliseconds with no credentials. A reader with no Databricks profile still
+  gets all six steps.
+- **Honest about the one network step.** Step 5 restores a *fixed* model answer
+  rather than inventing one, and the page says so. The live endpoint is what the
+  demo page is for.
+- **Locked by tests.** Each assertion re-derives the value from the library and
+  compares it to the page. If a library change alters `redact`, the tutorial test
+  fails before the page can go stale.
+
+One step had to be rewritten because of this. Step 3 originally printed
+`'hunter2' in the vault: False` to prove the secret was gone, which put the
+password on a page explaining that passwords must not be printed. It now prints
+two booleans computed against the vault, and a test asserts the secret string is
+absent from the output.
 
 ## 7. Two runtimes, one code path
 

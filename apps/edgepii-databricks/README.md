@@ -24,15 +24,35 @@ a laptop and the app.
 
 | Path | Role |
 | --- | --- |
-| `app.py` | FastAPI routes: `/`, `/api/config`, `/api/health`, `/api/run` |
+| `app.py` | FastAPI routes: `/`, `/tutorial`, `/api/config`, `/api/health`, `/api/run`, `/api/tutorial` |
 | `pipeline.py` | The four stages. No FastAPI import, so it is testable alone |
+| `tutorial.py` | The six tutorial steps, with output produced by the real library |
 | `app.yaml` | Start command and `EDGEPII_MODELS` |
 | `requirements.txt` | `edgepii==0.5.0` from PyPI, plus FastAPI, uvicorn, the SDK |
-| `static/` | The page. Plain HTML, CSS, and JS with no build step |
+| `static/` | The demo page and the tutorial page. Plain HTML, CSS, and JS |
 | `ARCHITECTURE.md` | Diagrams and the reasoning behind each boundary |
 
 `tests/test_app_pipeline.py` covers the pipeline with the model call stubbed, so
 the suite runs with no network and no serving endpoint.
+`tests/test_app_tutorial.py` asserts every tutorial example still matches what
+the library returns.
+
+## The tutorial
+
+`/tutorial` is a six-step walkthrough: locate, mask, seal a secret, number
+repeated values, restore, and gate the answer. It is a separate page from the
+demo because the two answer different questions. The demo shows *the loop
+running*; the tutorial shows *what each call returns and why*.
+
+The design constraint is that **no tutorial output is typed by hand.** Every
+output string is produced by calling `edgepii` when the page's payload is built,
+and `tests/test_app_tutorial.py` re-derives each one from the library. A
+tutorial that shows stale output is worse than no tutorial, because a reader
+trusts it and then finds the library disagrees.
+
+The tutorial needs no credentials, because the rule lane needs no weights.
+A reader with no Databricks profile can read the whole page.
+
 
 ## Deploy
 
@@ -112,9 +132,11 @@ still answers, so you can read the UI. Only `/api/run` needs credentials.
 
 | Method | Path | Returns |
 | --- | --- | --- |
-| GET | `/` | The page |
+| GET | `/` | The demo page |
+| GET | `/tutorial` | The six-step tutorial page |
 | GET | `/api/health` | Liveness, version, allowed models |
 | GET | `/api/config` | Models, lanes, samples, workspace host. No credentials |
+| GET | `/api/tutorial` | Every tutorial step, with output the library produced |
 | POST | `/api/run` | All four stages, plus timings and the gate result |
 
 `POST /api/run` takes `{source, model, preset, max_tokens, scan_response}` and

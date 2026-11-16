@@ -19,6 +19,7 @@ from edgepii.presets import PRESETS
 
 try:  # uvicorn app:app, run from this directory
     from pipeline import DEFAULT_MODEL, PipelineError, models, run
+    import tutorial
 except ModuleNotFoundError:  # imported as apps.edgepii-databricks.app from the repo root
     from apps.edgepii_databricks.pipeline import (  # type: ignore[no-redef]
         DEFAULT_MODEL,
@@ -26,6 +27,7 @@ except ModuleNotFoundError:  # imported as apps.edgepii-databricks.app from the 
         models,
         run,
     )
+    import apps.edgepii_databricks.tutorial as tutorial  # type: ignore[no-redef]
 
 HERE = Path(__file__).resolve().parent
 STATIC = HERE / "static"
@@ -99,6 +101,20 @@ class RunRequest(BaseModel):
 @app.get("/", include_in_schema=False)
 def index() -> FileResponse:
     return FileResponse(STATIC / "index.html")
+
+
+@app.get("/tutorial", include_in_schema=False)
+def tutorial_page() -> FileResponse:
+    """The tutorial page. Its examples run at import, so no model is needed."""
+
+    return FileResponse(STATIC / "tutorial.html")
+
+
+@app.get("/api/tutorial")
+def tutorial_payload() -> dict:
+    """Every example, with the output the library actually produced."""
+
+    return tutorial.payload()
 
 
 @app.get("/api/health")

@@ -154,18 +154,32 @@ def locate(
         )
 
     payload = response.json()
-    # A pyfunc endpoint returns either {"predictions": [...]} or a bare list,
-    # depending on how the model was logged. Accept both rather than guess.
-    predictions = payload.get("predictions", payload) if isinstance(payload, dict) else payload
-    if not isinstance(predictions, list) or not predictions:
-        raise MlLaneError("serving", f"{endpoint} returned no predictions.")
+    # The pyfunc returns a one-column DataFrame, so the envelope nests:
+    #   {"predictions": [{"predictions": [span, ...]}]}
+    # Descend while a level wraps another level, and stop the moment the value is
+    # a list of span dicts, which is identified by a `start` key rather than by
+    # counting levels. Pinning an exact depth would break on the next MLflow
+    # version; pinning what a span looks like does not.
+    node: Any = payload
+    for _ in range(6):
+        if isinstance(node, dict) and "predictions" in node:
+            node = node["predictions"]
+            continue
+        if isinstance(node, list):
+            if not node:
+                break
+            head = node[0]
+            if isinstance(head, dict) and "predictions" in head:
+                node = head
+                continue
+        break
 
-    first = predictions[0]
-    if isinstance(first, dict):
-        # A single row of columns rather than a list of spans.
+    if not isinstance(node, list) or not node:
+        raise MlLaneError("serving", f"{endpoint} returned no span list.")
+    if not isinstance(node[0], dict) or "start" not in node[0]:
         raise MlLaneError(
             "serving",
-            f"{endpoint} returned a record, not a span list. Check the model signature.",
+            f"{endpoint} returned rows without spans. Check the model signature.",
         )
 
-    return _clean(first, source, allowed=_taxonomy_types())
+    return _clean(node, source, allowed=_taxonomy_types())

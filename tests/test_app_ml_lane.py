@@ -41,7 +41,8 @@ def _stub_response(monkeypatch, spans: list[dict], status_code: int = 200, body=
             self.text = "stub"
 
         def json(self):
-            return body if body is not None else {"predictions": [spans]}
+            # The real envelope: a one-column DataFrame nests one level.
+            return body if body is not None else {"predictions": [{"predictions": spans}]}
 
     monkeypatch.setattr(ml_lane.httpx, "post", lambda *a, **k: Response())
 
@@ -111,7 +112,7 @@ def test_a_403_names_the_endpoint_grant(monkeypatch):
 def test_a_record_response_is_reported_not_iterated(monkeypatch):
     """A pyfunc that returns columns rather than a span list must say so."""
 
-    _stub_response(monkeypatch, [], body={"predictions": [{"label": "PERSON", "score": 0.9}]})
+    _stub_response(monkeypatch, [], body={"predictions": [{"predictions": [{"label": "PERSON", "score": 0.9}]}]})
 
     with pytest.raises(ml_lane.MlLaneError) as caught:
         ml_lane.locate(
@@ -266,3 +267,56 @@ def test_the_ml_lane_alone_returns_only_model_spans(monkeypatch):
     assert [span.type for span in result.spans] == ["PERSON"]
     assert result.preset.endswith("+ml")
     assert timing["ml_ms"] == 2.0
+
+
+def test_the_real_two_level_envelope_is_parsed(monkeypatch):
+    """The live endpoint nests a DataFrame row one level deep.
+
+    This exact payload was captured from `edgepii-pii-ml` after it went READY.
+    Pinning it means a future MLflow change to the envelope fails here rather
+    than in the deployed demo.
+    """
+
+    captured = {
+        "predictions": [
+            {
+                "predictions": [
+                    {
+                        "label": "PERSON",
+                        "raw_label": "person",
+                        "start": 0,
+                        "end": 12,
+                        "text": "Ada Lovelace",
+                        "score": 0.991481,
+                    },
+                    {
+                        "label": "PHONE",
+                        "raw_label": "phone number",
+                        "start": 25,
+                        "end": 39,
+                        "text": "+852 5555 0101",
+                        "score": 0.999993,
+                    },
+                    {
+                        "label": "EMAIL",
+                        "raw_label": "email",
+                        "start": 47,
+                        "end": 62,
+                        "text": "ada@example.com",
+                        "score": 0.999986,
+                    },
+                ]
+            }
+        ]
+    }
+    _stub_response(monkeypatch, [], body=captured)
+
+    spans = ml_lane.locate(
+        SOURCE, host="https://x", endpoint="ep", headers={"Authorization": "Bearer t"}
+    )
+
+    assert [span.type for span in spans] == ["PERSON", "PHONE", "EMAIL"]
+    assert spans[0].text == "Ada Lovelace"
+    assert spans[0].score > 0.99
+    for span in spans:
+        assert SOURCE[span.start : span.end] == span.text

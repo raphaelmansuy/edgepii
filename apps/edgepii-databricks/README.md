@@ -25,20 +25,67 @@ a laptop and the app.
 | Path | Role |
 | --- | --- |
 | `app.py` | FastAPI routes: `/`, `/tutorial`, `/architecture`, `/api/*` |
-| `pipeline.py` | The four stages. No FastAPI import, so it is testable alone |
+| `pipeline.py` | The four stages and the lane selection |
+| `ml_lane.py` | Client for the served GLiNER classifier, with the offset and type guards |
 | `tutorial.py` | The six tutorial steps, with output produced by the real library |
 | `architecture_page.py` | Renders `ARCHITECTURE.md` into the app |
-| `app.yaml` | Start command and `EDGEPII_MODELS` |
+| `app.yaml` | Start command, models, and the ML lane settings |
 | `requirements.txt` | `edgepii==0.5.0` from PyPI, plus FastAPI, uvicorn, the SDK |
 | `static/` | The demo, tutorial, and architecture pages. No build step |
 | `ARCHITECTURE.md` | The document the `/architecture` page renders |
 
-`tests/test_app_pipeline.py` covers the pipeline with the model call stubbed, so
-the suite runs with no network and no serving endpoint.
-`tests/test_app_tutorial.py` asserts every tutorial example still matches what
-the library returns.
-`tests/test_app_architecture.py` asserts every diagram reaches the browser
-byte-identical to the Markdown.
+`tests/test_app_pipeline.py` covers the pipeline with the model call stubbed.
+`tests/test_app_ml_lane.py` covers the served classifier's contract with the
+endpoint stubbed. `tests/test_app_tutorial.py` re-derives every tutorial example
+from the library. `tests/test_app_architecture.py` asserts every diagram reaches
+the browser byte-identical to the Markdown. None of them needs the network.
+
+## The four lanes
+
+| Lane | Where detection runs | Finds a person name |
+| --- | --- | --- |
+| `rules` | in the app process | no |
+| `ml` | `edgepii-pii-ml` serving endpoint | yes |
+| `hybrid` | both, merged through the library policy | yes |
+
+`rules` needs no weights and no network. `ml` calls a pretrained GLiNER
+classifier served by this workspace, so the app holds no torch and no checkpoint.
+`hybrid` unions the two and lets the library decide overlaps, so the rule lane
+keeps precedence on the types the taxonomy marks `prefer: rule`.
+
+The lane is independent of the model choice: detecting PII and writing a reply
+are different jobs, and the UI selects them separately.
+
+### Why pretrained GLiNER
+
+A classifier trained here reached 0.763 macro F1 and could not see a name it had
+not memorised a prefix of. The repo's own measurement of the pretrained lane is
+0.821 exact recall with zero high-severity misses on the finance slice. The
+trained comparison stays in `ml/train_pii_classifier.py`; it is not what ships.
+
+### Reproducing it
+
+```bash
+# 1. Log and register the model in Unity Catalog.
+python ml/serve_gliner.py --register          # needs gliner>=0.2.30
+
+# 2. Serve it, then set EDGEPII_ML_ENDPOINT in app.yaml.
+databricks serving-endpoints create --json '{
+  "name": "edgepii-pii-ml",
+  "config": {"served_entities": [{
+    "entity_name": "workspace.default.edgepii_pii_gliner",
+    "entity_version": "2",
+    "workload_size": "Small",
+    "scale_to_zero_enabled": true
+  }]}
+}'
+
+# 3. Deploy. Attach the endpoint as an app resource with CAN_QUERY.
+```
+
+Unsetting `EDGEPII_ML_ENDPOINT` drops the app back to the rules lane alone, so the
+demo never depends on the endpoint being reachable to start.
+
 
 ## The three pages
 

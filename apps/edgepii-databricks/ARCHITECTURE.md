@@ -286,7 +286,6 @@ stages, the gate, and the payload are identical, which is why the same tests
 cover both.
 
 ## 10. One Markdown file, three readers
-
 `ARCHITECTURE.md` is read three ways, and none of them restates its content.
 
 ```mermaid
@@ -322,3 +321,80 @@ HTML must unescape it before handing the text to Mermaid, or Mermaid receives
 `&amp;lt;` and draws it literally. A test asserts each diagram block's text is
 byte-identical to the fence in the Markdown file.
 
+
+## 11. The ML lane
+
+The demo has three detection lanes. They exist because the rule lane has a
+documented blind spot: it cannot see a person name.
+
+| Lane | Where it runs | What it costs | Finds a name |
+| --- | --- | --- | --- |
+| `rules` | in the app process | microseconds | no |
+| `ml` | a serving endpoint | one network call | yes |
+| `hybrid` | both, merged | one network call | yes, plus proven rule types |
+
+```mermaid
+flowchart TD
+  S["source text"] --> L{"lane"}
+  L -- "rules" --> R["Locator.preset('rules')<br/>regex and checksums"]
+  L -- "ml" --> M["/serving-endpoints/edgepii-pii-ml<br/>GLiNER, pretrained"]
+  L -- "hybrid" --> BOTH["both, then merge"]
+  R --> SPANS["spans that prove<br/>source[start:end] == text"]
+  M --> SPANS
+  BOTH --> SPANS
+  SPANS --> RED["redact → masked + vault"]
+
+  subgraph GUARD["guards on the model answer"]
+    G1["slice check:<br/>drop a span whose text<br/>disagrees with its offset"]
+    G2["type check:<br/>drop a label the taxonomy<br/>has no policy for"]
+  end
+  M -.-> GUARD
+
+  classDef ml fill:#2a1f3d,stroke:#b98cff,color:#e8edf7
+  class M,BOTH ml
+  classDef guard fill:#3d2a1f,stroke:#ffb454,color:#ffe6c7
+  class G1,G2 guard
+```
+
+### Why a pretrained model, not one trained here
+
+The first attempt trained a character n-gram classifier on the pinned
+Nemotron-PII corpus. It reached 0.763 macro F1 and could not see a name built
+from parts it had not memorised. The repo already measured the pretrained
+alternative: `multi-open`, the GLiNER lane, scored **0.821 exact recall** with
+**zero high-severity misses** on the finance slice. Pretrained won on quality,
+on effort, and because its errors were already measured rather than newly
+produced.
+
+`ml/train_pii_classifier.py` stays in the tree. It is the comparison, and it is
+reproducible in under a minute. It is not the lane that ships.
+
+### Why the model is remote
+
+The two earlier model lanes, `en-closed` and `multi-open`, load torch inside the
+app process. That turns a one-minute app start into an unbounded checkpoint
+download, which is why neither was ever offered in the deployed demo. Serving the
+model moves that cost to the endpoint, where it is paid once at deploy time and
+then kept warm or scaled to zero.
+
+### The two guards
+
+A remote model is exactly where an unchecked offset would come from, so neither
+guard is optional:
+
+1. **Slice check.** `source[start:end]` must equal the span's own text. A span
+   that fails is dropped, never repaired. Repair would invent a claim the model
+   never made.
+2. **Type check.** The label must exist in taxonomy `2026.11`. Without this, an
+   unknown label would reach `taxonomy.types[...]` and raise there, far from the
+   model that caused it.
+
+Both have tests, and one of them pins the exact two-level JSON envelope the live
+endpoint returns, so a future MLflow change fails in the suite rather than in the
+deployment.
+
+### What the lane cannot do
+
+The endpoint handles 8,000 characters per call and the app refuses longer input
+with a message rather than truncating it. Truncation would silently drop spans,
+which is worse than refusing.

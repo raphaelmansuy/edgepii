@@ -7,7 +7,12 @@
   --panel-line: rgba(255, 255, 255, 0.08);
   --text: #e8edf7;
   --muted: #93a1bb;
-  --faint: #64718a;
+  /* --faint was #64718a, which measured 4.10:1 on the page and 3.67:1 on a
+     panel. Both fail the 4.5:1 body-text floor, and this token carries the
+     hint lines a reader actually needs. #808da6 measures 6.02:1 and 5.40:1,
+     so it clears the floor on every surface while staying visually quieter
+     than --muted. */
+  --faint: #808da6;
   --accent: #5b8cff;
   --accent-2: #22d3ee;
   --secret: #ff5c8a;
@@ -258,8 +263,11 @@ button.primary {
   border: none;
   border-radius: 11px;
   padding: 11px 20px;
-  background: linear-gradient(145deg, var(--accent), #3f6ee0);
-  color: #f7faff;
+  /* The end stop was #3f6ee0, where the #f7faff label measured 4.44:1, just
+     under the floor. #3a66d6 with white measures 4.95:1 on the darkest stop,
+     so the label clears the floor everywhere the gradient reaches. */
+  background: linear-gradient(145deg, var(--accent), #3a66d6);
+  color: #ffffff;
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
@@ -486,7 +494,10 @@ mark.contact {
 
 mark.person {
   background: var(--person);
-  color: #f7faff;
+  /* White on #5b8cff measured 3.02:1, below the 4.5:1 floor. The ink used by
+     every other mark measures 5.71:1 here, so the odd one out is the colour of
+     the text, not the fill. */
+  color: #04070f;
 }
 
 mark.quasi {
@@ -906,8 +917,11 @@ td.mono-wrap {
   align-items: center;
   border-radius: 11px;
   padding: 11px 20px;
-  background: linear-gradient(145deg, var(--accent), #3f6ee0);
-  color: #f7faff;
+  /* The end stop was #3f6ee0, where the #f7faff label measured 4.44:1, just
+     under the floor. #3a66d6 with white measures 4.95:1 on the darkest stop,
+     so the label clears the floor everywhere the gradient reaches. */
+  background: linear-gradient(145deg, var(--accent), #3a66d6);
+  color: #ffffff;
   font-size: 14px;
   font-weight: 600;
   box-shadow: 0 12px 28px rgba(91, 140, 255, 0.32);
@@ -1272,14 +1286,77 @@ pre.diagram-source {
 }
 
 .diagram-drawn {
-  padding: 14px;
+  padding: 16px;
   overflow-x: auto;
   text-align: center;
+  /* The Mermaid canvas colour, so a pastel node sits on the surface the theme
+     was designed against rather than on the page background. */
+  background: #0f1420;
 }
 
 .diagram-drawn svg {
   max-width: 100%;
   height: auto;
+}
+
+/* Mermaid's sequence diagram draws actor and note labels as HTML inside a
+   foreignObject, and it inherits `textColor` there rather than honouring
+   `actorTextColor` / `noteTextColor`. Left alone, light text lands on a light
+   pastel fill and measures 1.14:1, which is unreadable.
+
+   This is scoped to `svg.sequenceDiagram` on purpose. A blanket `foreignObject`
+   rule also hit flowchart edge labels, which sit on a dark background, and
+   turned them dark-on-dark at 1:1. Scoping by Mermaid's own SVG class is what
+   keeps the two diagram types apart. */
+.diagram-drawn svg.sequenceDiagram .actor text,
+.diagram-drawn svg.sequenceDiagram text.actor,
+.diagram-drawn svg.sequenceDiagram .noteText,
+.diagram-drawn svg.sequenceDiagram .labelText,
+.diagram-drawn svg.sequenceDiagram .loopText,
+.diagram-drawn svg.sequenceDiagram foreignObject div,
+.diagram-drawn svg.sequenceDiagram foreignObject span,
+.diagram-drawn svg.sequenceDiagram foreignObject p {
+  color: #172033 !important;
+  fill: #172033 !important;
+}
+
+/* The pastel note boxes carry dark ink, so their borders darken too. */
+.diagram-drawn svg.sequenceDiagram .note {
+  fill: #f8f0c8 !important;
+  stroke: #d9c98a !important;
+}
+
+/* Signal lines and lifelines must stay visible on the dark canvas. */
+.diagram-drawn svg.sequenceDiagram .messageLine0,
+.diagram-drawn svg.sequenceDiagram .messageLine1 {
+  stroke: #a9b8d0 !important;
+}
+
+.diagram-drawn svg.sequenceDiagram .actor-line {
+  stroke: #7a8296 !important;
+}
+
+/* Flowchart edge labels sit on the dark canvas, not on a pastel node, so they
+   keep light text. */
+.diagram-drawn svg.flowchart .edgeLabel,
+.diagram-drawn svg.flowchart .edgeLabel span,
+.diagram-drawn svg.flowchart .edgeLabel div,
+.diagram-drawn svg.flowchart .edgeLabel p {
+  color: #dbe3f0 !important;
+  fill: #dbe3f0 !important;
+  background-color: transparent !important;
+}
+
+.diagram-drawn svg.flowchart .edgeLabel rect {
+  fill: #0f1420 !important;
+  opacity: 0.92 !important;
+}
+
+/* Cluster titles label a subgraph boundary, so they sit on the dark canvas too. */
+.diagram-drawn svg.flowchart .cluster-label text,
+.diagram-drawn svg.flowchart .cluster-label span {
+  color: #dbe3f0 !important;
+  fill: #dbe3f0 !important;
 }
 
 /* Once drawn, the source is opt-in. */

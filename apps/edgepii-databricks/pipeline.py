@@ -32,6 +32,13 @@ _TOKEN = re.compile(r"<[^<>\n]{1,64}>")
 MAX_SOURCE_CHARS = 20_000
 DEFAULT_MODEL = "databricks-gpt-oss-20b"
 
+# The ML lane. When EDGEPII_ML_ENDPOINT is set, detection runs on a GLiNER model
+# served by Databricks instead of in-process rules, and the two are unioned when
+# EDGEPII_ML_WITH_RULES is on. An empty endpoint means the rules lane only.
+ML_ENDPOINT_ENV = "EDGEPII_ML_ENDPOINT"
+ML_THRESHOLD_ENV = "EDGEPII_ML_THRESHOLD"
+ML_WITH_RULES_ENV = "EDGEPII_ML_WITH_RULES"
+
 # Reasoning models spend the token budget on hidden reasoning before they write
 # an answer, so a small max_tokens returns empty content. Ask for low effort
 # and retry once with more room if the answer still comes back empty.
@@ -75,6 +82,60 @@ def models() -> list[str]:
     raw = os.environ.get("EDGEPII_MODELS", DEFAULT_MODEL)
     names = [name.strip() for name in raw.split(",") if name.strip()]
     return names or [DEFAULT_MODEL]
+
+
+def ml_endpoint() -> str:
+    """The detector endpoint, or an empty string when the ML lane is off."""
+
+    return os.environ.get(ML_ENDPOINT_ENV, "").strip()
+
+
+def ml_threshold() -> float:
+    raw = os.environ.get(ML_THRESHOLD_ENV, "").strip()
+    try:
+        return float(raw) if raw else 0.4
+    except ValueError:
+        return 0.4
+
+
+def ml_with_rules() -> bool:
+    """Union the ML lane with the rule lane. Default on: rules prove some types."""
+
+    raw = os.environ.get(ML_WITH_RULES_ENV, "1").strip().lower()
+    return raw not in {"0", "false", "no", "off"}
+
+
+def lanes() -> list[dict]:
+    """What the UI offers. A lane is a detection method, not a model choice."""
+
+    rows = [
+        {
+            "name": "rules",
+            "label": "Rules",
+            "note": "Regex and checksums. No weights, no network. Cannot see a name.",
+            "ready": True,
+        }
+    ]
+    endpoint = ml_endpoint()
+    if endpoint:
+        rows.append(
+            {
+                "name": "ml",
+                "label": "GLiNER (served)",
+                "note": f"Pretrained classifier on {endpoint}. Finds names.",
+                "ready": True,
+            }
+        )
+        if ml_with_rules():
+            rows.append(
+                {
+                    "name": "hybrid",
+                    "label": "Rules + GLiNER",
+                    "note": "Both lanes, unioned. Rules win where they are certain.",
+                    "ready": True,
+                }
+            )
+    return rows
 
 
 def locator(preset: str) -> Locator:
@@ -174,7 +235,166 @@ def _invoke(model: str, messages: list[dict], max_tokens: int) -> ModelCall:
     )
 
 
+def _ml_spans(source: str, headers: dict[str, str]) -> tuple[list, dict]:
+    """Run the ML lane and return (spans, timing). Imported lazily on purpose.
+
+    The rules lane must keep working when the ML lane is unset, so nothing here
+    is allowed to fail at import time.
+    """
+
+    try:
+        try:
+            import ml_lane
+        except ModuleNotFoundError:  # imported as a package from the repo root
+            from apps.edgepii_databricks import ml_lane  # type: ignore[no-redef]
+    except Exception as exc:  # noqa: BLE001 - a missing module is a demo message
+        raise PipelineError("lane_unavailable", f"The ML lane is not available: {exc}") from exc
+
+    endpoint = ml_endpoint()
+    started = time.perf_counter()
+    found = ml_lane.locate(
+        source,
+        host=_host_or_raise(),
+        endpoint=endpoint,
+        headers=headers,
+        threshold=ml_threshold(),
+    )
+    elapsed = (time.perf_counter() - started) * 1000
+
+    from edgepii.span import Span
+
+    spans = [
+        Span(
+            type=row.type,
+            start=row.start,
+            end=row.end,
+            text=row.text,
+            score=row.score,
+            detector_id=f"serving.{endpoint}",
+            raw_label=row.raw_label,
+        )
+        for row in found
+    ]
+    return spans, {"ml_ms": round(elapsed, 1)}
+
+
+def _host_or_raise() -> str:
+    try:
+        client = _client()
+        host = client.config.host or ""
+    except PipelineError:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        raise PipelineError("auth", f"Cannot read the workspace host: {exc}") from exc
+    if not host:
+        raise PipelineError("auth", "No workspace host. Set DATABRICKS_HOST.")
+    return host.rstrip("/")
+
+
+def _headers_or_raise() -> dict[str, str]:
+    try:
+        client = _client()
+        return dict(client.config.authenticate())
+    except PipelineError:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        raise PipelineError("auth", f"Cannot build Databricks credentials: {exc}") from exc
+
+
+def _detect(source: str, preset: str, lane: str) -> tuple[object, dict]:
+    """Detect spans on `source` for one lane, returning (result, timing).
+
+    `rules` runs the in-process detectors. `ml` runs the served classifier.
+    `hybrid` runs both and merges through the library's own policy, so the rule
+    lane keeps precedence on the types the taxonomy marks `prefer: rule`.
+    """
+
+    timings: dict = {}
+
+    if lane == "rules":
+        started = time.perf_counter()
+        try:
+            result = locator(preset).locate(source)
+        except Exception as exc:  # noqa: BLE001
+            raise PipelineError("locate_failed", f"{type(exc).__name__}: {exc}") from exc
+        timings["detect_ms"] = round((time.perf_counter() - started) * 1000, 1)
+        return result, timings
+
+    if not ml_endpoint():
+        raise PipelineError("lane_unavailable", "The ML lane is not configured.")
+
+    headers = _headers_or_raise()
+
+    if lane == "ml":
+        spans, ml_timing = _ml_spans(source, headers)
+        return _result_from_ml(source, spans, preset), ml_timing
+
+    # hybrid: rules first, then ML, then one merge through the taxonomy policy.
+    started = time.perf_counter()
+    try:
+        rules_result = locator(preset).locate(source)
+    except Exception as exc:  # noqa: BLE001
+        raise PipelineError("locate_failed", f"{type(exc).__name__}: {exc}") from exc
+    rules_ms = (time.perf_counter() - started) * 1000
+
+    ml_spans, ml_timing = _ml_spans(source, headers)
+
+    from edgepii.labelmap import load_taxonomy
+    from edgepii.merge import merge_spans
+
+    taxonomy = load_taxonomy()
+    combined = list(rules_result.spans) + list(ml_spans)
+    allowed = {span.type for span in combined}
+    merged = tuple(merge_spans(combined, taxonomy, allowed))
+
+    return (
+        _rebuild_result(rules_result, merged, preset),
+        {
+            "detect_ms": round(rules_ms + ml_timing.get("ml_ms", 0.0), 1),
+            "ml_ms": ml_timing.get("ml_ms", 0.0),
+            "raw_rules": len(rules_result.spans),
+            "raw_ml": len(ml_spans),
+        },
+    )
+
+
+def _result_from_ml(source: str, spans: list, preset: str):
+    """A LocateResult carrying only ML spans. Offsets are already checked."""
+
+    from edgepii.labelmap import load_taxonomy
+    from edgepii.span import LocateResult
+
+    taxonomy = load_taxonomy()
+    ordered = tuple(sorted(spans, key=lambda span: (span.start, span.end, span.type)))
+    return LocateResult(
+        taxonomy_version=taxonomy.version,
+        spans=ordered,
+        dropped=0,
+        preset=f"{preset}+ml",
+        revision="serving",
+    )
+
+
+def _rebuild_result(rules_result, spans: tuple, preset: str):
+    """Keep the rule result's metadata, swap in the merged span list."""
+
+    from edgepii.span import LocateResult
+
+    return LocateResult(
+        taxonomy_version=rules_result.taxonomy_version,
+        spans=spans,
+        dropped=rules_result.dropped,
+        preset=f"{preset}+ml",
+        revision=rules_result.revision,
+        quasi=rules_result.quasi,
+        unmapped=rules_result.unmapped,
+    )
+
+
+
 def _tokens_in(text: str) -> set[str]:
+    """Every placeholder-shaped token in a string."""
+
     return {match.group() for match in _TOKEN.finditer(text)}
 
 
@@ -225,8 +445,14 @@ def run(
     preset: str = "rules",
     max_tokens: int = 400,
     scan_response: bool = True,
+    lane: str = "rules",
 ) -> dict:
-    """Run all four stages and return one payload for the UI."""
+    """Run all four stages and return one payload for the UI.
+
+    `lane` chooses how detection works: `rules` in-process, `ml` on the served
+    classifier, `hybrid` both merged. `model` is the generator and is independent
+    of the lane, because detecting PII and writing a reply are different jobs.
+    """
 
     if not isinstance(source, str) or not source.strip():
         raise PipelineError("bad_source", "Add some text first.")
@@ -237,16 +463,19 @@ def run(
         )
     if model not in models():
         raise PipelineError("bad_model", f"{model} is not in EDGEPII_MODELS.")
+    available = {row["name"] for row in lanes()}
+    if lane not in available:
+        raise PipelineError(
+            "bad_lane",
+            f"Lane {lane!r} is not available. Choose one of: {', '.join(sorted(available))}.",
+        )
 
     taxonomy = load_taxonomy()
 
-    # Stage 1: detect.
-    started = time.perf_counter()
-    try:
-        result = locator(preset).locate(source)
-    except Exception as exc:  # noqa: BLE001 - a demo must not leak a traceback
-        raise PipelineError("locate_failed", f"{type(exc).__name__}: {exc}") from exc
-    detect_ms = (time.perf_counter() - started) * 1000
+    # Stage 1: detect. The lane decides how; the result shape does not change.
+    result, detect_timing = _detect(source, preset, lane)
+    detect_ms = detect_timing.get("detect_ms", 0.0)
+
 
     # Stage 2: mask. A secret type is irreversible, so it never enters the vault.
     started = time.perf_counter()
@@ -317,6 +546,7 @@ def run(
         "ok": True,
         "model": call.model,
         "preset": preset,
+        "lane": lane,
         "source": source,
         "spans": spans,
         "span_count": len(spans),
@@ -346,5 +576,6 @@ def run(
             "model_ms": call.latency_ms,
             "restore_ms": round(restore_ms, 1),
             "total_ms": round(detect_ms + mask_ms + call.latency_ms + restore_ms, 1),
+            "ml_ms": round(detect_timing.get("ml_ms", 0.0), 1),
         },
     }

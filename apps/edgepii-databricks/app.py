@@ -18,13 +18,15 @@ from edgepii import __version__
 from edgepii.presets import PRESETS
 
 try:  # uvicorn app:app, run from this directory
-    from pipeline import DEFAULT_MODEL, PipelineError, models, run
+    from pipeline import DEFAULT_MODEL, PipelineError, lanes, ml_endpoint, models, run
     import architecture_page
     import tutorial
 except ModuleNotFoundError:  # imported as apps.edgepii-databricks.app from the repo root
     from apps.edgepii_databricks.pipeline import (  # type: ignore[no-redef]
         DEFAULT_MODEL,
         PipelineError,
+        lanes,
+        ml_endpoint,
         models,
         run,
     )
@@ -93,6 +95,10 @@ class RunRequest(BaseModel):
     source: str = Field(default="", description="The exact string to protect.")
     model: str = Field(default=DEFAULT_MODEL)
     preset: str = Field(default="rules")
+    lane: str = Field(
+        default="rules",
+        description="rules | ml | hybrid. Detection method, independent of the model.",
+    )
     max_tokens: int = Field(default=400, ge=64, le=2048)
     scan_response: bool = Field(
         default=True,
@@ -152,6 +158,9 @@ def config() -> dict:
         "models": models(),
         "default_model": models()[0],
         "default_preset": "rules",
+        "lanes": lanes(),
+        "default_lane": "rules",
+        "ml_endpoint": ml_endpoint(),
         "presets": [
             {
                 "name": name,
@@ -176,6 +185,7 @@ def run_endpoint(request: RunRequest) -> JSONResponse:
             preset=request.preset,
             max_tokens=request.max_tokens,
             scan_response=request.scan_response,
+            lane=request.lane,
         )
     except PipelineError as exc:
         return JSONResponse(

@@ -28,7 +28,7 @@ const nodes = {
   tabRaw: el("tab-raw"),
   gate: el("gate"),
   modelList: el("model-list"),
-  presetList: el("preset-list"),
+  laneList: el("lane-list"),
   scanResponse: el("scan-response"),
   timing: el("timing"),
   modelPill: el("model-pill"),
@@ -39,8 +39,8 @@ const nodes = {
 const state = {
   models: [],
   model: "",
-  presets: [],
-  preset: "rules",
+  lanes: [],
+  lane: "rules",
   samples: [],
   last: null,
 };
@@ -118,25 +118,24 @@ function renderModels() {
   }
 }
 
-function renderPresets() {
-  nodes.presetList.replaceChildren();
-  for (const preset of state.presets) {
+function renderLanes() {
+  nodes.laneList.replaceChildren();
+  for (const lane of state.lanes) {
     const button = make("button", "preset");
     button.type = "button";
     button.setAttribute("role", "radio");
-    button.setAttribute("aria-checked", String(preset.name === state.preset));
-    if (preset.name === state.preset) button.classList.add("active");
+    button.setAttribute("aria-checked", String(lane.name === state.lane));
+    if (lane.name === state.lane) button.classList.add("active");
     const dot = make("span", "dot");
     const wrap = make("span", "preset-name");
-    wrap.textContent = preset.name;
-    const note = make("span", "preset-note", preset.note || "");
-    wrap.append(note);
+    wrap.textContent = lane.label || lane.name;
+    wrap.append(make("span", "preset-note", lane.note || ""));
     button.append(dot, wrap);
     button.addEventListener("click", () => {
-      state.preset = preset.name;
-      renderPresets();
+      state.lane = lane.name;
+      renderLanes();
     });
-    nodes.presetList.append(button);
+    nodes.laneList.append(button);
   }
 }
 
@@ -360,7 +359,7 @@ async function run() {
       body: JSON.stringify({
         source: nodes.source.value,
         model: state.model,
-        preset: state.preset,
+        lane: state.lane,
         scan_response: nodes.scanResponse.checked,
       }),
     });
@@ -436,8 +435,8 @@ async function boot() {
     const config = await getJson("/api/config");
     state.models = config.models || [];
     state.model = config.default_model || state.models[0] || "";
-    state.presets = config.presets || [];
-    state.preset = config.default_preset || "rules";
+    state.lanes = config.lanes || [{ name: "rules", label: "Rules" }];
+    state.lane = config.default_lane || "rules";
     state.samples = config.samples || [];
 
     nodes.versionPill.textContent = `v${config.version}`;
@@ -448,7 +447,7 @@ async function boot() {
       : "";
 
     renderModels();
-    renderPresets();
+    renderLanes();
     renderSamples();
     updateCount();
     if (state.samples.length) {

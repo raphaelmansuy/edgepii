@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>edgepii · tutorial</title>
+    <meta
+      name="description"
+      content="Six steps from a raw ticket to a gated model answer. Every example output comes from the library itself."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">e<span>·</span>p</div>
+        <div>
+          <h1>edgepii</h1>
+          <p class="tagline">Tutorial · six steps from a ticket to a gated answer</p>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <a class="pill link" href="/">Demo</a>
+        <a class="pill link" href="/tutorial">Tutorial</a>
+        <a class="pill link" href="/architecture">Architecture</a>
+        <span class="pill" id="version-pill">v0.5.0</span>
+      </div>
+    </header>
+
+    <main class="doc">
+      <section class="doc-intro">
+        <h2 class="doc-title">Every output below came from the library</h2>
+        <p class="doc-lede">
+          Nothing on this page is typed by hand. Each step runs an
+          <code>edgepii</code> call when the page is built and prints the value it
+          got back, so the examples cannot drift from the code. The rule lane
+          needs no weights and no Databricks credentials, so the whole page works
+          offline.
+        </p>
+        <div class="doc-source">
+          <div class="doc-source-head">
+            <span>The ticket used in every step</span>
+            <span class="counter">fake data</span>
+          </div>
+          <pre id="tutorial-source"></pre>
+        </div>
+        <div class="doc-cta">
+          <a class="primary as-link" href="/">Try it on a real endpoint</a>
+          <span class="hint">
+            The demo sends only the masked string to a model served by this
+            workspace.
+          </span>
+        </div>
+      </section>
+
+      <ol class="steps" id="steps"></ol>
+
+      <section class="doc-next">
+        <h3>Where to go next</h3>
+        <div class="next-grid">
+          <a class="next-card" href="/">
+            <strong>The demo</strong>
+            <span>Run all four stages against a live Databricks model.</span>
+          </a>
+          <a
+            class="next-card"
+            href="https://github.com/raphaelmansuy/edgepii/blob/main/apps/edgepii-databricks/ARCHITECTURE.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <strong>Architecture</strong>
+            <span>Six diagrams, the trust boundary, and why the gate splits tokens.</span>
+          </a>
+          <a
+            class="next-card"
+            href="https://raphaelmansuy.github.io/edgepii/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <strong>The library docs</strong>
+            <span>Span contract, API reference, and the public corpus score.</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Result unit: characters on the source string. End is exclusive.</span>
+      <span>Examples generated at startup by the installed library.</span>
+    </footer>
+
+    <script src="/static/tutorial.js" defer></script>
+  </body>
+</html>

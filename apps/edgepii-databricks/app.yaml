@@ -1,0 +1,25 @@
+command:
+  - "python"
+  - "-m"
+  - "uvicorn"
+  - "app:app"
+  - "--host"
+  - "0.0.0.0"
+  - "--port"
+  - "8000"
+
+env:
+  - name: EDGEPII_MODELS
+    value: "databricks-gpt-oss-20b,databricks-qwen3-next-80b-a3b-instruct,databricks-meta-llama-3-3-70b-instruct,databricks-gemma-3-12b"
+  # The ML lane. A pretrained GLiNER classifier served by Model Serving, so the
+  # app process needs no torch and no checkpoint. Empty value = rules lane only.
+  - name: EDGEPII_ML_ENDPOINT
+    value: "edgepii-pii-ml"
+  - name: EDGEPII_ML_THRESHOLD
+    value: "0.4"
+  # Union both lanes. The rule lane keeps precedence on types the taxonomy marks
+  # `prefer: rule`, so a checksum cannot be overruled by a model guess.
+  - name: EDGEPII_ML_WITH_RULES
+    value: "1"
+  - name: PYTHONUNBUFFERED
+    value: "1"

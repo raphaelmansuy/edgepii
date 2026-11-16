@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>edgepii · protect, send, restore</title>
+    <meta
+      name="description"
+      content="Mask PII as typed spans before a Databricks-hosted model reads the prompt, then put the values back in the answer."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">e<span>·</span>p</div>
+        <div>
+          <h1>edgepii</h1>
+          <p class="tagline">Protect the prompt, then restore the answer</p>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <a class="pill link" href="/tutorial">Tutorial</a>
+        <a class="pill link" href="/architecture">Architecture</a>
+        <span class="pill" id="model-pill">Databricks served model</span>
+        <span class="pill" id="version-pill">v0.5.0</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel workbench" aria-label="Ticket">
+        <div class="workbench-head">
+          <h2>Ticket</h2>
+          <div class="workbench-meta">
+            <span class="counter" id="char-count">0 chars</span>
+            <button type="button" class="ghost" id="clear">Clear</button>
+          </div>
+        </div>
+        <textarea
+          id="source"
+          spellcheck="false"
+          placeholder="Paste a ticket, a note, or a prompt. Use fake data only."
+        ></textarea>
+
+        <div class="samples" id="samples" role="group" aria-label="Samples"></div>
+
+        <div class="actions">
+          <button type="button" class="primary" id="run">
+            Protect, send, restore
+            <kbd>⌘↵</kbd>
+          </button>
+          <span class="status" id="status" role="status" aria-live="polite"></span>
+        </div>
+
+        <div class="error" id="error" hidden>
+          <strong id="error-title">Request failed</strong>
+          <p id="error-message"></p>
+        </div>
+
+        <div class="intro" id="intro">
+          <div class="intro-steps">
+            <div class="intro-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Detect</strong>
+                <p>The rule lane proves a typed span on your exact string.</p>
+              </div>
+            </div>
+            <div class="intro-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Mask</strong>
+                <p>Values become placeholders. A secret is never reversible.</p>
+              </div>
+            </div>
+            <div class="intro-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Send</strong>
+                <p>Only the masked string reaches the endpoint.</p>
+              </div>
+            </div>
+            <div class="intro-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>Restore</strong>
+                <p>Placeholders in the answer become your values again.</p>
+              </div>
+            </div>
+          </div>
+          <div class="intro-cta">
+            <button type="button" class="primary" id="try-sample">
+              Load the first sample
+            </button>
+            <span class="hint">Fake data only. No third-party PII service.</span>
+          </div>
+        </div>
+
+        <div class="results" id="results" hidden>
+          <div class="stats" id="stats"></div>
+
+          <section class="block">
+            <div class="block-head">
+              <h3>Spans on the source</h3>
+              <p class="hint">
+                Every mark proves <code>source[start:end] == text</code>.
+              </p>
+            </div>
+            <div class="highlight" id="highlight"></div>
+          </section>
+
+          <div class="boundary-grid">
+            <section class="block">
+              <div class="block-head">
+                <h3>What leaves the app</h3>
+                <p class="hint">Exactly this string, nothing else.</p>
+              </div>
+              <div class="masked-wrap">
+                <pre class="masked" id="masked"></pre>
+                <button type="button" class="ghost copy" id="copy-masked">Copy</button>
+              </div>
+            </section>
+
+            <section class="block">
+              <div class="block-head">
+                <h3>Vault</h3>
+                <p class="hint">Stays in the app process. Never sent.</p>
+              </div>
+              <div class="table-wrap">
+                <table class="spans" id="vault-table">
+                  <thead>
+                    <tr>
+                      <th>Placeholder</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody id="vault-body"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <section class="block">
+            <div class="block-head">
+              <h3>Answer</h3>
+              <p class="hint" id="answer-hint">
+                <span id="answer-model"></span>
+              </p>
+            </div>
+            <div class="answer-tabs" role="tablist">
+              <button type="button" role="tab" class="tab active" id="tab-restored" aria-selected="true">
+                Restored
+              </button>
+              <button type="button" role="tab" class="tab" id="tab-raw" aria-selected="false">
+                Raw from the model
+              </button>
+            </div>
+            <div class="answer" id="answer-restored"></div>
+            <div class="answer raw" id="answer-raw" hidden></div>
+            <div class="gate" id="gate" hidden></div>
+          </section>
+
+          <section class="block">
+            <div class="block-head">
+              <h3>Span table</h3>
+              <p class="hint">
+                type, offsets, score, and the slice check. A dash means no checksum.
+              </p>
+            </div>
+            <div class="table-wrap">
+              <table class="spans" id="span-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Text</th>
+                    <th>Score</th>
+                    <th>Slice</th>
+                  </tr>
+                </thead>
+                <tbody id="span-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <aside class="panel controls" aria-label="Settings">
+        <section class="group">
+          <div class="group-head">
+            <h2>Model</h2>
+            <p class="hint">Served inside this Databricks workspace.</p>
+          </div>
+          <div class="preset-list" id="model-list" role="radiogroup" aria-label="Model"></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <h2>Lane</h2>
+            <p class="hint">
+              Detection method. Rules cannot see a name; GLiNER is a pretrained
+              classifier served by this workspace.
+            </p>
+          </div>
+          <div class="preset-list" id="lane-list" role="radiogroup" aria-label="Lane"></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <h2>Response check</h2>
+            <p class="hint">Scan the raw answer for PII the vault never held.</p>
+          </div>
+          <label class="floor-toggle">
+            <input type="checkbox" id="scan-response" checked />
+            <span>Gate the answer on a clean scan</span>
+          </label>
+        </section>
+
+        <section class="group">
+          <div class="group-head">
+            <h2>Timing</h2>
+          </div>
+          <ul class="timing" id="timing"></ul>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>Result unit: characters on the source string. End is exclusive.</span>
+      <span id="footer-host"></span>
+    </footer>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

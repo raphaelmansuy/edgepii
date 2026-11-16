@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>edgepii · architecture</title>
+    <meta
+      name="description"
+      content="How the Databricks App demo is built: the trust boundary, the four stages, the vault, and the gate."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">e<span>·</span>p</div>
+        <div>
+          <h1>edgepii</h1>
+          <p class="tagline">Architecture · how the demo is built</p>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <a class="pill link" href="/">Demo</a>
+        <a class="pill link" href="/tutorial">Tutorial</a>
+        <a class="pill link" href="/architecture">Architecture</a>
+        <span class="pill" id="version-pill">v0.5.0</span>
+      </div>
+    </header>
+
+    <main class="doc">
+      <section class="doc-intro">
+        <h2 class="doc-title">Architecture</h2>
+        <p class="doc-lede">
+          This page renders <code>ARCHITECTURE.md</code> from the deployment
+          itself, so there is one source of truth. Each diagram is drawn when the
+          Mermaid module loads; the source stays on the page underneath as a
+          fallback, so a reader with no CDN access still sees the structure.
+        </p>
+        <div class="doc-cta">
+          <span class="pill" id="diagram-count">rendering diagrams…</span>
+          <button type="button" class="ghost" id="toggle-source">
+            Show diagram source
+          </button>
+          <a class="ghost as-link" href="/">See it running</a>
+        </div>
+      </section>
+
+      <article class="md" id="architecture-body">
+        <p class="hint">Loading the architecture document…</p>
+      </article>
+    </main>
+
+    <footer class="footer">
+      <span>Rendered from ARCHITECTURE.md in this deployment.</span>
+      <span>Diagrams draw when the Mermaid module loads.</span>
+    </footer>
+
+    <script src="/static/architecture.js" defer></script>
+  </body>
+</html>

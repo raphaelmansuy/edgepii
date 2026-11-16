@@ -174,17 +174,21 @@ answer.
 | `app.py` | Routes, request model, samples, static mount | Detection, masking, model calls |
 | `pipeline.py` | The four stages, the gate, timing, segments | HTTP routing, HTML |
 | `tutorial.py` | The six tutorial steps, with output from the library | HTTP routing, rendering |
+| `architecture_page.py` | Rendering `ARCHITECTURE.md` to HTML | Any second copy of the architecture |
 | `static/app.js` | Demo rendering, pickers, copy | Any decision about what is PII |
 | `static/tutorial.js` | Tutorial rendering | The examples, which come from `tutorial.py` |
+| `static/architecture.js` | Diagram upgrade, source toggle, copy | The document, which comes from `ARCHITECTURE.md` |
 | `static/index.html` | Demo structure | Content |
 | `static/tutorial.html` | Tutorial structure | Content |
+| `static/architecture.html` | Architecture structure | The architecture content |
 | `static/styles.css` | One dark surface, per-class colours | Behaviour |
 | `app.yaml` | Start command, `EDGEPII_MODELS` | Code |
 | `requirements.txt` | Pinned `edgepii`, FastAPI, uvicorn, SDK | Source |
 
-`pipeline.py` and `tutorial.py` import no FastAPI, so `tests/test_app_pipeline.py`
-and `tests/test_app_tutorial.py` exercise both with no network and no serving
-endpoint.
+`pipeline.py`, `tutorial.py`, and `architecture_page.py` import no FastAPI, so
+`tests/test_app_pipeline.py`, `tests/test_app_tutorial.py`, and
+`tests/test_app_architecture.py` exercise all three with no network and no
+serving endpoint.
 
 ### 6.1 Why the tutorial generates its own examples
 
@@ -280,3 +284,41 @@ is a one-line change in `pipeline.run`, and the README says so.
 The differences are all in credential discovery and file delivery. The four
 stages, the gate, and the payload are identical, which is why the same tests
 cover both.
+
+## 10. One Markdown file, three readers
+
+`ARCHITECTURE.md` is read three ways, and none of them restates its content.
+
+```mermaid
+flowchart TD
+  MD["ARCHITECTURE.md<br/>the only copy"]
+  MD --> GH["GitHub renders it<br/>for a reviewer"]
+  MD --> PAGE["architecture_page.py<br/>markdown-it-py at import"]
+  PAGE --> HTML["/api/architecture<br/>HTML + data-mermaid blocks"]
+  HTML --> JS["static/architecture.js<br/>upgrades each block"]
+  JS --> CDN{"Mermaid module<br/>loads?"}
+  CDN -- "yes" --> SVG["drawn diagram"]
+  CDN -- "no" --> SRC["source stays visible<br/>structure still readable"]
+
+  classDef src fill:#1b2436,stroke:#5b8cff,color:#e8edf7
+  classDef good fill:#12332b,stroke:#35e0b6,color:#c9fff0
+  class MD src
+  class SVG,SRC good
+```
+
+Two decisions follow from this:
+
+- **The page renders the file, not a copy of it.** A page that restated the
+  architecture in its own words would drift from the file the moment either
+  changed. `architecture_page.rendered()` reads the deployment's own
+  `ARCHITECTURE.md`, so the page cannot disagree with the file.
+- **A diagram is an enhancement, not a requirement.** Mermaid loads from a CDN,
+  which may be blocked. The source stays on the page underneath, and the page
+  says how many diagrams drew. A reader with no CDN access still sees every
+  diagram's structure, which is the same rule the repo's docs site follows.
+
+The escaping is the one subtle part. `markdown_it` escapes the fence body, so the
+HTML must unescape it before handing the text to Mermaid, or Mermaid receives
+`&amp;lt;` and draws it literally. A test asserts each diagram block's text is
+byte-identical to the fence in the Markdown file.
+

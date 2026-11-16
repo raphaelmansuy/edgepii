@@ -19,6 +19,7 @@ from edgepii.presets import PRESETS
 
 try:  # uvicorn app:app, run from this directory
     from pipeline import DEFAULT_MODEL, PipelineError, models, run
+    import architecture_page
     import tutorial
 except ModuleNotFoundError:  # imported as apps.edgepii-databricks.app from the repo root
     from apps.edgepii_databricks.pipeline import (  # type: ignore[no-redef]
@@ -27,6 +28,7 @@ except ModuleNotFoundError:  # imported as apps.edgepii-databricks.app from the 
         models,
         run,
     )
+    import apps.edgepii_databricks.architecture_page as architecture_page  # type: ignore[no-redef]
     import apps.edgepii_databricks.tutorial as tutorial  # type: ignore[no-redef]
 
 HERE = Path(__file__).resolve().parent
@@ -108,6 +110,20 @@ def tutorial_page() -> FileResponse:
     """The tutorial page. Its examples run at import, so no model is needed."""
 
     return FileResponse(STATIC / "tutorial.html")
+
+
+@app.get("/architecture", include_in_schema=False)
+def architecture_page_view() -> FileResponse:
+    """The architecture page. It renders ARCHITECTURE.md, so there is one source."""
+
+    return FileResponse(STATIC / "architecture.html")
+
+
+@app.get("/api/architecture")
+def architecture_payload() -> dict:
+    """ARCHITECTURE.md as HTML, with each diagram as an upgradeable block."""
+
+    return architecture_page.payload()
 
 
 @app.get("/api/tutorial")

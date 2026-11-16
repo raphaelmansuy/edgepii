@@ -24,18 +24,32 @@ a laptop and the app.
 
 | Path | Role |
 | --- | --- |
-| `app.py` | FastAPI routes: `/`, `/tutorial`, `/api/config`, `/api/health`, `/api/run`, `/api/tutorial` |
+| `app.py` | FastAPI routes: `/`, `/tutorial`, `/architecture`, `/api/*` |
 | `pipeline.py` | The four stages. No FastAPI import, so it is testable alone |
 | `tutorial.py` | The six tutorial steps, with output produced by the real library |
+| `architecture_page.py` | Renders `ARCHITECTURE.md` into the app |
 | `app.yaml` | Start command and `EDGEPII_MODELS` |
 | `requirements.txt` | `edgepii==0.5.0` from PyPI, plus FastAPI, uvicorn, the SDK |
-| `static/` | The demo page and the tutorial page. Plain HTML, CSS, and JS |
-| `ARCHITECTURE.md` | Diagrams and the reasoning behind each boundary |
+| `static/` | The demo, tutorial, and architecture pages. No build step |
+| `ARCHITECTURE.md` | The document the `/architecture` page renders |
 
 `tests/test_app_pipeline.py` covers the pipeline with the model call stubbed, so
 the suite runs with no network and no serving endpoint.
 `tests/test_app_tutorial.py` asserts every tutorial example still matches what
 the library returns.
+`tests/test_app_architecture.py` asserts every diagram reaches the browser
+byte-identical to the Markdown.
+
+## The three pages
+
+| Page | Question it answers |
+| --- | --- |
+| `/` | What does the loop do against a real model? |
+| `/tutorial` | What does each call return, and why? |
+| `/architecture` | How is it built, and why this way? |
+
+Each links to the other two, so a reader can move from seeing it run, to
+understanding a call, to understanding the design.
 
 ## The tutorial
 
@@ -134,9 +148,11 @@ still answers, so you can read the UI. Only `/api/run` needs credentials.
 | --- | --- | --- |
 | GET | `/` | The demo page |
 | GET | `/tutorial` | The six-step tutorial page |
+| GET | `/architecture` | The architecture page, rendered from `ARCHITECTURE.md` |
 | GET | `/api/health` | Liveness, version, allowed models |
 | GET | `/api/config` | Models, lanes, samples, workspace host. No credentials |
 | GET | `/api/tutorial` | Every tutorial step, with output the library produced |
+| GET | `/api/architecture` | The architecture document as HTML, one block per diagram |
 | POST | `/api/run` | All four stages, plus timings and the gate result |
 
 `POST /api/run` takes `{source, model, preset, max_tokens, scan_response}` and

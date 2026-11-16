@@ -1110,3 +1110,200 @@ pre.output {
     font-size: 12px;
   }
 }
+
+/* --- architecture page: rendered markdown ------------------------------- */
+
+.ghost.as-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.md {
+  display: grid;
+  gap: 14px;
+  max-width: 78ch;
+}
+
+.md h2 {
+  margin: 22px 0 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--text);
+  padding-top: 18px;
+  border-top: 1px solid var(--panel-line);
+}
+
+.md h2:first-child {
+  margin-top: 0;
+  border-top: none;
+  padding-top: 0;
+}
+
+.md h3 {
+  margin: 16px 0 0;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.md p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.md strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.md code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: rgba(91, 140, 255, 0.14);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: #c8d8ff;
+}
+
+.md a {
+  color: var(--accent-2);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(34, 211, 238, 0.35);
+}
+
+.md a:hover {
+  border-bottom-color: var(--accent-2);
+}
+
+.md ul {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.md table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  border: 1px solid var(--panel-line);
+  border-radius: 11px;
+  overflow: hidden;
+  display: table;
+}
+
+.md thead th {
+  text-align: left;
+  padding: 9px 12px;
+  background: #0c1220;
+  color: var(--faint);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--panel-line);
+  white-space: nowrap;
+}
+
+.md tbody td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.md tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.md tbody td:first-child {
+  color: var(--text);
+}
+
+/* A diagram is a figure with a copy head. Drawn SVG replaces the source view
+   unless the reader asks for the source. */
+.diagram {
+  margin: 4px 0;
+  border: 1px solid var(--panel-line);
+  border-radius: 12px;
+  background: rgba(4, 7, 14, 0.55);
+  overflow: hidden;
+}
+
+.diagram-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--panel-line);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.diagram-head .ghost.tiny {
+  padding: 3px 9px;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+pre.diagram-source {
+  margin: 0;
+  padding: 13px 15px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--faint);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.diagram-drawn {
+  padding: 14px;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.diagram-drawn svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Once drawn, the source is opt-in. */
+.diagram.drawn pre.diagram-source {
+  display: none;
+  border-top: 1px solid var(--panel-line);
+}
+
+.md.show-source .diagram.drawn pre.diagram-source {
+  display: block;
+}
+
+.diagram.failed {
+  border-color: rgba(255, 180, 84, 0.35);
+}
+
+.pill.live {
+  color: var(--ok);
+  border-color: rgba(53, 224, 182, 0.35);
+  background: rgba(53, 224, 182, 0.08);
+}
+
+.pill.warn {
+  color: var(--warn);
+  border-color: rgba(255, 180, 84, 0.35);
+  background: rgba(255, 180, 84, 0.08);
+}

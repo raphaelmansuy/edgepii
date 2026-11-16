@@ -426,3 +426,74 @@ A caller who needs to suppress this has three options, in increasing cost: raise
 policy gate that drops a span whose type has no structural validator. The demo
 does none of them, because hiding the error would defeat the point of showing a
 classifier's real output.
+
+## 12. Deployment
+
+The deploy has one constraint that shapes everything else: **this workspace only
+deploys an app from a Git ref.** There is no upload path. A deploy reads the
+remote commit, so an unpushed change is not deployed and no error says so.
+
+```mermaid
+flowchart TD
+  DEV["working tree"] -->|"push"| GH["origin/branch"]
+  SCRIPT["scripts/deploy_databricks_app.sh"]
+
+  SCRIPT --> C1{"profile<br/>authenticated?"}
+  C1 -- "no" --> STOP1["stop: auth login"]
+  C1 -- "yes" --> C2{"origin/branch<br/>== HEAD?"}
+  C2 -- "no" --> STOP2["stop: push first"]
+  C2 -- "yes" --> C3["create app if absent<br/>Git ref + path"]
+  C3 --> C4["attach resources<br/>CAN_QUERY per endpoint"]
+  C4 --> C5{"compute<br/>ACTIVE?"}
+  C5 -- "no" --> C6["start, poll"]
+  C6 --> C5
+  C5 -- "yes" --> C7["apps deploy<br/>git_source"]
+  GH -.->|"read by"| C7
+  C7 --> C8{"--verify?"}
+  C8 -- "no" --> DONE["url"]
+  C8 -- "yes" --> V1["4 routes 200"]
+  V1 --> V2["lanes match<br/>the endpoints"]
+  V2 --> V3["one real /api/run<br/>gate must pass"]
+  V3 --> DONE
+
+  classDef stop fill:#fbdae4,stroke:#d98a9c,color:#172033
+  classDef good fill:#cdf0e4,stroke:#79bfa8,color:#172033
+  classDef step fill:#cfe0fb,stroke:#7ea3e0,color:#172033
+  class STOP1,STOP2 stop
+  class DONE,V3 good
+  class C3,C4,C6,C7,V1,V2 step
+```
+
+### The five failures worth knowing
+
+Each of these was hit while building the demo, and each produces a message that
+does not name its cause on its own.
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| `Git repository is required` | The workspace refuses app creation without one | Pass `git_repository` in the create payload |
+| `No command to run` | The app directory is not at the deployed ref | Push, then redeploy; the path is read from the remote |
+| `not in RUNNING state` | `apps deploy` needs compute `ACTIVE` | `apps start`, then poll until `ACTIVE` |
+| `403` from a run | The service principal lacks `CAN_QUERY` | Attach the endpoint as a resource |
+| Deploy `SUCCEEDED`, app broken | Success means the deployment applied, not that the app answers | Run `--verify` |
+
+### Why verification is a separate step
+
+`apps deploy` returns `SUCCEEDED` once the deployment record is written. The app
+may still be failing to import, missing an environment variable, or unable to
+reach an endpoint. The script therefore makes one real call and asserts the gate
+passed, because that is the only check that exercises the whole path: credential
+discovery, both endpoints, and the four stages.
+
+### Environment the app reads
+
+| Variable | Effect when unset |
+| --- | --- |
+| `EDGEPII_MODELS` | Falls back to `databricks-gpt-oss-20b` |
+| `EDGEPII_ML_ENDPOINT` | The ML lane disappears; only `rules` is offered |
+| `EDGEPII_ML_THRESHOLD` | `0.4` |
+| `EDGEPII_ML_WITH_RULES` | `1`, so `hybrid` is offered |
+
+The app starts and serves all three pages with every one of these unset. Only
+`/api/run` needs credentials and endpoints, which is what makes the demo readable
+before it is deployable.

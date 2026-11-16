@@ -37,6 +37,7 @@ Version **0.5.0** adds [protection-output gates and measured stage audits](https
 - [Install](#install)
 - [Quickstart](#quickstart)
 - [Demo](#demo)
+- [Databricks App](#databricks-app)
 - [Presets](#presets)
 - [Types](#types)
 - [API](#api)
@@ -189,6 +190,41 @@ The page calls four endpoints:
 `POST /api/locate` returns `422` with `{ok: false, error, message, hint}` for a bad type, an over-long source, or a missing extra. The page shows that message in place, not a stack trace.
 
 All demo text is fake. Do not paste real data.
+
+## Databricks App
+
+The same loop runs as a deployed Databricks App, with a PII classifier served by
+Model Serving instead of local weights. Three pages, no build step.
+
+| Page | Question it answers |
+| --- | --- |
+| `/` | What does the loop do against a real model? |
+| `/tutorial` | What does each call return, and why? |
+| `/architecture` | How is it built, and why this way? |
+
+```bash
+make app PROFILE=<profile>          # run it locally
+./scripts/deploy_databricks_app.sh --profile <profile> --verify
+```
+
+Three detection lanes, because the rule lane cannot see a person name:
+
+| Lane | Where detection runs | Finds `Ada Lovelace` |
+| --- | --- | --- |
+| `rules` | app process | no, stays in the clear |
+| `ml` | a served GLiNER classifier | yes, `<PERSON_1>` |
+| `hybrid` | both, merged by the library | yes, plus proven rule types |
+
+The ML lane is `nvidia/gliner-PII` at a pinned revision, packaged with MLflow
+and served by Databricks Model Serving. The app holds no torch and no checkpoint.
+The repo's own measurement of that lane is 0.821 exact recall with zero
+high-severity misses on the finance slice, which is why it ships instead of a
+classifier trained here.
+
+Read [apps/edgepii-databricks/README.md](apps/edgepii-databricks/README.md) for
+deployment and
+[ARCHITECTURE.md](apps/edgepii-databricks/ARCHITECTURE.md) for ten diagrams and
+the reasoning behind each boundary.
 
 ## Presets
 

@@ -1,4 +1,4 @@
-.PHONY: help install install-demo install-e2e install-all test test-core test-principles test-eval test-site test-demo e2e demo demo-open app app-open examples eval eval-rules eval-model site site-serve site-data modal-e2e modal-eval modal-validate clean shots
+.PHONY: help install install-demo install-e2e install-all test test-core test-principles test-eval test-site test-demo e2e demo demo-open app app-open deploy-app deploy-app-dry test-app test-app-contrast examples eval eval-rules eval-model site site-serve site-data modal-e2e modal-eval modal-validate clean shots
 
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
@@ -65,6 +65,15 @@ app: install-demo ## Serve the Databricks App demo. Needs a working databricks p
 
 app-open: app ## Serve the Databricks App demo and open a browser tab
 	@sleep 1.5 && open http://127.0.0.1:$(PORT)
+
+deploy-app: ## Deploy the Databricks App and verify it. Needs a profile: make deploy-app PROFILE=x
+	./scripts/deploy_databricks_app.sh --profile $(PROFILE) --verify
+
+deploy-app-dry: ## Show the deploy commands without running them
+	./scripts/deploy_databricks_app.sh --profile $(PROFILE) --dry-run
+
+test-app-contrast: ## WCAG contrast of every palette token
+	$(PY) -m pytest tests/test_app_contrast.py -q
 
 test-app: ## Databricks App pipeline tests; the model call is stubbed
 	$(PY) -m pytest tests/test_app_pipeline.py -q

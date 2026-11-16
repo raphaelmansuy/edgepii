@@ -118,47 +118,73 @@ A reader with no Databricks profile can read the whole page.
 ## Deploy
 
 The workspace requires apps to deploy from Git, so the app directory must exist
-on the branch being deployed.
+on the branch being deployed. One script does the whole procedure:
 
 ```bash
-# 1. Create the app, pointed at the repo and this directory.
-databricks apps create edgepii-demo \
-  --json '{
-    "name": "edgepii-demo",
-    "description": "edgepii: mask PII before a Databricks model, then restore the answer",
-    "git_repository": {
-      "provider": "gitHub",
-      "url": "https://github.com/raphaelmansuy/edgepii",
-      "branch": "main"
-    },
-    "path": "apps/edgepii-databricks"
-  }' \
-  --profile opengenie-dev
+# Deploy the current branch and verify it.
+./scripts/deploy_databricks_app.sh --profile opengenie-dev --verify
 
-# 2. Grant the app's service principal permission to query the endpoint.
-databricks apps update edgepii-demo \
-  --json '{
-    "name": "edgepii-demo",
-    "resources": [
-      {
-        "name": "edgepii-model",
-        "serving_endpoint": {
-          "name": "databricks-gpt-oss-20b",
-          "permission": "CAN_QUERY"
-        }
-      }
-    ]
-  }' \
-  --profile opengenie-dev
-
-# 3. Deploy. The app must be running first.
-databricks apps deploy edgepii-demo \
-  --json '{"git_source": {"branch": "main", "source_code_path": "apps/edgepii-databricks"}}' \
-  --profile opengenie-dev
+# See every command without running it.
+./scripts/deploy_databricks_app.sh --profile opengenie-dev --dry-run
 ```
 
-Deploying from Git means a push to `main` is required before step 3 can see this
-directory.
+The script checks credentials, refuses to run when the branch is ahead of
+`origin` (a Git deploy reads the remote, not your working tree), builds the
+endpoint resources, starts compute, deploys, and then proves the result: the four
+routes, the lanes the app advertises, and one end-to-end call through the ML lane.
+
+`--verify` is the part worth having. A deploy reports `SUCCEEDED` before the app
+can actually answer, so a green deploy is not evidence. The verification step
+calls `/api/run` and fails if the gate does not pass.
+
+### What the script does, step by step
+
+| Step | Why it exists |
+| --- | --- |
+| Check the profile | An expired token fails later, after compute minutes are spent |
+| Check `origin` is at HEAD | A Git deploy ships the remote commit, so an unpushed change is invisible |
+| Create or find the app | Creation is idempotent, so a re-run is safe |
+| Attach resources | A missing `CAN_QUERY` fails at runtime with a 403 that does not name the cause |
+| Start compute | `apps deploy` refuses to run unless compute is `ACTIVE` |
+| Deploy | Pins the resolved commit in the response, so the deployed code is known |
+| Verify | Proves the app answers, and that the configured lanes are real |
+
+### Deploying by hand
+
+The script is the recommendation, but the underlying calls are short enough to
+run directly. Note that `apps update` requires the git repository in the same
+payload as the resources in this workspace:
+
+```bash
+databricks apps create --json '{
+  "name": "edgepii-demo",
+  "git_repository": {"provider": "gitHub",
+                     "url": "https://github.com/raphaelmansuy/edgepii",
+                     "branch": "main"},
+  "path": "apps/edgepii-databricks"
+}' --profile opengenie-dev
+
+databricks apps update edgepii-demo --json '{
+  "name": "edgepii-demo",
+  "git_repository": {"provider": "gitHub",
+                     "url": "https://github.com/raphaelmansuy/edgepii"},
+  "resources": [
+    {"name": "edgepii-model", "serving_endpoint":
+      {"name": "databricks-gpt-oss-20b", "permission": "CAN_QUERY"}},
+    {"name": "edgepii-ml-detector", "serving_endpoint":
+      {"name": "edgepii-pii-ml", "permission": "CAN_QUERY"}}
+  ]
+}' --profile opengenie-dev
+
+databricks apps deploy edgepii-demo --json '{
+  "git_source": {"branch": "main",
+                 "source_code_path": "apps/edgepii-databricks"}
+}' --profile opengenie-dev
+```
+
+Deploying from Git means a push to `main` is required before `apps deploy` can
+see this directory. See [ARCHITECTURE.md](ARCHITECTURE.md#12-deployment) for the
+diagram and the failure modes.
 
 ## Run locally
 

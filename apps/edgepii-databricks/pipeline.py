@@ -98,7 +98,16 @@ def _client() -> Any:
     if os.environ.get("DATABRICKS_CLIENT_ID"):
         return WorkspaceClient()
     profile = os.environ.get("DATABRICKS_PROFILE", "DEFAULT")
-    return WorkspaceClient(profile=profile)
+    try:
+        return WorkspaceClient(profile=profile)
+    except Exception as exc:  # noqa: BLE001 - one actionable message beats a stack
+        raise PipelineError(
+            "auth",
+            f"No Databricks credentials for profile {profile!r}. Run "
+            f"`databricks auth login --profile {profile}` and try again, or set "
+            f"DATABRICKS_PROFILE to a profile that already works. "
+            f"({type(exc).__name__}: {exc})",
+        ) from exc
 
 
 def _invoke(model: str, messages: list[dict], max_tokens: int) -> ModelCall:
@@ -135,6 +144,13 @@ def _invoke(model: str, messages: list[dict], max_tokens: int) -> ModelCall:
         raise PipelineError("network", f"Serving endpoint call failed: {exc}") from exc
     latency_ms = (time.perf_counter() - started) * 1000
 
+    if response.status_code == 403:
+        raise PipelineError(
+            "forbidden",
+            f"{model} refused this identity. In a Databricks App, attach the "
+            f"endpoint as a resource with CAN_QUERY. Locally, the profile needs "
+            f"CAN_QUERY on the endpoint too. ({response.text[:200]})",
+        )
     if response.status_code >= 400:
         raise PipelineError(
             "serving",

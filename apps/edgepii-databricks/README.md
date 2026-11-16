@@ -16,6 +16,10 @@ The app holds no credential of its own. It runs as the app's service principal,
 and the serving endpoint is attached as an app resource, so the token comes from
 the runtime.
 
+**[ARCHITECTURE.md](ARCHITECTURE.md)** has the diagrams: context, the four
+stages, what the vault holds, how the gate decides, and how one code path serves
+a laptop and the app.
+
 ## What is deployed
 
 | Path | Role |
@@ -25,6 +29,7 @@ the runtime.
 | `app.yaml` | Start command and `EDGEPII_MODELS` |
 | `requirements.txt` | `edgepii==0.5.0` from PyPI, plus FastAPI, uvicorn, the SDK |
 | `static/` | The page. Plain HTML, CSS, and JS with no build step |
+| `ARCHITECTURE.md` | Diagrams and the reasoning behind each boundary |
 
 `tests/test_app_pipeline.py` covers the pipeline with the model call stubbed, so
 the suite runs with no network and no serving endpoint.
@@ -80,16 +85,28 @@ The app works on a laptop against the same endpoint. Set a profile and the app
 uses the SDK's CLI credentials instead of an app service principal.
 
 ```bash
-pip install -r apps/edgepii-databricks/requirements.txt
-cd apps/edgepii-databricks
-DATABRICKS_PROFILE=opengenie-dev \
-PYTHONPATH=../../src:. \
-  uvicorn app:app --host 127.0.0.1 --port 8000
+# One command. Uses PROFILE and PORT, defaults shown.
+make app PROFILE=opengenie-dev PORT=8000
 ```
 
-`PYTHONPATH=../../src` lets a working copy of the library win over the PyPI
-wheel, which is what you want while changing `src/edgepii`. Drop it to test the
-published version.
+`make app` runs `uvicorn app:app --reload` from the app directory, with
+`PYTHONPATH` set to this repo's `src`, so a working copy of the library wins over
+the PyPI wheel. That is what you want while changing `src/edgepii`. To test the
+**published** version instead, drop the `PYTHONPATH`:
+
+```bash
+cd apps/edgepii-databricks
+pip install -r requirements.txt
+DATABRICKS_PROFILE=opengenie-dev uvicorn app:app --port 8000
+```
+
+Either way, the profile needs `CAN_QUERY` on the endpoint. The first failure you
+are likely to hit is `auth`; the app tells you to run
+`databricks auth login --profile <name>`. The second is `forbidden`; the app
+tells you the endpoint grant is missing.
+
+Without a Databricks profile at all, the app still starts and `/api/config`
+still answers, so you can read the UI. Only `/api/run` needs credentials.
 
 ## Endpoints
 

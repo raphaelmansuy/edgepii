@@ -26,7 +26,11 @@ TICKET = (
 
 @pytest.fixture(autouse=True)
 def _stub_model(monkeypatch):
-    """Answer with the placeholders the app sent, so restore has work to do."""
+    """Answer with the placeholders the app sent, so restore has work to do.
+
+    The real `_invoke` is kept on the module as `_real_invoke`, because a test
+    that checks a failure inside `_invoke` would otherwise exercise this stub.
+    """
 
     def fake_invoke(model, messages, max_tokens):
         masked = messages[-1]["content"]
@@ -41,6 +45,7 @@ def _stub_model(monkeypatch):
             completion_tokens=5,
         )
 
+    monkeypatch.setattr(pipeline, "_real_invoke", pipeline._invoke, raising=False)
     monkeypatch.setattr(pipeline, "_invoke", fake_invoke)
     monkeypatch.setenv("EDGEPII_MODELS", "databricks-gpt-oss-20b")
 
@@ -132,3 +137,38 @@ def test_an_empty_answer_is_reported_not_shown(monkeypatch):
     with pytest.raises(PipelineError) as caught:
         pipeline.run("Email ada@example.com.", model="databricks-gpt-oss-20b")
     assert caught.value.kind == "empty_answer"
+
+
+def test_a_missing_profile_says_how_to_log_in(monkeypatch):
+    """The README promises an action, so the message must carry one."""
+
+    monkeypatch.delenv("DATABRICKS_CLIENT_ID", raising=False)
+    monkeypatch.setenv("DATABRICKS_CONFIG_FILE", "/tmp/edgepii-no-such-config")
+    monkeypatch.setenv("DATABRICKS_PROFILE", "no-such-profile")
+
+    # Call _invoke, not run: the fixture above replaces _invoke with a stub.
+    with pytest.raises(PipelineError) as caught:
+        pipeline._real_invoke("databricks-gpt-oss-20b", [{"role": "user", "content": "hi"}], 64)
+
+    assert caught.value.kind == "auth"
+    assert "databricks auth login --profile no-such-profile" in caught.value.message
+
+
+def test_a_403_names_the_endpoint_grant(monkeypatch):
+    """A bare HTTP error does not say which of the two fixes applies."""
+
+    class Denied:
+        status_code = 403
+        text = '{"error_code":"PERMISSION_DENIED"}'
+
+        def json(self):  # pragma: no cover - must not be reached
+            raise AssertionError("a 403 body is never parsed as a completion")
+
+    monkeypatch.setattr(pipeline.httpx, "post", lambda *a, **k: Denied())
+
+    with pytest.raises(PipelineError) as caught:
+        pipeline._real_invoke("databricks-gpt-oss-20b", [{"role": "user", "content": "hi"}], 64)
+
+    assert caught.value.kind == "forbidden"
+    assert "CAN_QUERY" in caught.value.message
+

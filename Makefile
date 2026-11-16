@@ -1,4 +1,4 @@
-.PHONY: help install install-demo install-e2e install-all test test-core test-principles test-eval test-site test-demo e2e demo demo-open examples eval eval-rules eval-model site site-serve site-data modal-e2e modal-eval modal-validate clean shots
+.PHONY: help install install-demo install-e2e install-all test test-core test-principles test-eval test-site test-demo e2e demo demo-open app app-open examples eval eval-rules eval-model site site-serve site-data modal-e2e modal-eval modal-validate clean shots
 
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
@@ -7,6 +7,8 @@ HOST ?= 127.0.0.1
 VENV ?= .venv
 LIMIT ?= 500
 CORPUS ?= nemotron-pii
+APP_DIR := apps/edgepii-databricks
+PROFILE ?= DEFAULT
 
 .DEFAULT_GOAL := help
 
@@ -56,6 +58,16 @@ demo: install-demo ## Serve the demo locally, port 8000 by default
 
 demo-open: demo ## Serve the demo and open a browser tab
 	@sleep 1.2 && open http://127.0.0.1:$(PORT)
+
+app: install-demo ## Serve the Databricks App demo. Needs a working databricks profile
+	cd $(APP_DIR) && DATABRICKS_PROFILE=$(PROFILE) PYTHONPATH=$(PWD)/src:. \
+		$(PWD)/$(PY) -m uvicorn app:app --host $(HOST) --port $(PORT) --reload
+
+app-open: app ## Serve the Databricks App demo and open a browser tab
+	@sleep 1.5 && open http://127.0.0.1:$(PORT)
+
+test-app: ## Databricks App pipeline tests; the model call is stubbed
+	$(PY) -m pytest tests/test_app_pipeline.py -q
 
 examples: install ## Run the local example script
 	$(PY) examples/run_local.py

@@ -16,7 +16,16 @@ from pydantic import BaseModel, Field
 
 from edgepii import __version__
 from edgepii.presets import PRESETS
-from pipeline import DEFAULT_MODEL, PipelineError, models, run
+
+try:  # uvicorn app:app, run from this directory
+    from pipeline import DEFAULT_MODEL, PipelineError, models, run
+except ModuleNotFoundError:  # imported as apps.edgepii-databricks.app from the repo root
+    from apps.edgepii_databricks.pipeline import (  # type: ignore[no-redef]
+        DEFAULT_MODEL,
+        PipelineError,
+        models,
+        run,
+    )
 
 HERE = Path(__file__).resolve().parent
 STATIC = HERE / "static"
